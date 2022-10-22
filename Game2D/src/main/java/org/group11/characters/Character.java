@@ -8,6 +8,10 @@ public abstract class Character extends GameObject {
 
     public StatBlock getStatBlock() { return this.statBlock; }
 
+    public void takeDamage(int hp) {
+        statBlock.setHp(statBlock.getHp() - hp);
+    }
+
     public void moveTo(Vector3 nPos) {
         // TODO implement method
     }
