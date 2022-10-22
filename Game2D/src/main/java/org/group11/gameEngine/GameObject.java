@@ -1,7 +1,7 @@
 package org.group11.gameEngine;
 
 public class GameObject {
-    
+
     public void update() {
 
     }
