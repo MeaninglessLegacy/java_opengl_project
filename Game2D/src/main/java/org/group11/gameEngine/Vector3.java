@@ -1,7 +1,7 @@
 package org.group11.gameEngine;
 
 public class Vector3 {
-    
+
     public float x, y ,z;
 
     public Vector3() {
