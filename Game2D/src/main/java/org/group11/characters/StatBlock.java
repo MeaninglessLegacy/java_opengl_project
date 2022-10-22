@@ -1,4 +1,4 @@
-package org.group11;
+package org.group11.characters;
 
 public class StatBlock {
 
