@@ -2,13 +2,13 @@ package org.group11;
 
 public class StatBlock {
 
-    protected int lvl;
-    protected int exp;
+    protected int lvl = 0;
+    protected int exp = 0;
 
-    protected int hp;
-    protected int maxHp;
+    protected int hp = 1;
+    protected int maxHp = 1;
 
-    protected int atk;
+    protected int atk = 0;
 
     public int getLvl() { return this.lvl; }
     public void setLvl(int lvl) { this.lvl = lvl; }
