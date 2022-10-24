@@ -3,7 +3,7 @@ package org.group11.items;
 public class Key extends Item{
 
     public void activate() {
-        
+
     }
 
     public void initialize() {
