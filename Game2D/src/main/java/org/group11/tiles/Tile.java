@@ -1,4 +1,4 @@
-package org.group11.tilesAndItems;
+package org.group11.tiles;
 
 import org.group11.gameEngine.GameObject;
 
