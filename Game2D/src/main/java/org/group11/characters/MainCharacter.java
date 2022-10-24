@@ -10,6 +10,7 @@ public class MainCharacter extends Character{
 
     public void addExp(int exp) {
         statBlock.setExp(statBlock.getExp() + exp);
+        // TODO: need to calculate when to add a level and add the appropriate attack/health
     }
 
     public void initialize() {

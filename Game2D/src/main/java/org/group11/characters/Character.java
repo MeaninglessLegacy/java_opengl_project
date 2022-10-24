@@ -15,8 +15,14 @@ public abstract class Character extends GameObject {
     public void takeDamage(int hp) {
         statBlock.setHp(statBlock.getHp() - hp);
     }
+    public void addHealth(int hp) {
+        statBlock.setHp(statBlock.getHp() + hp);
+    }
+    public void addAttack(int atk) {
+        statBlock.setAtk(statBlock.getAtk() + atk);
+    }
 
     public void moveTo(Vector3 nPos) {
-        // TODO implement method
+        // TODO: implement method
     }
 }
