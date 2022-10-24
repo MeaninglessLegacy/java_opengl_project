@@ -1,6 +1,10 @@
 package org.group11.characters;
 
+import org.group11.items.Backpack;
+
 public class MainCharacter extends Character{
+
+    public Backpack backpack;
 
     public MainCharacter() {
         statBlock.setMaxHp(3);
