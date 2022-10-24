@@ -7,8 +7,5 @@ public class Tile extends GameObject {
 
     protected tileTypes tileType;
 
-    public tileTypes getTileTypes() {
-        // Returns a list of tile types? or returns what tile type this object is?
-        return null;
-    }
+    public tileTypes getTileType() { return tileType; }
 }
