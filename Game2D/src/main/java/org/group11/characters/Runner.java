@@ -2,7 +2,7 @@ package org.group11.characters;
 
 public class Runner {
 
-    private int ticksUntilVanish;
+    private int _ticksUntilVanish;
 
     public void initialize() {
         // TODO: implement method

@@ -1,7 +1,7 @@
 package org.group11.tiles;
 
 public class SpikeTrap {
-    private int spikeTrapDamage;
+    private int _spikeTrapDamage;
 
     public void initialize() {
         // TODO: implement method

@@ -7,13 +7,13 @@ public class MainCharacter extends Character{
     public Backpack backpack;
 
     public MainCharacter() {
-        statBlock.setMaxHp(3);
-        statBlock.setHp(3);
-        statBlock.setAtk(1);
+        _statBlock.setMaxHp(3);
+        _statBlock.setHp(3);
+        _statBlock.setAtk(1);
     }
 
     public void addExp(int exp) {
-        statBlock.setExp(statBlock.getExp() + exp);
+        _statBlock.setExp(_statBlock.getExp() + exp);
         // TODO: need to calculate when to add a level and add the appropriate attack/health
     }
 

@@ -5,7 +5,7 @@ import org.group11.gameEngine.GameObject;
 public class Tile extends GameObject {
     public enum tileTypes { floor, wall, spawn, exit }
 
-    protected tileTypes tileType;
+    protected tileTypes _tileType;
 
-    public tileTypes getTileType() { return tileType; }
+    public tileTypes getTileType() { return _tileType; }
 }
