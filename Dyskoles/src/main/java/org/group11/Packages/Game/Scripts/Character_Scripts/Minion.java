@@ -1,8 +1,13 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+/**
+ * Basic enemy type character, Minion chases the player blindly when activated
+ */
 public class Minion extends Enemy{
-
-    public void initialize() {
+    //******************************************************************************************************************
+    //* overrides
+    //******************************************************************************************************************
+    public void start() {
         // TODO: implement method
         // Gets all sprites for object
         // Calls constructor and sets any necessary attributes
@@ -14,7 +19,10 @@ public class Minion extends Enemy{
         // Idle animation
     }
 
-    public void onButtonPressed(int button) {
+    //******************************************************************************************************************
+    //* listeners
+    //******************************************************************************************************************
+    public void onButtonDown(int key) {
         if (_enemyActive) { this.doEnemyLogic(); }
     }
 }

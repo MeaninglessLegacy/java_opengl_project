@@ -3,49 +3,36 @@ package org.group11.Packages.Engine;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Listens to inputs and calls corresponding listener functions on GameObjects
+ */
 public class EventListener implements KeyListener {
+    //******************************************************************************************************************
+    //* awt overrides
+    //******************************************************************************************************************
 
-    public boolean upPressed, downPressed, leftPressed, rightPressed;
-
+    /**
+     * Override awt keyTyped event, converts awt key to ascii value before calling events
+     * @param e the event to be processed
+     */
     @Override
     public void keyTyped(KeyEvent e) {
     }
 
+    /**
+     * Override awt keyPressed event, converts awt key to ascii value before calling events
+     * @param e the event to be processed
+     */
     @Override
     public void keyPressed(KeyEvent e) {
-
-        int code = e.getKeyCode();
-
-        if (code == KeyEvent.VK_W) {
-            upPressed = true;
-        }
-        if (code == KeyEvent.VK_A) {
-            leftPressed = true;
-        }
-        if (code == KeyEvent.VK_S) {
-            downPressed = true;
-        }
-        if (code == KeyEvent.VK_D) {
-            rightPressed = true;
-        }
     }
 
+    /**
+     * Override awt keyReleased event, converts awt key to ascii value before calling events
+     * @param e the event to be processed
+     */
     @Override
     public void keyReleased(KeyEvent e) {
-        int code = e.getKeyCode();
-
-        if (code == KeyEvent.VK_W) {
-            upPressed = false;
-        }
-        if (code == KeyEvent.VK_A) {
-            leftPressed = false;
-        }
-        if (code == KeyEvent.VK_S) {
-            downPressed = false;
-        }
-        if (code == KeyEvent.VK_D) {
-            rightPressed = false;
-        }
     }
 }
 

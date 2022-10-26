@@ -1,27 +1,30 @@
-package org.group11.Packages.Engine;
+package org.group11.Packages.Game.Scripts.Item_Scripts;
 
 /**
- * Spatial information for GameObjects
+ * Spike trap object, only affects player character and hurts the player character when the player character touches
+ * this object
  */
-public class Transform {
+public class SpikeTrap extends Item {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-
-    // Cartesian position of the Transform
-    public Vector3 position;
-    // Rotation of the Transform in euler angles
-    public Vector3 rotation;
+    private int _spikeTrapDamage;
 
     //******************************************************************************************************************
-    //* constructor
+    //* overrides
     //******************************************************************************************************************
+    @Override
+    public void activate() {
+        super.activate();
+    }
 
-    /**
-     * Default constructor for a Transform, position and rotation are default Vector3 objects
-     */
-    public Transform() {
-        this.position = new Vector3();
-        this.rotation = new Vector3();
+    @Override
+    public void update() {
+        super.update();
+    }
+
+    @Override
+    public void start() {
+        super.start();
     }
 }

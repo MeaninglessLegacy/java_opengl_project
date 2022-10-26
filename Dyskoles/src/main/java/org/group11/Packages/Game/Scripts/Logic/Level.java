@@ -1,27 +1,22 @@
-package org.group11.Packages.Engine;
+package org.group11.Packages.Game.Scripts.Logic;
 
 /**
- * Spatial information for GameObjects
+ * Abstract level class, contains information on how to build the level
  */
-public class Transform {
+public abstract class Level {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-
-    // Cartesian position of the Transform
-    public Vector3 position;
-    // Rotation of the Transform in euler angles
-    public Vector3 rotation;
+    protected MapGenerator _mapGenerator = null;
 
     //******************************************************************************************************************
-    //* constructor
+    //* variables
     //******************************************************************************************************************
-
     /**
-     * Default constructor for a Transform, position and rotation are default Vector3 objects
+     * Returns this level's _mapGenerator
+     * @return this level's map generator
      */
-    public Transform() {
-        this.position = new Vector3();
-        this.rotation = new Vector3();
+    public MapGenerator get_mapGenerator(){
+        return _mapGenerator;
     }
 }

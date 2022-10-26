@@ -1,15 +1,17 @@
-package org.group11.Packages.Game.Scripts.Item_Scripts;
-
-import org.group11.Packages.Engine.GameObject;
+package org.group11.Packages.Game.Scripts.Logic;
 
 /**
- * Abstract item class, items can be activated
+ *
  */
-public abstract class Item extends GameObject {
+public abstract class MapGenerator {
     //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
-    public void activate(){
-        return;
+    /**
+     *
+     * @return
+     */
+    public Map generateMap(){
+        return null;
     }
 }

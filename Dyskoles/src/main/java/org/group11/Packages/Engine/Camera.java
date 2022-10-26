@@ -1,11 +1,11 @@
-package org.group11.Packages.Game.Scripts.Tile_Scripts;
+package org.group11.Packages.Engine;
 
 /**
- * Floor tile, characters can stand on this
+ * Camera object that the game can be viewed through when set as the main camera of the scene
  */
-public class Floor extends Tile {
+public class Camera extends  GameObject {
     //******************************************************************************************************************
-    //* overrides
+    //* override
     //******************************************************************************************************************
     @Override
     public void update() {

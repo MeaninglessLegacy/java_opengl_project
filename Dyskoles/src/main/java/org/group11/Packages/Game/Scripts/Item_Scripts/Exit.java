@@ -1,24 +1,25 @@
 package org.group11.Packages.Game.Scripts.Item_Scripts;
 
 /**
- * Key item, allows players with a key item to proceed to the next level of the game
+ * Exit object, when the player character runs into this object with a key they complete the level
  */
-public class Key extends Item{
+public class Exit extends Item {
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
-    public void activate() {
-        // TODO: implement method
-        super.activate();
-    }
-
-    @Override
     public void start() {
-        super.start();
+        // TODO: implement method
+        // Gets all sprites for object
+        // Calls constructor
+    }
+
+    public void update() {
+        // TODO: implement method
+        // changes colour when exit is accessible
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void activate() {
+
     }
 }

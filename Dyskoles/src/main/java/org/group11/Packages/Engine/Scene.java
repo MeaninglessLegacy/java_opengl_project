@@ -1,0 +1,27 @@
+package org.group11.Packages.Engine;
+
+/**
+ * Every scene contain GameObjects and the Engine operate on the scene which operates the GameObjects
+ */
+public class Scene {
+    //******************************************************************************************************************
+    //* methods
+    //******************************************************************************************************************
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    public GameObject Instantiate(GameObject obj){
+        return null;
+    }
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    public boolean Destroy(GameObject obj){
+        return false;
+    }
+}

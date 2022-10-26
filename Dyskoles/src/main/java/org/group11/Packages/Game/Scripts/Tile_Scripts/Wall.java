@@ -1,10 +1,19 @@
 package org.group11.Packages.Game.Scripts.Tile_Scripts;
 
-public class Wall {
+/**
+ * Wall object, characters cannot move through a wall
+ */
+public class Wall extends Tile {
+    //******************************************************************************************************************
+    //* overrides
+    //******************************************************************************************************************
+    @Override
+    public void update() {
+        super.update();
+    }
 
-    public void initialize() {
-        // TODO: implement method
-        // Gets all sprites for object
-        // Calls constructor
+    @Override
+    public void start() {
+        super.start();
     }
 }
