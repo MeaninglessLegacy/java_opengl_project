@@ -15,6 +15,6 @@ public class Boss extends Enemy {
     }
 
     public void onButtonPressed(int button) {
-        this.doEnemyLogic();
+        if (_enemyActive) { this.doEnemyLogic(); }
     }
 }
