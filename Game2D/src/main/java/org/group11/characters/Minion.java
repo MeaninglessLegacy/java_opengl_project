@@ -13,4 +13,8 @@ public class Minion extends Enemy{
         // If character moved, character faces direction they moved
         // Idle animation
     }
+
+    public void onButtonPressed(int button) {
+        if (_enemyActive) { this.doEnemyLogic(); }
+    }
 }
