@@ -9,7 +9,11 @@ public abstract class Enemy extends Character{
         _enemyActive = state;
     }
 
+    /**
+     *
+     */
     public void doEnemyLogic() {
         // TODO: implement method
+        // BFS then move one tile towards main character
     }
 }

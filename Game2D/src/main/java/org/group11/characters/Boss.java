@@ -1,6 +1,6 @@
 package org.group11.characters;
 
-public class Boss {
+public class Boss extends Enemy {
 
     public void initialize() {
         // TODO: implement method
@@ -12,5 +12,9 @@ public class Boss {
         // TODO: implement method
         // If character moved, character faces direction they moved
         // Idle animation
+    }
+
+    public void onButtonPressed(int button) {
+        this.doEnemyLogic();
     }
 }

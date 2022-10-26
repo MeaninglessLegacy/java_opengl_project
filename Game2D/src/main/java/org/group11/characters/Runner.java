@@ -1,6 +1,6 @@
 package org.group11.characters;
 
-public class Runner {
+public class Runner extends Enemy{
 
     private int _ticksUntilVanish;
 
