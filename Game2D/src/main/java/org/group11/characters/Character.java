@@ -8,20 +8,21 @@ import java.awt.image.BufferedImage;
 public abstract class Character extends GameObject {
 
     protected StatBlock statBlock;
-    public BufferedImage up, down, left, right;
 
     public StatBlock getStatBlock() { return this.statBlock; }
 
-    public void takeDamage(int hp) {
-        statBlock.setHp(statBlock.getHp() - hp);
-    }
-    public void addHealth(int hp) {
-        statBlock.setHp(statBlock.getHp() + hp);
-    }
-    public void addAttack(int atk) {
-        statBlock.setAtk(statBlock.getAtk() + atk);
-    }
+    /**
+     * Methods to reduce health, add health, and add attack to a character's statBlock
+     */
+    public void takeDamage(int hp) { statBlock.setHp(statBlock.getHp() - hp); }
+    public void addHealth(int hp) { statBlock.setHp(statBlock.getHp() + hp); }
+    public void addAttack(int atk) { statBlock.setAtk(statBlock.getAtk() + atk); }
 
+    /**
+     * Moves the character to the coordinates specified by the parameter
+     *
+     * @param nPos the position to which the character moves to
+     */
     public void moveTo(Vector3 nPos) {
         // TODO: implement method
     }
