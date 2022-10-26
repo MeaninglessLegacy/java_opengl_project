@@ -1,6 +1,6 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
-import org.group11.items.Backpack;
+import org.group11.Packages.Game.Scripts.Item_Scripts.Backpack;
 
 public class MainCharacter extends Character{
 

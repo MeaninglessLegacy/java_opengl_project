@@ -1,6 +1,6 @@
 package org.group11.Packages.Game.Scripts.Tile_Scripts;
 
-import org.group11.gameEngine.GameObject;
+import org.group11.Packages.Engine.GameObject;
 
 public class Tile extends GameObject {
     public enum tileTypes { floor, wall, spawn, exit }
