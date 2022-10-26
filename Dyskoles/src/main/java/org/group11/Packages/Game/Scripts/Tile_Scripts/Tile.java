@@ -1,4 +1,4 @@
-package org.group11.tiles;
+package org.group11.Packages.Game.Scripts.Tile_Scripts;
 
 import org.group11.gameEngine.GameObject;
 

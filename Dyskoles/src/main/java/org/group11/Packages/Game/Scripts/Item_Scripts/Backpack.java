@@ -1,4 +1,4 @@
-package org.group11.items;
+package org.group11.Packages.Game.Scripts.Item_Scripts;
 
 import java.util.ArrayList;
 

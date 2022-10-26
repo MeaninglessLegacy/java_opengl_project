@@ -1,4 +1,4 @@
-package org.group11.characters;
+package org.group11.Packages.Game.Scripts.Character_Scripts;
 
 import org.group11.gameEngine.GameObject;
 import org.group11.gameEngine.Vector3;

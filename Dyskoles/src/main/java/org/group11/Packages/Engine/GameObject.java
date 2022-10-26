@@ -1,4 +1,4 @@
-package org.group11.gameEngine;
+package org.group11.Packages.Engine;
 
 // TODO: implement all methods
 public class GameObject {

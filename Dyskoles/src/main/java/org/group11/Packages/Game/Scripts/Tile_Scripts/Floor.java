@@ -1,4 +1,4 @@
-package org.group11.tiles;
+package org.group11.Packages.Game.Scripts.Tile_Scripts;
 
 public class Floor {
 
