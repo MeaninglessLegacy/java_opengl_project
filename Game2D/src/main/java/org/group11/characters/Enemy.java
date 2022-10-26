@@ -13,8 +13,10 @@ public abstract class Enemy extends Character{
      *
      */
     public void doEnemyLogic() {
-        // TODO: implement method
-        if (--_ticksBeforeNextMove == 0);
-        // BFS then move one tile towards main character
+        _ticksBeforeNextMove--;
+        if (_ticksBeforeNextMove == 0) {
+            // TODO: BFS then move one tile towards main character
+            _ticksBeforeNextMove = _ticksPerMove;
+        }
     }
 }
