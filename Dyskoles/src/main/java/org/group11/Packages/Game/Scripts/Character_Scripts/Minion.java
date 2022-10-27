@@ -22,7 +22,5 @@ public class Minion extends Enemy{
     //******************************************************************************************************************
     //* listeners
     //******************************************************************************************************************
-    public void onButtonDown(int key) {
-        if (enemyActive) { this.doEnemyLogic(); }
-    }
+    public void onButtonDown(int key) { return; }
 }

@@ -2,6 +2,7 @@ package org.group11.Packages.Game.Scripts.Logic;
 
 import org.group11.Main;
 import org.group11.Packages.Engine.GameObject;
+import org.group11.Packages.Engine.Vector3;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Enemy;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
@@ -54,15 +55,28 @@ public class GameLogicDriver extends GameObject {
         _gameLevel = newLevel;
     }
 
-    private static void MoveCharacters() {
+    /**
+     * Iterates through _playerCharacters and moves each character according to the inputted button, then iterates
+     * through _enemyCharacters moves them if needed
+     */
+    private static void MoveCharacters(int button) {
         for (MainCharacter c : _playerCharacters) {
             // TODO: figure out implementation
         }
         for (Enemy e : _enemyCharacters) {
             if (e.enemyActive) {
-                _pathfinder.FindPath(_gameMap, )
+                Vector3 nextMove = _pathfinder.FindPath(_gameMap, e.get_position(), _playerCharacters.get(0).get_position());
+
             }
         }
+    }
+
+    /**
+     * Given 2 Characters, the second Character will have their health reduced according to the first Character's
+     * attack stat
+     */
+    private static void characterCombat() {
+
     }
 
     /**

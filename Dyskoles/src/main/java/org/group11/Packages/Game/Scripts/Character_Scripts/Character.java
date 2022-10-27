@@ -28,7 +28,6 @@ public abstract class Character extends GameObject {
      * sets _position to pos
      * @param pos the position to set _position to
      */
-    public void set_position(Vector3 pos) { _position = pos; }
 
     //******************************************************************************************************************
     //* character methods
