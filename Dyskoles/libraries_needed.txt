@@ -1,0 +1,11 @@
+Engine and AWTFrame will not run without the following libraries:
+org.jogamp.jogl:jogl-all-main:2.3.2
+or.jogamp.gluegen:gluegen-rt-main:2.3.2
+
+jogl is still bugged since like 2016 according to sources but there is a fix, add the JVM agruments:
+--add-exports
+java.base/java.lang=ALL-UNNAMED
+--add-exports
+java.desktop/sun.awt=ALL-UNNAMED
+--add-exports
+java.desktop/sun.java2d=ALL-UNNAMED
