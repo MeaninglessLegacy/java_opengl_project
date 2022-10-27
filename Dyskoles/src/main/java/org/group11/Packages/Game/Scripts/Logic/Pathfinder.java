@@ -1,6 +1,5 @@
 package org.group11.Packages.Game.Scripts.Logic;
 
-import jdk.incubator.vector.VectorOperators;
 import org.group11.Packages.Engine.Vector3;
 
 /**

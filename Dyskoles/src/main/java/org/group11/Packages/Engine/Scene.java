@@ -1,11 +1,29 @@
 package org.group11.Packages.Engine;
 
 /**
- * Every scene contain GameObjects and the Engine operate on the scene which operates the GameObjects
+ * Every scene contain GameObjects, the scene runs each GameObjects update() function on every logical tick and calls
+ * the methods to render the scene
  */
 public class Scene {
+    /*
+    implement logic on main thread, set updates/second
+    implement rendering on background thread
+     */
     //******************************************************************************************************************
-    //* methods
+    //* variables
+    //******************************************************************************************************************
+    //******************************************************************************************************************
+    //* internal methods
+    //******************************************************************************************************************
+    /**
+     *
+     */
+    private void run(){
+
+    }
+
+    //******************************************************************************************************************
+    //* public methods
     //******************************************************************************************************************
     /**
      *
@@ -24,4 +42,14 @@ public class Scene {
     public boolean Destroy(GameObject obj){
         return false;
     }
+
+    /**
+     *
+     */
+    public void start(){}
+
+    /**
+     * 
+     */
+    public void stop(){}
 }
