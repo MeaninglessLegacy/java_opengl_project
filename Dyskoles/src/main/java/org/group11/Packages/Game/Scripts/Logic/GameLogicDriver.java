@@ -49,7 +49,7 @@ public class GameLogicDriver extends GameObject {
      * @param newLevel the level to set as
      */
     private static void set_gameLevel(Level newLevel){
-        return;
+        _gameLevel = newLevel;
     }
 
     /**
