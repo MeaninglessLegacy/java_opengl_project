@@ -33,7 +33,7 @@ public class Runner extends Enemy{
     //* listeners
     //******************************************************************************************************************
     public void onButtonDown(int key) {
-        if (_enemyActive) {
+        if (enemyActive) {
             this.doEnemyLogic();
         }
     }

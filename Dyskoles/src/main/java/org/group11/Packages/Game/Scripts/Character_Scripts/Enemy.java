@@ -12,14 +12,14 @@ public abstract class Enemy extends Character{
     /* counter reset value, when this character makes a move, this character's _ticksBeforeNextMove counter should be
     set to this value*/
     protected int _ticksPerMove;
-    // this boolean tracks this character should perform enemy logic
-    protected boolean _enemyActive = false;
+    // this boolean tracks if this character should perform enemy logic
+    public boolean enemyActive = false;
     /**
      * Sets the _enemyActive state of this character to specified value
      * @param state the value to set _enemyActive to
      */
     public void setEnemyActiveState(boolean state) {
-        _enemyActive = state;
+        enemyActive = state;
     }
 
     //******************************************************************************************************************

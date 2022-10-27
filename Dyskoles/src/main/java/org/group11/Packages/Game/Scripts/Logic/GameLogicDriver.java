@@ -1,6 +1,8 @@
 package org.group11.Packages.Game.Scripts.Logic;
 
+import org.group11.Main;
 import org.group11.Packages.Engine.GameObject;
+import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Enemy;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
@@ -52,6 +54,17 @@ public class GameLogicDriver extends GameObject {
         _gameLevel = newLevel;
     }
 
+    private static void MoveCharacters() {
+        for (MainCharacter c : _playerCharacters) {
+            // TODO: figure out implementation
+        }
+        for (Enemy e : _enemyCharacters) {
+            if (e.enemyActive) {
+                _pathfinder.FindPath(_gameMap, )
+            }
+        }
+    }
+
     /**
      * Run the game
      */
@@ -71,5 +84,10 @@ public class GameLogicDriver extends GameObject {
     public void start() {
         _pathfinder = new Pathfinder();
         super.start();
+    }
+
+    @Override
+    public void onButtonDown(int key) {
+        super.onButtonDown(key);
     }
 }
