@@ -26,8 +26,8 @@ public class StatBlock {
     public int get_hp() { return this._hp; }
     public void set_hp(int Hp) { this._hp = Hp; }
     public int get_maxHp() { return this._maxHp; }
-    public void setMaxHp(int maxHp) { this._maxHp = maxHp; }
+    public void set_MaxHp(int maxHp) { this._maxHp = maxHp; }
 
     public int get_atk() { return this._atk; }
-    public void setAtk(int atk) { this._atk = atk; }
+    public void set_Atk(int atk) { this._atk = atk; }
 }

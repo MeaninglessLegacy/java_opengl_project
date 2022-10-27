@@ -34,10 +34,16 @@ public abstract class Character extends GameObject {
     public void addHealth(int hp) { _statBlock.set_hp(_statBlock.get_hp() + hp); }
 
     /**
+     * Increases the max hp value of this character by specified amount
+     * @param maxHp value to increase max hp by
+     */
+    public void addMaxHealth(int maxHp) { _statBlock.set_MaxHp(_statBlock.get_maxHp() + maxHp); }
+
+    /**
      * Increases the attack value of this character by specified amount
      * @param atk value to increase attack by
      */
-    public void addAttack(int atk) { _statBlock.setAtk(_statBlock.get_atk() + atk); }
+    public void addAttack(int atk) { _statBlock.set_Atk(_statBlock.get_atk() + atk); }
 
     /**
      * Moves the character to the coordinates specified by the parameter

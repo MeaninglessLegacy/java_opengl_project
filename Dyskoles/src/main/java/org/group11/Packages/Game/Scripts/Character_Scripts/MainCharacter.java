@@ -15,17 +15,36 @@ public class MainCharacter extends Character{
     //* constructor
     //******************************************************************************************************************
     public MainCharacter() {
-        _statBlock.setMaxHp(3);
+        _statBlock.set_MaxHp(3);
         _statBlock.set_hp(3);
-        _statBlock.setAtk(1);
+        _statBlock.set_Atk(1);
     }
 
     //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
+    /**
+     * Increases the exp value of this character by specified amount
+     * @param exp value to increase exp by
+     */
     public void addExp(int exp) {
         _statBlock.set_exp(_statBlock.get_exp() + exp);
         // TODO: need to calculate when to add a level and add the appropriate attack/health
+    }
+
+    /**
+     * Increases the level value of this character by 1 and increases other stats depending on what the new level is
+     */
+    public void addLevel() {
+        // Adjust the values being added to stats of MainCharacter as needed to balance
+        _statBlock.set_lvl(_statBlock.get_lvl() + 1);
+        if (_statBlock.get_lvl() % 2 == 0) {
+            this.addAttack(1);
+        }
+        if (_statBlock.get_lvl() % 2 == 1) {
+            this.addMaxHealth(1);
+            this.addHealth(1);
+        }
     }
 
     //******************************************************************************************************************
