@@ -3,6 +3,7 @@ package org.group11.Packages.Game.Scripts.Logic;
 import org.group11.Packages.Engine.Vector3;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 
+import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -19,26 +20,39 @@ public class Map {
     //* methods
     //******************************************************************************************************************
     /**
-     *
-     * @return
+     * returns the Tile at the specified Vector3 position, or null if there is no tile
+     * @return the Tile at the Vector3 position, or null if there is no tile
      */
-    public Tile getTile(){
-        return null;
+    public Tile getTile(Vector3 pos) {
+        Tile ret = null;
+        try {
+            ret = _tileMap.get(pos);
+        }
+        catch (Exception e) {
+            return null;
+        }
+        return ret;
     }
 
     /**
-     *
-     * @return
+     * If there is no tile at the Vector3 position, then sets the given tile into that position in the _tileMap
+     * @return true if tile was successfully set, false if a tile already exists at the given position
      */
-    public boolean setTile(){
-        return false;
+    public boolean setTile(Vector3 pos, Tile tile){
+        if (_tileMap.get(pos) == null) {
+            _tileMap.put(pos, tile);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
-     *
-     * @return
+     * Clears the _tileMap of all tiles
      */
-    public boolean clearMap(){
-        return false;
+    public void clearMap(){
+        _tileMap = null;
+        _tileMap = new Hashtable<>();
     }
 }
