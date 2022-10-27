@@ -25,7 +25,12 @@ public abstract class Character extends GameObject {
      * Reduces the hp value of this character by specified amount
      * @param hp value to reduce hp by
      */
-    public void takeDamage(int hp) { _statBlock.set_hp(_statBlock.get_hp() - hp); }
+    public void takeDamage(int hp) {
+        _statBlock.set_hp(_statBlock.get_hp() - hp);
+        if (_statBlock.get_hp() <= 0) {
+            // TODO: character dies
+        }
+    }
 
     /**
      * Increases the hp value of this character by specified amount
