@@ -13,26 +13,42 @@ public abstract class Enemy extends Character{
     set to this value*/
     protected int _ticksPerMove;
     // this boolean tracks if this character should perform enemy logic
-    public boolean enemyActive = false;
+    protected boolean _enemyActive = false;
+    // this string tells the game logic where this character moves towards when activated
+    protected String _moveTowards = "player";
+
     /**
      * Sets the _enemyActive state of this character to specified value
      * @param state the value to set _enemyActive to
      */
-    public void setEnemyActiveState(boolean state) {
-        enemyActive = state;
+    public void set_enemyActiveState(boolean state) {
+        _enemyActive = state;
     }
 
-    //******************************************************************************************************************
-    //* methods
-    //******************************************************************************************************************
     /**
-     * Tells this character to perform enemy logic, can be overridden by children
+     * Returns whether the enemy is active and is moving around
+     * @return true if enemy is active, false if not
      */
-    public void doEnemyLogic() {
-        _ticksBeforeNextMove--;
-        if (_ticksBeforeNextMove == 0) {
-            // TODO: BFS then move one tile towards main character
-            _ticksBeforeNextMove = _ticksPerMove;
+    public boolean get_enemyActiveState() { return _enemyActive; }
+
+    /**
+     * Returns the String containing where the Enemy moves towards
+     * @return String that describes where the Enemy moves towards
+     */
+    public String get_moveTowards() { return _moveTowards; }
+
+    /**
+     * if the enemy is active, subtracts 1 from _ticksBeforeNextMove and if the values becomes 0, resets
+     * _ticksBeforeNextMove and returns true, signalling this Enemy will move
+     * @return true if the Enemy can move a tile, false if not
+     */
+    public boolean canEnemyMove() {
+        if (_enemyActive) {
+            if (--_ticksBeforeNextMove == 0) {
+                _ticksBeforeNextMove = _ticksPerMove;
+                return true;
+            }
         }
+        return false;
     }
 }

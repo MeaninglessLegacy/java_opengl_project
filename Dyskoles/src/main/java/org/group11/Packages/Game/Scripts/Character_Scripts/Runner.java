@@ -12,8 +12,13 @@ public class Runner extends Enemy{
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+
+    /**
+     * Initialize all the values of the Runner character type
+     */
     public void start() {
         // TODO: implement method
+        _moveTowards = "awayFromPlayer";
         // Gets all sprites for object
         // Calls constructor and sets any necessary attributes
     }
@@ -22,19 +27,5 @@ public class Runner extends Enemy{
         // TODO: implement method
         // If character moved, character faces direction they moved
         // Idle animation
-    }
-
-    public void doEnemyLogic() {
-        // TODO: implement method
-        // Runs away from main character
-    }
-
-    //******************************************************************************************************************
-    //* listeners
-    //******************************************************************************************************************
-    public void onButtonDown(int key) {
-        if (enemyActive) {
-            this.doEnemyLogic();
-        }
     }
 }

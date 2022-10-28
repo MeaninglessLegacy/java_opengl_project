@@ -7,6 +7,10 @@ public class Minion extends Enemy{
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+
+    /**
+     * Initialize all the values of the Minion character type
+     */
     public void start() {
         // TODO: implement method
         // Gets all sprites for object
@@ -18,9 +22,4 @@ public class Minion extends Enemy{
         // If character moved, character faces direction they moved
         // Idle animation
     }
-
-    //******************************************************************************************************************
-    //* listeners
-    //******************************************************************************************************************
-    public void onButtonDown(int key) { return; }
 }

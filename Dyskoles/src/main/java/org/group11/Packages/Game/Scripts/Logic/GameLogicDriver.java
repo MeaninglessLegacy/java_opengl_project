@@ -1,9 +1,7 @@
 package org.group11.Packages.Game.Scripts.Logic;
 
-import org.group11.Main;
 import org.group11.Packages.Engine.GameObject;
 import org.group11.Packages.Engine.Vector3;
-import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Enemy;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
@@ -64,9 +62,15 @@ public class GameLogicDriver extends GameObject {
             // TODO: figure out implementation
         }
         for (Enemy e : _enemyCharacters) {
-            if (e.enemyActive) {
-                Vector3 nextMove = e.doEnemyMoveLogic(_gameMap, _pathfinder, _playerCharacters);
-                // TODO: rename doEnemyLogic to doEnemyMoveLogic
+            if (e.canEnemyMove()) {
+                String moveTowards = e.get_moveTowards();
+                if (moveTowards == "awayFromPlayer") {
+                    // TODO: figure out how to get a random point in opposite direction of player
+                }
+                else { // Default option, Enemy moves towards player
+                    Vector3 nextMove = Pathfinder.FindPath(_gameMap, e.get_position(), _playerCharacters.get(0).get_position());
+                    e.set_position(nextMove);
+                }
             }
         }
     }

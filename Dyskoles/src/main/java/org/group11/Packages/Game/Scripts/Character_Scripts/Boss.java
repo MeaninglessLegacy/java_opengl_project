@@ -16,7 +16,6 @@ public class Boss extends Enemy {
         // TODO: implement method
         // Gets all sprites for object
         // Calls constructor and sets any necessary attributes
-        return;
     }
 
     @Override
@@ -24,15 +23,5 @@ public class Boss extends Enemy {
         // TODO: implement method
         // If character moved, character faces direction they moved
         // Idle animation
-        return;
-    }
-
-    /**
-     * Might change: call logic of enemy
-     * @param key ascii value of the key
-     */
-    @Override
-    public void onButtonDown(int key) {
-        return;
     }
 }

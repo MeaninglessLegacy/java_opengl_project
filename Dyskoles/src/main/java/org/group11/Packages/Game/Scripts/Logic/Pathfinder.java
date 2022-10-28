@@ -1,10 +1,9 @@
 package org.group11.Packages.Game.Scripts.Logic;
 
-import jdk.incubator.vector.VectorOperators;
 import org.group11.Packages.Engine.Vector3;
 
 /**
- * Finds a path in a map from one point to another
+ * Finds a path along the map from one point to another
  */
 public class Pathfinder {
     //******************************************************************************************************************

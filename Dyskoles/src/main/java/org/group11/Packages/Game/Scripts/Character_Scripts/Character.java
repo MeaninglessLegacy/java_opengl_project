@@ -28,6 +28,7 @@ public abstract class Character extends GameObject {
      * sets _position to pos
      * @param pos the position to set _position to
      */
+    public void set_position(Vector3 pos) { this._position = pos;}
 
     //******************************************************************************************************************
     //* character methods
@@ -36,6 +37,7 @@ public abstract class Character extends GameObject {
      * Reduces the hp value of this character by specified amount
      * @param hp value to reduce hp by
      */
+    // TODO: add what happens after character dies
     public void takeDamage(int hp) { _statBlock.set_hp(_statBlock.get_hp() - hp); }
 
     /**
@@ -55,12 +57,4 @@ public abstract class Character extends GameObject {
      * @param atk value to increase attack by
      */
     public void addAttack(int atk) { _statBlock.set_Atk(_statBlock.get_atk() + atk); }
-
-    /**
-     * Moves the character to the coordinates specified by the parameter
-     * @param nPos the position to which the character moves to
-     */
-    public void moveTo(Vector3 nPos) {
-        // TODO: implement method
-    }
 }
