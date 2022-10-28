@@ -65,8 +65,8 @@ public class GameLogicDriver extends GameObject {
         }
         for (Enemy e : _enemyCharacters) {
             if (e.enemyActive) {
-                Vector3 nextMove = _pathfinder.FindPath(_gameMap, e.get_position(), _playerCharacters.get(0).get_position());
-
+                Vector3 nextMove = e.doEnemyMoveLogic(_gameMap, _pathfinder, _playerCharacters);
+                // TODO: rename doEnemyLogic to doEnemyMoveLogic
             }
         }
     }

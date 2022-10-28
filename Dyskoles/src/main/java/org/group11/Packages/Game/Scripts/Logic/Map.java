@@ -1,10 +1,11 @@
 package org.group11.Packages.Game.Scripts.Logic;
 
+import org.group11.Packages.Engine.Scene;
 import org.group11.Packages.Engine.Vector3;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 
-import java.io.IOException;
 import java.util.Dictionary;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 /**
@@ -38,7 +39,7 @@ public class Map {
      * If there is no tile at the Vector3 position, then sets the given tile into that position in the _tileMap
      * @return true if tile was successfully set, false if a tile already exists at the given position
      */
-    public boolean setTile(Vector3 pos, Tile tile){
+    public boolean setTile(Vector3 pos, Tile tile) {
         if (_tileMap.get(pos) == null) {
             _tileMap.put(pos, tile);
             return true;
@@ -51,8 +52,9 @@ public class Map {
     /**
      * Clears the _tileMap of all tiles
      */
-    public void clearMap(){
-        _tileMap = null;
-        _tileMap = new Hashtable<>();
+    public void clearMap() {
+        for (Enumeration<Vector3> tilePositions = _tileMap.keys(); tilePositions.hasMoreElements();) {
+            Scene.Destroy(_tileMap.get(tilePositions.nextElement()));
+        }
     }
 }
