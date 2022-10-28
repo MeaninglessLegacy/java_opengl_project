@@ -1,25 +1,29 @@
 package org.group11.Packages.Engine;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
- * Every scene contain GameObjects, the scene runs each GameObjects update() function on every logical tick and calls
- * the methods to render the scene
+ * Scene has methods to store, remove, and render GameObjects. Only one scene can exist at a time.
  */
 public class Scene {
-    /*
-    implement logic on main thread, set updates/second
-    implement rendering on background thread
-     */
     //******************************************************************************************************************
-    //* variables
+    //* workspace variables
     //******************************************************************************************************************
+    private static ArrayList<GameObject> _workspace = new ArrayList<>(); // GameObject storage space
+    // _workspace must in most cases be performed on with synchronized(_workspace) to avoid
+
     //******************************************************************************************************************
     //* internal methods
     //******************************************************************************************************************
     /**
      *
      */
-    private void run(){
-
+    private static void updateGameObjects(){
+        Iterator<GameObject> workspaceIterator = _workspace.iterator(); // call update() on GameObjects
+        while(workspaceIterator.hasNext()){
+            workspaceIterator.next().update();
+        }
     }
 
     //******************************************************************************************************************
@@ -30,7 +34,7 @@ public class Scene {
      * @param obj
      * @return
      */
-    public GameObject Instantiate(GameObject obj){
+    public static GameObject Instantiate(GameObject obj){
         return null;
     }
 
@@ -39,17 +43,19 @@ public class Scene {
      * @param obj
      * @return
      */
-    public boolean Destroy(GameObject obj){
-        return false;
+    public static boolean Destroy(GameObject obj){ return false; }
+
+    /**
+     *
+     */
+    public static void update(){
+        synchronized (_workspace){
+            updateGameObjects();
+        }
     }
 
     /**
      *
      */
-    public void start(){}
-
-    /**
-     * 
-     */
-    public void stop(){}
+    public static void render(){}
 }
