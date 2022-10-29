@@ -57,8 +57,10 @@ public class GameLogicDriver extends GameObject {
     private static void set_gameLevel(Level newLevel){ _gameLevel = newLevel; }
 
     /**
-     * Iterates through _playerCharacters and moves each character according to the inputted button, then iterates
-     * through _enemyCharacters moves them if needed
+     * Iterates through _playerCharacters and moves each MainCharacter according to the inputted button. If a
+     * MainCharacter encounters another Character or Item, deals with them appropriately.
+     * Then iterates through _enemyCharacters and moves them if needed and deals with encounters with other Characters
+     * appropriately
      */
     private static void moveCharacters(int button) {
         for (MainCharacter c : _playerCharacters) {
@@ -84,8 +86,8 @@ public class GameLogicDriver extends GameObject {
                 Character characterInNextSpace = checkForCharacter(nextMove);
                 if (characterInNextSpace == null) {
                     c.set_position(nextMove);
-                // MainCharacter attacks enemy and appropriate outcome is determined, MainCharacter then moves into the
-                // tile if the enemy died
+                /* MainCharacter attacks enemy and appropriate outcome is determined, MainCharacter then moves into the
+                   tile if the enemy died */
                 } else if (characterInNextSpace instanceof Enemy) {
                     boolean enemyDied = characterCombat(c, characterInNextSpace);
                     if (enemyDied) {
@@ -101,21 +103,18 @@ public class GameLogicDriver extends GameObject {
                         c.set_position(nextMove);
                     }
                 } // If the space MainCharacter attempts to move in to isn't free or has an Enemy, nothing happens
+            } // If the tileType the MainCharacter is attempting to move in to isn't of type 'floor', nothing happens
 
-                // Checks if there's any items on the tile that the MainCharacter is now on
-                Item itemOnTile = checkForItem(nextMove);
-                if (itemOnTile instanceof Key) {
-                    c.backpack.addItem(itemOnTile);
-                    _items.remove(itemOnTile);
-                } else if (itemOnTile instanceof SpikeTrap) {
-                    c.takeDamage(((SpikeTrap) itemOnTile).get_spikeTrapDamage());
-                } else if (itemOnTile instanceof Exit) {
-                    // TODO: figure out how to check if there's a key in c.backpack and subsequently end the game
-                } // If there is no item on the current tile, nothing happens
-            }
-            else {
-                return;
-            }
+            // Checks if there's any items on the tile that the MainCharacter is now on
+            Item itemOnTile = checkForItem(nextMove);
+            if (itemOnTile instanceof Key) {
+                c.backpack.addItem(itemOnTile);
+                _items.remove(itemOnTile);
+            } else if (itemOnTile instanceof SpikeTrap) {
+                c.takeDamage(((SpikeTrap) itemOnTile).get_spikeTrapDamage());
+            } else if (itemOnTile instanceof Exit) {
+                // TODO: figure out how to check if there's a key in c.backpack and subsequently end the game
+            } // If there is no item on the current tile, nothing happens
         }
 
         for (Enemy e : _enemyCharacters) {
