@@ -4,7 +4,7 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 
 /**
- * Engine's abstract GameObject class, GameObjects exist within the scene of the game and are operated on by the engine
+ * Engine's abstract GameObject class, GameObjects exist within the scene of the game and are operated on by the engine.
  */
 abstract public class GameObject {
     //******************************************************************************************************************
@@ -22,14 +22,14 @@ abstract public class GameObject {
     //******************************************************************************************************************
 
     /**
-     * Method is called by the game engine on every frame
+     * Method is called by the game engine on every frame.
      */
     public void update() {
         return;
     }
 
     /**
-     * Method is called when the GameObject is first created
+     * Method is called when the GameObject is first created.
      */
     public void start() {
         return;
@@ -39,16 +39,16 @@ abstract public class GameObject {
     //******************************************************************************************************************
 
     /**
-     * Called when event listener records a button being pressed
-     * @param key ascii value of the key
+     * Called when event listener records a button being pressed.
+     * @param key Ascii value of the key.
      */
     public void onButtonDown(int key) {
         return;
     }
 
     /**
-     * Called when event listener records a button being released
-     * @param key ascii value of the key pressed
+     * Called when event listener records a button being released.
+     * @param key Ascii value of the key pressed.
      */
     public void onButtonUp(int key){
         return;

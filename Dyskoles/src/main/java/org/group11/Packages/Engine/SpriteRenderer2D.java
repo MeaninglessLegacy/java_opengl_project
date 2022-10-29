@@ -1,7 +1,7 @@
 package org.group11.Packages.Engine;
 
 /**
- * Component for a GameObject, specifies that a GameObject should render a 2-dimensional sprite
+ * Component for a GameObject, specifies that a GameObject should render a 2-dimensional sprite.
  */
 public class SpriteRenderer2D extends  Component{
     //******************************************************************************************************************

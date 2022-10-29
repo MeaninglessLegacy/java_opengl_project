@@ -1,7 +1,8 @@
 package org.group11.Packages.Engine;
 
 /**
- * Main driver for the Engine package. This will run your game. Only one of these can exist at any given time.
+ * Core of the Engine package. Engine is a singleton. To start the Engine, create a new Engine object and call
+ * Engine.start().
  */
 public class Engine extends Thread{
     //******************************************************************************************************************
@@ -11,24 +12,32 @@ public class Engine extends Thread{
     private static boolean runCoreLoop = true; // condition for terminating core engine loop under run()
     private final String threadName = "Engine";
 
-    private static int UPS = 60; // target updates per second, engine prioritizes this
-    private static int UPDATE_TIME_IN_MS = 1000/UPS;
     private static int FPS = 30; // target fps also number of updates per second, engine will prioritize updates
     private static int FRAME_TIME_IN_MS = 1000/FPS;
     // maximum frames to skip before rendering next frame if not reaching target updates per second
     private static int MAX_FRAME_SKIP = 2;
+    /*
+    original idea was to take both update per second (UPS) and frames per second (FPS)
+    1. total time < logical time and total time < rendering time --> sleep thread
+    2. total time > logical time but total time < rendering time --> logic more
+    3. total time < logical time but total time > rendering time --> render more
+    4. total time > logical time but total time > rendering time --> render more and logic more
 
+    however when inspecting this model you being to realize, you can't render more if the logic hasn't caught up so
+    there was really no point to check options 3&4. Doing some simple boolean logic you realize the only one that
+    matters it the rendering time so making everything locked to fps is a why not.
+     */
 
     //******************************************************************************************************************
     //* core
     //******************************************************************************************************************
     /**
      * Core logical loop of engine. Calls methods to update the scene then render the scene. Prioritizes performing all
-     * logical operations before rendering the next scene. It does this by skipping frame rendering if the logical
-     * loop has fallen behind.
+     * logical operations before rendering the next scene.
      */
     @Override
     public void run() {
+        System.out.println("Thread " + threadName + " started"); // print to terminal that Engine has started
         long cycleStartTime = 0; // when did the current logical cycle start
         long cycleDuration = 0; // the time it took for the logical cycle to finish in ms
         int threadSleepTime = 0; // how long to sleep the thread if updates and rendering finish early
@@ -66,7 +75,7 @@ public class Engine extends Thread{
     }
 
     /**
-     * Only creates and starts a new thread if a thread currently does not exist to run the engine
+     * Only creates and starts a new thread to run the engine, if a thread currently does not exist.
      */
     @Override
     public synchronized void start() {
@@ -79,7 +88,7 @@ public class Engine extends Thread{
     }
 
     /**
-     * Stops the core logical loop if it is running
+     * Stops the core logical loop if it is running.
      */
     public void stopCoreLoop(){
         runCoreLoop = false;

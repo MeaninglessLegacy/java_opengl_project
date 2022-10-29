@@ -1,7 +1,7 @@
 package org.group11.Packages.Engine;
 
 /**
- * Spatial information for GameObjects
+ * Spatial information for GameObjects.
  */
 public class Transform {
     //******************************************************************************************************************
@@ -18,7 +18,7 @@ public class Transform {
     //******************************************************************************************************************
 
     /**
-     * Default constructor for a Transform, position and rotation are default Vector3 objects
+     * Default constructor for a Transform, position and rotation are default Vector3 objects.
      */
     public Transform() {
         this.position = new Vector3();

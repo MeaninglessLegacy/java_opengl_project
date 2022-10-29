@@ -1,7 +1,7 @@
 package org.group11.Packages.Engine;
 
 /**
- * Defines a 3-dimensional vector
+ * Defines a 3-dimensional vector.
  */
 public class Vector3 {
     // Components of the 3-dimensional vector
@@ -12,7 +12,7 @@ public class Vector3 {
     //******************************************************************************************************************
 
     /**
-     * Constructs the 0 vector
+     * Constructs the 0 vector.
      */
     public Vector3() {
         x = 0;
@@ -21,10 +21,10 @@ public class Vector3 {
     }
 
     /**
-     * Constructs a vector with the given components
-     * @param x float, x component of vector
-     * @param y float, y component of vector
-     * @param z float, z component of vector
+     * Constructs a vector with the given components.
+     * @param x X component of vector.
+     * @param y Y component of vector.
+     * @param z Z component of vector.
      */
     public Vector3(float x, float y, float z) {
         this.x = x;
