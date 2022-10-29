@@ -16,13 +16,17 @@ public abstract class Level {
     protected int levelOfEnemies;
 
     //******************************************************************************************************************
-    //* variables
+    //* methods
     //******************************************************************************************************************
     /**
      * Returns this level's _mapGenerator
      * @return this level's map generator
      */
-    public MapGenerator get_mapGenerator(){
-        return _mapGenerator;
-    }
+    public MapGenerator get_mapGenerator(){ return _mapGenerator; }
+
+    /**
+     * Returns this level's _enemies list
+     * @return this level's _enemies list
+     */
+    public ArrayList get_enemies() { return _enemies; }
 }

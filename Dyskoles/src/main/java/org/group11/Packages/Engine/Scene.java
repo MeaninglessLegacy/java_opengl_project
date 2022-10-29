@@ -21,7 +21,7 @@ public class Scene {
      * @param obj
      * @return
      */
-    public boolean Destroy(GameObject obj){
+    public static boolean Destroy(GameObject obj){
         return false;
     }
 }

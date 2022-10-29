@@ -54,8 +54,7 @@ public class Map {
      */
     public void clearMap() {
         for (Enumeration<Vector3> tilePositions = _tileMap.keys(); tilePositions.hasMoreElements();) {
-            // TODO: uncomment later
-            // Scene.Destroy(_tileMap.get(tilePositions.nextElement()));
+            Scene.Destroy(_tileMap.get(tilePositions.nextElement()));
         }
     }
 }

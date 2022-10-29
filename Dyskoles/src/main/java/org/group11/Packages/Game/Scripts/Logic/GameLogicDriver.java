@@ -1,6 +1,8 @@
 package org.group11.Packages.Game.Scripts.Logic;
 
+import org.group11.Main;
 import org.group11.Packages.Engine.GameObject;
+import org.group11.Packages.Engine.Scene;
 import org.group11.Packages.Engine.Vector3;
 import org.group11.Packages.Game.Scripts.Character_Scripts.*;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
@@ -57,25 +59,35 @@ public class GameLogicDriver extends GameObject {
     private static void set_gameLevel(Level newLevel){ _gameLevel = newLevel; }
 
     /**
+     *
+     */
+    private static void loadNewLevel() {
+        MapGenerator mapGen = _gameLevel.get_mapGenerator();
+        _gameMap = mapGen.generateMap();
+        _enemyCharacters = _gameLevel.get_enemies();
+        // TODO: get player characters and items?
+    }
+
+    /**
      * Iterates through _playerCharacters and moves each MainCharacter according to the inputted button. If a
      * MainCharacter encounters another Character or Item, deals with them appropriately.
      * Then iterates through _enemyCharacters and moves them if needed and deals with encounters with other Characters
      * appropriately
      */
-    private static void moveCharacters(int button) {
+    private static void moveCharacters(int key) {
         for (MainCharacter c : _playerCharacters) {
             // Gets the position of where this MainCharacter is moving to next
             float playerX = c.get_position().x;
             float playerY = c.get_position().y;
             float playerZ = c.get_position().z;
             Vector3 nextMove = null;
-            if (button == 'w') {
+            if (key == 'w') {
                 nextMove = new Vector3(playerX, playerY + 1, playerZ);
-            } else if (button == 'a') {
+            } else if (key == 'a') {
                 nextMove = new Vector3(playerX - 1, playerY, playerZ);
-            } else if (button == 's') {
+            } else if (key == 's') {
                 nextMove = new Vector3(playerX, playerY - 1, playerZ);
-            } else if (button == 'd') {
+            } else if (key == 'd') {
                 nextMove = new Vector3(playerX + 1, playerY, playerZ);
             }
 
@@ -88,31 +100,43 @@ public class GameLogicDriver extends GameObject {
                     c.set_position(nextMove);
                 /* MainCharacter attacks enemy and appropriate outcome is determined, MainCharacter then moves into the
                    tile if the enemy died */
-                } else if (characterInNextSpace instanceof Enemy) {
+                }
+                else if (characterInNextSpace instanceof Enemy) {
                     boolean enemyDied = characterCombat(c, characterInNextSpace);
                     if (enemyDied) {
                         if (characterInNextSpace instanceof Boss) {
                             c.addExp(((Boss) characterInNextSpace).expGiven);
-                        } else if (characterInNextSpace instanceof Minion) {
+                        }
+                        else if (characterInNextSpace instanceof Minion) {
                             c.addExp(((Minion) characterInNextSpace).expGiven);
-                        } else if (characterInNextSpace instanceof Runner) {
+                        }
+                        else if (characterInNextSpace instanceof Runner) {
                             c.addExp(((Runner) characterInNextSpace).expGiven);
                             c.addMaxHealth(((Runner) characterInNextSpace).maxHpGiven);
                             c.addAttack(((Runner) characterInNextSpace).atkGiven);
                         }
+                        _enemyCharacters.remove(characterInNextSpace);
+                        Scene.Destroy(characterInNextSpace);
                         c.set_position(nextMove);
                     }
                 } // If the space MainCharacter attempts to move in to isn't free or has an Enemy, nothing happens
             } // If the tileType the MainCharacter is attempting to move in to isn't of type 'floor', nothing happens
 
             // Checks if there's any items on the tile that the MainCharacter is now on
-            Item itemOnTile = checkForItem(nextMove);
+            Item itemOnTile = checkForItem(c.get_position());
             if (itemOnTile instanceof Key) {
                 c.backpack.addItem(itemOnTile);
                 _items.remove(itemOnTile);
-            } else if (itemOnTile instanceof SpikeTrap) {
+            }
+            else if (itemOnTile instanceof SpikeTrap) {
                 c.takeDamage(((SpikeTrap) itemOnTile).get_spikeTrapDamage());
-            } else if (itemOnTile instanceof Exit) {
+                _items.remove(itemOnTile);
+                Scene.Destroy(itemOnTile);
+                if (c.getStatBlock().get_hp() <= 0) {
+                    endGame();
+                }
+            }
+            else if (itemOnTile instanceof Exit) {
                 // TODO: figure out how to check if there's a key in c.backpack and subsequently end the game
             } // If there is no item on the current tile, nothing happens
         }
@@ -123,10 +147,21 @@ public class GameLogicDriver extends GameObject {
                 if (moveTowards.equals("awayFromPlayer")) {
                     // TODO: figure out how to get a random point in opposite direction of player
                 }
-                else { // Default option, Enemy moves towards player
-                    Vector3 nextMove = Pathfinder.FindPath(_gameMap, e.get_position(), _playerCharacters.get(player1ArrayPosition).get_position());
-                    // TODO: check the tile to move into to see if anything needs to happen
-                    e.set_position(nextMove);
+                else { // Default option; Enemy moves towards player
+                    Vector3 nextMove = _pathfinder.FindPath(_gameMap, e.get_position(), _playerCharacters.get(player1ArrayPosition).get_position());
+                    Character characterInNextSpace = checkForCharacter(nextMove);
+                    if (characterInNextSpace == null) {
+                        e.set_position(nextMove);
+                    }
+                    else if (characterInNextSpace instanceof Enemy) {
+                        e.set_ticksBeforeNextMove(1);
+                    }
+                    else if (characterInNextSpace instanceof MainCharacter) {
+                        boolean MCDied = characterCombat(e, characterInNextSpace);
+                        if (MCDied) {
+                            endGame();
+                        }
+                    }
                 }
             }
         }
@@ -178,6 +213,10 @@ public class GameLogicDriver extends GameObject {
             }
         }
         return null;
+    }
+
+    private static void endGame() {
+        // TODO: end the game?
     }
 
     /**

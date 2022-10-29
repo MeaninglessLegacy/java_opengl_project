@@ -19,6 +19,9 @@ public abstract class Enemy extends Character{
     // this integer tells the game how much exp will be given to the Character who kills this Enemy
     public int expGiven = 1;
 
+    //******************************************************************************************************************
+    //* methods
+    //******************************************************************************************************************
     /**
      * Sets the _enemyActive state of this character to specified value
      * @param state the value to set _enemyActive to
@@ -32,6 +35,14 @@ public abstract class Enemy extends Character{
      * @return true if enemy is active, false if not
      */
     public boolean get_enemyActiveState() { return _enemyActive; }
+
+    /**
+     * Sets the _ticksBeforeNextMove value of this character to specified value
+     * @param ticks the value to set _ticksBeforeNextMove to
+     */
+    public void set_ticksBeforeNextMove(int ticks) {
+        _ticksBeforeNextMove = ticks;
+    }
 
     /**
      * Returns the String containing where the Enemy moves towards
