@@ -5,6 +5,15 @@ import org.group11.Packages.Engine.GameObject;
 import org.group11.Packages.Engine.Scene;
 import org.group11.Packages.Game.Scripts.Logic.GameLogicDriver;
 
+/*
+--add-exports
+java.base/java.lang=ALL-UNNAMED
+--add-exports
+java.desktop/sun.awt=ALL-UNNAMED
+--add-exports
+java.desktop/sun.java2d=ALL-UNNAMED
+ */
+
 public class EngineTest {
     private static int counter = 0;
     public static void main(String[] args){
