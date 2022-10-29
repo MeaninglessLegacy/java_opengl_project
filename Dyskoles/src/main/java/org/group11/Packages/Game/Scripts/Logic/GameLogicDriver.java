@@ -71,10 +71,8 @@ public class GameLogicDriver extends GameObject {
     /**
      * Iterates through _playerCharacters and moves each MainCharacter according to the inputted button. If a
      * MainCharacter encounters another Character or Item, deals with them appropriately.
-     * Then iterates through _enemyCharacters and moves them if needed and deals with encounters with other Characters
-     * appropriately
      */
-    private static void moveCharacters(int key) {
+    private static void moveMainCharacters(int key) {
         for (MainCharacter c : _playerCharacters) {
             // Gets the position of where this MainCharacter is moving to next
             float playerX = c.get_position().x;
@@ -100,17 +98,14 @@ public class GameLogicDriver extends GameObject {
                     c.set_position(nextMove);
                 /* MainCharacter attacks enemy and appropriate outcome is determined, MainCharacter then moves into the
                    tile if the enemy died */
-                }
-                else if (characterInNextSpace instanceof Enemy) {
+                } else if (characterInNextSpace instanceof Enemy) {
                     boolean enemyDied = characterCombat(c, characterInNextSpace);
                     if (enemyDied) {
                         if (characterInNextSpace instanceof Boss) {
                             c.addExp(((Boss) characterInNextSpace).expGiven);
-                        }
-                        else if (characterInNextSpace instanceof Minion) {
+                        } else if (characterInNextSpace instanceof Minion) {
                             c.addExp(((Minion) characterInNextSpace).expGiven);
-                        }
-                        else if (characterInNextSpace instanceof Runner) {
+                        } else if (characterInNextSpace instanceof Runner) {
                             c.addExp(((Runner) characterInNextSpace).expGiven);
                             c.addMaxHealth(((Runner) characterInNextSpace).maxHpGiven);
                             c.addAttack(((Runner) characterInNextSpace).atkGiven);
@@ -127,20 +122,24 @@ public class GameLogicDriver extends GameObject {
             if (itemOnTile instanceof Key) {
                 c.backpack.addItem(itemOnTile);
                 _items.remove(itemOnTile);
-            }
-            else if (itemOnTile instanceof SpikeTrap) {
+            } else if (itemOnTile instanceof SpikeTrap) {
                 c.takeDamage(((SpikeTrap) itemOnTile).get_spikeTrapDamage());
                 _items.remove(itemOnTile);
                 Scene.Destroy(itemOnTile);
                 if (c.getStatBlock().get_hp() <= 0) {
                     endGame();
                 }
-            }
-            else if (itemOnTile instanceof Exit) {
+            } else if (itemOnTile instanceof Exit) {
                 // TODO: figure out how to check if there's a key in c.backpack and subsequently end the game
             } // If there is no item on the current tile, nothing happens
         }
+    }
 
+    /**
+     * Iterates through _enemyCharacters and moves each Enemy if needed, deals with encounters with other Characters
+     * appropriately
+     */
+    private static void moveEnemies() {
         for (Enemy e : _enemyCharacters) {
             if (e.canEnemyMove()) {
                 String moveTowards = e.get_moveTowards();
