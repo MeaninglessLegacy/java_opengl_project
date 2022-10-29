@@ -13,6 +13,7 @@ public class Boss extends Enemy {
      */
     @Override
     public void start() {
+        expGiven = 5;
         // TODO: implement method
         // Gets all sprites for object
         // Calls constructor and sets any necessary attributes

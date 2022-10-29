@@ -16,6 +16,8 @@ public abstract class Enemy extends Character{
     protected boolean _enemyActive = false;
     // this string tells the game logic where this character moves towards when activated
     protected String _moveTowards = "player";
+    // this integer tells the game how much exp will be given to the Character who kills this Enemy
+    public int expGiven = 1;
 
     /**
      * Sets the _enemyActive state of this character to specified value

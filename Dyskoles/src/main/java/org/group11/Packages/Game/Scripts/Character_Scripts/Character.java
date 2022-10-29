@@ -11,7 +11,7 @@ public abstract class Character extends GameObject {
     //* variables
     //******************************************************************************************************************
     // stores all the stats of this character
-    protected StatBlock _statBlock;
+    protected StatBlock _statBlock = new StatBlock();
     // stores the position of this character
     protected Vector3 _position;
     /**
@@ -37,7 +37,6 @@ public abstract class Character extends GameObject {
      * Reduces the hp value of this character by specified amount
      * @param hp value to reduce hp by
      */
-    // TODO: add what happens after character dies
     public void takeDamage(int hp) { _statBlock.set_hp(_statBlock.get_hp() - hp); }
 
     /**

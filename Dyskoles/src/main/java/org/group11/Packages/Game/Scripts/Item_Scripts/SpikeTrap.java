@@ -10,6 +10,12 @@ public class SpikeTrap extends Item {
     //******************************************************************************************************************
     private int _spikeTrapDamage;
 
+    /**
+     * Returns how much damage this SpikeTrap does
+     * @return integer _spikeTrapDamage
+     */
+    public int get_spikeTrapDamage() { return _spikeTrapDamage; }
+
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
