@@ -14,6 +14,9 @@ public class Boss extends Enemy {
     @Override
     public void start() {
         expGiven = 5;
+        _statBlock.set_Atk(3);
+        _statBlock.set_MaxHp(10);
+        _statBlock.set_hp(10);
         // TODO: implement method
         // Gets all sprites for object
         // Calls constructor and sets any necessary attributes

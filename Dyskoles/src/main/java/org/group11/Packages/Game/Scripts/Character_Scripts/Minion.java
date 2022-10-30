@@ -12,6 +12,9 @@ public class Minion extends Enemy{
      * Initialize all the values of the Minion character type
      */
     public void start() {
+        _statBlock.set_Atk(1);
+        _statBlock.set_MaxHp(3);
+        _statBlock.set_hp(3);
         // TODO: implement method
         // Gets all sprites for object
         // Calls constructor and sets any necessary attributes

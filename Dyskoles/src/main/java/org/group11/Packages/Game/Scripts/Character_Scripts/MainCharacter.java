@@ -24,12 +24,16 @@ public class MainCharacter extends Character{
     //* methods
     //******************************************************************************************************************
     /**
-     * Increases the exp value of this character by specified amount
+     * Increases the exp value of this character by specified amount. If exp reaches a certain value, increases level
+     * then decreases exp by the amount needed to level up
      * @param exp value to increase exp by
      */
     public void addExp(int exp) {
         _statBlock.set_exp(_statBlock.get_exp() + exp);
-        // TODO: need to calculate when to add a level and add the appropriate attack/health
+        if (exp >= 5 * _statBlock.get_lvl()) {
+            addLevel();
+            _statBlock.set_exp(_statBlock.get_exp() - 5 * _statBlock.get_lvl());
+        }
     }
 
     /**
