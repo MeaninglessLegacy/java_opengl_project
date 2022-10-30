@@ -1,6 +1,6 @@
 package org.group11.Packages.Game.Scripts.Item_Scripts;
 
-import org.group11.Packages.Engine.GameObject;
+import org.group11.Packages.Core.Main.GameObject;
 
 /**
  * Abstract item class, items can be activated

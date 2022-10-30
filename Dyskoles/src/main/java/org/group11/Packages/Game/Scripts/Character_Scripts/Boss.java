@@ -32,7 +32,7 @@ public class Boss extends Enemy {
      * @param key ascii value of the key
      */
     @Override
-    public void onButtonDown(int key) {
+    public void onKeyDown(int key) {
         return;
     }
 }

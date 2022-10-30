@@ -1,7 +1,7 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
-import org.group11.Packages.Engine.GameObject;
-import org.group11.Packages.Engine.Vector3;
+import org.group11.Packages.Core.Main.GameObject;
+import org.group11.Packages.Core.DataStructures.Vector3;
 
 /**
  * Base class for character objects within our game

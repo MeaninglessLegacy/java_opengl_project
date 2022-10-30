@@ -1,11 +1,10 @@
 package org.group11.Packages.Game.Scripts.Logic;
 
-import org.group11.Packages.Engine.GameObject;
+import org.group11.Packages.Core.Main.GameObject;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Enemy;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 /**

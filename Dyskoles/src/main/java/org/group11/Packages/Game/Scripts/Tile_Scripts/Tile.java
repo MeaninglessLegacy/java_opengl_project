@@ -1,8 +1,6 @@
 package org.group11.Packages.Game.Scripts.Tile_Scripts;
 
-import org.group11.Packages.Engine.GameObject;
-
-import java.util.ArrayList;
+import org.group11.Packages.Core.Main.GameObject;
 
 /*
 We can make Tile into an iterator to iterate over over its objectsOnTile array

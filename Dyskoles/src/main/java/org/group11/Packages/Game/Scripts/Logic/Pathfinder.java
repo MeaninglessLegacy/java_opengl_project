@@ -1,6 +1,6 @@
 package org.group11.Packages.Game.Scripts.Logic;
 
-import org.group11.Packages.Engine.Vector3;
+import org.group11.Packages.Core.DataStructures.Vector3;
 
 /**
  *
