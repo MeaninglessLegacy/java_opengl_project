@@ -127,10 +127,15 @@ public class GameLogicDriver extends GameObject {
                 _items.remove(itemOnTile);
                 Scene.Destroy(itemOnTile);
                 if (c.getStatBlock().get_hp() <= 0) {
-                    endGame();
+                    endGame(false);
                 }
             } else if (itemOnTile instanceof Exit) {
-                // TODO: figure out how to check if there's a key in c.backpack and subsequently end the game
+                // Unsure if this will work
+                Key testKey = new Key();
+                if (c.backpack.removeItem(testKey)) {
+                    testKey = null;
+                    endGame(true);
+                }
             } // If there is no item on the current tile, nothing happens
         }
     }
@@ -143,8 +148,17 @@ public class GameLogicDriver extends GameObject {
         for (Enemy e : _enemyCharacters) {
             if (e.canEnemyMove()) {
                 String moveTowards = e.get_moveTowards();
+                // Determining where the Enemy is moving towards
                 if (moveTowards.equals("awayFromPlayer")) {
                     // TODO: figure out how to get a random point in opposite direction of player
+                    Vector3 farAwayPosition = new Vector3(400,400,0);
+                    Vector3 nextMove = _pathfinder.FindPath(_gameMap, e.get_position(), farAwayPosition);
+                    Character characterInNextSpace = checkForCharacter(nextMove);
+                    if (characterInNextSpace == null) {
+                        e.set_position(nextMove);
+                    } else {
+                        e.set_ticksBeforeNextMove(1);
+                    }
                 }
                 else { // Default option; Enemy moves towards player
                     Vector3 nextMove = _pathfinder.FindPath(_gameMap, e.get_position(), _playerCharacters.get(player1ArrayPosition).get_position());
@@ -158,7 +172,7 @@ public class GameLogicDriver extends GameObject {
                     else if (characterInNextSpace instanceof MainCharacter) {
                         boolean MCDied = characterCombat(e, characterInNextSpace);
                         if (MCDied) {
-                            endGame();
+                            endGame(false);
                         }
                     }
                 }
@@ -214,7 +228,11 @@ public class GameLogicDriver extends GameObject {
         return null;
     }
 
-    private static void endGame() {
+    /**
+     * Ends the current game and the player either wins or loses, depending on the parameter
+     * @param won true if the player won (has reached the exit with a key), false if not (player died)
+     */
+    private static void endGame(boolean won) {
         // TODO: end the game?
     }
 
