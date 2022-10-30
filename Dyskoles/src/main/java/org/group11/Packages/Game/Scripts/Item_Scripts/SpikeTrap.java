@@ -1,5 +1,7 @@
 package org.group11.Packages.Game.Scripts.Item_Scripts;
 
+import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
+
 /**
  * Spike trap object, only affects player character and hurts the player character when the player character touches
  * this object
@@ -20,8 +22,9 @@ public class SpikeTrap extends Item {
     //* overrides
     //******************************************************************************************************************
     @Override
-    public void activate() {
-        super.activate();
+    public boolean activate(MainCharacter c) {
+        c.takeDamage(_spikeTrapDamage);
+        return true;
     }
 
     @Override

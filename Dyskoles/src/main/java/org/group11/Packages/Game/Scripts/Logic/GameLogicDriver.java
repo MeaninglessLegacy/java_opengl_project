@@ -117,24 +117,17 @@ public class GameLogicDriver extends GameObject {
                 } // If the space MainCharacter attempts to move in to isn't free or has an Enemy, nothing happens
             } // If the tileType the MainCharacter is attempting to move in to isn't of type 'floor', nothing happens
 
-            // Checks if there's any items on the tile that the MainCharacter is now on
+            // Checks if there's any items on the tile that the MainCharacter is now on and activates it if there is
             Item itemOnTile = checkForItem(c.get_position());
-            if (itemOnTile instanceof Key) {
-                c.backpack.addItem(itemOnTile);
-                _items.remove(itemOnTile);
-            } else if (itemOnTile instanceof SpikeTrap) {
-                c.takeDamage(((SpikeTrap) itemOnTile).get_spikeTrapDamage());
-                _items.remove(itemOnTile);
-                Scene.Destroy(itemOnTile);
+            if (itemOnTile != null) {
+                if (itemOnTile.activate(c)) {
+                    _items.remove(itemOnTile);
+                    if (itemOnTile instanceof SpikeTrap) {
+                        Scene.Destroy(itemOnTile);
+                    }
+                }
                 if (c.getStatBlock().get_hp() <= 0) {
                     endGame(false);
-                }
-            } else if (itemOnTile instanceof Exit) {
-                // Unsure if this will work
-                Key testKey = new Key();
-                if (c.backpack.removeItem(testKey)) {
-                    testKey = null;
-                    endGame(true);
                 }
             } // If there is no item on the current tile, nothing happens
         }
@@ -232,7 +225,7 @@ public class GameLogicDriver extends GameObject {
      * Ends the current game and the player either wins or loses, depending on the parameter
      * @param won true if the player won (has reached the exit with a key), false if not (player died)
      */
-    private static void endGame(boolean won) {
+    public static void endGame(boolean won) {
         // TODO: end the game?
     }
 
@@ -241,6 +234,26 @@ public class GameLogicDriver extends GameObject {
      */
     private static void logicLoop(){
         return;
+    }
+
+    // matrix has to be a 3x3 matrix
+    public Vector3 matrixMultiply (Vector3 vector, float[][] matrix) {
+        float unitSize = 32;
+        float retX = 0;
+        float retY = 0;
+
+        retX += vector.x * matrix[0][0];
+        retX += vector.y * matrix[0][1];
+        retX += vector.z * matrix[0][2];
+
+        retY += vector.x * matrix[1][0];
+        retY += vector.y * matrix[1][1];
+        retY += vector.z * matrix[1][2];
+
+        retX *= (vector.z * unitSize);
+        retY *= (vector.z * unitSize);
+        Vector3 retVector = new Vector3(retX, retY, 0);
+        return retVector;
     }
 
     //******************************************************************************************************************
