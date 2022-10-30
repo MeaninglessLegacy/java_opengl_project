@@ -1,14 +1,11 @@
 package org.group11.Packages.Game.Scripts.Logic;
 
-import org.group11.Main;
 import org.group11.Packages.Engine.GameObject;
 import org.group11.Packages.Engine.Scene;
 import org.group11.Packages.Engine.Vector3;
 import org.group11.Packages.Game.Scripts.Character_Scripts.*;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
-import org.group11.Packages.Game.Scripts.Item_Scripts.Exit;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
-import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
 import org.group11.Packages.Game.Scripts.Item_Scripts.SpikeTrap;
 
 import java.util.ArrayList;
@@ -29,6 +26,24 @@ public class GameLogicDriver extends GameObject {
     private static ArrayList<Enemy> _enemyCharacters = new ArrayList<>();
     private static ArrayList<Item> _items = new ArrayList<Item>();
     private static int player1ArrayPosition = 0;
+
+    /**
+     * Change _gameLevel to specified level
+     * @param newLevel the level to set as
+     */
+    public static void set_gameLevel(Level newLevel){ _gameLevel = newLevel; }
+
+    /**
+     * Adds a MainCharacter to the _playerCharacters arraylist, thus adding them into the game
+     * @param MC the MainCharacter to add the game
+     */
+    public static void addMainCharacter (MainCharacter MC) { _playerCharacters.add(MC); }
+
+    /**
+     * Adds an Item to the _items arraylist, thus adding it into the game
+     * @param item the Item to add the game
+     */
+    public static void addItem (Item item) { _items.add(item); }
 
     //******************************************************************************************************************
     //* singleton constructor and fields
@@ -52,12 +67,6 @@ public class GameLogicDriver extends GameObject {
     //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
-    /**
-     * Change _gameLevel to specified level
-     * @param newLevel the level to set as
-     */
-    private static void set_gameLevel(Level newLevel){ _gameLevel = newLevel; }
-
     /**
      *
      */
@@ -232,28 +241,8 @@ public class GameLogicDriver extends GameObject {
     /**
      * Run the game
      */
-    private static void logicLoop(){
+    private static void logicLoop(int key) {
         return;
-    }
-
-    // matrix has to be a 3x3 matrix
-    public Vector3 matrixMultiply (Vector3 vector, float[][] matrix) {
-        float unitSize = 32;
-        float retX = 0;
-        float retY = 0;
-
-        retX += vector.x * matrix[0][0];
-        retX += vector.y * matrix[0][1];
-        retX += vector.z * matrix[0][2];
-
-        retY += vector.x * matrix[1][0];
-        retY += vector.y * matrix[1][1];
-        retY += vector.z * matrix[1][2];
-
-        retX *= (vector.z * unitSize);
-        retY *= (vector.z * unitSize);
-        Vector3 retVector = new Vector3(retX, retY, 0);
-        return retVector;
     }
 
     //******************************************************************************************************************
@@ -272,6 +261,7 @@ public class GameLogicDriver extends GameObject {
 
     @Override
     public void onButtonDown(int key) {
-        super.onButtonDown(key);
+        moveMainCharacters(key);
+        moveEnemies();
     }
 }
