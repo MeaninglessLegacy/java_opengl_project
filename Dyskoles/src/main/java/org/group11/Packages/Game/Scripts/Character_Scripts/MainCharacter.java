@@ -54,16 +54,13 @@ public class MainCharacter extends Character{
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+    @Override
     public void start() {
-        // TODO: implement method
-        // Gets all sprites for object
-        // Calls constructor and sets any necessary attributes
+        super.start();
     }
 
     @Override
     public void update() {
-        // TODO: implement method
-        // If character moved, character faces direction they moved
-        // Idle animation
+        super.update();
     }
 }

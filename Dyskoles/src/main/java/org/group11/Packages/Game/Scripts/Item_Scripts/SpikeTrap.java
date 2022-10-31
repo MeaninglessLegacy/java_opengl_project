@@ -1,5 +1,6 @@
 package org.group11.Packages.Game.Scripts.Item_Scripts;
 
+import org.group11.Packages.Engine.Vector3;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 
 /**
@@ -17,6 +18,13 @@ public class SpikeTrap extends Item {
      * @return integer _spikeTrapDamage
      */
     public int get_spikeTrapDamage() { return _spikeTrapDamage; }
+
+    //******************************************************************************************************************
+    //* constructor
+    //******************************************************************************************************************
+    public SpikeTrap() {
+        _position = new Vector3(400, 400, 0);
+    }
 
     //******************************************************************************************************************
     //* overrides

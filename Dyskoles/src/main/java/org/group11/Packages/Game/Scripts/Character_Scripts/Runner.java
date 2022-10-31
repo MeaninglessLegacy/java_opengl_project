@@ -15,25 +15,25 @@ public class Runner extends Enemy{
     public int atkGiven;
 
     //******************************************************************************************************************
-    //* overrides
+    //* constructor
     //******************************************************************************************************************
-
-    /**
-     * Initialize all the values of the Runner character type
-     */
-    public void start() {
-        // TODO: implement method
+    public Runner() {
         expGiven = 5;
         maxHpGiven = 1;
         atkGiven = 1;
         _moveTowards = "awayFromPlayer";
-        // Gets all sprites for object
-        // Calls constructor and sets any necessary attributes
     }
 
+    //******************************************************************************************************************
+    //* overrides
+    //******************************************************************************************************************
+    @Override
+    public void start() {
+        super.start();
+    }
+
+    @Override
     public void update() {
-        // TODO: implement method
-        // If character moved, character faces direction they moved
-        // Idle animation
+        super.update();
     }
 }

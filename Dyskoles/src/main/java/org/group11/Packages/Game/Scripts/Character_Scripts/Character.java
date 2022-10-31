@@ -12,23 +12,11 @@ public abstract class Character extends GameObject {
     //******************************************************************************************************************
     // stores all the stats of this character
     protected StatBlock _statBlock = new StatBlock();
-    // stores the position of this character
-    protected Vector3 _position;
     /**
      * Returns the StatBlock of this character object
      * @return the StatBlock to return
      */
     public StatBlock getStatBlock() { return this._statBlock; }
-    /**
-     * Returns the Vector3 position of this character object
-     * @return the Vector3 to return
-     */
-    public Vector3 get_position() { return this._position; }
-    /**
-     * sets _position to pos
-     * @param pos the position to set _position to
-     */
-    public void set_position(Vector3 pos) { this._position = pos;}
 
     //******************************************************************************************************************
     //* character methods

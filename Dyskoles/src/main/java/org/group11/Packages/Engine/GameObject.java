@@ -13,9 +13,21 @@ abstract public class GameObject {
 
     //Transform of this GameObject in it's corresponding scene's world space
     public Transform transform;
-
+    // stores the position of this GameObject
+    protected Vector3 _position = null;
     // Components of this GameObject which the engine performs additional operations on
     Dictionary<String, Component> Components = new Hashtable<>();
+
+    /**
+     * Returns the Vector3 position of this GameObject
+     * @return the Vector3 to return
+     */
+    public Vector3 get_position() { return this._position; }
+    /**
+     * sets the Vector3 positioon of this GameObject
+     * @param pos the position to set _position to
+     */
+    public void set_position(Vector3 pos) { this._position = pos;}
 
     //******************************************************************************************************************
     //* engine calls

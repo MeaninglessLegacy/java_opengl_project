@@ -1,5 +1,6 @@
 package org.group11.Packages.Game.Scripts.Item_Scripts;
 
+import org.group11.Packages.Engine.Vector3;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 
 import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.endGame;
@@ -9,27 +10,32 @@ import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.endGame;
  */
 public class Exit extends Item {
     //******************************************************************************************************************
+    //* constructor
+    //******************************************************************************************************************
+    public Exit() {
+        _position = new Vector3(400, 400, 0);
+    }
+
+    //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
-    public void start() {
-        // TODO: implement method
-        // Gets all sprites for object
-        // Calls constructor
-    }
-
-    public void update() {
-        // TODO: implement method
-        // changes colour when exit is accessible
-    }
-
     @Override
     public boolean activate(MainCharacter c) {
-        // Unsure if this will work
         Key testKey = new Key();
         if (c.backpack.removeItem(testKey)) {
             testKey = null;
             endGame(true);
         }
         return false;
+    }
+
+    @Override
+    public void start() {
+        super.start();
+    }
+
+    @Override
+    public void update() {
+        super.update();
     }
 }

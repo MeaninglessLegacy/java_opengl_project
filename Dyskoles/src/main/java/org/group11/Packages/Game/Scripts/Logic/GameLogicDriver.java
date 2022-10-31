@@ -6,7 +6,6 @@ import org.group11.Packages.Engine.Vector3;
 import org.group11.Packages.Game.Scripts.Character_Scripts.*;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
-import org.group11.Packages.Game.Scripts.Item_Scripts.SpikeTrap;
 
 import java.util.ArrayList;
 
@@ -80,7 +79,6 @@ public class GameLogicDriver extends GameObject {
         else {
             System.out.println("Could not load level as GameLogicDriver has no level");
         }
-
     }
 
     /**
@@ -110,12 +108,15 @@ public class GameLogicDriver extends GameObject {
                 // Checks if there's any Character in the next tile and attempts to move into it
                 Character characterInNextSpace = checkForCharacter(nextMove);
                 if (characterInNextSpace == null) {
+                    System.out.println("Player moved into an empty tile");
                     c.set_position(nextMove);
                 /* MainCharacter attacks enemy and appropriate outcome is determined, MainCharacter then moves into the
                    tile if the enemy died */
                 } else if (characterInNextSpace instanceof Enemy) {
+                    System.out.println("Player attempted to move into an enemy");
                     boolean enemyDied = characterCombat(c, characterInNextSpace);
                     if (enemyDied) {
+                        System.out.println("Player defeated an enemy");
                         if (characterInNextSpace instanceof Boss) {
                             c.addExp(((Boss) characterInNextSpace).expGiven);
                         } else if (characterInNextSpace instanceof Minion) {
@@ -129,17 +130,18 @@ public class GameLogicDriver extends GameObject {
                         Scene.Destroy(characterInNextSpace);
                         c.set_position(nextMove);
                     }
-                } // If the space MainCharacter attempts to move in to isn't free or has an Enemy, nothing happens
+                } else { // If the space MainCharacter attempts to move in to isn't free or has an Enemy, nothing happens
+                    System.out.println("Player attempted to move into a wall");
+                }
             } // If the tileType the MainCharacter is attempting to move in to isn't of type 'floor', nothing happens
 
             // Checks if there's any items on the tile that the MainCharacter is now on and activates it if there is
             Item itemOnTile = checkForItem(c.get_position());
             if (itemOnTile != null) {
+                System.out.println("Tile player is currently on has an item");
                 if (itemOnTile.activate(c)) {
                     _items.remove(itemOnTile);
-                    if (itemOnTile instanceof SpikeTrap) {
-                        Scene.Destroy(itemOnTile);
-                    }
+                    Scene.Destroy(itemOnTile);
                 }
                 if (c.getStatBlock().get_hp() <= 0) {
                     endGame(false);
@@ -158,6 +160,7 @@ public class GameLogicDriver extends GameObject {
                 String moveTowards = e.get_moveTowards();
                 // Determining where the Enemy is moving towards
                 if (moveTowards.equals("awayFromPlayer")) {
+                    System.out.println("Runner is moving");
                     // TODO: figure out how to get a random point in opposite direction of player
                     Vector3 farAwayPosition = new Vector3(400,400,0);
                     Vector3 nextMove = _pathfinder.FindPath(_gameMap, e.get_position(), farAwayPosition);
@@ -169,6 +172,7 @@ public class GameLogicDriver extends GameObject {
                     }
                 }
                 else { // Default option; Enemy moves towards player
+                    System.out.println("Regular enemy is moving");
                     Vector3 nextMove = _pathfinder.FindPath(_gameMap, e.get_position(), _playerCharacters.get(player1ArrayPosition).get_position());
                     Character characterInNextSpace = checkForCharacter(nextMove);
                     if (characterInNextSpace == null) {
@@ -241,6 +245,7 @@ public class GameLogicDriver extends GameObject {
      * @param won true if the player won (has reached the exit with a key), false if not (player died)
      */
     public static void endGame(boolean won) {
+        System.out.println("The game ended");
         // TODO: end the game?
     }
 
@@ -281,9 +286,11 @@ public class GameLogicDriver extends GameObject {
 
     @Override
     public void start() {
+        /*
         MainCharacter player1 = new MainCharacter();
         Scene.Instantiate(player1);
         addMainCharacter(player1);
+        */
         _pathfinder = new Pathfinder();
     }
 
