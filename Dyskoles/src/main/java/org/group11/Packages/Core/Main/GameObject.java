@@ -1,5 +1,6 @@
 package org.group11.Packages.Core.Main;
 
+import org.group11.Packages.Core.Components.Component;
 import org.group11.Packages.Core.DataStructures.Transform;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ abstract public class GameObject {
     //* variables
     //******************************************************************************************************************
     //Transform of this GameObject in it's corresponding scene's world space
-    public Transform transform;
+    public Transform transform = new Transform();
 
     // Components of this GameObject which the engine performs additional operations on
     List<Component> components = new ArrayList<>();
@@ -76,5 +77,21 @@ abstract public class GameObject {
             }
         }
         return null;
+    }
+
+    /**
+     * Add a component to the GameObject.
+     * @param component The component to add.
+     */
+    public void addComponent(Component component){
+        components.add(component);
+    }
+
+    /**
+     * Removes a component from the GameObject.
+     * @param component The component to remove.
+     */
+    public void removeComponent(Component component){
+        components.remove(component);
     }
 }

@@ -62,7 +62,7 @@ public class Engine extends Thread{
             framesSkipped = 0;
             // update & render window
             _scene.update();
-            _window.loop();
+            _window.update();
             // sleep logical thread if possible else catch up logical thread
             cycleDuration = System.currentTimeMillis() - cycleStartTime;
             threadSleepTime = (int)(FRAME_TIME_IN_MS - cycleDuration);

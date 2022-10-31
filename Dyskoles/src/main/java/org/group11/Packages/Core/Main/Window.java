@@ -89,6 +89,10 @@ public class Window {
             }
             if(action == GLFW_PRESS){
                 // add key press event
+                Scene.onKeyDown(key);
+            }
+            if(action == GLFW_RELEASE){
+                Scene.onKeyUp(key);
             }
         });
 
@@ -127,7 +131,7 @@ public class Window {
     /**
      * Rendering loop to be called by the Engine. Polls glfw events.
      */
-    public void loop() {
+    public void update() {
         glfwPollEvents();
         // Set the clear color
         glClearColor(_clearColor.x, _clearColor.y, _clearColor.z, _clearColor.w);

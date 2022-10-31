@@ -11,18 +11,19 @@ import org.lwjgl.opengl.GL45;
 import org.lwjgl.stb.STBImage;
 
 /**
- *
+ * Texture class that implements generating and binding to a texture ID through OpenGL, then storing this texture ID
+ * within the object.
  */
 public class Texture {
-    private String filePath;
-    private int textureID;
+    private String _filePath;
+    private int _textureID;
 
     /**
-     *
-     * @param image
-     * @param hasAlpha
+     * Constructor that generates and binds a texture ID with a given BufferedImage.
+     * @param image BufferedImage object to generate texture with.
+     * @param hasAlpha Boolean True/False if this texture has Alpha values.
      */
-    Texture(BufferedImage image, boolean hasAlpha){
+    public Texture(BufferedImage image, boolean hasAlpha){
         /* taken from and modified from
         https://stackoverflow.com/questions/59856706/how-can-i-load-bufferedimage-as-opengl-texture */
         int bytesPerPixel = 3; // rgb components
@@ -49,7 +50,7 @@ public class Texture {
         // Create a texture ID and bind it in openGL
 
         GL45.glGenTextures(); // generate texture ID
-        GL45.glBindTexture(GL45.GL_TEXTURE_2D, textureID); // bind texture ID
+        GL45.glBindTexture(GL45.GL_TEXTURE_2D, _textureID); // bind texture ID
 
         // Set texture parameters
         // when stretching pixelate
@@ -67,11 +68,11 @@ public class Texture {
     }
 
     /**
-     *
-     * @param filePath
+     * Constructor that generates and binds a texture ID with a texture given by a file path.
+     * @param filePath String path to the texture file.
      */
-    Texture(String filePath){
-        this.filePath = filePath;
+    public Texture(String filePath){
+        this._filePath = filePath;
 
         // get ByteButter with pixel color data
         IntBuffer width = BufferUtils.createIntBuffer(1);
@@ -80,8 +81,9 @@ public class Texture {
         ByteBuffer image = STBImage.stbi_load(filePath, width, height, channels, 0);
 
         // Generate texture ID and bind texture with openGL
-        GL45.glGenTextures(); // generate texture ID
-        GL45.glBindTexture(GL45.GL_TEXTURE_2D, textureID); // bind texture ID
+        _textureID = GL45.glGenTextures(); // generate texture ID
+        GL45.glBindTexture(GL45.GL_TEXTURE_2D, _textureID); // bind texture ID
+        System.out.println("Generated texture: "+filePath+" With texture ID: "+_textureID); // debug
 
         // Set texture parameters
         // when stretching pixelate
@@ -101,23 +103,33 @@ public class Texture {
                 System.out.println("Failure to load texture: "+filePath);
                 System.exit(-1);
             }
+        }else{
+            System.out.println("Failure to load texture: "+filePath);
+            System.exit(-1);
         }
 
-        //GL45.glBindTexture(GL45.GL_TEXTURE_2D, 0); // unbind texture
         STBImage.stbi_image_free(image); // free image
     }
 
     /**
-     *
+     * Binds this texture to the texture target.
      */
     public void bind(){
-        GL45.glBindTexture(GL45.GL_TEXTURE_2D, textureID);
+        GL45.glBindTexture(GL45.GL_TEXTURE_2D, _textureID);
     }
 
     /**
-     *
+     * Unbinds this texture from the texture target.
      */
     public void unbind(){
         GL45.glBindTexture(GL45.GL_TEXTURE_2D, 0);
+    }
+
+    /**
+     * Returns this texture's texture ID.
+     * @return Int of this texture's texture ID.
+     */
+    public int get_textureID(){
+        return _textureID;
     }
 }
