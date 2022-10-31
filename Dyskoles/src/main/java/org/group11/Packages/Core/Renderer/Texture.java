@@ -1,11 +1,15 @@
 package org.group11.Packages.Core.Renderer;
 
+import org.group11.Packages.Core.Main.Window;
 import org.lwjgl.BufferUtils;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
+import static java.sql.Types.NULL;
+import static org.lwjgl.glfw.GLFW.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL45;
 import org.lwjgl.stb.STBImage;
@@ -24,6 +28,16 @@ public class Texture {
      * @param hasAlpha Boolean True/False if this texture has Alpha values.
      */
     public Texture(BufferedImage image, boolean hasAlpha){
+        // Check OpenGL context, will crash if trying to bind a texture without a OpenGL context
+        if(glfwGetCurrentContext() == NULL){
+            Window window = Window.get_window();
+            if(window.get_glfwWindow() != NULL){
+                glfwMakeContextCurrent(window.get_glfwWindow()); // set current context
+            }else{
+                System.out.println("Failed to load texture. Reason: No current OpenGL context.");
+                System.exit(-1);
+            }
+        }
         /* taken from and modified from
         https://stackoverflow.com/questions/59856706/how-can-i-load-bufferedimage-as-opengl-texture */
         int bytesPerPixel = 3; // rgb components
@@ -73,6 +87,17 @@ public class Texture {
      */
     public Texture(String filePath){
         this._filePath = filePath;
+
+        // Check OpenGL context, will crash if trying to bind a texture without a OpenGL context
+        if(glfwGetCurrentContext() == NULL){
+            Window window = Window.get_window();
+            if(window.get_glfwWindow() != NULL){
+                glfwMakeContextCurrent(window.get_glfwWindow()); // set current context
+            }else{
+                System.out.println("Failed to load texture \""+filePath+"\" Reason: No current OpenGL context.");
+                System.exit(-1);
+            }
+        }
 
         // get ByteButter with pixel color data
         IntBuffer width = BufferUtils.createIntBuffer(1);

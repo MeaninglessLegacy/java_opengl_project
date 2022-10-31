@@ -145,6 +145,14 @@ public class Window {
     }
 
     /**
+     * Returns the ID of the current glfwWindow or NULL if the window does not exist.
+     * @return The window ID.
+     */
+    public long get_glfwWindow() {
+        return _glfwWindow;
+    }
+
+    /**
      * Returns the application window or creates one if it doesn't exist.
      * @return the application window.
      */

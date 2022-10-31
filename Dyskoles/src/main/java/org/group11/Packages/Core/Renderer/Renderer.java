@@ -2,8 +2,6 @@ package org.group11.Packages.Core.Renderer;
 
 import org.group11.Packages.Core.Components.Sprite;
 import org.group11.Packages.Core.Components.SpriteRenderer;
-import org.group11.Packages.Core.DataStructures.AssetPool;
-import org.group11.Packages.Core.DataStructures.Transform;
 import org.group11.Packages.Core.DataStructures.Vector2;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Camera;

@@ -27,8 +27,10 @@ public class MainCharacter extends Character{
         // set position
         this.transform.setPosition(new Vector3(1,1,0));
         // create sprite renderer
-        spriteRenderer = new SpriteRenderer(this, "./Resources/ump9.png");
+        spriteRenderer = new SpriteRenderer(this, "./Resources/ump45.png");
         this.addComponent(spriteRenderer);
+        spriteRenderer.get_sprite().set_scale(1.5f, 1.5f);
+        spriteRenderer.get_sprite().transform.position.y += 0.5;
     }
 
     //******************************************************************************************************************
@@ -70,9 +72,20 @@ public class MainCharacter extends Character{
         super.start();
     }
 
+    private double time = 0;
+    private double x = 0;
+    
     @Override
     public void update() {
-        super.update();
+        double timepassed = System.currentTimeMillis() - time;
+        if(x < 2) {
+            x += timepassed / 500;
+        }else{
+            x = 0;
+        }
+        double yScale = -Math.pow((x-1),4)+1;
+        spriteRenderer.get_sprite().set_scale(1.5f, (float)(1.5+0.05*yScale));
+        time = System.currentTimeMillis();
     }
 
     @Override
