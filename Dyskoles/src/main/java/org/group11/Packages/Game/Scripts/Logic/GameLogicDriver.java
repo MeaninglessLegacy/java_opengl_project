@@ -22,8 +22,8 @@ public class GameLogicDriver extends GameObject {
     private static Level _gameLevel = null;
     private static Map _gameMap =  null;
     private static Pathfinder _pathfinder = null;
-    private static ArrayList<MainCharacter> _playerCharacters = new ArrayList<>();
-    private static ArrayList<Enemy> _enemyCharacters = new ArrayList<>();
+    private static ArrayList<MainCharacter> _playerCharacters = new ArrayList<MainCharacter>();
+    private static ArrayList<Enemy> _enemyCharacters = new ArrayList<Enemy>();
     private static ArrayList<Item> _items = new ArrayList<Item>();
     private static int player1ArrayPosition = 0;
 
@@ -68,13 +68,19 @@ public class GameLogicDriver extends GameObject {
     //* methods
     //******************************************************************************************************************
     /**
-     *
+     * If the GameLogicDriver has a Level, sets all the variables in the GameLogicDriver according to _gameLevel
      */
     private static void loadNewLevel() {
-        MapGenerator mapGen = _gameLevel.get_mapGenerator();
-        _gameMap = mapGen.generateMap();
-        _enemyCharacters = _gameLevel.get_enemies();
-        // TODO: get player characters and items?
+        if (_gameLevel != null) {
+            MapGenerator mapGen = _gameLevel.get_mapGenerator();
+            _gameMap = mapGen.generateMap();
+            _enemyCharacters = _gameLevel.get_enemies();
+            // TODO: get player characters and items?
+        }
+        else {
+            System.out.println("Could not load level as GameLogicDriver has no level");
+        }
+
     }
 
     /**
@@ -243,6 +249,26 @@ public class GameLogicDriver extends GameObject {
      */
     private static void logicLoop(int key) {
         return;
+    }
+
+    /**
+     * Deletes all objects and variables in GameLogicDriver and resets everything to it's initial state
+     */
+    private static void clearEverything() {
+        for (MainCharacter c : _playerCharacters) {
+            Scene.Destroy(c);
+        }
+        _playerCharacters = new ArrayList<MainCharacter>();
+        for (Enemy e : _enemyCharacters) {
+            Scene.Destroy(e);
+        }
+        _enemyCharacters = new ArrayList<Enemy>();
+        for (Item i : _items) {
+            Scene.Destroy(i);
+        }
+        _items = new ArrayList<Item>();
+        _gameMap.clearMap();
+        _gameMap = null;
     }
 
     //******************************************************************************************************************
