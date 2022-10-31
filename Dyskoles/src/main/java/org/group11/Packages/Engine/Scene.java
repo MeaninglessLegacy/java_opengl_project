@@ -12,7 +12,7 @@ public class Scene {
      * @param obj
      * @return
      */
-    public GameObject Instantiate(GameObject obj){
+    public static GameObject Instantiate(GameObject obj){
         return null;
     }
 

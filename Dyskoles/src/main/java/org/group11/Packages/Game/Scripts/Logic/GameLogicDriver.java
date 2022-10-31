@@ -255,8 +255,10 @@ public class GameLogicDriver extends GameObject {
 
     @Override
     public void start() {
+        MainCharacter player1 = new MainCharacter();
+        Scene.Instantiate(player1);
+        addMainCharacter(player1);
         _pathfinder = new Pathfinder();
-        super.start();
     }
 
     @Override
