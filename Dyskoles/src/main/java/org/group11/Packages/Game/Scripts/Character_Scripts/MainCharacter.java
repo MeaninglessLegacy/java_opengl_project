@@ -11,11 +11,14 @@ public class MainCharacter extends Character{
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
+    // Used to store items this MainCharacter picks up
     public Backpack backpack = new Backpack();
 
+    // Variables used to help control the sprite
     private SpriteRenderer spriteRenderer;
-
     private boolean facingRight = true;
+    double time;
+    double x;
 
     //******************************************************************************************************************
     //* constructor
@@ -72,6 +75,15 @@ public class MainCharacter extends Character{
 
     @Override
     public void update() {
+        double timePassed = System.currentTimeMillis() - time;
+        if(x < 2) {
+            x += timePassed / 500;
+        }else{
+            x = 0;
+        }
+        double yScale = -Math.pow((x-1),4)+1;
+        spriteRenderer.get_sprite().set_scale(1, (float)(1+0.05*yScale));
+        time = System.currentTimeMillis();
         super.update();
     }
 

@@ -1,5 +1,6 @@
 package org.group11.Packages.Game.Scripts.Tile_Scripts;
 
+import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.Main.GameObject;
 
 /*
@@ -15,6 +16,8 @@ public abstract class Tile extends GameObject {
     public enum tileTypes { floor, wall }
 
     protected tileTypes _tileType;
+    protected SpriteRenderer spriteRenderer;
+
     /**
      * Returns this tile's _tileType
      * @return this tile's tile type

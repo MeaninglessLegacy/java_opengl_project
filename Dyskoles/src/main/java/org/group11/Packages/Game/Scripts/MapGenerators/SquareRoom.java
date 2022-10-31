@@ -13,8 +13,8 @@ import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 public class SquareRoom extends MapGenerator {
     private Scene scene;
     /**
-     *
-     * @return
+     * Generates a 10x10 Square of floor tiles
+     * @return Map containing a 10x10 map of floor tiles
      */
     @Override
     public Map generateMap() {

@@ -9,8 +9,6 @@ public class Floor extends Tile {
     //******************************************************************************************************************
     //* constructor
     //******************************************************************************************************************
-
-    private SpriteRenderer spriteRenderer;
     public Floor() {
         _tileType = tileTypes.floor;
         this.spriteRenderer = new SpriteRenderer(this,"./Resources/BWTileFloor.png");

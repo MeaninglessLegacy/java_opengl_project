@@ -82,6 +82,9 @@ public class GameLogicDriver extends GameObject {
             MapGenerator mapGen = _gameLevel.get_mapGenerator();
             _gameMap = mapGen.generateMap();
             _enemyCharacters = _gameLevel.get_enemies();
+            for (Enemy e : _enemyCharacters) {
+                scene.Instantiate(e);
+            }
             // TODO: get player characters and items?
         }
         else {
@@ -256,7 +259,7 @@ public class GameLogicDriver extends GameObject {
      */
     public static void endGame(boolean won) {
         System.out.println("The game ended");
-        // TODO: end the game?
+        _gameStarted = false;
     }
 
     /**
@@ -293,12 +296,18 @@ public class GameLogicDriver extends GameObject {
     public void update() {
         if(!_gameStarted){
             _gameStarted = true;
+
+            // Gets and loads a level
             Level newLevel = new TestRoom();
             set_gameLevel(newLevel);
             loadNewLevel();
+
+            // Creates the player character
             MainCharacter mc = new MainCharacter();
             addMainCharacter(mc);
             scene.Instantiate(mc);
+
+            // Creates the camera that will follow the player character
             Camera followingCamera = new FollowingCamera(mc);
             scene.Instantiate(followingCamera);
             scene.set_mainCamera(followingCamera);
@@ -308,11 +317,6 @@ public class GameLogicDriver extends GameObject {
 
     @Override
     public void start() {
-        /*
-        MainCharacter player1 = new MainCharacter();
-        Scene.Instantiate(player1);
-        addMainCharacter(player1);
-        */
         scene = Scene.get_scene();
         _pathfinder = new Pathfinder();
     }
