@@ -5,24 +5,24 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
  */
 public class Minion extends Enemy{
     //******************************************************************************************************************
+    //* constructor
+    //******************************************************************************************************************
+    public Minion() {
+        _statBlock.set_Atk(1);
+        _statBlock.set_MaxHp(3);
+        _statBlock.set_hp(3);
+    }
+
+    //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+    @Override
     public void start() {
-        // TODO: implement method
-        // Gets all sprites for object
-        // Calls constructor and sets any necessary attributes
+        super.start();
     }
 
+    @Override
     public void update() {
-        // TODO: implement method
-        // If character moved, character faces direction they moved
-        // Idle animation
-    }
-
-    //******************************************************************************************************************
-    //* listeners
-    //******************************************************************************************************************
-    public void onButtonDown(int key) {
-        if (_enemyActive) { this.doEnemyLogic(); }
+        super.update();
     }
 }

@@ -1,5 +1,7 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Packages.Core.Components.SpriteRenderer;
+import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Backpack;
 
 /**
@@ -9,7 +11,11 @@ public class MainCharacter extends Character{
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    public Backpack backpack;
+    public Backpack backpack = new Backpack();
+
+    private SpriteRenderer spriteRenderer;
+
+    private boolean facingRight = true;
 
     //******************************************************************************************************************
     //* constructor
@@ -18,18 +24,27 @@ public class MainCharacter extends Character{
         _statBlock.set_MaxHp(3);
         _statBlock.set_hp(3);
         _statBlock.set_Atk(1);
+        // set position
+        this.transform.setPosition(new Vector3(1,1,0));
+        // create sprite renderer
+        spriteRenderer = new SpriteRenderer(this, "./Resources/ump9.png");
+        this.addComponent(spriteRenderer);
     }
 
     //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
     /**
-     * Increases the exp value of this character by specified amount
+     * Increases the exp value of this character by specified amount. If exp reaches a certain value, increases level
+     * then decreases exp by the amount needed to level up
      * @param exp value to increase exp by
      */
     public void addExp(int exp) {
         _statBlock.set_exp(_statBlock.get_exp() + exp);
-        // TODO: need to calculate when to add a level and add the appropriate attack/health
+        if (exp >= 5 * _statBlock.get_lvl()) {
+            addLevel();
+            _statBlock.set_exp(_statBlock.get_exp() - 5 * _statBlock.get_lvl());
+        }
     }
 
     /**
@@ -50,16 +65,28 @@ public class MainCharacter extends Character{
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+    @Override
     public void start() {
-        // TODO: implement method
-        // Gets all sprites for object
-        // Calls constructor and sets any necessary attributes
+        super.start();
     }
 
     @Override
     public void update() {
-        // TODO: implement method
-        // If character moved, character faces direction they moved
-        // Idle animation
+        super.update();
+    }
+
+    @Override
+    public void onKeyDown(int key) {
+        if (key == 'A') {
+            if(facingRight){
+                facingRight = false;
+                spriteRenderer.get_sprite().flipX();
+            }
+        } else if (key == 'D') {
+            if(!facingRight){
+                facingRight = true;
+                spriteRenderer.get_sprite().flipX();
+            }
+        }
     }
 }

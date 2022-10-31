@@ -1,9 +1,22 @@
 package org.group11.Packages.Game.Scripts.Tile_Scripts;
 
+import org.group11.Packages.Core.Components.SpriteRenderer;
+
 /**
  * Floor tile, characters can stand on this
  */
 public class Floor extends Tile {
+    //******************************************************************************************************************
+    //* constructor
+    //******************************************************************************************************************
+
+    private SpriteRenderer spriteRenderer;
+    public Floor() {
+        _tileType = tileTypes.floor;
+        this.spriteRenderer = new SpriteRenderer(this,"./Resources/BWTileFloor.png");
+        this.addComponent(this.spriteRenderer);
+    }
+
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************

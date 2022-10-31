@@ -5,18 +5,21 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
  */
 public class Boss extends Enemy {
     //******************************************************************************************************************
+    //* constructor
+    //******************************************************************************************************************
+    public Boss() {
+        expGiven = 5;
+        _statBlock.set_Atk(3);
+        _statBlock.set_MaxHp(10);
+        _statBlock.set_hp(10);
+    }
+
+    //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
-
-    /**
-     * Initialize all the values of the Boss character type
-     */
     @Override
     public void start() {
-        // TODO: implement method
-        // Gets all sprites for object
-        // Calls constructor and sets any necessary attributes
-        return;
+        super.start();
     }
 
     @Override
@@ -33,6 +36,6 @@ public class Boss extends Enemy {
      */
     @Override
     public void onKeyDown(int key) {
-        return;
+        super.update();
     }
 }

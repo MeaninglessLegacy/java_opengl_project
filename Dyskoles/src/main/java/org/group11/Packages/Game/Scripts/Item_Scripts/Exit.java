@@ -1,25 +1,41 @@
 package org.group11.Packages.Game.Scripts.Item_Scripts;
 
+import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
+
+import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.endGame;
+
 /**
  * Exit object, when the player character runs into this object with a key they complete the level
  */
 public class Exit extends Item {
     //******************************************************************************************************************
-    //* overrides
+    //* constructor
     //******************************************************************************************************************
-    public void start() {
-        // TODO: implement method
-        // Gets all sprites for object
-        // Calls constructor
+    public Exit() {
+        transform.position = new Vector3(400, 400, 0);
     }
 
-    public void update() {
-        // TODO: implement method
-        // changes colour when exit is accessible
+    //******************************************************************************************************************
+    //* overrides
+    //******************************************************************************************************************
+    @Override
+    public boolean activate(MainCharacter c) {
+        Key testKey = new Key();
+        if (c.backpack.removeItem(testKey)) {
+            testKey = null;
+            endGame(true);
+        }
+        return false;
     }
 
     @Override
-    public void activate() {
+    public void start() {
+        super.start();
+    }
 
+    @Override
+    public void update() {
+        super.update();
     }
 }

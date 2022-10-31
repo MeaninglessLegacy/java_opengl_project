@@ -7,34 +7,33 @@ public class Runner extends Enemy{
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
+    // How many ticks before this Runner will disappear from the game
     private int _ticksUntilVanish;
+    // this integer tells the game how much max health will be given to the Character who kills this Enemy
+    public int maxHpGiven;
+    // this integer tells the game how much attack will be given to the Character who kills this Enemy
+    public int atkGiven;
+
+    //******************************************************************************************************************
+    //* constructor
+    //******************************************************************************************************************
+    public Runner() {
+        expGiven = 5;
+        maxHpGiven = 1;
+        atkGiven = 1;
+        _moveTowards = "awayFromPlayer";
+    }
 
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+    @Override
     public void start() {
-        // TODO: implement method
-        // Gets all sprites for object
-        // Calls constructor and sets any necessary attributes
+        super.start();
     }
 
+    @Override
     public void update() {
-        // TODO: implement method
-        // If character moved, character faces direction they moved
-        // Idle animation
-    }
-
-    public void doEnemyLogic() {
-        // TODO: implement method
-        // Runs away from main character
-    }
-
-    //******************************************************************************************************************
-    //* listeners
-    //******************************************************************************************************************
-    public void onButtonDown(int key) {
-        if (_enemyActive) {
-            this.doEnemyLogic();
-        }
+        super.update();
     }
 }

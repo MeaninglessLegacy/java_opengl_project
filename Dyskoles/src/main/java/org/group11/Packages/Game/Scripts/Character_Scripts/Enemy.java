@@ -12,27 +12,56 @@ public abstract class Enemy extends Character{
     /* counter reset value, when this character makes a move, this character's _ticksBeforeNextMove counter should be
     set to this value*/
     protected int _ticksPerMove;
-    // this boolean tracks this character should perform enemy logic
+    // this boolean tracks if this character should perform enemy logic
     protected boolean _enemyActive = false;
-    /**
-     * Sets the _enemyActive state of this character to specified value
-     * @param state the value to set _enemyActive to
-     */
-    public void setEnemyActiveState(boolean state) {
-        _enemyActive = state;
-    }
+    // this string tells the game logic where this character moves towards when activated
+    protected String _moveTowards = "player";
+    // this integer tells the game how much exp will be given to the Character who kills this Enemy
+    public int expGiven = 1;
 
     //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
     /**
-     * Tells this character to perform enemy logic, can be overridden by children
+     * Sets the _enemyActive state of this character to specified value
+     * @param state the value to set _enemyActive to
      */
-    public void doEnemyLogic() {
-        _ticksBeforeNextMove--;
-        if (_ticksBeforeNextMove == 0) {
-            // TODO: BFS then move one tile towards main character
-            _ticksBeforeNextMove = _ticksPerMove;
+    public void set_enemyActiveState(boolean state) {
+        _enemyActive = state;
+    }
+
+    /**
+     * Returns whether the enemy is active and is moving around
+     * @return true if enemy is active, false if not
+     */
+    public boolean get_enemyActiveState() { return _enemyActive; }
+
+    /**
+     * Sets the _ticksBeforeNextMove value of this character to specified value
+     * @param ticks the value to set _ticksBeforeNextMove to
+     */
+    public void set_ticksBeforeNextMove(int ticks) {
+        _ticksBeforeNextMove = ticks;
+    }
+
+    /**
+     * Returns the String containing where the Enemy moves towards
+     * @return String that describes where the Enemy moves towards
+     */
+    public String get_moveTowards() { return _moveTowards; }
+
+    /**
+     * if the enemy is active, subtracts 1 from _ticksBeforeNextMove and if the values becomes 0, resets
+     * _ticksBeforeNextMove and returns true, signalling this Enemy will move
+     * @return true if the Enemy can move a tile, false if not
+     */
+    public boolean canEnemyMove() {
+        if (_enemyActive) {
+            if (--_ticksBeforeNextMove == 0) {
+                _ticksBeforeNextMove = _ticksPerMove;
+                return true;
+            }
         }
+        return false;
     }
 }

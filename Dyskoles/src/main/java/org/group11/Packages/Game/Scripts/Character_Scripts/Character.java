@@ -1,7 +1,6 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
 import org.group11.Packages.Core.Main.GameObject;
-import org.group11.Packages.Core.DataStructures.Vector3;
 
 /**
  * Base class for character objects within our game
@@ -11,7 +10,7 @@ public abstract class Character extends GameObject {
     //* variables
     //******************************************************************************************************************
     // stores all the stats of this character
-    protected StatBlock _statBlock;
+    protected StatBlock _statBlock = new StatBlock();
     /**
      * Returns the StatBlock of this character object
      * @return the StatBlock to return
@@ -49,12 +48,4 @@ public abstract class Character extends GameObject {
      * @param atk value to increase attack by
      */
     public void addAttack(int atk) { _statBlock.set_Atk(_statBlock.get_atk() + atk); }
-
-    /**
-     * Moves the character to the coordinates specified by the parameter
-     * @param nPos the position to which the character moves to
-     */
-    public void moveTo(Vector3 nPos) {
-        // TODO: implement method
-    }
 }
