@@ -1,6 +1,7 @@
 package org.group11.Packages.Game.Scripts.Logic;
 
 import org.group11.Packages.Game.Scripts.Character_Scripts.Enemy;
+import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ public abstract class Level {
     //******************************************************************************************************************
     protected MapGenerator _mapGenerator = null;
     protected ArrayList<Enemy> _enemies = new ArrayList<Enemy>();
+    protected ArrayList<Item> _items = new ArrayList<Item>();
     protected int levelOfEnemies;
 
     //******************************************************************************************************************
@@ -29,4 +31,10 @@ public abstract class Level {
      * @return this level's _enemies list
      */
     public ArrayList get_enemies() { return _enemies; }
+
+    /**
+     * Returns this level's _items list
+     * @return this level's _items list
+     */
+    public ArrayList get_items() { return _items; }
 }

@@ -1,5 +1,7 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Packages.Core.DataStructures.Vector3;
+
 /**
  * Special enemy class, Runner runs away from the player when activated
  */
@@ -22,6 +24,14 @@ public class Runner extends Enemy{
         maxHpGiven = 1;
         atkGiven = 1;
         _moveTowards = "awayFromPlayer";
+    }
+
+    public Runner(Vector3 pos) {
+        expGiven = 5;
+        maxHpGiven = 1;
+        atkGiven = 1;
+        _moveTowards = "awayFromPlayer";
+        transform.setPosition(pos);
     }
 
     //******************************************************************************************************************

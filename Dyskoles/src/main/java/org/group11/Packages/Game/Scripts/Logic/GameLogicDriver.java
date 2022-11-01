@@ -82,10 +82,13 @@ public class GameLogicDriver extends GameObject {
             MapGenerator mapGen = _gameLevel.get_mapGenerator();
             _gameMap = mapGen.generateMap();
             _enemyCharacters = _gameLevel.get_enemies();
+            _items = _gameLevel.get_items();
             for (Enemy e : _enemyCharacters) {
                 scene.Instantiate(e);
             }
-            // TODO: get items
+            for (Item i : _items) {
+                scene.Instantiate(i);
+            }
         }
         else {
             System.out.println("Could not load level as GameLogicDriver has no level");
@@ -217,7 +220,7 @@ public class GameLogicDriver extends GameObject {
             }
         }
         for (Enemy e : _enemyCharacters) {
-            if (e.transform.position == pos) {
+            if (e.transform.position.x == pos.x && e.transform.position.y == pos.y) {
                 return e;
             }
         }

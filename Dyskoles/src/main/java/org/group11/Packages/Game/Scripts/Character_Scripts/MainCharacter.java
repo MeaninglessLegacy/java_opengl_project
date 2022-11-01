@@ -32,7 +32,7 @@ public class MainCharacter extends Character{
         // set position
         this.transform.setPosition(new Vector3(1,1,0));
         // create sprite renderer
-        spriteRenderer = new SpriteRenderer(this, "./Resources/ump9.png");
+        spriteRenderer = new SpriteRenderer(this, "./Resources/ump45.png");
         this.addComponent(spriteRenderer);
     }
 

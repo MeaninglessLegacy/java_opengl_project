@@ -13,7 +13,12 @@ public class Exit extends Item {
     //* constructor
     //******************************************************************************************************************
     public Exit() {
-        transform.position = new Vector3(400, 400, 0);
+
+    }
+
+
+    public Exit(Vector3 pos) {
+        transform.setPosition(pos);
     }
 
     //******************************************************************************************************************
@@ -21,7 +26,7 @@ public class Exit extends Item {
     //******************************************************************************************************************
     @Override
     public boolean activate(MainCharacter c) {
-        Key testKey = new Key();
+        Key testKey = new Key(new Vector3(1000, 1000, 0));
         if (c.backpack.removeItem(testKey)) {
             testKey = null;
             endGame(true);

@@ -23,7 +23,11 @@ public class SpikeTrap extends Item {
     //* constructor
     //******************************************************************************************************************
     public SpikeTrap() {
-        transform.position = new Vector3(400, 400, 0);
+
+    }
+
+    public SpikeTrap(Vector3 pos) {
+        transform.setPosition(pos);
     }
 
     //******************************************************************************************************************
