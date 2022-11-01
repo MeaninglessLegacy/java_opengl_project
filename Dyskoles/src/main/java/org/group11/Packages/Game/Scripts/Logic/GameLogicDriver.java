@@ -205,62 +205,6 @@ public class GameLogicDriver extends GameObject {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-    /**
-     * Iterates through _enemyCharacters and moves each Enemy if needed, deals with encounters with other Characters
-     * appropriately
-
-    private static void moveEnemies() {
-        for (Enemy e : _enemyCharacters) {
-            if (e.canEnemyMove()) {
-                String moveTowards = e.get_moveTowards();
-                // Determining where the Enemy is moving towards
-                if (moveTowards.equals("awayFromPlayer")) {
-                    System.out.println("Runner is moving");
-                    // TODO: figure out how to get a random point in opposite direction of player
-                    Vector3 farAwayPosition = new Vector3(400,400,0);
-                    Vector3 nextMove = _pathfinder.FindPath(_gameMap, e.transform.position, farAwayPosition);
-                    Character characterInNextSpace = checkForCharacter(nextMove);
-                    if (characterInNextSpace == null) {
-                        e.transform.setPosition(nextMove);
-                    } else {
-                        e.set_ticksBeforeNextMove(1);
-                    }
-                }
-                else { // Default option; Enemy moves towards player
-                    System.out.println("Regular enemy is moving");
-                    Vector3 nextMove = _pathfinder.FindPath(_gameMap, e.transform.position, _playerCharacters.get(player1ArrayPosition).transform.position);
-                    Character characterInNextSpace = checkForCharacter(nextMove);
-                    if (characterInNextSpace == null) {
-                        e.transform.setPosition(nextMove);
-                    }
-                    else if (characterInNextSpace instanceof Enemy) {
-                        e.set_ticksBeforeNextMove(1);
-                    }
-                    else if (characterInNextSpace instanceof MainCharacter) {
-                        boolean MCDied = characterCombat(e, characterInNextSpace);
-                        if (MCDied) {
-                            endGame(false);
-                        }
-                    }
-                }
-            }
-        }
-    }
-*/
-
     /**
      * Iterates through both _playerCharacters and _enemyCharacters and tries to find if any character is in the given
      * Vector3 pos
@@ -300,13 +244,6 @@ public class GameLogicDriver extends GameObject {
     public static void endGame(boolean won) {
         System.out.println("The game ended");
         _gameStarted = false;
-    }
-
-    /**
-     * Run the game
-     */
-    private static void logicLoop(int key) {
-        return;
     }
 
     /**
