@@ -19,7 +19,7 @@ public class Minion extends Enemy{
         _statBlock.set_Atk(1);
         _statBlock.set_MaxHp(3);
         _statBlock.set_hp(3);
-        spriteRenderer = new SpriteRenderer(this, "./Resources/chibi_screenshot.png");
+        spriteRenderer = new SpriteRenderer(this, "./Resources/m1911.png");
         this.addComponent(spriteRenderer);
     }
 
@@ -28,7 +28,7 @@ public class Minion extends Enemy{
         _statBlock.set_MaxHp(3);
         _statBlock.set_hp(3);
         transform.setPosition(pos);
-        spriteRenderer = new SpriteRenderer(this, "./Resources/chibi_screenshot.png");
+        spriteRenderer = new SpriteRenderer(this, "./Resources/m1911.png");
         this.addComponent(spriteRenderer);
     }
 

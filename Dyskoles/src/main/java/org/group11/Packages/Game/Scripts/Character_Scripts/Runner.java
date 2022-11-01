@@ -1,5 +1,6 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 
 /**
@@ -15,6 +16,8 @@ public class Runner extends Enemy{
     public int maxHpGiven;
     // this integer tells the game how much attack will be given to the Character who kills this Enemy
     public int atkGiven;
+
+    private SpriteRenderer spriteRenderer;
 
     //******************************************************************************************************************
     //* constructor
