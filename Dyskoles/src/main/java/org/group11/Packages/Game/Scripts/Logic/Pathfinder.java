@@ -48,20 +48,15 @@ public class Pathfinder {
 		// calcute the distance between the point A and poinb
 
 		float xdistance = pointB.x - currenttile.x; 
-		// if this positive = right
-		// if negative = left
-		// if zero up or down 
+
 
 		float ydistance = pointB.y - currenttile.y;
-		// if ydistance positive = down
-		// if           negative = up
-		// if 0 left or right 
 
 
 		while(map.getTile(currenttile) != map.getTile(pointB)) {
 
 
-			// A move to the right or up
+			// 1 A move to the right or up
 			if(currenttile.x < pointB.x && currenttile.y < pointB.y) { // move right or up
 
 
@@ -117,7 +112,7 @@ public class Pathfinder {
 
 			}
 
-			//  A move to the right or down
+			//2  A move to the right or down
 			if(currenttile.x < pointB.x && currenttile.y > pointB.y) {
 
 
@@ -128,7 +123,7 @@ public class Pathfinder {
 						currenttile = righttile;
 						return currenttile;
 
-					}else if(map.getTile(downtile).getTileType() != tileTypes.wall) { // go up
+					}else if(map.getTile(downtile).getTileType() != tileTypes.wall) { // go  down
 						currenttile = downtile;
 						return currenttile;
 
@@ -146,7 +141,7 @@ public class Pathfinder {
 				}else if (Math.abs(xdistance)>=Math.abs(ydistance) ) { // down 1st and right right
 
 
-					if(map.getTile(downtile).getTileType() != tileTypes.wall) { // go up
+					if(map.getTile(downtile).getTileType() != tileTypes.wall) { // go down
 						currenttile = downtile;
 						return currenttile;
 
@@ -174,75 +169,56 @@ public class Pathfinder {
 
 
 
-			//  A move to the left or up
+			//3  A move to the left or up
 			if(pointA.x > pointB.x && pointA.y < pointB.y) {
 
-				if(Math.abs(xdistance)<=Math.abs(ydistance) ) { // 1st shortest way is right and 2nd is down 
+				if(Math.abs(xdistance)<=Math.abs(ydistance) ) { // 1st shortest way is left and 2nd is up 
 
-					if (map.getTile(righttile).getTileType() != tileTypes.wall) { // go right
+					if (map.getTile(lefttile).getTileType() != tileTypes.wall) { // go left
 
-						currenttile = righttile;
+						currenttile = lefttile;
 						return currenttile;
 
-					}else if(map.getTile(downtile).getTileType() != tileTypes.wall) { // go up
-						currenttile = downtile;
+					}else if(map.getTile(uptile).getTileType() != tileTypes.wall) { // go up
+						currenttile = uptile;
 						return currenttile;
 
 
 					} else {
 						//go to other options in case those two are walls
-						if(map.getTile(lefttile).getTileType() != tileTypes.wall) {
-							currenttile = lefttile;
+						if(map.getTile(downtile).getTileType() != tileTypes.wall) {
+							currenttile = downtile;
 							return currenttile;
 						}else {
-							currenttile = uptile;
+							currenttile = righttile;
 							return currenttile;
 						}
 					}
-				}else if (Math.abs(xdistance)>=Math.abs(ydistance) ) { // down 1st and right right
+				}else if (Math.abs(xdistance)>=Math.abs(ydistance) ) { // up 1st and left second
 
 
-					if(map.getTile(downtile).getTileType() != tileTypes.wall) { // go up
-						currenttile = downtile;
+					if(map.getTile(uptile).getTileType() != tileTypes.wall) { // go up
+						currenttile = uptile;
 						return currenttile;
 
 
-					}else if(map.getTile(righttile).getTileType() != tileTypes.wall) { // go right
+					}else if(map.getTile(lefttile).getTileType() != tileTypes.wall) { // go right
 
-						currenttile = righttile;
+						currenttile = lefttile;
 						return currenttile;
 
 					}else {
 						//go to other options in case those two are walls
-						if(map.getTile(lefttile).getTileType() != tileTypes.wall) {
-							currenttile = lefttile;
+						if(map.getTile(downtile).getTileType() != tileTypes.wall) {
+							currenttile = downtile;
 							return currenttile;
 						}else {
-							currenttile = uptile;
+							currenttile = righttile;
 							return currenttile;
 						}
-					}
-
+					} 
 
 				}
-
-
-				if(Math.abs(xdistance)<=Math.abs(ydistance) && map.getTile(lefttile).getTileType() != tileTypes.wall) { // go right
-
-
-					currenttile =lefttile;
-					return currenttile;
-
-				}else if(map.getTile(uptile).getTileType() != tileTypes.wall) { // go up
-					currenttile = uptile;
-					return currenttile;
-
-
-				}else {
-					//go to other options in case those two are tiles 
-				}
-
-
 
 			}
 
@@ -252,30 +228,55 @@ public class Pathfinder {
 			if(pointA.x > pointB.x && pointA.y > pointB.y) {
 
 
-				if(Math.abs(xdistance)<=Math.abs(ydistance) && map.getTile(lefttile).getTileType() != tileTypes.wall) { // go right
+				if(Math.abs(xdistance)<=Math.abs(ydistance) ) { // 1st shortest way is left and 2nd is down 
+
+					if (map.getTile(lefttile).getTileType() != tileTypes.wall) { // go left
+
+						currenttile = lefttile;
+						return currenttile;
+
+					}else if(map.getTile(downtile).getTileType() != tileTypes.wall) { // go down
+						currenttile = downtile;
+						return currenttile;
 
 
-					currenttile =lefttile;
-					return currenttile;
+					} else {
+						//go to other options in case those two are walls
+						if(map.getTile(uptile).getTileType() != tileTypes.wall) {
+							currenttile = uptile;
+							return currenttile;
+						}else {
+							currenttile = righttile;
+							return currenttile;
+						}
+					}
+				}else if (Math.abs(xdistance)>=Math.abs(ydistance) ) { // down 1st and left second
 
-				}else if(map.getTile(downtile).getTileType() != tileTypes.wall) { // go down
-					currenttile = downtile;
-					return currenttile;
+
+					if(map.getTile(downtile).getTileType() != tileTypes.wall) { // go down
+						currenttile = downtile;
+						return currenttile;
 
 
-				}else {
-					//go to other options in case those two are tiles 
+					}else if(map.getTile(lefttile).getTileType() != tileTypes.wall) { // go right
+
+						currenttile = lefttile;
+						return currenttile;
+
+					}else {
+						//go to other options in case those two are walls
+						if(map.getTile(uptile).getTileType() != tileTypes.wall) {
+							currenttile = downtile;
+							return currenttile;
+						}else {
+							currenttile = righttile;
+							return currenttile;
+						}
+					} 
+
 				}
 
-
 			}
-
-
-
-
-
-
-
 
 		}
 
