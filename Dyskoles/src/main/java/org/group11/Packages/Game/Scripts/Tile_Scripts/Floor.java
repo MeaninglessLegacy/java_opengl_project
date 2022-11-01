@@ -11,7 +11,7 @@ public class Floor extends Tile {
     //******************************************************************************************************************
     public Floor() {
         _tileType = tileTypes.floor;
-        this.spriteRenderer = new SpriteRenderer(this,"./Resources/BWTileFloor.png");
+        this.spriteRenderer = new SpriteRenderer(this,"./Resources/GrassTile.png");
         this.addComponent(this.spriteRenderer);
     }
 
