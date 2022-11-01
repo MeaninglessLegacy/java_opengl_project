@@ -31,6 +31,9 @@ public class MainCharacter extends Character{
         this.addComponent(spriteRenderer);
         spriteRenderer.get_sprite().set_scale(1.5f, 1.5f);
         spriteRenderer.get_sprite().transform.position.y += 0.5;
+        // display sprite on top of other sprites with small z translation
+        spriteRenderer.get_sprite().transform.position.z -= 0.1;
+
     }
 
     //******************************************************************************************************************

@@ -117,15 +117,15 @@ public class GameLogicDriver extends GameObject {
                     // Checks if there's any Character in the next tile and attempts to move into it
                     Character characterInNextSpace = checkForCharacter(nextMove);
                     if (characterInNextSpace == null) {
-                        System.out.println("Player moved into an empty tile");
+                        //System.out.println("Player moved into an empty tile");
                         c.transform.setPosition(nextMove);
                 /* MainCharacter attacks enemy and appropriate outcome is determined, MainCharacter then moves into the
                    tile if the enemy died */
                     } else if (characterInNextSpace instanceof Enemy) {
-                        System.out.println("Player attempted to move into an enemy");
+                        //System.out.println("Player attempted to move into an enemy");
                         boolean enemyDied = characterCombat(c, characterInNextSpace);
                         if (enemyDied) {
-                            System.out.println("Player defeated an enemy");
+                            //System.out.println("Player defeated an enemy");
                             if (characterInNextSpace instanceof Boss) {
                                 c.addExp(((Boss) characterInNextSpace).expGiven);
                             } else if (characterInNextSpace instanceof Minion) {
@@ -140,7 +140,7 @@ public class GameLogicDriver extends GameObject {
                             c.transform.setPosition(nextMove);
                         }
                     } else { // If the space MainCharacter attempts to move in to isn't free or has an Enemy, nothing happens
-                        System.out.println("Player attempted to move into a wall");
+                        //System.out.println("Player attempted to move into a wall");
                     }
                 }
             } // If the tileType the MainCharacter is attempting to move in to isn't of type 'floor', nothing happens
@@ -148,7 +148,7 @@ public class GameLogicDriver extends GameObject {
             // Checks if there's any items on the tile that the MainCharacter is now on and activates it if there is
             Item itemOnTile = checkForItem(c.transform.position);
             if (itemOnTile != null) {
-                System.out.println("Tile player is currently on has an item");
+                //System.out.println("Tile player is currently on has an item");
                 if (itemOnTile.activate(c)) {
                     _items.remove(itemOnTile);
                     scene.Destroy(itemOnTile);

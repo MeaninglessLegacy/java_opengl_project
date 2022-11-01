@@ -9,21 +9,13 @@ import org.group11.Packages.Core.Util.Constants;
  * Camera object that the game can be viewed through when set as the main camera of the scene.
  */
 public class Camera extends GameObject {
-    // camera projection settings
-    private static final int ORTHOGRAPHIC = 0;
-
-    //******************************************************************************************************************
-    //* variables
-    //******************************************************************************************************************
+    // used by Renderer to project points from world space to the screen.
     private Vector3 viewSize = new Vector3(Constants.SCREEN_WIDTH,Constants.SCREEN_HEIGHT,0);
 
-    private int cameraMode = Camera.ORTHOGRAPHIC; // individual camera's projection mode
-
     /**
-     *
+     * Constructs a Camera object at (0,0,-5).
      */
     public Camera(){
-        this.cameraMode = Camera.ORTHOGRAPHIC;
         this.transform.position.z = -5;
     }
 
@@ -31,11 +23,12 @@ public class Camera extends GameObject {
     //* methods
     //******************************************************************************************************************
     /**
-     *
-     * @param worldPos
-     * @return
+     * <p><b>This function should be moved to Renderer.</b></p>
+     * Performs a projection using the pin-hole camera model onto an image plane. Focal length is set to (viewSize.x/2).
+     * @param worldPos Vector3 coordinate of the point to transform.
+     * @return Vector Vector3 coordinate of our transformed point with z-component = distance between camera and object.
      */
-    public Vector3 distortPoint(Vector3 worldPos){
+    public Vector3 pinHoleModel(Vector3 worldPos){
         Vector3 output = new Vector3();
         // translation
         output.x = worldPos.x - this.transform.position.x;
@@ -48,6 +41,9 @@ public class Camera extends GameObject {
         if(output.z == 0){
             output.z = (float)(0.00000001);
         }
+        // Translation onto image plane (focal length is viewSize.x/2)
+        // Greater the focal length the more (zoomed?) in it will be, just draw out a pin-hole camera. Similar triangles
+        // argument
         double zDistort = (viewSize.x/2)/output.z;
         output.x *= zDistort;
         output.y *= zDistort;
