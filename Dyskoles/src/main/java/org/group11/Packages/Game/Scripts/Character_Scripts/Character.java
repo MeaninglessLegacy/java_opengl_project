@@ -26,9 +26,6 @@ public abstract class Character extends GameObject {
      */
     public void takeDamage(int hp) {
         _statBlock.set_hp(_statBlock.get_hp() - hp);
-        if (_statBlock.get_hp() <= 0) {
-            // TODO: character dies
-        }
     }
 
     /**
@@ -48,4 +45,18 @@ public abstract class Character extends GameObject {
      * @param atk value to increase attack by
      */
     public void addAttack(int atk) { _statBlock.set_Atk(_statBlock.get_atk() + atk); }
+
+    /**
+     * Calling Character attacks the parameter Character, reducing the parameter Character's health. Returns true if the
+     * parameter Character's health was reduced to 0 or below, false if it hasn't
+     * @param defender Character whose health is being reduced
+     * @return true if defender's health is reduced to 0 or below, false if not
+     */
+    public boolean attackCharacter(Character defender) {
+        defender.takeDamage(this._statBlock.get_atk());
+        if (defender.getStatBlock().get_hp() <= 0) {
+            return true;
+        }
+        return false;
+    }
 }

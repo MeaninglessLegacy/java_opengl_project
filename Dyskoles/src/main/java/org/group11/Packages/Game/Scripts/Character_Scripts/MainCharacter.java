@@ -4,6 +4,8 @@ import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Backpack;
 
+import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.*;
+
 /**
  * Player character class
  */
@@ -87,18 +89,47 @@ public class MainCharacter extends Character{
         super.update();
     }
 
+    private long lastTime = 0;
+    private int timeBeforeNextRead = 200;
     @Override
     public void onKeyDown(int key) {
-        if (key == 'A') {
-            if(facingRight){
-                facingRight = false;
-                spriteRenderer.get_sprite().flipX();
+        if(System.currentTimeMillis()-lastTime > timeBeforeNextRead) {
+            lastTime = System.currentTimeMillis();
+
+            // Gets the position of where this MainCharacter is moving to next
+            float playerX = transform.position.x;
+            float playerY = transform.position.y;
+            float playerZ = transform.position.z;
+            Vector3 nextMove = null;
+            if (key == 'W') {
+                nextMove = new Vector3(playerX, playerY + 1, playerZ);
+            } else if (key == 'A') {
+                nextMove = new Vector3(playerX - 1, playerY, playerZ);
+                if(facingRight){
+                    facingRight = false;
+                    spriteRenderer.get_sprite().flipX();
+                }
+            } else if (key == 'S') {
+                nextMove = new Vector3(playerX, playerY - 1, playerZ);
+            } else if (key == 'D') {
+                nextMove = new Vector3(playerX + 1, playerY, playerZ);
+                if(!facingRight){
+                    facingRight = true;
+                    spriteRenderer.get_sprite().flipX();
+                }
             }
-        } else if (key == 'D') {
-            if(!facingRight){
-                facingRight = true;
-                spriteRenderer.get_sprite().flipX();
+
+            // MainCharacter attempts to move
+            if (nextMove != null) {
+                boolean canMove = MCCheckMove(this, nextMove);
+                if (canMove) {
+                    this.transform.setPosition(nextMove);
+                }
             }
+
+            // Checks for items
+            MCCheckItem(this, this.transform.position);
+            afterMCMoveLogic(this);
         }
     }
 }

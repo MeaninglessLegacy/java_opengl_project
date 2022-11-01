@@ -28,6 +28,14 @@ public class Runner extends Enemy{
     //* overrides
     //******************************************************************************************************************
     @Override
+    public void giveRewards(MainCharacter MC) {
+        MC.addExp(expGiven);
+        MC.addAttack(atkGiven);
+        MC.addMaxHealth(maxHpGiven);
+        MC.addHealth(maxHpGiven);
+    }
+
+    @Override
     public void start() {
         super.start();
     }

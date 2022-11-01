@@ -1,5 +1,11 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Game.Scripts.Logic.Map;
+import org.group11.Packages.Game.Scripts.Logic.Pathfinder;
+
+import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.enemyCheckMove;
+
 /**
  * Abstract character class, add methods for enemy character types
  */
@@ -51,17 +57,50 @@ public abstract class Enemy extends Character{
     public String get_moveTowards() { return _moveTowards; }
 
     /**
-     * if the enemy is active, subtracts 1 from _ticksBeforeNextMove and if the values becomes 0, resets
-     * _ticksBeforeNextMove and returns true, signalling this Enemy will move
-     * @return true if the Enemy can move a tile, false if not
+     *
      */
-    public boolean canEnemyMove() {
+    public void canEnemyMove(Pathfinder _pathfinder, Map _gameMap, MainCharacter MC) {
         if (_enemyActive) {
             if (--_ticksBeforeNextMove == 0) {
-                _ticksBeforeNextMove = _ticksPerMove;
-                return true;
+                // Determining where the Enemy is pathing towards
+                Vector3 nextMove;
+                if (_moveTowards.equals("awayFromPlayer")) {
+                    System.out.println("Runner is getting nextMove");
+                    // TODO: figure out how to get a random point in opposite direction of player
+                    Vector3 farAwayPosition = new Vector3(400, 400, 0);
+                    nextMove = _pathfinder.FindPath(_gameMap, this.transform.position, farAwayPosition);
+                } else { // Default implementation; enemy moves towards MainCharacter
+                    System.out.println("Regular Enemy is getting nextMove");
+                    nextMove = _pathfinder.FindPath(_gameMap, this.transform.position, MC.transform.position);
+                }
+                // Checking if the enemy can move
+                if (nextMove != null) {
+                    Character characterInNextSpace = enemyCheckMove(this, nextMove);
+                    if (characterInNextSpace == null) {
+                        System.out.println("Enemy is moving");
+                        this.transform.setPosition(nextMove);
+                        _ticksBeforeNextMove = _ticksPerMove;
+                    }
+                    else if (characterInNextSpace instanceof MainCharacter) {
+                        _ticksBeforeNextMove = _ticksPerMove;
+                    }
+                    else {
+                        _ticksBeforeNextMove = 1;
+                    }
+                }
+                else {
+                    _ticksBeforeNextMove = 1;
+                    System.out.println("Next move for enemy is null");
+                }
             }
         }
-        return false;
+    }
+
+    /**
+     * When this Enemy is defeated calling this method gives the MainCharacter who defeated this Enemy certain rewards
+     * @param MC the MainCharacter that defeated this Enemy
+     */
+    public void giveRewards(MainCharacter MC) {
+        MC.addExp(expGiven);
     }
 }
