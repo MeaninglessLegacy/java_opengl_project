@@ -215,7 +215,7 @@ public class GameLogicDriver extends GameObject {
      */
     public static Character checkForCharacter(Vector3 pos) {
         for (MainCharacter c : _playerCharacters) {
-            if (c.transform.position == pos) {
+            if (c.transform.position.x == pos.x && c.transform.position.y == pos.y) {
                 return c;
             }
         }
@@ -233,7 +233,7 @@ public class GameLogicDriver extends GameObject {
      */
     private static Item checkForItem(Vector3 pos) {
         for (Item i : _items) {
-            if (i.transform.position == pos) {
+            if (i.transform.position.x == pos.x && i.transform.position.y == pos.y) {
                 return i;
             }
         }
@@ -245,7 +245,8 @@ public class GameLogicDriver extends GameObject {
      * @param won true if the player won (has reached the exit with a key), false if not (player died)
      */
     public static void endGame(boolean won) {
-        System.out.println("The game ended");
+        System.out.println("The game has ended");
+        clearEverything();
         _gameStarted = false;
     }
 

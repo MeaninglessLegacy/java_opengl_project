@@ -19,12 +19,15 @@ public class Exit extends Item {
     //* constructor
     //******************************************************************************************************************
     public Exit() {
-
+        spriteRenderer = new SpriteRenderer(this, "./Resources/prototypeExit1.png");
+        this.addComponent(spriteRenderer);
     }
 
 
     public Exit(Vector3 pos) {
         transform.setPosition(pos);
+        spriteRenderer = new SpriteRenderer(this, "./Resources/prototypeExit1.png");
+        this.addComponent(spriteRenderer);
     }
 
     //******************************************************************************************************************
@@ -32,7 +35,7 @@ public class Exit extends Item {
     //******************************************************************************************************************
     @Override
     public boolean activate(MainCharacter c) {
-        Key testKey = new Key(new Vector3(1000, 1000, 0));
+        Key testKey = new Key();
         if (c.backpack.removeItem(testKey)) {
             testKey = null;
             endGame(true);

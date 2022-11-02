@@ -37,10 +37,12 @@ public class Backpack {
     public boolean removeItem (Item item) {
         int i = 0;
         while (i < _inventory.size()) {
-            if (_inventory.contains(item)) {
+            if (_inventory.get(i).getClass().getName() == item.getClass().getName()) {
+                System.out.println("removing item from backpack");
                 _inventory.remove(item);
                 return true;
             }
+            i++;
         }
         return false;
     }
