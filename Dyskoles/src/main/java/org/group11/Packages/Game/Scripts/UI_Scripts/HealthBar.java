@@ -19,7 +19,10 @@ public class HealthBar extends GameObject {
     //* constructor
     //******************************************************************************************************************
     public HealthBar() {
-
+        outsideBarSprite = new SpriteRenderer(this, "./resources/HealthBarOutline.png");
+        this.addComponent(outsideBarSprite);
+        insideBarSprite = new SpriteRenderer(this, "./resources/HealthBarInside.png");
+        this.addComponent(insideBarSprite);
     }
 
     //******************************************************************************************************************

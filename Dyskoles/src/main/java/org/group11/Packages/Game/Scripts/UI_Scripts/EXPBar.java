@@ -19,7 +19,10 @@ public class EXPBar extends GameObject {
     //* constructor
     //******************************************************************************************************************
     public EXPBar() {
-
+        outsideBarSprite = new SpriteRenderer(this, "./resources/EXPBarOutline.png");
+        this.addComponent(outsideBarSprite);
+        insideBarSprite = new SpriteRenderer(this, "./resources/EXPBarInside.png");
+        this.addComponent(insideBarSprite);
     }
 
     //******************************************************************************************************************
