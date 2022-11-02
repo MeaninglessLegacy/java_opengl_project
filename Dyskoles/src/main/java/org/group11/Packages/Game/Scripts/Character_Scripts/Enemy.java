@@ -14,10 +14,10 @@ public abstract class Enemy extends Character{
     //* variables
     //******************************************************************************************************************
     // counter, when this counter reaches 0 it means that this character can make another move
-    protected int _ticksBeforeNextMove = 3;
+    protected int _ticksBeforeNextMove = 2;
     /* counter reset value, when this character makes a move, this character's _ticksBeforeNextMove counter should be
     set to this value*/
-    protected int _ticksPerMove = 3;
+    protected int _ticksPerMove = 2;
     // this boolean tracks if this character should perform enemy logic
     protected boolean _enemyActive = false;
     // this string tells the game logic where this character moves towards when activated
