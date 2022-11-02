@@ -8,6 +8,8 @@ import org.group11.Packages.Game.Scripts.Tile_Scripts.Floor;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
 
+import java.lang.Math;
+
 /**
  *
  */
@@ -23,23 +25,33 @@ public class SquareRoom extends MapGenerator {
         if(scene == null) return null;
         Map newMap = new Map();
 
-        for(int x = 0; x< 10; x++){
-            for(int y = 0; y< 10; y++){
-                Vector3 pos = new Vector3(x,y,0);
-                Tile newTile = new Floor();
-                newTile.transform.setPosition(pos);
-                newMap.setTile(pos, newTile);
-                scene.Instantiate(newTile);
-            }
-        }
-
-        for (int y = -1; y < 11; y++) {
-            Vector3 pos = new Vector3(-1, y, 0);
-            Tile newTile = new Wall();
+        for(int y = 4; y <= 6; y++) {
+            Vector3 pos = new Vector3(4, y, 0);
+            Tile newTile = new Floor();
             newTile.transform.setPosition(pos);
             newMap.setTile(pos, newTile);
             scene.Instantiate(newTile);
         }
+
+
+        for(int x = 0; x< 100; x++){
+            for(int y = 0; y< 100; y++){
+                Vector3 pos = new Vector3(x,y,0);
+                long randNum = Math.round(Math.random() * 4);
+                Tile newTile;
+                if (randNum == 0) {
+                     newTile = new Wall();
+                } else {
+                    newTile = new Floor();
+                }
+                newTile.transform.setPosition(pos);
+                if (newMap.setTile(pos, newTile)) {
+                    scene.Instantiate(newTile);
+                }
+            }
+        }
+
+
         return newMap;
     }
 }

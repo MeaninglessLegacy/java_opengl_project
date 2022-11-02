@@ -219,7 +219,7 @@ public class Pathfinder {
 
 
 			//  A move to the left or down
-			if(pointA.x >= pointB.x && pointA.y >= pointB.y) {
+			if(pointA.x >= pointB.x && pointA.y >= pointB.y) { //fixe the error
 
 
 				if(Math.abs(xDistance)<=Math.abs(yDistance) ) { // 1st shortest way is left and 2nd is down 
