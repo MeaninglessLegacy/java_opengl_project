@@ -51,7 +51,7 @@ public class Pathfinder {
 
 
 			// 1 A move to the right or up
-			if(currentTile.x < pointB.x && currentTile.y < pointB.y) { // move right or up
+			if(currentTile.x <= pointB.x && currentTile.y <= pointB.y) { // move right or up
 
 
 				if(Math.abs(xDistance)<=Math.abs(yDistance) ) { // 1st shortest way is right and 2nd is up 
@@ -107,7 +107,7 @@ public class Pathfinder {
 			}
 
 			//2  A move to the right or down
-			if(currentTile.x < pointB.x && currentTile.y > pointB.y) {
+			if(currentTile.x <= pointB.x && currentTile.y >= pointB.y) {
 
 
 				if(Math.abs(xDistance)<=Math.abs(yDistance) ) { // 1st shortest way is right and 2nd is down 
@@ -164,7 +164,7 @@ public class Pathfinder {
 
 
 			//3  A move to the left or up
-			if(pointA.x > pointB.x && pointA.y < pointB.y) {
+			if(pointA.x >= pointB.x && pointA.y <= pointB.y) {
 
 				if(Math.abs(xDistance)<=Math.abs(yDistance) ) { // 1st shortest way is left and 2nd is up 
 
@@ -219,7 +219,7 @@ public class Pathfinder {
 
 
 			//  A move to the left or down
-			if(pointA.x > pointB.x && pointA.y > pointB.y) {
+			if(pointA.x >= pointB.x && pointA.y >= pointB.y) {
 
 
 				if(Math.abs(xDistance)<=Math.abs(yDistance) ) { // 1st shortest way is left and 2nd is down 
