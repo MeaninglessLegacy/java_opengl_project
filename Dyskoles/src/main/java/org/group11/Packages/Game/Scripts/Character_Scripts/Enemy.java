@@ -63,7 +63,7 @@ public abstract class Enemy extends Character{
         if (_enemyActive) {
             if (--_ticksBeforeNextMove == 0) {
                 // Determining where the Enemy is pathing towards
-                Vector3 nextMove;
+                Vector3 nextMove = null;
                 if (_moveTowards.equals("awayFromPlayer")) {
                     System.out.println("Runner is getting nextMove");
                     // TODO: figure out how to get a random point in opposite direction of player

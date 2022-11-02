@@ -8,6 +8,7 @@ import org.group11.Packages.Game.Scripts.Cameras.FollowingCamera;
 import org.group11.Packages.Game.Scripts.Character_Scripts.*;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
+import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 
@@ -147,9 +148,24 @@ public class GameLogicDriver extends GameObject {
      * MainCharacter movement
      */
     public static void afterMCMoveLogic(MainCharacter MC) {
+        enableKeys();
         activateNearbyEnemies(MC);
         enemyLogic(MC);
     }
+
+    /**
+     * If all bosses are dead, makes all Keys visible, and therefore obtainable by a MainCharacter
+     */
+    private static void enableKeys() {
+        if (checkForAllDeadBoss()) {
+            for (Item i : _items) {
+                if (i instanceof Key) {
+                    ((Key) i).setKeyVisibility(true);
+                }
+            }
+        }
+    }
+
 
     /**
      * If an Enemy is within a certain range of a MainCharacter, activates the Enemy, and they will begin to pursue the
@@ -238,6 +254,19 @@ public class GameLogicDriver extends GameObject {
             }
         }
         return null;
+    }
+
+    /**
+     * Iterates through _enemyCharacters to see if all Boss enemies are dead
+     * @return true if there are no more Boss enemies, false if there is at least one more
+     */
+    private static boolean checkForAllDeadBoss() {
+        for (Enemy e : _enemyCharacters) {
+            if (e instanceof Boss) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

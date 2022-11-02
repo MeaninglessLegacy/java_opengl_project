@@ -19,24 +19,45 @@ public class Key extends Item{
     public Key () {
         spriteRenderer = new SpriteRenderer(this, "./Resources/key.png");
         this.addComponent(spriteRenderer);
-        // TODO: implement no key texture
+        spriteRenderer.enabled = false;
     }
 
     public Key(Vector3 pos) {
         transform.setPosition(pos);
         spriteRenderer = new SpriteRenderer(this, "./Resources/key.png");
         this.addComponent(spriteRenderer);
-        // TODO: implement no key texture
+        spriteRenderer.enabled = false;
     }
+
+    //******************************************************************************************************************
+    //* methods
+    //******************************************************************************************************************
+    /**
+     * Makes this Key visible or invisible according to the parameter
+     * @param state true to make the key visible, false to make the key invisible
+     */
+    public void setKeyVisibility(boolean state) { spriteRenderer.enabled = state; }
+
+    /**
+     *
+     * @return
+     */
+    public boolean getKeyVisibility() { return spriteRenderer.enabled; }
 
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
     @Override
     public boolean activate(MainCharacter c) {
-        Key invKey = new Key();
-        c.backpack.addItem(invKey);
-        return true;
+        if (spriteRenderer.enabled) {
+            Key invKey = new Key();
+            c.backpack.addItem(invKey);
+            spriteRenderer.enabled = false;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override

@@ -18,12 +18,12 @@ public class TestRoom extends Level {
 
         Key testKey = new Key(new Vector3(4, 4, 0));
         Exit testExit = new Exit(new Vector3(4, 6, 0));
-        Boss testBoss = new Boss(new Vector3(1,2,0));
-        Minion testMinion = new Minion(new Vector3(3,2,0));
+        Boss testBoss = new Boss(new Vector3(1,3,0));
+        Minion testMinion = new Minion(new Vector3(3,3,0));
 
         _items.add(testExit);
         _items.add(testKey);
-        //_enemies.add(testBoss);
+        _enemies.add(testBoss);
         _enemies.add(testMinion);
     }
 }

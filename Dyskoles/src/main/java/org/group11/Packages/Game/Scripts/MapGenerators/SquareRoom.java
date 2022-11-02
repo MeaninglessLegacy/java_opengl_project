@@ -22,6 +22,7 @@ public class SquareRoom extends MapGenerator {
         scene = Scene.get_scene();
         if(scene == null) return null;
         Map newMap = new Map();
+
         for(int x = 0; x< 10; x++){
             for(int y = 0; y< 10; y++){
                 Vector3 pos = new Vector3(x,y,0);
@@ -31,6 +32,7 @@ public class SquareRoom extends MapGenerator {
                 scene.Instantiate(newTile);
             }
         }
+
         for (int y = -1; y < 11; y++) {
             Vector3 pos = new Vector3(-1, y, 0);
             Tile newTile = new Wall();
