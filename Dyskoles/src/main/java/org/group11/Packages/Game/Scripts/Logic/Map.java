@@ -51,7 +51,7 @@ public class Map {
      * @return true if tile was successfully set, false if a tile already exists at the given position
      */
     public boolean setTile(Vector3 pos, Tile tile) {
-        if (_tileMap.get(pos) == null) {
+        if (_tileMap.get(getPosKey(pos)) == null) {
             _tileMap.put(getPosKey(pos), tile);
             return true;
         }

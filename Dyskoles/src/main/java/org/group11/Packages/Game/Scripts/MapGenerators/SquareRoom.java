@@ -25,6 +25,15 @@ public class SquareRoom extends MapGenerator {
         if(scene == null) return null;
         Map newMap = new Map();
 
+        for(int y = 4; y <= 6; y++) {
+            Vector3 pos = new Vector3(4, y, 0);
+            Tile newTile = new Floor();
+            newTile.transform.setPosition(pos);
+            newMap.setTile(pos, newTile);
+            scene.Instantiate(newTile);
+        }
+
+
         for(int x = 0; x< 100; x++){
             for(int y = 0; y< 100; y++){
                 Vector3 pos = new Vector3(x,y,0);
@@ -36,10 +45,13 @@ public class SquareRoom extends MapGenerator {
                     newTile = new Floor();
                 }
                 newTile.transform.setPosition(pos);
-                newMap.setTile(pos, newTile);
-                scene.Instantiate(newTile);
+                if (newMap.setTile(pos, newTile)) {
+                    scene.Instantiate(newTile);
+                }
             }
         }
+
+
         return newMap;
     }
 }
