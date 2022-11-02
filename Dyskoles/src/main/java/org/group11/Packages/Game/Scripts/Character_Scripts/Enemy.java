@@ -74,6 +74,7 @@ public abstract class Enemy extends Character{
                     nextMove = _pathfinder.FindPath(_gameMap, this.transform.position, MC.transform.position);
                 }
                 // Checking if the enemy can move
+                System.out.println("Checking if enemy can move");
                 if (nextMove != null) {
                     Character characterInNextSpace = enemyCheckMove(this, nextMove);
                     if (characterInNextSpace == null) {

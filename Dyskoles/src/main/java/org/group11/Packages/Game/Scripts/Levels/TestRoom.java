@@ -23,7 +23,7 @@ public class TestRoom extends Level {
 
         _items.add(testExit);
         _items.add(testKey);
-        _enemies.add(testBoss);
+        //_enemies.add(testBoss);
         _enemies.add(testMinion);
     }
 }
