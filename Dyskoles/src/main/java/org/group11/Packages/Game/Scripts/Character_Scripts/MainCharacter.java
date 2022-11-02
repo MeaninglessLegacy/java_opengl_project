@@ -93,7 +93,8 @@ public class MainCharacter extends Character{
     private int timeBeforeNextRead = 200;
     @Override
     public void onKeyDown(int key) {
-        if(System.currentTimeMillis()-lastTime > timeBeforeNextRead) {
+        if(System.currentTimeMillis()-lastTime > timeBeforeNextRead && 
+           (key == 'W' || key == 'A' || key == 'S' || key == 'D')) {
             lastTime = System.currentTimeMillis();
 
             // Gets the position of where this MainCharacter is moving to next
