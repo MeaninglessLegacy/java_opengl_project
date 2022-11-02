@@ -1,6 +1,7 @@
 package org.group11.Packages.Core.Main;
 
 import org.group11.Packages.Core.DataStructures.Transform;
+import org.group11.Packages.Core.DataStructures.Vector2;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.GameObject;
 import org.group11.Packages.Core.Util.Constants;
@@ -10,7 +11,8 @@ import org.group11.Packages.Core.Util.Constants;
  */
 public class Camera extends GameObject {
     // used by Renderer to project points from world space to the screen.
-    private Vector3 viewSize = new Vector3(Constants.SCREEN_WIDTH,Constants.SCREEN_HEIGHT,0);
+    protected Vector3 _viewSize = new Vector3(Constants.SCREEN_WIDTH,Constants.SCREEN_HEIGHT,0);
+    protected Vector2 _rot = new Vector2();
 
     /**
      * Constructs a Camera object at (0,0,-5).
@@ -22,6 +24,15 @@ public class Camera extends GameObject {
     //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
+
+    private Vector2 rotatePoint(Vector2 pos, float theta){
+        Vector2 output = pos;
+        double si = Math.sin(theta);
+        double co = Math.cos(theta);
+        output.x = (float)(pos.x*co-pos.y*si);
+        output.y = (float)(pos.y*co+pos.x*si);
+        return output;
+    }
     /**
      * <p><b>This function should be moved to Renderer.</b></p>
      * Performs a projection using the pin-hole camera model onto an image plane. Focal length is set to (viewSize.x/2).
@@ -35,6 +46,12 @@ public class Camera extends GameObject {
         output.y = worldPos.y - this.transform.position.y;
         output.z = worldPos.z - this.transform.position.z;
         // rotation (maybe)
+        Vector2 xzR = rotatePoint(new Vector2(output.x, output.z), _rot.x);
+        output.x = xzR.x;
+        output.z = xzR.y;
+        Vector2 yzR = rotatePoint(new Vector2(output.y, output.z), _rot.y);
+        output.y = yzR.x;
+        output.z = yzR.y;
         // distort XY by INV Z difference
         // larger = smaller object
         // smaller = bigger object
@@ -44,13 +61,13 @@ public class Camera extends GameObject {
         // Translation onto image plane (focal length is viewSize.x/2)
         // Greater the focal length the more (zoomed?) in it will be, just draw out a pin-hole camera. Similar triangles
         // argument
-        double zDistort = (viewSize.x/2)/output.z;
+        double zDistort = (_viewSize.x/2)/output.z;
         output.x *= zDistort;
         output.y *= zDistort;
 
         // center 0,0
-        output.x += viewSize.x/2;
-        output.y += viewSize.y/2;
+        output.x += _viewSize.x/2;
+        output.y += _viewSize.y/2;
 
         return output;
     }

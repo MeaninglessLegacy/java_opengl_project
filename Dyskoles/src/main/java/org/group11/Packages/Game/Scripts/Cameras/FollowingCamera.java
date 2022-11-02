@@ -45,5 +45,15 @@ public class FollowingCamera extends Camera {
         } else if (key == 'X') {
             this.transform.position.z += +0.2;
         }
+        if (key == 'U') {
+            this._rot.x += 0.05;
+        } else if (key == 'I') {
+            this._rot.x -= 0.05;
+        }
+        if (key == 'J') {
+            this._rot.y += 0.05;
+        } else if (key == 'K') {
+            this._rot.y -= 0.05;
+        }
     }
 }

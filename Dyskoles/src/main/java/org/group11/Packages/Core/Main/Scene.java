@@ -5,8 +5,10 @@ import org.group11.Packages.Core.Renderer.Renderer;
 import java.util.*;
 
 /**
- * Scene is designed as a singleton that stores GameObjects for updates and rendering. Scene only begins to update,
- * render, and process event listeners once Engine has been started.
+ * Scene is designed as a singleton that stores GameObjects for updates. Scene only begins to update,
+ * and process event listeners once Engine has been started. When GameObjects are Instantiated by the Scene they are
+ * also added to the Renderer's render queue. Conversely, GameObjects Destroyed by the Scene are removed from the
+ * Renderer's render queue.
  */
 public class Scene {
     private static Scene _scene;
@@ -176,6 +178,8 @@ public class Scene {
 
     /**
      * <p><b>ENGINE USE ONLY</b></p>
+     * Calls the render function of the Renderer passing in the _mainCamera of the Scene as the Camera to render the
+     * render objects through.
      */
     public void render(){_renderer.render(_mainCamera);}
 
