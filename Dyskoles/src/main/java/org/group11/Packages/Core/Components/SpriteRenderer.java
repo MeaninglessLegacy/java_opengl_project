@@ -1,7 +1,6 @@
 package org.group11.Packages.Core.Components;
 
 import org.group11.Packages.Core.Main.GameObject;
-import org.group11.Packages.Core.Renderer.Renderer;
 
 /**
  * Component for a GameObject, specifies that a GameObject should render a 2-dimensional sprite.
@@ -13,9 +12,9 @@ public class SpriteRenderer extends Component {
     private boolean _useWorldSpace = true; // use world space or screen space coordinates
 
     /**
-     *
-     * @param gameObject
-     * @param textureFile
+     * Constructor for SpriteRenderer
+     * @param gameObject specific GameObject object to assign this SpriteRenderer to
+     * @param textureFile the sprite that SpriteRenderer is rendering
      */
     public SpriteRenderer(GameObject gameObject, String textureFile){
         this._gameObject = gameObject;
@@ -26,16 +25,16 @@ public class SpriteRenderer extends Component {
     //* getters
     //******************************************************************************************************************
     /**
-     *
-     * @return
+     * Returns the Sprite that is assigned to this SpriteRenderer
+     * @return this SpriteRenderer's Sprite attribute
      */
     public Sprite get_sprite() {
         return _sprite;
     }
 
     /**
-     *
-     * @return
+     * Returns the GameObject that is assigned to this SpriteRenderer
+     * @return this SpriteRenderer's GameObject attribute
      */
     public GameObject get_gameObject() {
         return _gameObject;
