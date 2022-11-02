@@ -53,6 +53,12 @@ public class GameLogicDriver extends GameObject {
      */
     public static void addItem (Item item) { _items.add(item); }
 
+    /**
+     * Gets whether the game is currently running or not
+     * @return true if the game is still running, false if not
+     */
+    public static boolean getGameState() { return _gameStarted; }
+
     //******************************************************************************************************************
     //* singleton constructor and fields
     //******************************************************************************************************************
@@ -189,12 +195,14 @@ public class GameLogicDriver extends GameObject {
     }
 
     /**
-     * Iterates through each Enemy in the _enemyCharacters list and calls the Enemy's canEnemyMove() to see if they can
-     * move
+     * Iterates through each Enemy in the _enemyCharacters list, and only if the game is currently still running, calls
+     * the Enemy's canEnemyMove() method to see if they can move
      */
     private static void enemyLogic(MainCharacter MC) {
         for (Enemy e : _enemyCharacters) {
-            e.canEnemyMove(_pathfinder, _gameMap, MC);
+            if (getGameState()) {
+                e.canEnemyMove(_pathfinder, _gameMap, MC);
+            }
         }
     }
 
