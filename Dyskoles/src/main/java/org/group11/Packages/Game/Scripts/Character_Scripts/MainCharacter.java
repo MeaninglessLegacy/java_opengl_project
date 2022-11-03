@@ -12,7 +12,7 @@ import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
 import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.*;
 
 /**
- * Player character class
+ * Player Character class
  */
 public class MainCharacter extends Character{
     //******************************************************************************************************************
@@ -26,11 +26,14 @@ public class MainCharacter extends Character{
     protected EXPBarInside _EXPBarInside;
 
     // Variables used to help control the sprite
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer characterSprite;
     private boolean facingRight = true;
     double time;
     double x;
 
+    //******************************************************************************************************************
+    //* setters and getters
+    //******************************************************************************************************************
     /**
      * Return the EXPBarOutline of this character object
      * @return the EXPBarOutline to return
@@ -43,24 +46,21 @@ public class MainCharacter extends Character{
     public EXPBarInside get_EXPBarInside() { return this._EXPBarInside; }
 
     //******************************************************************************************************************
-    //* constructor
+    //* constructor methods
     //******************************************************************************************************************
     public MainCharacter() {
         _statBlock.set_MaxHp(3);
         _statBlock.set_hp(3);
         _statBlock.set_Atk(1);
 
-        // set position
         this.transform.setPosition(new Vector3(1,1,0));
 
+        characterSprite = new SpriteRenderer(this, "./Resources/ump45.png");
+        this.addComponent(characterSprite);
         _healthBarOutline = new HealthBarOutline(this);
         _healthBarInside = new HealthBarInside(this);
         _EXPBarOutline = new EXPBarOutline(this);
         _EXPBarInside = new EXPBarInside(this);
-
-        // create sprite renderer
-        spriteRenderer = new SpriteRenderer(this, "./Resources/ump45.png");
-        this.addComponent(spriteRenderer);
     }
 
     //******************************************************************************************************************
@@ -128,7 +128,7 @@ public class MainCharacter extends Character{
             x = 0;
         }
         double yScale = -Math.pow((x-1),4)+1;
-        spriteRenderer.get_sprite().set_scale(1, (float)(1+0.05*yScale));
+        characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale));
         time = System.currentTimeMillis();
         super.update();
     }
@@ -152,7 +152,7 @@ public class MainCharacter extends Character{
                 nextMove = new Vector3(playerX - 1, playerY, playerZ);
                 if(facingRight){
                     facingRight = false;
-                    spriteRenderer.get_sprite().flipX();
+                    characterSprite.get_sprite().flipX();
                 }
             } else if (key == 'S') {
                 nextMove = new Vector3(playerX, playerY - 1, playerZ);
@@ -160,7 +160,7 @@ public class MainCharacter extends Character{
                 nextMove = new Vector3(playerX + 1, playerY, playerZ);
                 if(!facingRight){
                     facingRight = true;
-                    spriteRenderer.get_sprite().flipX();
+                    characterSprite.get_sprite().flipX();
                 }
             }
 

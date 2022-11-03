@@ -17,7 +17,7 @@ public class Minion extends Enemy{
     private SpriteRenderer characterSprite;
 
     //******************************************************************************************************************
-    //* constructor
+    //* constructor methods
     //******************************************************************************************************************
     public Minion() {
         setupMinion();

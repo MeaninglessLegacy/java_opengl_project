@@ -60,7 +60,7 @@ public class GameLogicDriver extends GameObject {
     public static boolean getGameState() { return _gameStarted; }
 
     //******************************************************************************************************************
-    //* singleton constructor and fields
+    //* singleton constructor and methods
     //******************************************************************************************************************
     private static GameLogicDriver theGameLogicDriver = null;
 
@@ -340,7 +340,5 @@ public class GameLogicDriver extends GameObject {
     }
 
     @Override
-    public void onKeyDown(int key) {
-        super.onKeyDown(key);
-    }
+    public void onKeyDown(int key) { super.onKeyDown(key); }
 }

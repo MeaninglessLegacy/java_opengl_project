@@ -16,16 +16,18 @@ public class Exit extends Item {
     private SpriteRenderer spriteRenderer;
 
     //******************************************************************************************************************
-    //* constructor
+    //* constructor methods
     //******************************************************************************************************************
     public Exit() {
-        spriteRenderer = new SpriteRenderer(this, "./Resources/prototypeExit1.png");
-        this.addComponent(spriteRenderer);
+        setupExit();
     }
-
 
     public Exit(Vector3 pos) {
         transform.setPosition(pos);
+        setupExit();
+    }
+
+    private void setupExit() {
         spriteRenderer = new SpriteRenderer(this, "./Resources/prototypeExit1.png");
         this.addComponent(spriteRenderer);
     }

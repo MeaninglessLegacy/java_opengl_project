@@ -24,10 +24,10 @@ public class Runner extends Enemy{
     private SpriteRenderer characterSprite;
 
     //******************************************************************************************************************
-    //* constructor
+    //* constructor methods
     //******************************************************************************************************************
     public Runner() {
-
+        setupRunner();
     }
 
     public Runner(Vector3 pos) {
@@ -75,12 +75,8 @@ public class Runner extends Enemy{
     }
 
     @Override
-    public void start() {
-        super.start();
-    }
+    public void start() { super.start(); }
 
     @Override
-    public void update() {
-        super.update();
-    }
+    public void update() { super.update(); }
 }

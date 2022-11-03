@@ -1,15 +1,12 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
-import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.Main.GameObject;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
 
-import java.util.ArrayList;
-
 /**
- * Base class for character objects within our game
+ * Base class for Character objects within our game
  */
 public abstract class Character extends GameObject {
     //******************************************************************************************************************
@@ -21,6 +18,9 @@ public abstract class Character extends GameObject {
     protected HealthBarOutline _healthBarOutline;
     protected HealthBarInside _healthBarInside;
 
+    //******************************************************************************************************************
+    //* setters and getters
+    //******************************************************************************************************************
     /**
      * Returns the StatBlock of this character object
      * @return the StatBlock to return
@@ -38,7 +38,7 @@ public abstract class Character extends GameObject {
     public HealthBarInside get_healthBarInside() { return this._healthBarInside; }
 
     //******************************************************************************************************************
-    //* character methods
+    //* methods
     //******************************************************************************************************************
     /**
      * Reduces the hp value of this character by specified amount

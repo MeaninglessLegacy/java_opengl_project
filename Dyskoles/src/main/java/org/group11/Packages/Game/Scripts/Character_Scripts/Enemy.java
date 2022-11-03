@@ -1,6 +1,5 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
-import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.Logic.Map;
 import org.group11.Packages.Game.Scripts.Logic.Pathfinder;
@@ -9,7 +8,7 @@ import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdown;
 import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.enemyCheckMove;
 
 /**
- * Abstract character class, add methods for enemy character types
+ * Abstract Character class, adds methods for Enemy character types
  */
 public abstract class Enemy extends Character{
     //******************************************************************************************************************
@@ -30,7 +29,7 @@ public abstract class Enemy extends Character{
     protected MoveCountdown _moveCountdown;
 
     //******************************************************************************************************************
-    //* methods
+    //* setters and getters
     //******************************************************************************************************************
     /**
      * Sets the _enemyActive state of this character to specified value
@@ -64,13 +63,15 @@ public abstract class Enemy extends Character{
      */
     public String get_moveTowards() { return _moveTowards; }
 
+    //******************************************************************************************************************
+    //* methods
+    //******************************************************************************************************************
     /**
      * Sets the sprite displaying the number of moves before
      */
     public void set_moveCountdownNumber(int num) {
         _moveCountdown.changeCountdown(num);
     }
-
 
     /**
      * If an enemy is active, decrements their _ticksBeforeNextMove. If it decrements to 0, uses _pathfinder to find
@@ -123,7 +124,5 @@ public abstract class Enemy extends Character{
      * When this Enemy is defeated calling this method gives the MainCharacter who defeated this Enemy certain rewards
      * @param MC the MainCharacter that defeated this Enemy
      */
-    public void giveRewards(MainCharacter MC) {
-        MC.addExp(expGiven);
-    }
+    public void giveRewards(MainCharacter MC) { MC.addExp(expGiven); }
 }

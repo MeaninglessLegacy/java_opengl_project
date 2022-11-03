@@ -22,15 +22,18 @@ public class RegenHeart extends Item {
     public int get_regenAmount() { return _regenAmount; }
 
     //******************************************************************************************************************
-    //* constructor
+    //* constructor methods
     //******************************************************************************************************************
     public RegenHeart() {
-        spriteRenderer = new SpriteRenderer(this, "./Resources/Heart.png");
-        this.addComponent(spriteRenderer);
+        setupRegenHeart();
     }
 
     public RegenHeart(Vector3 pos) {
         transform.setPosition(pos);
+        setupRegenHeart();
+    }
+
+    private void setupRegenHeart() {
         spriteRenderer = new SpriteRenderer(this, "./Resources/Heart.png");
         this.addComponent(spriteRenderer);
     }
@@ -50,12 +53,8 @@ public class RegenHeart extends Item {
     }
 
     @Override
-    public void update() {
-        super.update();
-    }
+    public void update() { super.update(); }
 
     @Override
-    public void start() {
-        super.start();
-    }
+    public void start() { super.start(); }
 }

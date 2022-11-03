@@ -13,12 +13,11 @@ public class SpikeTrap extends Item {
     //* variables
     //******************************************************************************************************************
     private SpriteRenderer spriteRenderer;
-
-    //******************************************************************************************************************
-    //* variables
-    //******************************************************************************************************************
     private int _spikeTrapDamage = 1;
 
+    //******************************************************************************************************************
+    //* setters and getters
+    //******************************************************************************************************************
     /**
      * Returns how much damage this SpikeTrap does
      * @return integer _spikeTrapDamage
@@ -26,15 +25,18 @@ public class SpikeTrap extends Item {
     public int get_spikeTrapDamage() { return _spikeTrapDamage; }
 
     //******************************************************************************************************************
-    //* constructor
+    //* constructor methods
     //******************************************************************************************************************
     public SpikeTrap() {
-        spriteRenderer = new SpriteRenderer(this, "./Resources/SpikeTrap.png");
-        this.addComponent(spriteRenderer);
+        setupSpikeTrap();
     }
 
     public SpikeTrap(Vector3 pos) {
         transform.setPosition(pos);
+        setupSpikeTrap();
+    }
+
+    private void setupSpikeTrap() {
         spriteRenderer = new SpriteRenderer(this, "./Resources/SpikeTrap.png");
         this.addComponent(spriteRenderer);
     }
@@ -49,12 +51,8 @@ public class SpikeTrap extends Item {
     }
 
     @Override
-    public void update() {
-        super.update();
-    }
+    public void update() { super.update(); }
 
     @Override
-    public void start() {
-        super.start();
-    }
+    public void start() { super.start(); }
 }
