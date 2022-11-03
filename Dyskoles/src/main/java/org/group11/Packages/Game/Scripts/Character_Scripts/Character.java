@@ -22,10 +22,14 @@ public abstract class Character extends GameObject {
      */
     public StatBlock getStatBlock() { return this._statBlock; }
     /**
-     * Return the HealthBar of this character object
-     * @return the HealthBar to return
+     * Return the HealthBarOutline of this character object
+     * @return the HealthBarOutline to return
      */
     public HealthBarOutline get_healthBarOutline() { return this._healthBarOutline; }
+    /**
+     * Return the HealthBarInside of this character object
+     * @return the HealthBarInside to return
+     */
     public HealthBarInside get_healthBarInside() { return this._healthBarInside; }
 
     //******************************************************************************************************************

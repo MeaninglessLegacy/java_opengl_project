@@ -3,6 +3,8 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Backpack;
+import org.group11.Packages.Game.Scripts.UI_Scripts.EXPBarInside;
+import org.group11.Packages.Game.Scripts.UI_Scripts.EXPBarOutline;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
 
@@ -18,11 +20,26 @@ public class MainCharacter extends Character{
     // Used to store items this MainCharacter picks up
     public Backpack backpack = new Backpack();
 
+    // Displays the exp of the character below their sprite
+    protected EXPBarOutline _EXPBarOutline;
+    protected EXPBarInside _EXPBarInside;
+
     // Variables used to help control the sprite
     private SpriteRenderer spriteRenderer;
     private boolean facingRight = true;
     double time;
     double x;
+
+    /**
+     * Return the EXPBarOutline of this character object
+     * @return the EXPBarOutline to return
+     */
+    public EXPBarOutline get_EXPBarOutline() { return this._EXPBarOutline; }
+    /**
+     * Return the EXPBarInside of this character object
+     * @return the EXPBarInside to return
+     */
+    public EXPBarInside get_EXPBarInside() { return this._EXPBarInside; }
 
     //******************************************************************************************************************
     //* constructor
@@ -37,6 +54,8 @@ public class MainCharacter extends Character{
 
         _healthBarOutline = new HealthBarOutline(this);
         _healthBarInside = new HealthBarInside(this);
+        _EXPBarOutline = new EXPBarOutline(this);
+        _EXPBarInside = new EXPBarInside(this);
 
         // create sprite renderer
         spriteRenderer = new SpriteRenderer(this, "./Resources/ump45.png");
@@ -57,6 +76,7 @@ public class MainCharacter extends Character{
             addLevel();
             _statBlock.set_exp(_statBlock.get_exp() - 5 * _statBlock.get_lvl());
         }
+        _EXPBarInside.changeEXPBar((float)_statBlock.get_exp(), ((float)5 * _statBlock.get_lvl()));
     }
 
     /**

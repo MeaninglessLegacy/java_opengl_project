@@ -2,38 +2,38 @@ package org.group11.Packages.Game.Scripts.UI_Scripts;
 
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.Main.GameObject;
-import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
+import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 
 /**
- * Displays a bar over each Character sprite to keep track of how much health they have
- * This class displays the inside of the health bar
+ * Displays a bar underneath the character to keep track of the EXP the player has
+ * This class displays the outline of the EXP bar
  */
-public class HealthBarInside extends GameObject {
+public class EXPBarInside extends GameObject {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    // Sprite that renders how much of the health bar that is full
+    // Sprite that renders how much of the EXP bar that is full
     SpriteRenderer insideBarSprite;
 
     //******************************************************************************************************************
     //* constructor
     //******************************************************************************************************************
-    public HealthBarInside(Character character) {
-        insideBarSprite = new SpriteRenderer(this, "./resources/HealthBarInside.png");
+    public EXPBarInside(MainCharacter MC) {
+        insideBarSprite = new SpriteRenderer(this, "./resources/EXPBarInside.png");
         this.addComponent(insideBarSprite);
-        // Binds this HealthBar's position to the character it's for
-        this.transform = character.transform;
+        // Binds this HealthBar's position to the MainCharacter it's for
+        this.transform = MC.transform;
 
         // TODO: make this cleaner
-        insideBarSprite.get_sprite().transform.position.y = insideBarSprite.get_sprite().transform.position.y + (float)0.5;
-        insideBarSprite.get_sprite().set_scale(1, (float)0.15);
+        insideBarSprite.get_sprite().transform.position.y = insideBarSprite.get_sprite().transform.position.y - (float)0.5;
+        insideBarSprite.get_sprite().set_scale(0, (float)0.1);
     }
 
     //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
-    public void changeHealthBar(float hp, float maxHp) {
-        insideBarSprite.get_sprite().set_scale(hp/maxHp, (float)0.15);
+    public void changeEXPBar(float exp, float expNeeded) {
+        insideBarSprite.get_sprite().set_scale(exp/expNeeded, (float)0.1);
     }
 
     //******************************************************************************************************************

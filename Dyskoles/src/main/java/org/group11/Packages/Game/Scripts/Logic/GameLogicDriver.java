@@ -332,6 +332,8 @@ public class GameLogicDriver extends GameObject {
             scene.Instantiate(mc);
             scene.Instantiate(mc.get_healthBarInside());
             scene.Instantiate(mc.get_healthBarOutline());
+            scene.Instantiate(mc.get_EXPBarInside());
+            scene.Instantiate(mc.get_EXPBarOutline());
 
             // Creates the camera that will follow the player character
             Camera followingCamera = new FollowingCamera(mc);
