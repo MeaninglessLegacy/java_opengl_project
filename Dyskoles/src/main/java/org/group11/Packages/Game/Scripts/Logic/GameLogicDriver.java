@@ -302,6 +302,8 @@ public class GameLogicDriver extends GameObject {
         for (Item i : _items) {
             scene.Destroy(i);
         }
+        _playerCharacters = new ArrayList<MainCharacter>();
+        _enemyCharacters = new ArrayList<Enemy>();
         _items = new ArrayList<Item>();
         _gameMap.clearMap();
         _gameMap = null;
