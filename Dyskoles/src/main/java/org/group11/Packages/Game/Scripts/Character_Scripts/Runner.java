@@ -3,9 +3,13 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Scene;
+import org.group11.Packages.Game.Scripts.Logic.Map;
+import org.group11.Packages.Game.Scripts.Logic.Pathfinder;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
 import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdown;
+
+import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.removeEnemy;
 
 /**
  * Special enemy class, Runner runs away from the player when activated
@@ -15,11 +19,11 @@ public class Runner extends Enemy{
     //* variables
     //******************************************************************************************************************
     // How many ticks before this Runner will disappear from the game
-    private int _ticksUntilVanish;
+    protected int _ticksUntilVanish = 10;
     // this integer tells the game how much max health will be given to the Character who kills this Enemy
-    public int maxHpGiven;
+    protected int maxHpGiven;
     // this integer tells the game how much attack will be given to the Character who kills this Enemy
-    public int atkGiven;
+    protected int atkGiven;
 
     private SpriteRenderer characterSprite;
 
@@ -41,7 +45,8 @@ public class Runner extends Enemy{
         atkGiven = 1;
         _moveTowards = "awayFromPlayer";
 
-        // TODO: implement runner sprite
+        characterSprite = new SpriteRenderer(this, "./Resources/m1911.png");
+        this.addComponent(characterSprite);
         _healthBarInside = new HealthBarInside(this);
         _healthBarOutline = new HealthBarOutline(this);
         _moveCountdown = new MoveCountdown(this);
@@ -74,6 +79,16 @@ public class Runner extends Enemy{
         MC.addAttack(atkGiven);
         MC.addMaxHealth(maxHpGiven);
         MC.addHealth(maxHpGiven);
+    }
+
+    @Override
+    public void canEnemyMove(Pathfinder _pathfinder, Map _gameMap, MainCharacter MC) {
+        if (_enemyActive) {
+            super.canEnemyMove(_pathfinder, _gameMap, MC);
+            if (--_ticksUntilVanish == 0) {
+                removeEnemy(this);
+            }
+        }
     }
 
     @Override

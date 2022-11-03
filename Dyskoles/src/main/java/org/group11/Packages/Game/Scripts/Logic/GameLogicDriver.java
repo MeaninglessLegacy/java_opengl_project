@@ -35,23 +35,14 @@ public class GameLogicDriver extends GameObject {
 
     private static Scene scene;
 
+    //******************************************************************************************************************
+    //* getters and setters
+    //******************************************************************************************************************
     /**
      * Change _gameLevel to specified level
      * @param newLevel the level to set as
      */
     public static void set_gameLevel(Level newLevel){ _gameLevel = newLevel; }
-
-    /**
-     * Adds a MainCharacter to the _playerCharacters arraylist, thus adding them into the game
-     * @param MC the MainCharacter to add the game
-     */
-    public static void addMainCharacter (MainCharacter MC) { _playerCharacters.add(MC); }
-
-    /**
-     * Adds an Item to the _items arraylist, thus adding it into the game
-     * @param item the Item to add the game
-     */
-    public static void addItem (Item item) { _items.add(item); }
 
     /**
      * Gets whether the game is currently running or not
@@ -107,6 +98,14 @@ public class GameLogicDriver extends GameObject {
     }
 
     /**
+     *
+     */
+    public static void removeEnemy(Enemy enemy) {
+        _enemyCharacters.remove(enemy);
+        enemy.destroyRelatedSprites(scene);
+    }
+
+    /**
      * Method is called by a MainCharacter to see if they can move to a specific Vector3 point. Checks the type of tile
      * at that point, and checks to see if there's any characters. If there's an Enemy, the calling MainCharacter
      * attacks the Enemy. If the tile is all clear to move in to, returns true. If not, returns false.
@@ -126,8 +125,7 @@ public class GameLogicDriver extends GameObject {
                     boolean enemyDied = MC.attackCharacter(characterInNextSpace);
                     if (enemyDied) {
                         ((Enemy) characterInNextSpace).giveRewards(MC);
-                        _enemyCharacters.remove(characterInNextSpace);
-                        characterInNextSpace.destroyRelatedSprites(scene);
+                        removeEnemy((Enemy)characterInNextSpace);
                         return true;
                     }
                 }
