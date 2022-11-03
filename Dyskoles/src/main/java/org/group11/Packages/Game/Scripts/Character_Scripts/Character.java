@@ -1,8 +1,12 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.Main.GameObject;
+import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
+
+import java.util.ArrayList;
 
 /**
  * Base class for character objects within our game
@@ -16,6 +20,7 @@ public abstract class Character extends GameObject {
     // Displays the health of the character above their sprite
     protected HealthBarOutline _healthBarOutline;
     protected HealthBarInside _healthBarInside;
+
     /**
      * Returns the StatBlock of this character object
      * @return the StatBlock to return
@@ -80,4 +85,16 @@ public abstract class Character extends GameObject {
         }
         return false;
     }
+
+    /**
+     * Used to instantiate all related sprites to this Character, like health bar, character sprite, etc.
+     * Must be implemented in all children
+     */
+    public abstract void instantiateRelatedSprites(Scene scene);
+
+    /**
+     * Used to destroy all related sprites to this Character, like health bar, character sprite, etc.
+     * Must be implemented in all children
+     */
+    public abstract void destroyRelatedSprites(Scene scene);
 }

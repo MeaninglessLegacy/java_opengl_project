@@ -2,8 +2,10 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
 
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
+import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdown;
 
 /**
  * Special enemy class, Runner runs away from the player when activated
@@ -19,37 +21,53 @@ public class Runner extends Enemy{
     // this integer tells the game how much attack will be given to the Character who kills this Enemy
     public int atkGiven;
 
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer characterSprite;
 
     //******************************************************************************************************************
     //* constructor
     //******************************************************************************************************************
     public Runner() {
-        expGiven = 5;
-        maxHpGiven = 1;
-        atkGiven = 1;
-        _moveTowards = "awayFromPlayer";
 
-        _healthBarOutline = new HealthBarOutline(this);
-        _healthBarInside = new HealthBarInside(this);
-        // TODO: implement runner
     }
 
     public Runner(Vector3 pos) {
+        transform.setPosition(pos);
+        setupRunner();
+    }
+
+    private void setupRunner() {
         expGiven = 5;
         maxHpGiven = 1;
         atkGiven = 1;
         _moveTowards = "awayFromPlayer";
-        transform.setPosition(pos);
 
-        _healthBarOutline = new HealthBarOutline(this);
+        // TODO: implement runner sprite
         _healthBarInside = new HealthBarInside(this);
-        // TODO: implement runner
+        _healthBarOutline = new HealthBarOutline(this);
+        _moveCountdown = new MoveCountdown(this);
+
+        _moveCountdown.changeCountdown(_ticksBeforeNextMove);
     }
 
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+    @Override
+    public void instantiateRelatedSprites(Scene scene) {
+        scene.Instantiate(this);
+        scene.Instantiate(_healthBarInside);
+        scene.Instantiate(_healthBarOutline);
+        scene.Instantiate(_moveCountdown);
+    }
+
+    @Override
+    public void destroyRelatedSprites(Scene scene) {
+        scene.Destroy(this);
+        scene.Destroy(_healthBarInside);
+        scene.Destroy(_healthBarOutline);
+        scene.Destroy(_moveCountdown);
+    }
+
     @Override
     public void giveRewards(MainCharacter MC) {
         MC.addExp(expGiven);

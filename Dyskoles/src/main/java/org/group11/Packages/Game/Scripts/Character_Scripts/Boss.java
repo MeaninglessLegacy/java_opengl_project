@@ -2,8 +2,10 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
 
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
+import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdown;
 
 /**
  * Boss enemy type character, chases the player blindly when activated
@@ -12,55 +14,60 @@ public class Boss extends Enemy {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer characterSprite;
 
     //******************************************************************************************************************
     //* constructor
     //******************************************************************************************************************
     public Boss() {
-        expGiven = 5;
-        _statBlock.set_Atk(3);
-        _statBlock.set_MaxHp(10);
-        _statBlock.set_hp(10);
-
-        _healthBarOutline = new HealthBarOutline(this);
-        _healthBarInside = new HealthBarInside(this);
-        spriteRenderer = new SpriteRenderer(this, "./Resources/ump45.png");
-        this.addComponent(spriteRenderer);
+        setupBoss();
     }
 
     public Boss(Vector3 pos) {
+        transform.setPosition(pos);
+        setupBoss();
+    }
+
+    private void setupBoss() {
         expGiven = 5;
         _statBlock.set_Atk(3);
         _statBlock.set_MaxHp(10);
         _statBlock.set_hp(10);
-        transform.setPosition(pos);
 
-        _healthBarOutline = new HealthBarOutline(this);
+        characterSprite = new SpriteRenderer(this, "./Resources/ump45.png");
+        this.addComponent(characterSprite);
         _healthBarInside = new HealthBarInside(this);
-        spriteRenderer = new SpriteRenderer(this, "./Resources/ump9.png");
-        this.addComponent(spriteRenderer);
+        _healthBarOutline = new HealthBarOutline(this);
+        _moveCountdown = new MoveCountdown(this);
+
+        _moveCountdown.changeCountdown(_ticksBeforeNextMove);
     }
 
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
     @Override
-    public void start() {
-        super.start();
+    public void instantiateRelatedSprites(Scene scene) {
+        scene.Instantiate(this);
+        scene.Instantiate(_healthBarInside);
+        scene.Instantiate(_healthBarOutline);
+        scene.Instantiate(_moveCountdown);
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void destroyRelatedSprites(Scene scene) {
+        scene.Destroy(this);
+        scene.Destroy(_healthBarInside);
+        scene.Destroy(_healthBarOutline);
+        scene.Destroy(_moveCountdown);
     }
 
-    /**
-     * Might change: call logic of enemy
-     * @param key ascii value of the key
-     */
     @Override
-    public void onKeyDown(int key) {
-        super.update();
-    }
+    public void start() { super.start(); }
+
+    @Override
+    public void update() { super.update(); }
+
+    @Override
+    public void onKeyDown(int key) { super.update(); }
 }

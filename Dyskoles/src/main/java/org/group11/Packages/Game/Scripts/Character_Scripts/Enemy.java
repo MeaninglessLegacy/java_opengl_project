@@ -1,8 +1,10 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.Logic.Map;
 import org.group11.Packages.Game.Scripts.Logic.Pathfinder;
+import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdown;
 
 import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.enemyCheckMove;
 
@@ -24,6 +26,8 @@ public abstract class Enemy extends Character{
     protected String _moveTowards = "player";
     // this integer tells the game how much exp will be given to the Character who kills this Enemy
     public int expGiven = 1;
+    // displays how many ticks until this enemy moves above their sprite
+    protected MoveCountdown _moveCountdown;
 
     //******************************************************************************************************************
     //* methods
@@ -57,7 +61,12 @@ public abstract class Enemy extends Character{
     public String get_moveTowards() { return _moveTowards; }
 
     /**
-     *
+     * If an enemy is active, decrements their _ticksBeforeNextMove. If it decrements to 0, uses _pathfinder to find
+     * the next tile to go to then asks gameLogicDriver if they can move to it. Enemy reacts accordingly depending on
+     * what is on the next tile
+     * @param _pathfinder used to find a path from the Enemy to their destination
+     * @param _gameMap the map used by _pathfinder to find a path
+     * @param MC the MainCharacter object, used to determine where the MainCharacter is for pathfinding
      */
     public void canEnemyMove(Pathfinder _pathfinder, Map _gameMap, MainCharacter MC) {
         if (_enemyActive) {
@@ -94,6 +103,7 @@ public abstract class Enemy extends Character{
                     System.out.println("Next move for enemy is null");
                 }
             }
+            _moveCountdown.changeCountdown(_ticksBeforeNextMove);
         }
     }
 

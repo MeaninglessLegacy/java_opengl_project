@@ -2,6 +2,7 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
 
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Backpack;
 import org.group11.Packages.Game.Scripts.UI_Scripts.EXPBarInside;
 import org.group11.Packages.Game.Scripts.UI_Scripts.EXPBarOutline;
@@ -98,9 +99,25 @@ public class MainCharacter extends Character{
     //* overrides
     //******************************************************************************************************************
     @Override
-    public void start() {
-        super.start();
+    public void instantiateRelatedSprites(Scene scene) {
+        scene.Instantiate(this);
+        scene.Instantiate(_healthBarInside);
+        scene.Instantiate(_healthBarOutline);
+        scene.Instantiate(_EXPBarInside);
+        scene.Instantiate(_EXPBarOutline);
     }
+
+    @Override
+    public void destroyRelatedSprites(Scene scene) {
+        scene.Destroy(this);
+        scene.Destroy(_healthBarInside);
+        scene.Destroy(_healthBarOutline);
+        scene.Destroy(_EXPBarInside);
+        scene.Destroy(_EXPBarOutline);
+    }
+
+    @Override
+    public void start() { super.start(); }
 
     @Override
     public void update() {

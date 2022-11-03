@@ -22,7 +22,7 @@ public class SpriteRenderer extends Component {
     }
 
     //******************************************************************************************************************
-    //* getters
+    //* getters and setters
     //******************************************************************************************************************
     /**
      * Returns the Sprite that is assigned to this SpriteRenderer
@@ -38,6 +38,10 @@ public class SpriteRenderer extends Component {
      */
     public GameObject get_gameObject() {
         return _gameObject;
+    }
+
+    public void set_sortingOrder(int num) {
+        _sortingOrder = num;
     }
 
     //******************************************************************************************************************
