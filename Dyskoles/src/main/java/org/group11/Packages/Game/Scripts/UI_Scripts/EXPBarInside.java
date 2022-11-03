@@ -21,11 +21,11 @@ public class EXPBarInside extends GameObject {
     public EXPBarInside(MainCharacter MC) {
         insideBarSprite = new SpriteRenderer(this, "./resources/EXPBarInside.png");
         this.addComponent(insideBarSprite);
+
         // Binds this HealthBar's position to the MainCharacter it's for
         this.transform = MC.transform;
 
-        // TODO: make this cleaner
-        insideBarSprite.get_sprite().transform.position.y = insideBarSprite.get_sprite().transform.position.y - (float)0.5;
+        insideBarSprite.shiftSprite('y', (float)-0.5);
         insideBarSprite.get_sprite().set_scale(0, (float)0.1);
     }
 

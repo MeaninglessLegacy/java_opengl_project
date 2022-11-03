@@ -21,11 +21,11 @@ public class EXPBarOutline extends GameObject {
     public EXPBarOutline(MainCharacter MC) {
         outsideBarSprite = new SpriteRenderer(this, "./resources/EXPBarOutline.png");
         this.addComponent(outsideBarSprite);
+
         // Binds this HealthBar's position to the MainCharacter it's for
         this.transform = MC.transform;
 
-        // TODO: make this cleaner
-        outsideBarSprite.get_sprite().transform.position.y = outsideBarSprite.get_sprite().transform.position.y - (float)0.5;
+        outsideBarSprite.shiftSprite('y', (float)-0.5);
         outsideBarSprite.get_sprite().set_scale(1, (float)0.1);
     }
 
