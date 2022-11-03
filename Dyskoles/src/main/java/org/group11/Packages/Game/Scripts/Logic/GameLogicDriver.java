@@ -88,8 +88,12 @@ public class GameLogicDriver extends GameObject {
         if (_gameLevel != null) {
             MapGenerator mapGen = _gameLevel.get_mapGenerator();
             _gameMap = mapGen.generateMap();
+            _playerCharacters = _gameLevel.get_players();
             _enemyCharacters = _gameLevel.get_enemies();
             _items = _gameLevel.get_items();
+            for (MainCharacter c : _playerCharacters) {
+                c.instantiateRelatedSprites(scene);
+            }
             for (Enemy e : _enemyCharacters) {
                 e.instantiateRelatedSprites(scene);
             }
@@ -322,12 +326,8 @@ public class GameLogicDriver extends GameObject {
             set_gameLevel(newLevel);
             loadNewLevel();
 
-            // Creates the player character
-            MainCharacter mc = new MainCharacter();
-            addMainCharacter(mc);
-            mc.instantiateRelatedSprites(scene);
-
             // Creates the camera that will follow the player character
+            MainCharacter mc = _playerCharacters.get(player1ArrayPosition);
             Camera followingCamera = new FollowingCamera(mc);
             scene.Instantiate(followingCamera);
             scene.set_mainCamera(followingCamera);

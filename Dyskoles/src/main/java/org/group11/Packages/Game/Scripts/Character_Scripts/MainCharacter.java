@@ -49,11 +49,18 @@ public class MainCharacter extends Character{
     //* constructor methods
     //******************************************************************************************************************
     public MainCharacter() {
+        setupMainCharacter();
+    }
+
+    public MainCharacter(Vector3 pos) {
+        transform.setPosition(pos);
+        setupMainCharacter();
+    }
+
+    private void setupMainCharacter() {
         _statBlock.set_MaxHp(3);
         _statBlock.set_hp(3);
         _statBlock.set_Atk(1);
-
-        this.transform.setPosition(new Vector3(1,1,0));
 
         characterSprite = new SpriteRenderer(this, "./Resources/ump45.png");
         this.addComponent(characterSprite);

@@ -34,7 +34,7 @@ public class Boss extends Enemy {
         _statBlock.set_MaxHp(10);
         _statBlock.set_hp(10);
 
-        characterSprite = new SpriteRenderer(this, "./Resources/ump45.png");
+        characterSprite = new SpriteRenderer(this, "./Resources/ump9.png");
         this.addComponent(characterSprite);
         _healthBarInside = new HealthBarInside(this);
         _healthBarOutline = new HealthBarOutline(this);
