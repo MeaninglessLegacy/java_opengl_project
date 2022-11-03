@@ -56,6 +56,7 @@ public class Runner extends Enemy{
         scene.Instantiate(_healthBarInside);
         scene.Instantiate(_healthBarOutline);
         scene.Instantiate(_moveCountdown);
+        _moveCountdown.instantiateCDSprites(scene);
     }
 
     @Override
@@ -64,6 +65,7 @@ public class Runner extends Enemy{
         scene.Destroy(_healthBarInside);
         scene.Destroy(_healthBarOutline);
         scene.Destroy(_moveCountdown);
+        _moveCountdown.destroyCDSprites(scene);
     }
 
     @Override
