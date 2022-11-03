@@ -8,7 +8,7 @@ import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
  * Spike trap object, only affects player character and hurts the player character when the player character touches
  * this object
  */
-public class SpikeTrap extends Item {
+public class RegenHeart extends Item {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
@@ -17,25 +17,25 @@ public class SpikeTrap extends Item {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    private int _spikeTrapDamage = 1;
+    private int _regenAmount = 1;
 
     /**
-     * Returns how much damage this SpikeTrap does
-     * @return integer _spikeTrapDamage
+     * Returns how much health this heart regenerates
+     * @return integer _regenAmount
      */
-    public int get_spikeTrapDamage() { return _spikeTrapDamage; }
+    public int get_regenAmount() { return _regenAmount; }
 
     //******************************************************************************************************************
     //* constructor
     //******************************************************************************************************************
-    public SpikeTrap() {
-        spriteRenderer = new SpriteRenderer(this, "./Resources/SpikeTrap.png");
+    public RegenHeart() {
+        spriteRenderer = new SpriteRenderer(this, "./Resources/Heart.png");
         this.addComponent(spriteRenderer);
     }
 
-    public SpikeTrap(Vector3 pos) {
+    public RegenHeart(Vector3 pos) {
         transform.setPosition(pos);
-        spriteRenderer = new SpriteRenderer(this, "./Resources/SpikeTrap.png");
+        spriteRenderer = new SpriteRenderer(this, "./Resources/Heart.png");
         this.addComponent(spriteRenderer);
     }
 
@@ -44,8 +44,13 @@ public class SpikeTrap extends Item {
     //******************************************************************************************************************
     @Override
     public boolean activate(MainCharacter c) {
-        c.takeDamage(_spikeTrapDamage);
-        return true;
+        if (c.getStatBlock().get_hp() < c.getStatBlock().get_maxHp()) {
+            c.addHealth(_regenAmount);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
