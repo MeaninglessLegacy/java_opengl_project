@@ -92,6 +92,8 @@ public class GameLogicDriver extends GameObject {
             _items = _gameLevel.get_items();
             for (Enemy e : _enemyCharacters) {
                 scene.Instantiate(e);
+                scene.Instantiate(e.get_healthBarOutline());
+                scene.Instantiate(e.get_healthBarInside());
             }
             for (Item i : _items) {
                 scene.Instantiate(i);
@@ -123,6 +125,8 @@ public class GameLogicDriver extends GameObject {
                     if (enemyDied) {
                         ((Enemy) characterInNextSpace).giveRewards(MC);
                         _enemyCharacters.remove(characterInNextSpace);
+                        scene.Destroy(characterInNextSpace.get_healthBarOutline());
+                        scene.Destroy((characterInNextSpace.get_healthBarInside()));
                         scene.Destroy(characterInNextSpace);
                         return true;
                     }
@@ -296,6 +300,8 @@ public class GameLogicDriver extends GameObject {
         }
         _playerCharacters = new ArrayList<MainCharacter>();
         for (Enemy e : _enemyCharacters) {
+            scene.Destroy(e.get_healthBarOutline());
+            scene.Destroy(e.get_healthBarInside());
             scene.Destroy(e);
         }
         _enemyCharacters = new ArrayList<Enemy>();
@@ -324,6 +330,8 @@ public class GameLogicDriver extends GameObject {
             MainCharacter mc = new MainCharacter();
             addMainCharacter(mc);
             scene.Instantiate(mc);
+            scene.Instantiate(mc.get_healthBarInside());
+            scene.Instantiate(mc.get_healthBarOutline());
 
             // Creates the camera that will follow the player character
             Camera followingCamera = new FollowingCamera(mc);

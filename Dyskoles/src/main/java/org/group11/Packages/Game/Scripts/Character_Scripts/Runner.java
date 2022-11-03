@@ -2,6 +2,8 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
 
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
 
 /**
  * Special enemy class, Runner runs away from the player when activated
@@ -27,6 +29,10 @@ public class Runner extends Enemy{
         maxHpGiven = 1;
         atkGiven = 1;
         _moveTowards = "awayFromPlayer";
+
+        _healthBarOutline = new HealthBarOutline(this);
+        _healthBarInside = new HealthBarInside(this);
+        // TODO: implement runner
     }
 
     public Runner(Vector3 pos) {
@@ -35,6 +41,10 @@ public class Runner extends Enemy{
         atkGiven = 1;
         _moveTowards = "awayFromPlayer";
         transform.setPosition(pos);
+
+        _healthBarOutline = new HealthBarOutline(this);
+        _healthBarInside = new HealthBarInside(this);
+        // TODO: implement runner
     }
 
     //******************************************************************************************************************

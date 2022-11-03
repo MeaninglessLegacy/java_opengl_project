@@ -2,32 +2,35 @@ package org.group11.Packages.Game.Scripts.UI_Scripts;
 
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.Main.GameObject;
+import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 
-/**
- * Displays a bar over each Character sprite to keep track of how much health they have
- */
-public class HealthBar extends GameObject {
+public class HealthBarInside extends GameObject {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    // Sprite that renders the outline of the health bar
-    SpriteRenderer outsideBarSprite;
     // Sprite that renders how much of the health bar that is full
     SpriteRenderer insideBarSprite;
 
     //******************************************************************************************************************
     //* constructor
     //******************************************************************************************************************
-    public HealthBar() {
-        outsideBarSprite = new SpriteRenderer(this, "./resources/HealthBarOutline.png");
-        this.addComponent(outsideBarSprite);
+    public HealthBarInside(Character character) {
         insideBarSprite = new SpriteRenderer(this, "./resources/HealthBarInside.png");
         this.addComponent(insideBarSprite);
+        // Binds this HealthBar's position to the character it's for
+        this.transform = character.transform;
+
+        // TODO: make this cleaner
+        insideBarSprite.get_sprite().transform.position.y = insideBarSprite.get_sprite().transform.position.y + (float)0.5;
+        insideBarSprite.get_sprite().set_scale(1, (float)0.2);
     }
 
     //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
+    public void changeHealthBar(float hp, float maxHp) {
+        insideBarSprite.get_sprite().set_scale(hp/maxHp, (float)0.2);
+    }
 
     //******************************************************************************************************************
     //* overrides

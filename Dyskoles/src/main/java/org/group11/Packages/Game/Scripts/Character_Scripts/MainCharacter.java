@@ -3,6 +3,8 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Backpack;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
 
 import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.*;
 
@@ -29,8 +31,13 @@ public class MainCharacter extends Character{
         _statBlock.set_MaxHp(3);
         _statBlock.set_hp(3);
         _statBlock.set_Atk(1);
+
         // set position
         this.transform.setPosition(new Vector3(1,1,0));
+
+        _healthBarOutline = new HealthBarOutline(this);
+        _healthBarInside = new HealthBarInside(this);
+
         // create sprite renderer
         spriteRenderer = new SpriteRenderer(this, "./Resources/ump45.png");
         this.addComponent(spriteRenderer);

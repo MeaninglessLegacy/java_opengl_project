@@ -1,6 +1,8 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
 import org.group11.Packages.Core.Main.GameObject;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
 
 /**
  * Base class for character objects within our game
@@ -9,13 +11,22 @@ public abstract class Character extends GameObject {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    // stores all the stats of this character
+    // Stores all the stats of this character
     protected StatBlock _statBlock = new StatBlock();
+    // Displays the health of the character above their sprite
+    protected HealthBarOutline _healthBarOutline;
+    protected HealthBarInside _healthBarInside;
     /**
      * Returns the StatBlock of this character object
      * @return the StatBlock to return
      */
     public StatBlock getStatBlock() { return this._statBlock; }
+    /**
+     * Return the HealthBar of this character object
+     * @return the HealthBar to return
+     */
+    public HealthBarOutline get_healthBarOutline() { return this._healthBarOutline; }
+    public HealthBarInside get_healthBarInside() { return this._healthBarInside; }
 
     //******************************************************************************************************************
     //* character methods
@@ -26,13 +37,17 @@ public abstract class Character extends GameObject {
      */
     public void takeDamage(int hp) {
         _statBlock.set_hp(_statBlock.get_hp() - hp);
+        _healthBarInside.changeHealthBar(((float) _statBlock.get_hp()), ((float)_statBlock.get_maxHp()));
     }
 
     /**
      * Increases the hp value of this character by specified amount
      * @param hp value to increase hp by
      */
-    public void addHealth(int hp) { _statBlock.set_hp(_statBlock.get_hp() + hp); }
+    public void addHealth(int hp) {
+        _statBlock.set_hp(_statBlock.get_hp() + hp);
+        _healthBarInside.changeHealthBar(((float) _statBlock.get_hp()), ((float)_statBlock.get_maxHp()));
+    }
 
     /**
      * Increases the max hp value of this character by specified amount
