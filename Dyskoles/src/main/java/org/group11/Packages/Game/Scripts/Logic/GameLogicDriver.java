@@ -155,8 +155,8 @@ public class GameLogicDriver extends GameObject {
      */
     public static void afterMCMoveLogic(MainCharacter MC) {
         enableKeys();
-        activateNearbyEnemies(MC);
         enemyLogic(MC);
+        activateNearbyEnemies(MC);
     }
 
     /**
@@ -171,7 +171,6 @@ public class GameLogicDriver extends GameObject {
             }
         }
     }
-
 
     /**
      * If an Enemy is within a certain range of a MainCharacter, activates the Enemy, and they will begin to pursue the
@@ -189,6 +188,7 @@ public class GameLogicDriver extends GameObject {
                 if (ex <= MCx + squareActivateRadius && ex >= MCx - squareActivateRadius &&
                     ey <= MCy + squareActivateRadius && ey >= MCy - squareActivateRadius) {
                         e.set_enemyActiveState(true);
+                        e.set_moveCountdownNumber(e.get_ticksBeforeNextMove());
                 }
             }
         }
@@ -227,7 +227,7 @@ public class GameLogicDriver extends GameObject {
             return characterInNextSpace;
         }
         else {
-            System.out.println("Illegal Enemy movement, check GameLogicDriver enemyCheckMOve()");
+            System.out.println("Illegal Enemy movement, check GameLogicDriver enemyCheckMove()");
             return null;
         }
     }

@@ -38,8 +38,6 @@ public class Minion extends Enemy{
         _healthBarInside = new HealthBarInside(this);
         _healthBarOutline = new HealthBarOutline(this);
         _moveCountdown = new MoveCountdown(this);
-
-        _moveCountdown.changeCountdown(_ticksBeforeNextMove);
     }
 
     //******************************************************************************************************************

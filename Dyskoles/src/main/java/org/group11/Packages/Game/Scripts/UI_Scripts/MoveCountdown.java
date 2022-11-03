@@ -43,9 +43,10 @@ public class MoveCountdown extends GameObject {
     //******************************************************************************************************************
     private void setupSprites() {
         for (SpriteRenderer sprite : cdList) {
-            sprite.shiftSprite('y', (float)1);
-            sprite.get_sprite().set_scale(1, (float)1);
+            sprite.shiftSprite('y', (float)0.75);
+            sprite.get_sprite().set_scale((float)0.5, (float)0.5);
         }
+        disableSprites();
     }
 
     private void disableSprites() {

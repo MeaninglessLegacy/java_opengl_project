@@ -36,9 +36,7 @@ public abstract class Enemy extends Character{
      * Sets the _enemyActive state of this character to specified value
      * @param state the value to set _enemyActive to
      */
-    public void set_enemyActiveState(boolean state) {
-        _enemyActive = state;
-    }
+    public void set_enemyActiveState(boolean state) { _enemyActive = state; }
 
     /**
      * Returns whether the enemy is active and is moving around
@@ -50,8 +48,14 @@ public abstract class Enemy extends Character{
      * Sets the _ticksBeforeNextMove value of this character to specified value
      * @param ticks the value to set _ticksBeforeNextMove to
      */
-    public void set_ticksBeforeNextMove(int ticks) {
-        _ticksBeforeNextMove = ticks;
+    public void set_ticksBeforeNextMove(int ticks) { _ticksBeforeNextMove = ticks; }
+
+    /**
+     * Returns the _ticksBeforeNextMove value of this Enemy
+     * @return the _ticksBeforeNextMOve value of this Enemy
+     */
+    public int get_ticksBeforeNextMove() {
+        return _ticksBeforeNextMove;
     }
 
     /**
@@ -59,6 +63,14 @@ public abstract class Enemy extends Character{
      * @return String that describes where the Enemy moves towards
      */
     public String get_moveTowards() { return _moveTowards; }
+
+    /**
+     * Sets the sprite displaying the number of moves before
+     */
+    public void set_moveCountdownNumber(int num) {
+        _moveCountdown.changeCountdown(num);
+    }
+
 
     /**
      * If an enemy is active, decrements their _ticksBeforeNextMove. If it decrements to 0, uses _pathfinder to find
