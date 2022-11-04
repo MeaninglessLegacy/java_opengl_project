@@ -26,6 +26,7 @@ public class HealthBarInside extends GameObject {
         this.transform = character.transform;
 
         insideBarSprite.shiftSprite('y', (float)0.5);
+        insideBarSprite.shiftSprite('z', (float)-0.6);
         insideBarSprite.get_sprite().set_scale(1, (float)0.15);
     }
 

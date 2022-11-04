@@ -123,7 +123,7 @@ public class Texture {
             if(channels.get(0)==4){ //rgba
                 GL45.glTexImage2D(GL45.GL_TEXTURE_2D, 0, GL45.GL_RGBA8, width.get(0), height.get(0), 0, GL45.GL_RGBA, GL45.GL_UNSIGNED_BYTE, image);
             }else if(channels.get(0)==3){ // rgb
-                GL45.glTexImage2D(GL45.GL_TEXTURE_2D, 0, GL45.GL_RGB8, width.get(0), height.get(0), 0, GL45.GL_RGB, GL45.GL_UNSIGNED_BYTE, image);
+                GL45.glTexImage2D(GL45.GL_TEXTURE_2D, 0, GL45.GL_RGB, width.get(0), height.get(0), 0, GL45.GL_RGB, GL45.GL_UNSIGNED_BYTE, image);
             }else{
                 System.out.println("Failure to load texture: "+filePath);
                 System.exit(-1);

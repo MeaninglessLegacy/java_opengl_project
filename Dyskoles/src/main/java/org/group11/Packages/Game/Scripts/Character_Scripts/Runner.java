@@ -47,6 +47,7 @@ public class Runner extends Enemy{
 
         characterSprite = new SpriteRenderer(this, "./Resources/m1911.png");
         this.addComponent(characterSprite);
+        characterSprite.get_sprite().transform.position.z -= 0.1; // place above tiles
         _healthBarInside = new HealthBarInside(this);
         _healthBarOutline = new HealthBarOutline(this);
         _moveCountdown = new MoveCountdown(this);
