@@ -23,6 +23,12 @@ public abstract class Level {
     //* methods
     //******************************************************************************************************************
     /**
+     * Moves characters, enemies and items to appropriate spawn locations.
+     * @param map Map to initialize characters, enemies and items positions to.
+     */
+    public void initializeLevel(Map map){return;}
+
+    /**
      * Returns this level's _mapGenerator
      * @return this level's map generator
      */

@@ -15,12 +15,13 @@ public class Floor extends Tile {
     }
 
     public Floor(Vector3 pos) {
+        setupFloor();
         transform.setPosition(pos);
     }
 
     private void setupFloor() {
         _tileType = tileTypes.floor;
-        this.spriteRenderer = new SpriteRenderer(this,"./Resources/GrassTile.png");
+        this.spriteRenderer = new SpriteRenderer(this,"./Resources/GrassTile1.png");
         this.addComponent(this.spriteRenderer);
     }
 

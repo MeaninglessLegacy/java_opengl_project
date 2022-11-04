@@ -4,9 +4,7 @@ import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.*;
 
 /**
  * Map object that keeps track of all tile objects on the map
@@ -44,6 +42,20 @@ public class Map {
             return null;
         }
         return ret;
+    }
+
+    // Eric - I need this to spawn enemies on the floor!!
+    /**
+     * Returns a list of all Floor tiles within the map.
+     * @return Floor tile list.
+     */
+    public List<Tile> getFloorTiles(){
+        List<Tile> floorTiles = new ArrayList<>();
+        for (Enumeration<String> tilePositions = _tileMap.keys(); tilePositions.hasMoreElements();) {
+            Tile tile = _tileMap.get(tilePositions.nextElement());
+            if(tile.getTileType() == Tile.tileTypes.floor) floorTiles.add(tile);
+        }
+        return floorTiles;
     }
 
     /**

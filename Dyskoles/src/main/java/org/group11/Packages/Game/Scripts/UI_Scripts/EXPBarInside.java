@@ -26,7 +26,7 @@ public class EXPBarInside extends GameObject {
         this.transform = MC.transform;
 
         insideBarSprite.shiftSprite('y', (float)-0.5);
-        insideBarSprite.shiftSprite('z', (float)-0.6);
+        insideBarSprite.shiftSprite('z', (float)-0.5);
         insideBarSprite.get_sprite().set_scale(0, (float)0.1);
     }
 

@@ -39,6 +39,7 @@ public class SpikeTrap extends Item {
     private void setupSpikeTrap() {
         spriteRenderer = new SpriteRenderer(this, "./Resources/SpikeTrap.png");
         this.addComponent(spriteRenderer);
+        spriteRenderer.shiftSprite('z', (float)-0.1);
     }
 
     //******************************************************************************************************************

@@ -26,7 +26,7 @@ public class EXPBarOutline extends GameObject {
         this.transform = MC.transform;
 
         outsideBarSprite.shiftSprite('y', (float)-0.5);
-        outsideBarSprite.shiftSprite('z', (float)-0.6);
+        outsideBarSprite.shiftSprite('z', (float)-0.5);
         outsideBarSprite.get_sprite().set_scale(1, (float)0.1);
     }
 

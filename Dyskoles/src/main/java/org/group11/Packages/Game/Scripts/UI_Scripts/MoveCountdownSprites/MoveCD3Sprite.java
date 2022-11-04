@@ -10,6 +10,7 @@ public class MoveCD3Sprite extends MoveCDSprites {
     public MoveCD3Sprite(Enemy enemy) {
         MoveCDSprite = new SpriteRenderer(this, "./Resources/countdown3.png");
         this.addComponent(MoveCDSprite);
+        MoveCDSprite.shiftSprite('z', (float)-0.1);
 
         // Binds this MoveCountdown's position to the enemy it's for
         this.transform = enemy.transform;

@@ -30,6 +30,7 @@ public class Exit extends Item {
     private void setupExit() {
         spriteRenderer = new SpriteRenderer(this, "./Resources/prototypeExit1.png");
         this.addComponent(spriteRenderer);
+        spriteRenderer.shiftSprite('z', (float)-0.1);
     }
 
     //******************************************************************************************************************

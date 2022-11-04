@@ -15,12 +15,13 @@ public class Wall extends Tile {
     }
 
     public Wall (Vector3 pos) {
+        setupWall();
         transform.setPosition(pos);
     }
 
     private void setupWall() {
         _tileType = tileTypes.wall;
-        this.spriteRenderer = new SpriteRenderer(this,"./Resources/GreyWall.png");
+        this.spriteRenderer = new SpriteRenderer(this,"./Resources/GrassWall.png");
         this.addComponent(this.spriteRenderer);
     }
 

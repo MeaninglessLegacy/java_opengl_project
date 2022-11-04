@@ -36,6 +36,7 @@ public class RegenHeart extends Item {
     private void setupRegenHeart() {
         spriteRenderer = new SpriteRenderer(this, "./Resources/Heart.png");
         this.addComponent(spriteRenderer);
+        spriteRenderer.shiftSprite('z', (float)-0.5);
     }
 
     //******************************************************************************************************************

@@ -9,7 +9,9 @@ import org.group11.Packages.Game.Scripts.Character_Scripts.*;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
+import org.group11.Packages.Game.Scripts.Levels.FourRoom;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom;
+import org.group11.Packages.Game.Scripts.Levels.TestRoom2;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 
 import java.util.ArrayList;
@@ -79,6 +81,7 @@ public class GameLogicDriver extends GameObject {
         if (_gameLevel != null) {
             MapGenerator mapGen = _gameLevel.get_mapGenerator();
             _gameMap = mapGen.generateMap();
+            _gameLevel.initializeLevel(_gameMap);
             _playerCharacters = _gameLevel.get_players();
             _enemyCharacters = _gameLevel.get_enemies();
             _items = _gameLevel.get_items();
@@ -320,15 +323,17 @@ public class GameLogicDriver extends GameObject {
             _gameStarted = true;
 
             // Gets and loads a level
-            Level newLevel = new TestRoom();
+            Level newLevel = new TestRoom2();
             set_gameLevel(newLevel);
             loadNewLevel();
 
             // Creates the camera that will follow the player character
-            MainCharacter mc = _playerCharacters.get(player1ArrayPosition);
-            Camera followingCamera = new FollowingCamera(mc);
-            scene.Instantiate(followingCamera);
-            scene.set_mainCamera(followingCamera);
+            if(!_playerCharacters.isEmpty()){
+                MainCharacter mc = _playerCharacters.get(player1ArrayPosition);
+                Camera followingCamera = new FollowingCamera(mc);
+                scene.Instantiate(followingCamera);
+                scene.set_mainCamera(followingCamera);
+            }
         }
         super.update();
     }
