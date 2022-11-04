@@ -20,7 +20,7 @@ public class Camera extends GameObject {
     private int cameraMode = Camera.ORTHOGRAPHIC; // individual camera's projection mode
 
     /**
-     *
+     * Constructor for Camera, makes the orientation orthographic and sets the Camera's position in terms of z
      */
     public Camera(){
         this.cameraMode = Camera.ORTHOGRAPHIC;

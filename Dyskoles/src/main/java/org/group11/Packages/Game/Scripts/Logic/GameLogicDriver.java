@@ -8,6 +8,7 @@ import org.group11.Packages.Game.Scripts.Cameras.FollowingCamera;
 import org.group11.Packages.Game.Scripts.Character_Scripts.*;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
+import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 
@@ -34,6 +35,9 @@ public class GameLogicDriver extends GameObject {
 
     private static Scene scene;
 
+    //******************************************************************************************************************
+    //* getters and setters
+    //******************************************************************************************************************
     /**
      * Change _gameLevel to specified level
      * @param newLevel the level to set as
@@ -41,19 +45,13 @@ public class GameLogicDriver extends GameObject {
     public static void set_gameLevel(Level newLevel){ _gameLevel = newLevel; }
 
     /**
-     * Adds a MainCharacter to the _playerCharacters arraylist, thus adding them into the game
-     * @param MC the MainCharacter to add the game
+     * Gets whether the game is currently running or not
+     * @return true if the game is still running, false if not
      */
-    public static void addMainCharacter (MainCharacter MC) { _playerCharacters.add(MC); }
-
-    /**
-     * Adds an Item to the _items arraylist, thus adding it into the game
-     * @param item the Item to add the game
-     */
-    public static void addItem (Item item) { _items.add(item); }
+    public static boolean getGameState() { return _gameStarted; }
 
     //******************************************************************************************************************
-    //* singleton constructor and fields
+    //* singleton constructor and methods
     //******************************************************************************************************************
     private static GameLogicDriver theGameLogicDriver = null;
 
@@ -81,8 +79,18 @@ public class GameLogicDriver extends GameObject {
         if (_gameLevel != null) {
             MapGenerator mapGen = _gameLevel.get_mapGenerator();
             _gameMap = mapGen.generateMap();
+            _playerCharacters = _gameLevel.get_players();
             _enemyCharacters = _gameLevel.get_enemies();
-            // TODO: get player characters and items?
+            _items = _gameLevel.get_items();
+            for (MainCharacter c : _playerCharacters) {
+                c.instantiateRelatedSprites(scene);
+            }
+            for (Enemy e : _enemyCharacters) {
+                e.instantiateRelatedSprites(scene);
+            }
+            for (Item i : _items) {
+                scene.Instantiate(i);
+            }
         }
         else {
             System.out.println("Could not load level as GameLogicDriver has no level");
@@ -90,131 +98,139 @@ public class GameLogicDriver extends GameObject {
     }
 
     /**
-     * Iterates through _playerCharacters and moves each MainCharacter according to the inputted button. If a
-     * MainCharacter encounters another Character or Item, deals with them appropriately.
+     *
      */
-    private static void moveMainCharacters(int key) {
-        for (MainCharacter c : _playerCharacters) {
-            // Gets the position of where this MainCharacter is moving to next
-            float playerX = c.transform.position.x;
-            float playerY = c.transform.position.y;
-            float playerZ = c.transform.position.z;
-            Vector3 nextMove = null;
-            if (key == 'W') {
-                nextMove = new Vector3(playerX, playerY + 1, playerZ);
-            } else if (key == 'A') {
-                nextMove = new Vector3(playerX - 1, playerY, playerZ);
-            } else if (key == 'S') {
-                nextMove = new Vector3(playerX, playerY - 1, playerZ);
-            } else if (key == 'D') {
-                nextMove = new Vector3(playerX + 1, playerY, playerZ);
-            }
+    public static void removeEnemy(Enemy enemy) {
+        _enemyCharacters.remove(enemy);
+        enemy.destroyRelatedSprites(scene);
+    }
 
-            // Checks the type of tile the MainCharacter is attempting to moving in to
-            Tile tile = _gameMap.getTile(nextMove);
-            if (tile != null) {
-                if(tile.getTileType() == floor){
-                    // Checks if there's any Character in the next tile and attempts to move into it
-                    Character characterInNextSpace = checkForCharacter(nextMove);
-                    if (characterInNextSpace == null) {
-                        System.out.println("Player moved into an empty tile");
-                        c.transform.setPosition(nextMove);
-                /* MainCharacter attacks enemy and appropriate outcome is determined, MainCharacter then moves into the
-                   tile if the enemy died */
-                    } else if (characterInNextSpace instanceof Enemy) {
-                        System.out.println("Player attempted to move into an enemy");
-                        boolean enemyDied = characterCombat(c, characterInNextSpace);
-                        if (enemyDied) {
-                            System.out.println("Player defeated an enemy");
-                            if (characterInNextSpace instanceof Boss) {
-                                c.addExp(((Boss) characterInNextSpace).expGiven);
-                            } else if (characterInNextSpace instanceof Minion) {
-                                c.addExp(((Minion) characterInNextSpace).expGiven);
-                            } else if (characterInNextSpace instanceof Runner) {
-                                c.addExp(((Runner) characterInNextSpace).expGiven);
-                                c.addMaxHealth(((Runner) characterInNextSpace).maxHpGiven);
-                                c.addAttack(((Runner) characterInNextSpace).atkGiven);
-                            }
-                            _enemyCharacters.remove(characterInNextSpace);
-                            scene.Destroy(characterInNextSpace);
-                            c.transform.setPosition(nextMove);
-                        }
-                    } else { // If the space MainCharacter attempts to move in to isn't free or has an Enemy, nothing happens
-                        System.out.println("Player attempted to move into a wall");
+    /**
+     * Method is called by a MainCharacter to see if they can move to a specific Vector3 point. Checks the type of tile
+     * at that point, and checks to see if there's any characters. If there's an Enemy, the calling MainCharacter
+     * attacks the Enemy. If the tile is all clear to move in to, returns true. If not, returns false.
+     * @param MC the MainCharacter asking if they can move
+     * @param nextMove the position to which the MainCharacter is asking if they can move to
+     * @return true if the calling MainCharacter can now move to the nextMove position, false if they can't
+     */
+    public static boolean MCCheckMove(MainCharacter MC, Vector3 nextMove) {
+        Tile tile = _gameMap.getTile(nextMove);
+        if (tile != null) {
+            if (tile.getTileType() == floor) {
+                Character characterInNextSpace = checkForCharacter(nextMove);
+                if (characterInNextSpace == null) {
+                    return true;
+                }
+                else if (characterInNextSpace instanceof Enemy) {
+                    boolean enemyDied = MC.attackCharacter(characterInNextSpace);
+                    if (enemyDied) {
+                        ((Enemy) characterInNextSpace).giveRewards(MC);
+                        removeEnemy((Enemy)characterInNextSpace);
+                        return true;
                     }
                 }
-            } // If the tileType the MainCharacter is attempting to move in to isn't of type 'floor', nothing happens
+            }
+        }
+        return false;
+    }
 
-            // Checks if there's any items on the tile that the MainCharacter is now on and activates it if there is
-            Item itemOnTile = checkForItem(c.transform.position);
-            if (itemOnTile != null) {
-                System.out.println("Tile player is currently on has an item");
-                if (itemOnTile.activate(c)) {
-                    _items.remove(itemOnTile);
-                    scene.Destroy(itemOnTile);
-                }
-                if (c.getStatBlock().get_hp() <= 0) {
-                    endGame(false);
-                }
-            } // If there is no item on the current tile, nothing happens
+    /**
+     * Method is called by a MainCharacter to see if they are on any items. If they are, activates them
+     */
+    public static void MCCheckItem(MainCharacter MC, Vector3 pos) {
+        Item itemOnTile = checkForItem(MC.transform.position);
+        if (itemOnTile != null) {
+            System.out.println("Tile player is currently on has an item");
+            if (itemOnTile.activate(MC)) {
+                _items.remove(itemOnTile);
+                scene.Destroy(itemOnTile);
+            }
+            if (MC.getStatBlock().get_hp() <= 0) {
+                endGame(false);
+            }
         }
     }
 
     /**
-     * Iterates through _enemyCharacters and moves each Enemy if needed, deals with encounters with other Characters
-     * appropriately
+     * Method is called by a MainCharacter after they have moved. Runs other logic that needs to be run after
+     * MainCharacter movement
      */
-    private static void moveEnemies() {
+    public static void afterMCMoveLogic(MainCharacter MC) {
+        enableKeys();
+        enemyLogic(MC);
+        activateNearbyEnemies(MC);
+    }
+
+    /**
+     * If all bosses are dead, makes all Keys visible, and therefore obtainable by a MainCharacter
+     */
+    private static void enableKeys() {
+        if (checkForAllDeadBoss()) {
+            for (Item i : _items) {
+                if (i instanceof Key) {
+                    ((Key) i).setKeyVisibility(true);
+                }
+            }
+        }
+    }
+
+    /**
+     * If an Enemy is within a certain range of a MainCharacter, activates the Enemy, and they will begin to pursue the
+     * MainCharacter if not already activated
+     */
+    private static void activateNearbyEnemies(MainCharacter MC) {
+        int squareActivateRadius = 3;
+        float MCx = MC.transform.position.x;
+        float MCy = MC.transform.position.y;
         for (Enemy e : _enemyCharacters) {
-            if (e.canEnemyMove()) {
-                String moveTowards = e.get_moveTowards();
-                // Determining where the Enemy is moving towards
-                if (moveTowards.equals("awayFromPlayer")) {
-                    System.out.println("Runner is moving");
-                    // TODO: figure out how to get a random point in opposite direction of player
-                    Vector3 farAwayPosition = new Vector3(400,400,0);
-                    Vector3 nextMove = _pathfinder.FindPath(_gameMap, e.transform.position, farAwayPosition);
-                    Character characterInNextSpace = checkForCharacter(nextMove);
-                    if (characterInNextSpace == null) {
-                        e.transform.setPosition(nextMove);
-                    } else {
-                        e.set_ticksBeforeNextMove(1);
-                    }
-                }
-                else { // Default option; Enemy moves towards player
-                    System.out.println("Regular enemy is moving");
-                    Vector3 nextMove = _pathfinder.FindPath(_gameMap, e.transform.position, _playerCharacters.get(player1ArrayPosition).transform.position);
-                    Character characterInNextSpace = checkForCharacter(nextMove);
-                    if (characterInNextSpace == null) {
-                        e.transform.setPosition(nextMove);
-                    }
-                    else if (characterInNextSpace instanceof Enemy) {
-                        e.set_ticksBeforeNextMove(1);
-                    }
-                    else if (characterInNextSpace instanceof MainCharacter) {
-                        boolean MCDied = characterCombat(e, characterInNextSpace);
-                        if (MCDied) {
-                            endGame(false);
-                        }
-                    }
+            if (!e.get_enemyActiveState()) {
+                float ex = e.transform.position.x;
+                float ey = e.transform.position.y;
+
+                if (ex <= MCx + squareActivateRadius && ex >= MCx - squareActivateRadius &&
+                    ey <= MCy + squareActivateRadius && ey >= MCy - squareActivateRadius) {
+                        e.set_enemyActiveState(true);
+                        e.set_moveCountdownNumber(e.get_ticksBeforeNextMove());
                 }
             }
         }
     }
 
     /**
-     * Given 2 Characters, the second Character will have their health reduced according to the first Character's
-     * attack stat
-     * @param attacker the character moving into the other character and attacking
-     * @param defender the character being attacked and losing health
-     * @return true if the defender Character's health is reduced to 0 or below, false if not
+     * Iterates through each Enemy in the _enemyCharacters list, and only if the game is currently still running, calls
+     * the Enemy's canEnemyMove() method to see if they can move
      */
-    private static boolean characterCombat(Character attacker, Character defender) {
-        defender.takeDamage(attacker.getStatBlock().get_atk());
-        if (defender.getStatBlock().get_hp() <= 0) {
-            return true;
-        } else {
-            return false;
+    private static void enemyLogic(MainCharacter MC) {
+        for (Enemy e : _enemyCharacters) {
+            if (getGameState()) {
+                e.canEnemyMove(_pathfinder, _gameMap, MC);
+            }
+        }
+    }
+
+    /**
+     * Method is called by an Enemy to see if they can move to a specific Vector3 point. Checks to see if there's any
+     * characters. If there's a MainCharacter, the calling Enemy attacks the MainCharacter. If the tile is all clear to
+     * move in to, returns true. If there's something obstructing the Enemy, returns false
+     */
+    public static Character enemyCheckMove(Enemy e, Vector3 nextMove) {
+        Character characterInNextSpace = checkForCharacter(nextMove);
+        if (characterInNextSpace == null) {
+            return null;
+        }
+        else if (characterInNextSpace instanceof MainCharacter) {
+            boolean MCDied = e.attackCharacter(characterInNextSpace);
+            if (MCDied) {
+                endGame(false);
+            }
+            return characterInNextSpace;
+        }
+        else if (characterInNextSpace instanceof Enemy) {
+            return characterInNextSpace;
+        }
+        else {
+            System.out.println("Illegal Enemy movement, check GameLogicDriver enemyCheckMove()");
+            return null;
         }
     }
 
@@ -223,14 +239,14 @@ public class GameLogicDriver extends GameObject {
      * Vector3 pos
      * @return Character object if there is a character in the given position, or null if there is none
      */
-    private static Character checkForCharacter(Vector3 pos) {
+    public static Character checkForCharacter(Vector3 pos) {
         for (MainCharacter c : _playerCharacters) {
-            if (c.transform.position == pos) {
+            if (c.transform.position.x == pos.x && c.transform.position.y == pos.y) {
                 return c;
             }
         }
         for (Enemy e : _enemyCharacters) {
-            if (e.transform.position == pos) {
+            if (e.transform.position.x == pos.x && e.transform.position.y == pos.y) {
                 return e;
             }
         }
@@ -243,7 +259,7 @@ public class GameLogicDriver extends GameObject {
      */
     private static Item checkForItem(Vector3 pos) {
         for (Item i : _items) {
-            if (i.transform.position == pos) {
+            if (i.transform.position.x == pos.x && i.transform.position.y == pos.y) {
                 return i;
             }
         }
@@ -251,19 +267,26 @@ public class GameLogicDriver extends GameObject {
     }
 
     /**
+     * Iterates through _enemyCharacters to see if all Boss enemies are dead
+     * @return true if there are no more Boss enemies, false if there is at least one more
+     */
+    private static boolean checkForAllDeadBoss() {
+        for (Enemy e : _enemyCharacters) {
+            if (e instanceof Boss) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Ends the current game and the player either wins or loses, depending on the parameter
      * @param won true if the player won (has reached the exit with a key), false if not (player died)
      */
     public static void endGame(boolean won) {
-        System.out.println("The game ended");
-        // TODO: end the game?
-    }
-
-    /**
-     * Run the game
-     */
-    private static void logicLoop(int key) {
-        return;
+        System.out.println("The game has ended");
+        clearEverything();
+        _gameStarted = false;
     }
 
     /**
@@ -271,16 +294,18 @@ public class GameLogicDriver extends GameObject {
      */
     private static void clearEverything() {
         for (MainCharacter c : _playerCharacters) {
-            scene.Destroy(c);
+            c.destroyRelatedSprites(scene);
         }
         _playerCharacters = new ArrayList<MainCharacter>();
         for (Enemy e : _enemyCharacters) {
-            scene.Destroy(e);
+            e.destroyRelatedSprites(scene);
         }
         _enemyCharacters = new ArrayList<Enemy>();
         for (Item i : _items) {
             scene.Destroy(i);
         }
+        _playerCharacters = new ArrayList<MainCharacter>();
+        _enemyCharacters = new ArrayList<Enemy>();
         _items = new ArrayList<Item>();
         _gameMap.clearMap();
         _gameMap = null;
@@ -293,12 +318,14 @@ public class GameLogicDriver extends GameObject {
     public void update() {
         if(!_gameStarted){
             _gameStarted = true;
+
+            // Gets and loads a level
             Level newLevel = new TestRoom();
             set_gameLevel(newLevel);
             loadNewLevel();
-            MainCharacter mc = new MainCharacter();
-            addMainCharacter(mc);
-            scene.Instantiate(mc);
+
+            // Creates the camera that will follow the player character
+            MainCharacter mc = _playerCharacters.get(player1ArrayPosition);
             Camera followingCamera = new FollowingCamera(mc);
             scene.Instantiate(followingCamera);
             scene.set_mainCamera(followingCamera);
@@ -308,24 +335,10 @@ public class GameLogicDriver extends GameObject {
 
     @Override
     public void start() {
-        /*
-        MainCharacter player1 = new MainCharacter();
-        Scene.Instantiate(player1);
-        addMainCharacter(player1);
-        */
         scene = Scene.get_scene();
         _pathfinder = new Pathfinder();
     }
 
-    private long lastTime = 0;
-    private int timeBeforeNextRead = 200;
     @Override
-    public void onKeyDown(int key) {
-        if(System.currentTimeMillis()-lastTime > timeBeforeNextRead){
-            lastTime = System.currentTimeMillis();
-            moveMainCharacters(key);
-            moveEnemies();
-        }
-
-    }
+    public void onKeyDown(int key) { super.onKeyDown(key); }
 }

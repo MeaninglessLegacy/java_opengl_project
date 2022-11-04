@@ -32,6 +32,8 @@ public class Transform {
      * @param position The Vector3 to set the transform to.
      */
     public void setPosition(Vector3 position) {
-        this.position = position;
+        this.position.x = position.x;
+        this.position.y = position.y;
+        this.position.z = position.z;
     }
 }

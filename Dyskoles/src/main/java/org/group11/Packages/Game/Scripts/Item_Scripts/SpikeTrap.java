@@ -1,5 +1,6 @@
 package org.group11.Packages.Game.Scripts.Item_Scripts;
 
+import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 
@@ -11,8 +12,12 @@ public class SpikeTrap extends Item {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    private int _spikeTrapDamage;
+    private SpriteRenderer spriteRenderer;
+    private int _spikeTrapDamage = 1;
 
+    //******************************************************************************************************************
+    //* setters and getters
+    //******************************************************************************************************************
     /**
      * Returns how much damage this SpikeTrap does
      * @return integer _spikeTrapDamage
@@ -20,10 +25,20 @@ public class SpikeTrap extends Item {
     public int get_spikeTrapDamage() { return _spikeTrapDamage; }
 
     //******************************************************************************************************************
-    //* constructor
+    //* constructor methods
     //******************************************************************************************************************
     public SpikeTrap() {
-        transform.position = new Vector3(400, 400, 0);
+        setupSpikeTrap();
+    }
+
+    public SpikeTrap(Vector3 pos) {
+        transform.setPosition(pos);
+        setupSpikeTrap();
+    }
+
+    private void setupSpikeTrap() {
+        spriteRenderer = new SpriteRenderer(this, "./Resources/SpikeTrap.png");
+        this.addComponent(spriteRenderer);
     }
 
     //******************************************************************************************************************
@@ -36,12 +51,8 @@ public class SpikeTrap extends Item {
     }
 
     @Override
-    public void update() {
-        super.update();
-    }
+    public void update() { super.update(); }
 
     @Override
-    public void start() {
-        super.start();
-    }
+    public void start() { super.start(); }
 }

@@ -4,31 +4,37 @@ import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 
-import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.endGame;
-
 /**
- * Exit object, when the player character runs into this object with a key they complete the level
+ * Spike trap object, only affects player character and hurts the player character when the player character touches
+ * this object
  */
-public class Exit extends Item {
+public class RegenHeart extends Item {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
     private SpriteRenderer spriteRenderer;
+    private int _regenAmount = 1;
+
+    /**
+     * Returns how much health this heart regenerates
+     * @return integer _regenAmount
+     */
+    public int get_regenAmount() { return _regenAmount; }
 
     //******************************************************************************************************************
     //* constructor methods
     //******************************************************************************************************************
-    public Exit() {
-        setupExit();
+    public RegenHeart() {
+        setupRegenHeart();
     }
 
-    public Exit(Vector3 pos) {
+    public RegenHeart(Vector3 pos) {
         transform.setPosition(pos);
-        setupExit();
+        setupRegenHeart();
     }
 
-    private void setupExit() {
-        spriteRenderer = new SpriteRenderer(this, "./Resources/prototypeExit1.png");
+    private void setupRegenHeart() {
+        spriteRenderer = new SpriteRenderer(this, "./Resources/Heart.png");
         this.addComponent(spriteRenderer);
     }
 
@@ -37,21 +43,18 @@ public class Exit extends Item {
     //******************************************************************************************************************
     @Override
     public boolean activate(MainCharacter c) {
-        Key testKey = new Key();
-        if (c.backpack.removeItem(testKey)) {
-            testKey = null;
-            endGame(true);
+        if (c.getStatBlock().get_hp() < c.getStatBlock().get_maxHp()) {
+            c.addHealth(_regenAmount);
+            return true;
         }
-        return false;
+        else {
+            return false;
+        }
     }
 
     @Override
-    public void start() {
-        super.start();
-    }
+    public void update() { super.update(); }
 
     @Override
-    public void update() {
-        super.update();
-    }
+    public void start() { super.start(); }
 }

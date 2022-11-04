@@ -7,17 +7,20 @@ import java.util.ArrayList;
  */
 public class Backpack {
     //******************************************************************************************************************
-    //* constructor
+    //* variables
+    //******************************************************************************************************************
+    protected ArrayList<Item> _inventory = new ArrayList<>();
+
+    //******************************************************************************************************************
+    //* constructor methods
     //******************************************************************************************************************
     public Backpack() {
 
     }
 
     //******************************************************************************************************************
-    //* variables
+    //* setters and getters
     //******************************************************************************************************************
-    protected ArrayList<Item> _inventory = new ArrayList<>();
-
     public ArrayList<Item> getItems() { return this._inventory; }
 
     //******************************************************************************************************************
@@ -37,10 +40,12 @@ public class Backpack {
     public boolean removeItem (Item item) {
         int i = 0;
         while (i < _inventory.size()) {
-            if (_inventory.contains(item)) {
+            if (_inventory.get(i).getClass().getName() == item.getClass().getName()) {
+                System.out.println("removing item from backpack");
                 _inventory.remove(item);
                 return true;
             }
+            i++;
         }
         return false;
     }

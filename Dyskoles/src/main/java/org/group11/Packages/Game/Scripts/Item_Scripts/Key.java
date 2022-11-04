@@ -1,5 +1,6 @@
 package org.group11.Packages.Game.Scripts.Item_Scripts;
 
+import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 
@@ -8,29 +9,62 @@ import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
  */
 public class Key extends Item{
     //******************************************************************************************************************
-    //* constructor
+    //* variables
     //******************************************************************************************************************
-    public Key() {
-        transform.position = new Vector3(400, 400, 0);
+    private SpriteRenderer spriteRenderer;
+
+    //******************************************************************************************************************
+    //* constructor  methods
+    //******************************************************************************************************************
+    public Key () {
+        setupKey();
     }
+
+    public Key(Vector3 pos) {
+        transform.setPosition(pos);
+        setupKey();
+    }
+
+    private void setupKey() {
+        spriteRenderer = new SpriteRenderer(this, "./Resources/key.png");
+        this.addComponent(spriteRenderer);
+        spriteRenderer.enabled = false;
+    }
+
+    //******************************************************************************************************************
+    //* methods
+    //******************************************************************************************************************
+    /**
+     * Makes this Key visible or invisible according to the parameter
+     * @param state true to make the key visible, false to make the key invisible
+     */
+    public void setKeyVisibility(boolean state) { spriteRenderer.enabled = state; }
+
+    /**
+     *
+     * @return
+     */
+    public boolean getKeyVisibility() { return spriteRenderer.enabled; }
 
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
     @Override
     public boolean activate(MainCharacter c) {
-        Key invKey = new Key();
-        c.backpack.addItem(invKey);
-        return true;
+        if (spriteRenderer.enabled) {
+            Key invKey = new Key();
+            c.backpack.addItem(invKey);
+            spriteRenderer.enabled = false;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
-    public void start() {
-        super.start();
-    }
+    public void start() { super.start(); }
 
     @Override
-    public void update() {
-        super.update();
-    }
+    public void update() { super.update(); }
 }
