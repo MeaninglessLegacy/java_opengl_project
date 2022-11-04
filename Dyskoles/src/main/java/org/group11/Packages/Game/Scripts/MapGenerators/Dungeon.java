@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- *
+ * Shamelessly copying and modifying to work in Java an old room generator algorithm I made based on someone
+ * else's idea. https://github.com/MeaninglessLegacy/test_project_1 -Eric
  */
 public class Dungeon extends MapGenerator {
     private class Tile {
