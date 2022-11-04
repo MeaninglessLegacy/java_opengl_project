@@ -81,9 +81,10 @@ public class MainCharacter extends Character{
      */
     public void addExp(int exp) {
         _statBlock.set_exp(_statBlock.get_exp() + exp);
-        if (exp >= 5 * _statBlock.get_lvl()) {
+        if (_statBlock.get_exp() >= 5 * _statBlock.get_lvl()) {
+            System.out.println("test");
+            _statBlock.set_exp(_statBlock.get_exp() - (5 * _statBlock.get_lvl()));
             addLevel();
-            _statBlock.set_exp(_statBlock.get_exp() - 5 * _statBlock.get_lvl());
         }
         _EXPBarInside.changeEXPBar((float)_statBlock.get_exp(), ((float)5 * _statBlock.get_lvl()));
     }
