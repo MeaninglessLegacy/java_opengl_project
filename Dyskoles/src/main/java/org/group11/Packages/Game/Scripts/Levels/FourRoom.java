@@ -15,16 +15,17 @@ public class FourRoom extends Level {
     public FourRoom(){
         _mapGenerator = new FourConnectedRooms();
 
-        MainCharacter testMC = new MainCharacter(new Vector3(1, 1, 0));
+        MainCharacter testMC = new MainCharacter(new Vector3(4, 4, 0));
         Key testKey = new Key(new Vector3(4, 4, 0));
         Exit testExit = new Exit(new Vector3(4, 6, 0));
         SpikeTrap testSpikeTrap = new SpikeTrap(new Vector3(8, 4, 0));
         RegenHeart testRegenHeart = new RegenHeart(new Vector3(6, 4, 0));
         Boss testBoss = new Boss(new Vector3(1,5,0));
         Minion testMinion1 = new Minion(new Vector3(5,3,0));
-        Minion testMinion2 = new Minion(new Vector3(10,10,0));
+        Minion testMinion2 = new Minion(new Vector3(9,9,0));
 
         _players.add(testMC);
+        /*
         _items.add(testExit);
         _items.add(testKey);
         _items.add(testSpikeTrap);
@@ -32,6 +33,6 @@ public class FourRoom extends Level {
         _enemies.add(testBoss);
         _enemies.add(testMinion1);
         _enemies.add(testMinion2);
-
+        */
     }
 }
