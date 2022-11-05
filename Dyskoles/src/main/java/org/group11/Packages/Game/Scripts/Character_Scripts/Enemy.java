@@ -21,8 +21,6 @@ public abstract class Enemy extends Character{
     protected int _ticksPerMove = 2;
     // this boolean tracks if this character should perform enemy logic
     protected boolean _enemyActive = false;
-    // this string tells the game logic where this character moves towards when activated
-    protected String _moveTowards = "player";
     // this integer tells the game how much exp will be given to the Character who kills this Enemy
     public int expGiven = 1;
     // displays how many ticks until this enemy moves above their sprite
@@ -57,12 +55,6 @@ public abstract class Enemy extends Character{
         return _ticksBeforeNextMove;
     }
 
-    /**
-     * Returns the String containing where the Enemy moves towards
-     * @return String that describes where the Enemy moves towards
-     */
-    public String get_moveTowards() { return _moveTowards; }
-
     //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
@@ -84,21 +76,16 @@ public abstract class Enemy extends Character{
     public void canEnemyMove(Pathfinder _pathfinder, Map _gameMap, MainCharacter MC) {
         if (_enemyActive) {
             if (--_ticksBeforeNextMove == 0) {
-                // Determining where the Enemy is pathing towards
-                Vector3 nextMove = null;
-                if (_moveTowards.equals("awayFromPlayer")) {
-                    System.out.println("Runner is getting nextMove");
-                    // TODO: figure out how to get a random point in opposite direction of player
-                    Vector3 farAwayPosition = new Vector3(30, 2, 0);
-                    nextMove = _pathfinder.FindPath(_gameMap, this.transform.position, farAwayPosition);
-                } else { // Default implementation; enemy moves towards MainCharacter
-                    System.out.println("Regular Enemy is getting nextMove");
-                    nextMove = _pathfinder.FindPath(_gameMap, this.transform.position, MC.transform.position);
-                }
-                // Checking if the enemy can move
+                // Getting the next Tile the Enemy will move on to
+                System.out.println("Regular Enemy is getting nextMove");
+                Vector3 nextMove = _pathfinder.FindPath(_gameMap, this.transform.position, MC.transform.position);
+
+                // Checking if the enemy can move onto that Tile
                 System.out.println("Checking if enemy can move");
                 if (nextMove != null) {
                     Character characterInNextSpace = enemyCheckMove(this, nextMove);
+                    /* After interacting with any character in the next tile, moves this Enemy if it can move or keeps
+                       it in place if it can't */
                     if (characterInNextSpace == null) {
                         System.out.println("Enemy is moving");
                         this.transform.setPosition(nextMove);
@@ -116,6 +103,7 @@ public abstract class Enemy extends Character{
                     System.out.println("Next move for enemy is null");
                 }
             }
+            // Changes the countdown sprite above the Enemy to reflect how many ticks until it moves
             _moveCountdown.changeCountdown(_ticksBeforeNextMove);
         }
     }

@@ -3,9 +3,13 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Scene;
+import org.group11.Packages.Game.Scripts.Logic.Map;
+import org.group11.Packages.Game.Scripts.Logic.Pathfinder;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
 import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdown;
+
+import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.enemyCheckMove;
 
 /**
  * Special enemy class, Runner runs away from the player when activated
@@ -39,7 +43,6 @@ public class Runner extends Enemy{
         expGiven = 5;
         maxHpGiven = 1;
         atkGiven = 1;
-        _moveTowards = "awayFromPlayer";
 
         characterSprite = new SpriteRenderer(this, "./Resources/m1911.png");
         this.addComponent(characterSprite);
@@ -69,6 +72,44 @@ public class Runner extends Enemy{
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+    @Override
+    public void canEnemyMove(Pathfinder _pathfinder, Map _gameMap, MainCharacter MC) {
+        if (_enemyActive) {
+            if (--_ticksBeforeNextMove == 0) {
+                // Getting the next Tile the Runner will move on to
+                System.out.println("Runner is getting nextMove");
+                // TODO: figure out how to get a random point in opposite direction of player
+                Vector3 farAwayPosition = new Vector3(30, 2, 0);
+                Vector3 nextMove = _pathfinder.FindPath(_gameMap, this.transform.position, farAwayPosition);
+
+                // Checking if the enemy can move onto that Tile enemy can move
+                System.out.println("Checking if enemy can move");
+                if (nextMove != null) {
+                    Character characterInNextSpace = enemyCheckMove(this, nextMove);
+                    /* After interacting with any character in the next tile, moves this Enemy if it can move or keeps
+                       it in place if it can't */
+                    if (characterInNextSpace == null) {
+                        System.out.println("Enemy is moving");
+                        this.transform.setPosition(nextMove);
+                        _ticksBeforeNextMove = _ticksPerMove;
+                    }
+                    else if (characterInNextSpace instanceof MainCharacter) {
+                        _ticksBeforeNextMove = _ticksPerMove;
+                    }
+                    else {
+                        _ticksBeforeNextMove = 1;
+                    }
+                }
+                else {
+                    _ticksBeforeNextMove = 1;
+                    System.out.println("Next move for enemy is null");
+                }
+            }
+            // Changes the countdown sprite above the Enemy to reflect how many ticks until it moves
+            _moveCountdown.changeCountdown(_ticksBeforeNextMove);
+        }
+    }
+
     @Override
     public void instantiateRelatedSprites(Scene scene) {
         scene.Instantiate(this);
