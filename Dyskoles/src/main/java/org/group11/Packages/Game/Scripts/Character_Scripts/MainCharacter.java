@@ -4,10 +4,9 @@ import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Backpack;
-import org.group11.Packages.Game.Scripts.UI_Scripts.EXPBarInside;
-import org.group11.Packages.Game.Scripts.UI_Scripts.EXPBarOutline;
-import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
-import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
+import org.group11.Packages.Game.Scripts.UI_Scripts.*;
+import org.group11.Packages.Game.Scripts.UI_Scripts.StatIncreaseIndicators.AttackIncreaseIndicator;
+import org.group11.Packages.Game.Scripts.UI_Scripts.StatIncreaseIndicators.HealthIncreaseIndicator;
 
 import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.*;
 
@@ -21,9 +20,13 @@ public class MainCharacter extends Character{
     // Used to store items this MainCharacter picks up
     public Backpack backpack = new Backpack();
 
-    // Displays the exp of the character below their sprite
+    // Displays the exp of the MainCharacter below their sprite
     protected EXPBarOutline _EXPBarOutline;
     protected EXPBarInside _EXPBarInside;
+
+    // Displays when this MainCharacter levels up and gains attack and/or health
+    protected AttackIncreaseIndicator _attackIncreaseIndicator;
+    protected HealthIncreaseIndicator _healthIncreaseIndicator;
 
     // Variables used to help control the sprite
     private SpriteRenderer characterSprite;
@@ -69,6 +72,8 @@ public class MainCharacter extends Character{
         _healthBarInside = new HealthBarInside(this);
         _EXPBarOutline = new EXPBarOutline(this);
         _EXPBarInside = new EXPBarInside(this);
+        _healthIncreaseIndicator = new HealthIncreaseIndicator(this);
+        _attackIncreaseIndicator = new AttackIncreaseIndicator(this);
     }
 
     //******************************************************************************************************************
@@ -106,6 +111,18 @@ public class MainCharacter extends Character{
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+
+    @Override
+    public void addMaxHealth(int maxHp) {
+        super.addMaxHealth(maxHp);
+        _healthIncreaseIndicator.activate();
+    }
+
+    public void addAttack(int atk) {
+        super.addAttack(atk);
+        _attackIncreaseIndicator.activate();
+    }
+
     @Override
     public void instantiateRelatedSprites(Scene scene) {
         scene.Instantiate(this);
@@ -113,6 +130,8 @@ public class MainCharacter extends Character{
         scene.Instantiate(_healthBarOutline);
         scene.Instantiate(_EXPBarInside);
         scene.Instantiate(_EXPBarOutline);
+        scene.Instantiate(_attackIncreaseIndicator);
+        scene.Instantiate(_healthIncreaseIndicator);
     }
 
     @Override
@@ -122,6 +141,8 @@ public class MainCharacter extends Character{
         scene.Destroy(_healthBarOutline);
         scene.Destroy(_EXPBarInside);
         scene.Destroy(_EXPBarOutline);
+        scene.Destroy(_attackIncreaseIndicator);
+        scene.Destroy(_healthIncreaseIndicator);
     }
     
     @Override
