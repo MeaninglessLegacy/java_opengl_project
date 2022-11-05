@@ -21,13 +21,42 @@ import static org.lwjgl.opengl.GL11C.*;
  */
 public class Window {
     //******************************************************************************************************************
-    //* window object, clear color, size, aspect ratio, and title
+    //* variables, clear color, size, aspect ratio, and title
     //******************************************************************************************************************
-    private static Window _window = null;
+    private Scene _scene; // scene object
+
     private int _width, _height;
     private String _title;
     private float _aspectRatio;
     private Vector4 _clearColor = new Vector4(1.0f, 1.0f, 1.0f, 1.0f); // background color
+
+    //******************************************************************************************************************
+    //* singleton constructor and methods
+    //******************************************************************************************************************
+    private static Window _window;
+
+    /**
+     * Default window constructor.
+     */
+    private Window(){
+        this._width = Constants.SCREEN_WIDTH;
+        this._height = Constants.SCREEN_HEIGHT;
+        this._title = Constants.TITLE;
+        this._aspectRatio = _width / _height;
+    }
+
+    /**
+     * Checks if an instance of Window exists yet. If it does, returns that instance. If not, creates and returns a
+     * new instance
+     * @return the Renderer object if it exists already, new Renderer object if it doesn't yet
+     */
+    public static Window get_window() {
+        if (Window._window == null) {
+            Window._window = new Window();
+        }
+
+        return Window._window;
+    }
 
     //******************************************************************************************************************
     //* ids for initialized glfwWindow and ALC
@@ -35,21 +64,6 @@ public class Window {
     private long _glfwWindow = 0L;
     private long _audioContext = 0L;
     private long _audioDevice = 0L;
-
-    //******************************************************************************************************************
-    //* other variables
-    //******************************************************************************************************************
-    private Scene _scene; // scene object
-
-    /**
-     * Default window constructor.
-     */
-    public Window(){
-        this._width = Constants.SCREEN_WIDTH;
-        this._height = Constants.SCREEN_HEIGHT;
-        this._title = Constants.TITLE;
-        this._aspectRatio = _width / _height;
-    }
 
     //******************************************************************************************************************
     //* start and init
@@ -160,17 +174,5 @@ public class Window {
      */
     public long get_glfwWindow() {
         return _glfwWindow;
-    }
-
-    /**
-     * Returns the application window or creates one if it doesn't exist.
-     * @return the application window.
-     */
-    public static Window get_window() {
-        if (Window._window == null) {
-            Window._window = new Window();
-        }
-
-        return Window._window;
     }
 }
