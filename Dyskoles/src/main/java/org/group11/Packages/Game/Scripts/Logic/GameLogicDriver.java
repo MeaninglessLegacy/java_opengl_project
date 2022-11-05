@@ -101,7 +101,8 @@ public class GameLogicDriver extends GameObject {
     }
 
     /**
-     *
+     * Removes the given Enemy from the game
+     * @param enemy the Enemy to remove
      */
     public static void removeEnemy(Enemy enemy) {
         _enemyCharacters.remove(enemy);
@@ -192,6 +193,7 @@ public class GameLogicDriver extends GameObject {
 
                 if (ex <= MCx + squareActivateRadius && ex >= MCx - squareActivateRadius &&
                     ey <= MCy + squareActivateRadius && ey >= MCy - squareActivateRadius) {
+                        System.out.println("activating enemy");
                         e.set_enemyActiveState(true);
                         e.set_moveCountdownNumber(e.get_ticksBeforeNextMove());
                 }
@@ -200,15 +202,25 @@ public class GameLogicDriver extends GameObject {
     }
 
     /**
-     * Iterates through each Enemy in the _enemyCharacters list, and only if the game is currently still running, calls
-     * the Enemy's canEnemyMove() method to see if they can move
+     * <p>Iterates through each Enemy in the _enemyCharacters list, and only if the game is currently still running, calls
+     * the Enemy's canEnemyMove() method to see if they can move.</p>
+     * <p>If the enemy is a Runner, calls decrementTicksUntilVanish to see if they need to disappear. If they do, then
+     * deletes that Runner</p>
      */
     private static void enemyLogic(MainCharacter MC) {
+        ArrayList<Enemy> enemiesToRemove = new ArrayList<Enemy>();
         for (Enemy e : _enemyCharacters) {
             if (getGameState()) {
                 e.canEnemyMove(_pathfinder, _gameMap, MC);
+                if (e instanceof Runner) {
+                    if (((Runner) e).decrementTicksUntilVanish()) {
+                        enemiesToRemove.add(e);
+                        e.destroyRelatedSprites(scene);
+                    }
+                }
             }
         }
+        _enemyCharacters.removeAll(enemiesToRemove);
     }
 
     /**
@@ -323,7 +335,7 @@ public class GameLogicDriver extends GameObject {
             _gameStarted = true;
 
             // Gets and loads a level
-            Level newLevel = new TestRoom2();
+            Level newLevel = new FourRoom();
             set_gameLevel(newLevel);
             loadNewLevel();
 

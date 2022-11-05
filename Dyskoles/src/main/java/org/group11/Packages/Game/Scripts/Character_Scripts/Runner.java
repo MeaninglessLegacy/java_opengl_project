@@ -3,13 +3,9 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Scene;
-import org.group11.Packages.Game.Scripts.Logic.Map;
-import org.group11.Packages.Game.Scripts.Logic.Pathfinder;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
 import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdown;
-
-import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.removeEnemy;
 
 /**
  * Special enemy class, Runner runs away from the player when activated
@@ -19,7 +15,7 @@ public class Runner extends Enemy{
     //* variables
     //******************************************************************************************************************
     // How many ticks before this Runner will disappear from the game
-    protected int _ticksUntilVanish = 10;
+    protected int _ticksUntilVanish = 20;
     // this integer tells the game how much max health will be given to the Character who kills this Enemy
     protected int maxHpGiven;
     // this integer tells the game how much attack will be given to the Character who kills this Enemy
@@ -54,6 +50,23 @@ public class Runner extends Enemy{
     }
 
     //******************************************************************************************************************
+    //* methods
+    //******************************************************************************************************************
+
+    /**
+     * Decrements this Runner's _ticksUntilVanish attribute
+     * @return true if _ticksUntilVanish reaches 0, false if it hasn't yet
+     */
+    public boolean decrementTicksUntilVanish() {
+        if (_enemyActive) {
+            if (--_ticksUntilVanish == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
     @Override
@@ -80,16 +93,6 @@ public class Runner extends Enemy{
         MC.addAttack(atkGiven);
         MC.addMaxHealth(maxHpGiven);
         MC.addHealth(maxHpGiven);
-    }
-
-    @Override
-    public void canEnemyMove(Pathfinder _pathfinder, Map _gameMap, MainCharacter MC) {
-        if (_enemyActive) {
-            super.canEnemyMove(_pathfinder, _gameMap, MC);
-            if (--_ticksUntilVanish == 0) {
-                removeEnemy(this);
-            }
-        }
     }
 
     @Override

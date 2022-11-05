@@ -89,7 +89,7 @@ public abstract class Enemy extends Character{
                 if (_moveTowards.equals("awayFromPlayer")) {
                     System.out.println("Runner is getting nextMove");
                     // TODO: figure out how to get a random point in opposite direction of player
-                    Vector3 farAwayPosition = new Vector3(400, 400, 0);
+                    Vector3 farAwayPosition = new Vector3(30, 2, 0);
                     nextMove = _pathfinder.FindPath(_gameMap, this.transform.position, farAwayPosition);
                 } else { // Default implementation; enemy moves towards MainCharacter
                     System.out.println("Regular Enemy is getting nextMove");
