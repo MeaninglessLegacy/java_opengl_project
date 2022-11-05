@@ -21,7 +21,7 @@ public class Floor extends Tile {
 
     private void setupFloor() {
         _tileType = tileTypes.floor;
-        this.spriteRenderer = new SpriteRenderer(this,"./Resources/GrassTile1.png");
+        this.spriteRenderer = new SpriteRenderer(this,"./Resources/GrassTile.png");
         this.addComponent(this.spriteRenderer);
     }
 

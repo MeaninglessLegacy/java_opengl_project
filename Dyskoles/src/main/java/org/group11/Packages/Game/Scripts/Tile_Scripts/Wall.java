@@ -21,7 +21,7 @@ public class Wall extends Tile {
 
     private void setupWall() {
         _tileType = tileTypes.wall;
-        this.spriteRenderer = new SpriteRenderer(this,"./Resources/GrassWall.png");
+        this.spriteRenderer = new SpriteRenderer(this,"./Resources/GreyWall.png");
         this.addComponent(this.spriteRenderer);
     }
 

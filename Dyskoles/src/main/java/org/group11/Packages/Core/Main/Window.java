@@ -27,7 +27,7 @@ public class Window {
     private int _width, _height;
     private String _title;
     private float _aspectRatio;
-    private Vector4 _clearColor = new Vector4(1.0f, 1.0f, 1.0f, 1.0f); // background color
+    private Vector4 _clearColor = new Vector4(0f, 0f, 0f, 0f); // background color
 
     //******************************************************************************************************************
     //* ids for initialized glfwWindow and ALC
@@ -142,13 +142,10 @@ public class Window {
         glfwPollEvents();
         // clear the color and depth buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        // enable depth test before rendering scene
-        glEnable(GL_DEPTH_TEST);
         // render the current scene
         _scene.render();
         // swap the color buffers
         glfwSwapBuffers(_glfwWindow);
-
     }
 
     //******************************************************************************************************************

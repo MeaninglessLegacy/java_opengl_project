@@ -323,7 +323,7 @@ public class GameLogicDriver extends GameObject {
             _gameStarted = true;
 
             // Gets and loads a level
-            Level newLevel = new TestRoom2();
+            Level newLevel = new TestRoom();
             set_gameLevel(newLevel);
             loadNewLevel();
 

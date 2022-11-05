@@ -21,6 +21,7 @@ import org.lwjgl.stb.STBImage;
 public class Texture {
     private String _filePath;
     private int _textureID;
+    private boolean _opaque = false;
 
     /**
      * Constructor that generates and binds a texture ID with a given BufferedImage.
@@ -82,11 +83,14 @@ public class Texture {
     }
 
     /**
-     * Constructor that generates and binds a texture ID with a texture given by a file path.
+     * Generates and binds a texture ID with a texture given by a file path.
      * @param filePath String path to the texture file.
+     * @param opaque If this texture should be treated as opaque. The texture may still be loaded with alpha but it will
+     *               be treated as if it was an opaque object when rendering.
      */
-    public Texture(String filePath){
+    private void genTexture(String filePath, boolean opaque){
         this._filePath = filePath;
+        this._opaque = opaque;
 
         // Check OpenGL context, will crash if trying to bind a texture without a OpenGL context
         if(glfwGetCurrentContext() == NULL){
@@ -124,6 +128,7 @@ public class Texture {
                 GL45.glTexImage2D(GL45.GL_TEXTURE_2D, 0, GL45.GL_RGBA8, width.get(0), height.get(0), 0, GL45.GL_RGBA, GL45.GL_UNSIGNED_BYTE, image);
             }else if(channels.get(0)==3){ // rgb
                 GL45.glTexImage2D(GL45.GL_TEXTURE_2D, 0, GL45.GL_RGB, width.get(0), height.get(0), 0, GL45.GL_RGB, GL45.GL_UNSIGNED_BYTE, image);
+                _opaque = false;
             }else{
                 System.out.println("Failure to load texture: "+filePath);
                 System.exit(-1);
@@ -134,6 +139,25 @@ public class Texture {
         }
 
         STBImage.stbi_image_free(image); // free image
+    }
+
+    /**
+     * Constructor that calls the genTexture method to generate a new texture with given parameters.
+     * @param filePath String path to the texture file.
+     * @param opaque If this texture should load as opaque.
+     */
+    public Texture(String filePath, boolean opaque){
+        this._filePath = filePath;
+        this.genTexture(filePath, opaque);
+    }
+
+    /**
+     * Constructor that calls the genTexture method to generate a new texture with opaque=true.
+     * @param filePath String path to the texture file.
+     */
+    public Texture(String filePath){
+        this._filePath = filePath;
+        this.genTexture(filePath, true);
     }
 
     /**
@@ -156,5 +180,13 @@ public class Texture {
      */
     public int get_textureID(){
         return _textureID;
+    }
+
+    /**
+     * Returns if this texture was loaded as opaque or not.
+     * @return If this texture was opaque.
+     */
+    public boolean is_opaque() {
+        return _opaque;
     }
 }

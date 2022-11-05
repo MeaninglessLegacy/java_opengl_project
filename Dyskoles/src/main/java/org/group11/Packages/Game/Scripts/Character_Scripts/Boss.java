@@ -38,7 +38,7 @@ public class Boss extends Enemy {
 
         characterSprite = new SpriteRenderer(this, "./Resources/ump9.png");
         this.addComponent(characterSprite);
-        characterSprite.get_sprite().transform.position.z -= 0.1; // place above tiles
+        characterSprite.get_sprite().transform.position.z -= 0.2; // place above tiles
         _healthBarInside = new HealthBarInside(this);
         _healthBarOutline = new HealthBarOutline(this);
         _moveCountdown = new MoveCountdown(this);

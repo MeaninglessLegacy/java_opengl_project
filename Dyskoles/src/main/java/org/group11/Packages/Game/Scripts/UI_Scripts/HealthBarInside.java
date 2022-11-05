@@ -34,7 +34,9 @@ public class HealthBarInside extends GameObject {
     //* methods
     //******************************************************************************************************************
     public void changeHealthBar(float hp, float maxHp) {
-        insideBarSprite.get_sprite().set_scale(hp/maxHp, (float)0.15);
+        float scale = hp/maxHp;
+        insideBarSprite.get_sprite().set_scale(scale, (float)0.15);
+        insideBarSprite.get_sprite().transform.position.x = -(1-scale)/2;
     }
 
     //******************************************************************************************************************

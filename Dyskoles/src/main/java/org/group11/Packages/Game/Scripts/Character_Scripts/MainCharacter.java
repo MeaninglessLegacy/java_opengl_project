@@ -64,7 +64,7 @@ public class MainCharacter extends Character{
         characterSprite = new SpriteRenderer(this, "./Resources/ump45.png");
         this.addComponent(characterSprite);
         // display sprite on top of other sprites with small z translation
-        characterSprite.get_sprite().transform.position.z -= 0.1;
+        characterSprite.get_sprite().transform.position.z -= 0.2;
         _healthBarOutline = new HealthBarOutline(this);
         _healthBarInside = new HealthBarInside(this);
         _EXPBarOutline = new EXPBarOutline(this);

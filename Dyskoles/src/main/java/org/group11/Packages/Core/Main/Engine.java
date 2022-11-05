@@ -57,7 +57,7 @@ public class Engine extends Thread{
           skipped the maximum number of frame skips.
          */
         while(_runCoreLoop){
-            //System.out.println("Time since last cycle in MS: " + (System.currentTimeMillis() - cycleStartTime));
+            //System.out.println("FPS: " + 1000/(System.currentTimeMillis() - cycleStartTime));
             cycleStartTime = System.currentTimeMillis();
             framesSkipped = 0;
             // update & render window
