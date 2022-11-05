@@ -28,9 +28,9 @@ public class MainCharacter extends Character{
     protected AttackIncreaseIndicator _attackIncreaseIndicator;
     protected HealthIncreaseIndicator _healthIncreaseIndicator;
 
-    // Variables used to help control the sprite
-    private SpriteRenderer characterSprite;
-    private boolean facingRight = true;
+    // Used to help render and control the sprite
+    protected SpriteRenderer characterSprite;
+    protected boolean facingRight = true;
     double time; // time since last update
     double x; // character scaling parameter for breathing effect
 

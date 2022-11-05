@@ -12,11 +12,6 @@ import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdown;
  */
 public class Minion extends Enemy{
     //******************************************************************************************************************
-    //* variables
-    //******************************************************************************************************************
-    private SpriteRenderer characterSprite;
-
-    //******************************************************************************************************************
     //* constructor methods
     //******************************************************************************************************************
     public Minion() {
@@ -39,6 +34,8 @@ public class Minion extends Enemy{
         _healthBarInside = new HealthBarInside(this);
         _healthBarOutline = new HealthBarOutline(this);
         _moveCountdown = new MoveCountdown(this);
+
+        facingRight = false;
     }
 
     //******************************************************************************************************************

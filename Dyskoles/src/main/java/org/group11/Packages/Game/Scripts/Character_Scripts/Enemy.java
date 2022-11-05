@@ -1,5 +1,6 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.Logic.Map;
 import org.group11.Packages.Game.Scripts.Logic.Pathfinder;
@@ -14,6 +15,11 @@ public abstract class Enemy extends Character{
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
+    // used to help render and control the sprite
+    protected SpriteRenderer characterSprite;
+    protected boolean facingRight = true;
+    double time; // time since last update
+    double x; // character scaling parameter for breathing effect
     // counter, when this counter reaches 0 it means that this character can make another move
     protected int _ticksBeforeNextMove = 2;
     /* counter reset value, when this character makes a move, this character's _ticksBeforeNextMove counter should be
@@ -88,6 +94,14 @@ public abstract class Enemy extends Character{
                        it in place if it can't */
                     if (characterInNextSpace == null) {
                         System.out.println("Enemy is moving");
+                        if (nextMove.x < this.transform.position.x && facingRight) {
+                            facingRight = false;
+                            characterSprite.get_sprite().flipX();
+                        }
+                        else if (nextMove.x > this.transform.position.x && !facingRight) {
+                            facingRight = true;
+                            characterSprite.get_sprite().flipX();
+                        }
                         this.transform.setPosition(nextMove);
                         _ticksBeforeNextMove = _ticksPerMove;
                     }
@@ -113,4 +127,22 @@ public abstract class Enemy extends Character{
      * @param MC the MainCharacter that defeated this Enemy
      */
     public void giveRewards(MainCharacter MC) { MC.addExp(expGiven); }
+
+    //******************************************************************************************************************
+    //* overrides
+    //******************************************************************************************************************
+    @Override
+    public void update() {
+        super.update();
+        double timePassed = System.currentTimeMillis() - time;
+        if(x < 2) {
+            x += timePassed / 500;
+        }else{
+            x = 0;
+        }
+        double yScale = -Math.pow((x-1),4)+1;
+        characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale));
+        time = System.currentTimeMillis();
+        super.update();
+    }
 }

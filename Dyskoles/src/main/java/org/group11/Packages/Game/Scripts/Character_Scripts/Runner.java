@@ -25,8 +25,6 @@ public class Runner extends Enemy{
     // this integer tells the game how much attack will be given to the Character who kills this Enemy
     protected int atkGiven;
 
-    private SpriteRenderer characterSprite;
-
     //******************************************************************************************************************
     //* constructor methods
     //******************************************************************************************************************
@@ -40,7 +38,7 @@ public class Runner extends Enemy{
     }
 
     private void setupRunner() {
-        expGiven = 5;
+        expGiven = 0;
         maxHpGiven = 1;
         atkGiven = 1;
 
