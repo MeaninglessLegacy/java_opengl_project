@@ -16,7 +16,24 @@ import java.util.List;
  * Stores a list of objects to render and is called by the Scene to
  */
 public class Renderer {
-    private static Renderer _renderer = null; // shared renderer object
+    //******************************************************************************************************************
+    //* singleton constructor and methods
+    //******************************************************************************************************************
+    private static Renderer _renderer;
+
+    private Renderer() {}
+
+    /**
+     * Checks if an instance of Renderer exists yet. If it does, returns that instance. If not, creates and returns a
+     * new instance
+     * @return the Renderer object if it exists already, new Renderer object if it doesn't yet
+     */
+    public static Renderer get_renderer(){
+        if(_renderer == null){
+            _renderer = new Renderer();
+        }
+        return _renderer;
+    }
 
     //******************************************************************************************************************
     //* objects that need rendering
@@ -108,8 +125,8 @@ public class Renderer {
     //* add and remove objects from the renderList
     //******************************************************************************************************************
     /**
-     *
-     * @param gameObject
+     * Adds a GameObject's SpriteRenderer to the renderList
+     * @param gameObject GameObject who's SpriteRenderer to add to renderList
      */
     public void add(GameObject gameObject){
         SpriteRenderer spriteRenderer = gameObject.getComponent(SpriteRenderer.class);
@@ -119,8 +136,8 @@ public class Renderer {
     }
 
     /**
-     *
-     * @param gameObject
+     * Removes a GameObject SpriteRenderer to the renderList
+     * @param gameObject GameObject who's SpriteRenderer to remove from the renderList
      */
     public void remove(GameObject gameObject){
         SpriteRenderer spriteRenderer = gameObject.getComponent(SpriteRenderer.class);
@@ -130,32 +147,18 @@ public class Renderer {
     }
 
     /**
-     *
-     * @param spriteRenderer
+     * Adds a SpriteRenderer to the renderList
+     * @param spriteRenderer SpriteRenderer to add to the renderList
      */
     public void add(SpriteRenderer spriteRenderer){
         spriteRenderers.add(spriteRenderer);
     }
 
     /**
-     *
-     * @param spriteRenderer
+     * Removes a SpriteRenderer from the renderList
+     * @param spriteRenderer SpriteRenderer to remove to the renderList
      */
     public void remove(SpriteRenderer spriteRenderer){
         spriteRenderers.remove(spriteRenderer);
-    }
-
-    //******************************************************************************************************************
-    //* getters
-    //******************************************************************************************************************
-    /**
-     * Return the only instance of the Renderer class or create a new Renderer.
-     * @return Renderer object.
-     */
-    public static Renderer get_renderer(){
-        if(_renderer == null){
-            _renderer = new Renderer();
-        }
-        return _renderer;
     }
 }
