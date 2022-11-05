@@ -60,9 +60,7 @@ public class Runner extends Enemy{
      */
     public boolean decrementTicksUntilVanish() {
         if (_enemyActive) {
-            if (--_ticksUntilVanish == 0) {
-                return true;
-            }
+            return --_ticksUntilVanish == 0;
         }
         return false;
     }

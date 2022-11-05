@@ -15,11 +15,19 @@ public class RegenHeart extends Item {
     private SpriteRenderer spriteRenderer;
     private int _regenAmount = 1;
 
+    //******************************************************************************************************************
+    //* getters and setters
+    //******************************************************************************************************************
     /**
      * Returns how much health this heart regenerates
      * @return integer _regenAmount
      */
     public int get_regenAmount() { return _regenAmount; }
+    /**
+     * sets the amount of health that this RegenHeart gives
+     * @param _regenAmount the value to set the amount of health this RegenHeart gives
+     */
+    public void set_regenAmount(int _regenAmount) { this._regenAmount = _regenAmount; }
 
     //******************************************************************************************************************
     //* constructor methods

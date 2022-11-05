@@ -42,8 +42,8 @@ public class Key extends Item{
     public void setKeyVisibility(boolean state) { spriteRenderer.enabled = state; }
 
     /**
-     *
-     * @return
+     * Returns whether this Key is visible
+     * @return true if Key is visible, false if not
      */
     public boolean getKeyVisibility() { return spriteRenderer.enabled; }
 

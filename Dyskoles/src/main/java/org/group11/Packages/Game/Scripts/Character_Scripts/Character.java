@@ -80,10 +80,7 @@ public abstract class Character extends GameObject {
         defender.takeDamage(this._statBlock.get_atk());
         System.out.println(this.getClass().getName() + " is attacking a " + defender.getClass().getName() + "; " +
                 "Defending character now at " + defender.getStatBlock().get_hp() + " hp");
-        if (defender.getStatBlock().get_hp() <= 0) {
-            return true;
-        }
-        return false;
+        return defender.getStatBlock().get_hp() <= 0;
     }
 
     /**

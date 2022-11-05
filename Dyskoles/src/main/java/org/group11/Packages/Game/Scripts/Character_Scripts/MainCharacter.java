@@ -163,10 +163,11 @@ public class MainCharacter extends Character{
     }
 
     private long lastTime = 0;
-    private int timeBeforeNextRead = 200;
+
     @Override
     public void onKeyDown(int key) {
-        if(System.currentTimeMillis()-lastTime > timeBeforeNextRead && 
+        int timeBeforeNextRead = 200;
+        if(System.currentTimeMillis()-lastTime > timeBeforeNextRead &&
            (key == 'W' || key == 'A' || key == 'S' || key == 'D')) {
             lastTime = System.currentTimeMillis();
 
@@ -202,7 +203,7 @@ public class MainCharacter extends Character{
             }
 
             // Checks for items
-            MCCheckItem(this, this.transform.position);
+            MCCheckItem(this);
             afterMCMoveLogic(this);
         }
     }

@@ -23,7 +23,7 @@ public class Map {
     /**
      * Converts Vector3 position to a String key.
      * @param pos Vector3 position to convert to a key.
-     * @return The key mapped to by the Vector3 psoition.
+     * @return The key mapped to by the Vector3 position.
      */
     private String getPosKey(Vector3 pos){
         return pos.x+""+pos.y+""+pos.z;
@@ -34,7 +34,7 @@ public class Map {
      * @return the Tile at the Vector3 position, or null if there is no tile
      */
     public Tile getTile(Vector3 pos) {
-        Tile ret = null;
+        Tile ret;
         try {
             ret = _tileMap.get(getPosKey(pos));
         }

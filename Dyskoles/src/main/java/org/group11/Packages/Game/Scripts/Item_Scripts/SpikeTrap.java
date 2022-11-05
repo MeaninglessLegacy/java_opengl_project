@@ -23,6 +23,11 @@ public class SpikeTrap extends Item {
      * @return integer _spikeTrapDamage
      */
     public int get_spikeTrapDamage() { return _spikeTrapDamage; }
+    /**
+     * Sets the amount of damage this SpikeTrap does
+     * @param _spikeTrapDamage the amount of damage this SpikeTrap does
+     */
+    public void set_spikeTrapDamage(int _spikeTrapDamage) { this._spikeTrapDamage = _spikeTrapDamage; }
 
     //******************************************************************************************************************
     //* constructor methods

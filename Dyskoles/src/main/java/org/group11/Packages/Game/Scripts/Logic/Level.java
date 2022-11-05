@@ -14,9 +14,9 @@ public abstract class Level {
     //* variables
     //******************************************************************************************************************
     protected MapGenerator _mapGenerator = null;
-    protected ArrayList<MainCharacter> _players = new ArrayList<MainCharacter>();
-    protected ArrayList<Enemy> _enemies = new ArrayList<Enemy>();
-    protected ArrayList<Item> _items = new ArrayList<Item>();
+    protected ArrayList<MainCharacter> _players = new ArrayList<>();
+    protected ArrayList<Enemy> _enemies = new ArrayList<>();
+    protected ArrayList<Item> _items = new ArrayList<>();
     protected int levelOfEnemies;
 
     //******************************************************************************************************************
@@ -38,17 +38,17 @@ public abstract class Level {
      * Returns this level's _players list
      * @return this level's _players list
      */
-    public ArrayList get_players() { return _players; }
+    public ArrayList<MainCharacter> get_players() { return _players; }
 
     /**
      * Returns this level's _enemies list
      * @return this level's _enemies list
      */
-    public ArrayList get_enemies() { return _enemies; }
+    public ArrayList<Enemy> get_enemies() { return _enemies; }
 
     /**
      * Returns this level's _items list
      * @return this level's _items list
      */
-    public ArrayList get_items() { return _items; }
+    public ArrayList<Item> get_items() { return _items; }
 }

@@ -28,10 +28,10 @@ public class GameLogicDriver extends GameObject {
     private static Level _gameLevel = null;
     private static Map _gameMap =  null;
     private static Pathfinder _pathfinder = null;
-    private static ArrayList<MainCharacter> _playerCharacters = new ArrayList<MainCharacter>();
-    private static ArrayList<Enemy> _enemyCharacters = new ArrayList<Enemy>();
-    private static ArrayList<Item> _items = new ArrayList<Item>();
-    private static int player1ArrayPosition = 0;
+    private static ArrayList<MainCharacter> _playerCharacters = new ArrayList<>();
+    private static ArrayList<Enemy> _enemyCharacters = new ArrayList<>();
+    private static ArrayList<Item> _items = new ArrayList<>();
+    private static final int player1ArrayPosition = 0;
 
     private static boolean _gameStarted = false;
 
@@ -141,7 +141,7 @@ public class GameLogicDriver extends GameObject {
     /**
      * Method is called by a MainCharacter to see if they are on any items. If they are, activates them
      */
-    public static void MCCheckItem(MainCharacter MC, Vector3 pos) {
+    public static void MCCheckItem(MainCharacter MC) {
         Item itemOnTile = checkForItem(MC.transform.position);
         if (itemOnTile != null) {
             System.out.println("Tile player is currently on has an item");
@@ -208,7 +208,7 @@ public class GameLogicDriver extends GameObject {
      * deletes that Runner</p>
      */
     private static void enemyLogic(MainCharacter MC) {
-        ArrayList<Enemy> enemiesToRemove = new ArrayList<Enemy>();
+        ArrayList<Enemy> enemiesToRemove = new ArrayList<>();
         for (Enemy e : _enemyCharacters) {
             if (getGameState()) {
                 e.canEnemyMove(_pathfinder, _gameMap, MC);
@@ -311,17 +311,17 @@ public class GameLogicDriver extends GameObject {
         for (MainCharacter c : _playerCharacters) {
             c.destroyRelatedSprites(scene);
         }
-        _playerCharacters = new ArrayList<MainCharacter>();
+        _playerCharacters = new ArrayList<>();
         for (Enemy e : _enemyCharacters) {
             e.destroyRelatedSprites(scene);
         }
-        _enemyCharacters = new ArrayList<Enemy>();
+        _enemyCharacters = new ArrayList<>();
         for (Item i : _items) {
             scene.Destroy(i);
         }
-        _playerCharacters = new ArrayList<MainCharacter>();
-        _enemyCharacters = new ArrayList<Enemy>();
-        _items = new ArrayList<Item>();
+        _playerCharacters = new ArrayList<>();
+        _enemyCharacters = new ArrayList<>();
+        _items = new ArrayList<>();
         _gameMap.clearMap();
         _gameMap = null;
     }

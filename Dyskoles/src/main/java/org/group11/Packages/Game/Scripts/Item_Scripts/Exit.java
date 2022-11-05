@@ -40,7 +40,6 @@ public class Exit extends Item {
     public boolean activate(MainCharacter c) {
         Key testKey = new Key();
         if (c.backpack.removeItem(testKey)) {
-            testKey = null;
             endGame(true);
         }
         return false;
