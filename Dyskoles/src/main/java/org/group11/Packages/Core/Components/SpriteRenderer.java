@@ -22,7 +22,7 @@ public class SpriteRenderer extends Component {
     }
 
     //******************************************************************************************************************
-    //* getters
+    //* getters and setters
     //******************************************************************************************************************
     /**
      * Returns the Sprite that is assigned to this SpriteRenderer
@@ -38,6 +38,30 @@ public class SpriteRenderer extends Component {
      */
     public GameObject get_gameObject() {
         return _gameObject;
+    }
+
+    public void set_sortingOrder(int num) {
+        _sortingOrder = num;
+    }
+
+    //******************************************************************************************************************
+    //* methods
+    //******************************************************************************************************************
+    /**
+     * Shifts the sprite in a certain direction by a certain factor
+     * @param direction the plane on which to shift the sprite (x, y, or z)
+     * @param scale how much to shift the sprite
+     */
+    public void shiftSprite(char direction, float scale) {
+        if (direction == 'x') {
+            _sprite.transform.position.x += scale;
+        }
+        else if (direction == 'y') {
+            _sprite.transform.position.y += scale;
+        }
+        else if (direction == 'z') {
+            _sprite.transform.position.z += scale;
+        }
     }
 
     //******************************************************************************************************************

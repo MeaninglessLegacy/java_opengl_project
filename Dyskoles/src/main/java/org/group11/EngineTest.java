@@ -24,6 +24,7 @@ public class EngineTest {
         Scene scene = Scene.get_scene();
         eng.start();
         scene.Instantiate(new Creator());
+        //scene.Instantiate(new PlayerObject("lmao", true));
     }
 }
 
@@ -31,15 +32,21 @@ class Creator extends GameObject {
     @Override
     public void start() {
         Scene scene = Scene.get_scene();
+        long time = System.currentTimeMillis();
         GameObject newPlayer = scene.Instantiate(new PlayerObject("player-I", true));
         System.out.println("Instantiated: "+newPlayer);
+        System.out.println("Time taken: "+(System.currentTimeMillis()-time));
+        time = System.currentTimeMillis();
         GameObject newPlayer2 = scene.Instantiate(new PlayerObject("player-II", false));
         newPlayer2.transform.position.x = -2;
         System.out.println("Instantiated: "+newPlayer);
+        System.out.println("Time taken: "+(System.currentTimeMillis()-time));
+        time = System.currentTimeMillis();
         Camera newCamera = new movingCamera();
         scene.Instantiate(newCamera);
         scene.set_mainCamera(newCamera);
         System.out.println("Instantiated: "+newCamera);
+        System.out.println("Time taken: "+(System.currentTimeMillis()-time));
     }
 }
 

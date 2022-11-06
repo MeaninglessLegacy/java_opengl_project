@@ -13,30 +13,38 @@ public class RegenHeart extends Item {
     //* variables
     //******************************************************************************************************************
     private SpriteRenderer spriteRenderer;
-
-    //******************************************************************************************************************
-    //* variables
-    //******************************************************************************************************************
     private int _regenAmount = 1;
 
+    //******************************************************************************************************************
+    //* getters and setters
+    //******************************************************************************************************************
     /**
      * Returns how much health this heart regenerates
      * @return integer _regenAmount
      */
     public int get_regenAmount() { return _regenAmount; }
+    /**
+     * sets the amount of health that this RegenHeart gives
+     * @param _regenAmount the value to set the amount of health this RegenHeart gives
+     */
+    public void set_regenAmount(int _regenAmount) { this._regenAmount = _regenAmount; }
 
     //******************************************************************************************************************
-    //* constructor
+    //* constructor methods
     //******************************************************************************************************************
     public RegenHeart() {
-        spriteRenderer = new SpriteRenderer(this, "./Resources/Heart.png");
-        this.addComponent(spriteRenderer);
+        setupRegenHeart();
     }
 
     public RegenHeart(Vector3 pos) {
         transform.setPosition(pos);
+        setupRegenHeart();
+    }
+
+    private void setupRegenHeart() {
         spriteRenderer = new SpriteRenderer(this, "./Resources/Heart.png");
         this.addComponent(spriteRenderer);
+        spriteRenderer.shiftSprite('z', (float)-0.5);
     }
 
     //******************************************************************************************************************
@@ -54,12 +62,8 @@ public class RegenHeart extends Item {
     }
 
     @Override
-    public void update() {
-        super.update();
-    }
+    public void update() { super.update(); }
 
     @Override
-    public void start() {
-        super.start();
-    }
+    public void start() { super.start(); }
 }

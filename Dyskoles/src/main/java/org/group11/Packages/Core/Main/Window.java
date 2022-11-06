@@ -17,17 +17,46 @@ import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.opengl.GL11C.*;
 
 /**
- * Application window. Methods to initialize GFLW, ALC, and OpenGL.
+ * Application window. Methods to initialize gflw, openal, and opengl.
  */
 public class Window {
     //******************************************************************************************************************
-    //* window object, clear color, size, aspect ratio, and title
+    //* variables, clear color, size, aspect ratio, and title
     //******************************************************************************************************************
-    private static Window _window = null;
+    private Scene _scene; // scene object
+
     private int _width, _height;
     private String _title;
     private float _aspectRatio;
-    private Vector4 _clearColor = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+    private Vector4 _clearColor = new Vector4(1.0f, 1.0f, 1.0f, 1.0f); // background color
+
+    //******************************************************************************************************************
+    //* singleton constructor and methods
+    //******************************************************************************************************************
+    private static Window _window;
+
+    /**
+     * Default window constructor.
+     */
+    private Window(){
+        this._width = Constants.SCREEN_WIDTH;
+        this._height = Constants.SCREEN_HEIGHT;
+        this._title = Constants.TITLE;
+        this._aspectRatio = _width / _height;
+    }
+
+    /**
+     * Checks if an instance of Window exists yet. If it does, returns that instance. If not, creates and returns a
+     * new instance
+     * @return the Renderer object if it exists already, new Renderer object if it doesn't yet
+     */
+    public static Window get_window() {
+        if (Window._window == null) {
+            Window._window = new Window();
+        }
+
+        return Window._window;
+    }
 
     //******************************************************************************************************************
     //* ids for initialized glfwWindow and ALC
@@ -37,23 +66,8 @@ public class Window {
     private long _audioDevice = 0L;
 
     //******************************************************************************************************************
-    //* other variables
+    //* start and init
     //******************************************************************************************************************
-    private Scene _scene; // scene object
-
-    //******************************************************************************************************************
-    //* methods
-    //******************************************************************************************************************
-    /**
-     * Default window constructor.
-     */
-    public Window(){
-        this._width = Constants.SCREEN_WIDTH;
-        this._height = Constants.SCREEN_HEIGHT;
-        this._title = Constants.TITLE;
-        this._aspectRatio = _width / _height;
-    }
-
     /**
      * When a new window is created call this to run the window.
      */
@@ -124,20 +138,26 @@ public class Window {
         // bindings available for use.
         GL.createCapabilities();
 
-        glDisable(GL_DEPTH_TEST);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glClearColor(_clearColor.x, _clearColor.y, _clearColor.z, _clearColor.w);
     }
 
+    //******************************************************************************************************************
+    //* core
+    //******************************************************************************************************************
     /**
      * Rendering loop to be called by the Engine. Polls glfw events.
      */
     public void update() {
+        // poll window events
         glfwPollEvents();
-        // Set the clear color
-        glClearColor(_clearColor.x, _clearColor.y, _clearColor.z, _clearColor.w);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-        glEnable(GL_DEPTH);
+        // clear the color and depth buffer
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // enable depth test before rendering scene
+        glEnable(GL_DEPTH_TEST);
         // render the current scene
         _scene.render();
         // swap the color buffers
@@ -145,15 +165,14 @@ public class Window {
 
     }
 
+    //******************************************************************************************************************
+    //* getters and setters
+    //******************************************************************************************************************
     /**
-     * Returns the application window or creates one if it doesn't exist.
-     * @return the application window.
+     * Returns the ID of the current glfwWindow or NULL if the window does not exist.
+     * @return The window ID.
      */
-    public static Window get_window() {
-        if (Window._window == null) {
-            Window._window = new Window();
-        }
-
-        return Window._window;
+    public long get_glfwWindow() {
+        return _glfwWindow;
     }
 }

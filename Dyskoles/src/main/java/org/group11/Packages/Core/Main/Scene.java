@@ -9,7 +9,7 @@ import java.util.*;
  * render, and process event listeners once Engine has been started.
  */
 public class Scene {
-    private static Scene _scene;
+
     //******************************************************************************************************************
     //* workspace variables
     //******************************************************************************************************************
@@ -26,6 +26,25 @@ public class Scene {
 
     // keyboard input
     private static Map<Integer, Integer> _keysState = new HashMap();
+
+    //******************************************************************************************************************
+    //* singleton constructor and methods
+    //******************************************************************************************************************
+    private static Scene _scene;
+
+    private Scene() {}
+
+    /**
+     * Checks if an instance of Scene exists yet. If it does, returns that instance. If not, creates and returns a new
+     * instance
+     * @return the Scene object if it exists already, new Scene object if it doesn't yet
+     */
+    public static Scene get_scene(){
+        if(Scene._scene == null){
+            Scene._scene = new Scene();
+        }
+        return Scene._scene;
+    }
 
     //******************************************************************************************************************
     //* internal methods
@@ -129,17 +148,6 @@ public class Scene {
         _queuedDestruction.add(obj);
         _renderer.remove(obj);
         return true;
-    }
-
-    /**
-     * Returns the shared scene object.
-     * @return The shared scene object.
-     */
-    public static Scene get_scene(){
-        if(Scene._scene == null){
-            Scene._scene = new Scene();
-        }
-        return Scene._scene;
     }
 
     /**

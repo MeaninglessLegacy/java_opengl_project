@@ -14,18 +14,21 @@ public class Key extends Item{
     private SpriteRenderer spriteRenderer;
 
     //******************************************************************************************************************
-    //* constructor
+    //* constructor  methods
     //******************************************************************************************************************
     public Key () {
-        spriteRenderer = new SpriteRenderer(this, "./Resources/key.png");
-        this.addComponent(spriteRenderer);
-        spriteRenderer.enabled = false;
+        setupKey();
     }
 
     public Key(Vector3 pos) {
         transform.setPosition(pos);
+        setupKey();
+    }
+
+    private void setupKey() {
         spriteRenderer = new SpriteRenderer(this, "./Resources/key.png");
         this.addComponent(spriteRenderer);
+        spriteRenderer.shiftSprite('z', (float)-0.5);
         spriteRenderer.enabled = false;
     }
 
@@ -39,8 +42,8 @@ public class Key extends Item{
     public void setKeyVisibility(boolean state) { spriteRenderer.enabled = state; }
 
     /**
-     *
-     * @return
+     * Returns whether this Key is visible
+     * @return true if Key is visible, false if not
      */
     public boolean getKeyVisibility() { return spriteRenderer.enabled; }
 
@@ -61,12 +64,8 @@ public class Key extends Item{
     }
 
     @Override
-    public void start() {
-        super.start();
-    }
+    public void start() { super.start(); }
 
     @Override
-    public void update() {
-        super.update();
-    }
+    public void update() { super.update(); }
 }

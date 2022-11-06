@@ -16,7 +16,7 @@ public class StatBlock {
     protected int _atk = 0;
 
     //******************************************************************************************************************
-    //* methods
+    //* setters and getters
     //******************************************************************************************************************
     public int get_lvl() { return this._lvl; }
     public void set_lvl(int lvl) { this._lvl = lvl; }

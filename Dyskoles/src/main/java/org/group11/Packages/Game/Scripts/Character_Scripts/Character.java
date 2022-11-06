@@ -1,24 +1,44 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
 import org.group11.Packages.Core.Main.GameObject;
+import org.group11.Packages.Core.Main.Scene;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
 
 /**
- * Base class for character objects within our game
+ * Base class for Character objects within our game
  */
 public abstract class Character extends GameObject {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    // stores all the stats of this character
+    // Stores all the stats of this character
     protected StatBlock _statBlock = new StatBlock();
+    // Displays the health of the character above their sprite
+    protected HealthBarOutline _healthBarOutline;
+    protected HealthBarInside _healthBarInside;
+
+    //******************************************************************************************************************
+    //* setters and getters
+    //******************************************************************************************************************
     /**
      * Returns the StatBlock of this character object
      * @return the StatBlock to return
      */
     public StatBlock getStatBlock() { return this._statBlock; }
+    /**
+     * Return the HealthBarOutline of this character object
+     * @return the HealthBarOutline to return
+     */
+    public HealthBarOutline get_healthBarOutline() { return this._healthBarOutline; }
+    /**
+     * Return the HealthBarInside of this character object
+     * @return the HealthBarInside to return
+     */
+    public HealthBarInside get_healthBarInside() { return this._healthBarInside; }
 
     //******************************************************************************************************************
-    //* character methods
+    //* methods
     //******************************************************************************************************************
     /**
      * Reduces the hp value of this character by specified amount
@@ -26,13 +46,17 @@ public abstract class Character extends GameObject {
      */
     public void takeDamage(int hp) {
         _statBlock.set_hp(_statBlock.get_hp() - hp);
+        _healthBarInside.changeHealthBar(((float) _statBlock.get_hp()), ((float)_statBlock.get_maxHp()));
     }
 
     /**
      * Increases the hp value of this character by specified amount
      * @param hp value to increase hp by
      */
-    public void addHealth(int hp) { _statBlock.set_hp(_statBlock.get_hp() + hp); }
+    public void addHealth(int hp) {
+        _statBlock.set_hp(_statBlock.get_hp() + hp);
+        _healthBarInside.changeHealthBar(((float) _statBlock.get_hp()), ((float)_statBlock.get_maxHp()));
+    }
 
     /**
      * Increases the max hp value of this character by specified amount
@@ -56,9 +80,18 @@ public abstract class Character extends GameObject {
         defender.takeDamage(this._statBlock.get_atk());
         System.out.println(this.getClass().getName() + " is attacking a " + defender.getClass().getName() + "; " +
                 "Defending character now at " + defender.getStatBlock().get_hp() + " hp");
-        if (defender.getStatBlock().get_hp() <= 0) {
-            return true;
-        }
-        return false;
+        return defender.getStatBlock().get_hp() <= 0;
     }
+
+    /**
+     * Used to instantiate all related sprites to this Character, like health bar, character sprite, etc.
+     * Must be implemented in all children
+     */
+    public abstract void instantiateRelatedSprites(Scene scene);
+
+    /**
+     * Used to destroy all related sprites to this Character, like health bar, character sprite, etc.
+     * Must be implemented in all children
+     */
+    public abstract void destroyRelatedSprites(Scene scene);
 }

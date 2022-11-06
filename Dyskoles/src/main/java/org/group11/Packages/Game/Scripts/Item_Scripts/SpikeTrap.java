@@ -13,30 +13,38 @@ public class SpikeTrap extends Item {
     //* variables
     //******************************************************************************************************************
     private SpriteRenderer spriteRenderer;
-
-    //******************************************************************************************************************
-    //* variables
-    //******************************************************************************************************************
     private int _spikeTrapDamage = 1;
 
+    //******************************************************************************************************************
+    //* setters and getters
+    //******************************************************************************************************************
     /**
      * Returns how much damage this SpikeTrap does
      * @return integer _spikeTrapDamage
      */
     public int get_spikeTrapDamage() { return _spikeTrapDamage; }
+    /**
+     * Sets the amount of damage this SpikeTrap does
+     * @param _spikeTrapDamage the amount of damage this SpikeTrap does
+     */
+    public void set_spikeTrapDamage(int _spikeTrapDamage) { this._spikeTrapDamage = _spikeTrapDamage; }
 
     //******************************************************************************************************************
-    //* constructor
+    //* constructor methods
     //******************************************************************************************************************
     public SpikeTrap() {
-        spriteRenderer = new SpriteRenderer(this, "./Resources/SpikeTrap.png");
-        this.addComponent(spriteRenderer);
+        setupSpikeTrap();
     }
 
     public SpikeTrap(Vector3 pos) {
         transform.setPosition(pos);
+        setupSpikeTrap();
+    }
+
+    private void setupSpikeTrap() {
         spriteRenderer = new SpriteRenderer(this, "./Resources/SpikeTrap.png");
         this.addComponent(spriteRenderer);
+        spriteRenderer.shiftSprite('z', (float)-0.1);
     }
 
     //******************************************************************************************************************
@@ -49,12 +57,8 @@ public class SpikeTrap extends Item {
     }
 
     @Override
-    public void update() {
-        super.update();
-    }
+    public void update() { super.update(); }
 
     @Override
-    public void start() {
-        super.start();
-    }
+    public void start() { super.start(); }
 }

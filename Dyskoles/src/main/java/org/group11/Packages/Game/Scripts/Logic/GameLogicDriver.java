@@ -9,7 +9,9 @@ import org.group11.Packages.Game.Scripts.Character_Scripts.*;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
+import org.group11.Packages.Game.Scripts.Levels.FourRoom;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom;
+import org.group11.Packages.Game.Scripts.Levels.TestRoom2;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 
 import java.util.ArrayList;
@@ -26,32 +28,23 @@ public class GameLogicDriver extends GameObject {
     private static Level _gameLevel = null;
     private static Map _gameMap =  null;
     private static Pathfinder _pathfinder = null;
-    private static ArrayList<MainCharacter> _playerCharacters = new ArrayList<MainCharacter>();
-    private static ArrayList<Enemy> _enemyCharacters = new ArrayList<Enemy>();
-    private static ArrayList<Item> _items = new ArrayList<Item>();
-    private static int player1ArrayPosition = 0;
+    private static ArrayList<MainCharacter> _playerCharacters = new ArrayList<>();
+    private static ArrayList<Enemy> _enemyCharacters = new ArrayList<>();
+    private static ArrayList<Item> _items = new ArrayList<>();
+    private static final int player1ArrayPosition = 0;
 
     private static boolean _gameStarted = false;
 
     private static Scene scene;
 
+    //******************************************************************************************************************
+    //* getters and setters
+    //******************************************************************************************************************
     /**
      * Change _gameLevel to specified level
      * @param newLevel the level to set as
      */
     public static void set_gameLevel(Level newLevel){ _gameLevel = newLevel; }
-
-    /**
-     * Adds a MainCharacter to the _playerCharacters arraylist, thus adding them into the game
-     * @param MC the MainCharacter to add the game
-     */
-    public static void addMainCharacter (MainCharacter MC) { _playerCharacters.add(MC); }
-
-    /**
-     * Adds an Item to the _items arraylist, thus adding it into the game
-     * @param item the Item to add the game
-     */
-    public static void addItem (Item item) { _items.add(item); }
 
     /**
      * Gets whether the game is currently running or not
@@ -60,7 +53,7 @@ public class GameLogicDriver extends GameObject {
     public static boolean getGameState() { return _gameStarted; }
 
     //******************************************************************************************************************
-    //* singleton constructor and fields
+    //* singleton constructor and methods
     //******************************************************************************************************************
     private static GameLogicDriver theGameLogicDriver = null;
 
@@ -88,10 +81,15 @@ public class GameLogicDriver extends GameObject {
         if (_gameLevel != null) {
             MapGenerator mapGen = _gameLevel.get_mapGenerator();
             _gameMap = mapGen.generateMap();
+            _gameLevel.initializeLevel(_gameMap);
+            _playerCharacters = _gameLevel.get_players();
             _enemyCharacters = _gameLevel.get_enemies();
             _items = _gameLevel.get_items();
+            for (MainCharacter c : _playerCharacters) {
+                c.instantiateRelatedSprites(scene);
+            }
             for (Enemy e : _enemyCharacters) {
-                scene.Instantiate(e);
+                e.instantiateRelatedSprites(scene);
             }
             for (Item i : _items) {
                 scene.Instantiate(i);
@@ -100,6 +98,15 @@ public class GameLogicDriver extends GameObject {
         else {
             System.out.println("Could not load level as GameLogicDriver has no level");
         }
+    }
+
+    /**
+     * Removes the given Enemy from the game
+     * @param enemy the Enemy to remove
+     */
+    public static void removeEnemy(Enemy enemy) {
+        _enemyCharacters.remove(enemy);
+        enemy.destroyRelatedSprites(scene);
     }
 
     /**
@@ -122,8 +129,7 @@ public class GameLogicDriver extends GameObject {
                     boolean enemyDied = MC.attackCharacter(characterInNextSpace);
                     if (enemyDied) {
                         ((Enemy) characterInNextSpace).giveRewards(MC);
-                        _enemyCharacters.remove(characterInNextSpace);
-                        scene.Destroy(characterInNextSpace);
+                        removeEnemy((Enemy)characterInNextSpace);
                         return true;
                     }
                 }
@@ -135,7 +141,7 @@ public class GameLogicDriver extends GameObject {
     /**
      * Method is called by a MainCharacter to see if they are on any items. If they are, activates them
      */
-    public static void MCCheckItem(MainCharacter MC, Vector3 pos) {
+    public static void MCCheckItem(MainCharacter MC) {
         Item itemOnTile = checkForItem(MC.transform.position);
         if (itemOnTile != null) {
             System.out.println("Tile player is currently on has an item");
@@ -155,8 +161,8 @@ public class GameLogicDriver extends GameObject {
      */
     public static void afterMCMoveLogic(MainCharacter MC) {
         enableKeys();
-        activateNearbyEnemies(MC);
         enemyLogic(MC);
+        activateNearbyEnemies(MC);
     }
 
     /**
@@ -171,7 +177,6 @@ public class GameLogicDriver extends GameObject {
             }
         }
     }
-
 
     /**
      * If an Enemy is within a certain range of a MainCharacter, activates the Enemy, and they will begin to pursue the
@@ -188,22 +193,35 @@ public class GameLogicDriver extends GameObject {
 
                 if (ex <= MCx + squareActivateRadius && ex >= MCx - squareActivateRadius &&
                     ey <= MCy + squareActivateRadius && ey >= MCy - squareActivateRadius) {
+                        System.out.println("activating enemy");
                         e.set_enemyActiveState(true);
+                        e.set_moveCountdownNumber(e.get_ticksBeforeNextMove());
                 }
             }
         }
     }
 
     /**
-     * Iterates through each Enemy in the _enemyCharacters list, and only if the game is currently still running, calls
-     * the Enemy's canEnemyMove() method to see if they can move
+     * <p>Iterates through each Enemy in the _enemyCharacters list, and only if the game is currently still running, calls
+     * the Enemy's canEnemyMove() method to see if they can move.</p>
+     * <p>If the enemy is a Runner, calls decrementTicksUntilVanish to see if they need to disappear. If they do, then
+     * deletes that Runner</p>
      */
     private static void enemyLogic(MainCharacter MC) {
+        ArrayList<Enemy> enemiesToRemove = new ArrayList<>();
         for (Enemy e : _enemyCharacters) {
             if (getGameState()) {
                 e.canEnemyMove(_pathfinder, _gameMap, MC);
+                if (e instanceof Runner) {
+                    if (((Runner) e).decrementTicksUntilVanish()) {
+                        enemiesToRemove.add(e);
+                        // TODO: changed to scene.Destroy(e) when merged
+                        e.destroyRelatedSprites(scene);
+                    }
+                }
             }
         }
+        _enemyCharacters.removeAll(enemiesToRemove);
     }
 
     /**
@@ -227,7 +245,7 @@ public class GameLogicDriver extends GameObject {
             return characterInNextSpace;
         }
         else {
-            System.out.println("Illegal Enemy movement, check GameLogicDriver enemyCheckMOve()");
+            System.out.println("Illegal Enemy movement, check GameLogicDriver enemyCheckMove()");
             return null;
         }
     }
@@ -292,17 +310,19 @@ public class GameLogicDriver extends GameObject {
      */
     private static void clearEverything() {
         for (MainCharacter c : _playerCharacters) {
-            scene.Destroy(c);
+            c.destroyRelatedSprites(scene);
         }
-        _playerCharacters = new ArrayList<MainCharacter>();
+        _playerCharacters = new ArrayList<>();
         for (Enemy e : _enemyCharacters) {
-            scene.Destroy(e);
+            e.destroyRelatedSprites(scene);
         }
-        _enemyCharacters = new ArrayList<Enemy>();
+        _enemyCharacters = new ArrayList<>();
         for (Item i : _items) {
             scene.Destroy(i);
         }
-        _items = new ArrayList<Item>();
+        _playerCharacters = new ArrayList<>();
+        _enemyCharacters = new ArrayList<>();
+        _items = new ArrayList<>();
         _gameMap.clearMap();
         _gameMap = null;
     }
@@ -316,19 +336,17 @@ public class GameLogicDriver extends GameObject {
             _gameStarted = true;
 
             // Gets and loads a level
-            Level newLevel = new TestRoom();
+            Level newLevel = new FourRoom();
             set_gameLevel(newLevel);
             loadNewLevel();
 
-            // Creates the player character
-            MainCharacter mc = new MainCharacter();
-            addMainCharacter(mc);
-            scene.Instantiate(mc);
-
             // Creates the camera that will follow the player character
-            Camera followingCamera = new FollowingCamera(mc);
-            scene.Instantiate(followingCamera);
-            scene.set_mainCamera(followingCamera);
+            if(!_playerCharacters.isEmpty()){
+                MainCharacter mc = _playerCharacters.get(player1ArrayPosition);
+                Camera followingCamera = new FollowingCamera(mc);
+                scene.Instantiate(followingCamera);
+                scene.set_mainCamera(followingCamera);
+            }
         }
         super.update();
     }
@@ -340,7 +358,5 @@ public class GameLogicDriver extends GameObject {
     }
 
     @Override
-    public void onKeyDown(int key) {
-        super.onKeyDown(key);
-    }
+    public void onKeyDown(int key) { super.onKeyDown(key); }
 }

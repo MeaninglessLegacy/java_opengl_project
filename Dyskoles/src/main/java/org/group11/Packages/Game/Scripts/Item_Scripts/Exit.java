@@ -16,18 +16,21 @@ public class Exit extends Item {
     private SpriteRenderer spriteRenderer;
 
     //******************************************************************************************************************
-    //* constructor
+    //* constructor methods
     //******************************************************************************************************************
     public Exit() {
-        spriteRenderer = new SpriteRenderer(this, "./Resources/prototypeExit1.png");
-        this.addComponent(spriteRenderer);
+        setupExit();
     }
-
 
     public Exit(Vector3 pos) {
         transform.setPosition(pos);
+        setupExit();
+    }
+
+    private void setupExit() {
         spriteRenderer = new SpriteRenderer(this, "./Resources/prototypeExit1.png");
         this.addComponent(spriteRenderer);
+        spriteRenderer.shiftSprite('z', (float)-0.1);
     }
 
     //******************************************************************************************************************
@@ -37,7 +40,6 @@ public class Exit extends Item {
     public boolean activate(MainCharacter c) {
         Key testKey = new Key();
         if (c.backpack.removeItem(testKey)) {
-            testKey = null;
             endGame(true);
         }
         return false;
