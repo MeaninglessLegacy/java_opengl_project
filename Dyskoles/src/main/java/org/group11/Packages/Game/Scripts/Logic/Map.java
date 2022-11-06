@@ -75,11 +75,30 @@ public class Map {
         scene = Scene.get_scene();
         int u =0;
         int t = 0;
+        int[][] twoD_arr = new int[100][100];
+        Node [][] node = new Node [1000][1000];
+
+
+        int col = 0;
+        int row = 0;
+//        while(col < maxCol && row < maxRow) {
+//            node[col] [row] = new Node(col,row);
+//            this.add(node[col] [row]);
+//            col ++;
+//            if(col == maxCol) {
+//                col = 0;
+//                row ++;
+//            }
+//        }
+
+
+
+
         if(scene == null) return;
         for (Enumeration<String> tilePositions = _tileMap.keys(); tilePositions.hasMoreElements();) {
            // scene.Destroy(_tileMap.get(tilePositions.nextElement()));d
 
-            System.out.println(_tileMap.get((tilePositions.nextElement())).getTileType() +" "+u);   // this gets the tiles from the map
+            System.out.println(_tileMap.get((tilePositions.nextElement())).getTileType() +" "+u);   // this gets the tiletype from the map
             //System.out.println((tilePositions.nextElement()).split("[.]", 0));  // this getting all the vectors
 
            System.out.println();
@@ -89,17 +108,37 @@ public class Map {
             int i =1;
             for(String myStr: res) {
                 //System.out.println(myStr);
-                if(i<=2) {
+                if(i<2) {
+                    col =   Integer.parseInt(myStr);
                     int number = Integer.parseInt(myStr);
-                    System.out.println(number +"     "+t);
+                    row = Integer.parseInt(myStr);
+
+                   // System.out.println(row +"     "+t);
                     t++;
+
                 }
+
+                if(i == 2 ){
+                    col = Integer.parseInt(myStr);
+
+                  //  System.out.println(col +"     "+t);
+
+                }
+
+                if(i==3){
+                    node[col] [row] = new Node(col,row);
+                }
+
                 i++;
 
             }
+            System.out.println(node[col] [row].col);
+           // System.out.println(node[1] [1].col);
 
 
         }
+
+        System.out.println(node[0] [0].col);
 
     }
 
