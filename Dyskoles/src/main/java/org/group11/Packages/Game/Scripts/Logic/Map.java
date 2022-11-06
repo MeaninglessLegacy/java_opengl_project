@@ -4,9 +4,12 @@ import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 
+import java.io.PrintStream;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
+
+import static org.group11.Packages.Game.Scripts.Tile_Scripts.Tile.tileTypes.wall;
 
 /**
  * Map object that keeps track of all tile objects on the map
@@ -71,6 +74,7 @@ public class Map {
         }
     }
 
+
     public void getAlltile(){
         scene = Scene.get_scene();
         int u =0;
@@ -127,18 +131,31 @@ public class Map {
 
                 if(i==3){
                     node[col] [row] = new Node(col,row);
+                    ;
                 }
 
                 i++;
 
             }
-            System.out.println(node[col] [row].col);
-           // System.out.println(node[1] [1].col);
 
+            // here we can access the object
+            System.out.println(node[col] [row].col);
+            if(_tileMap.get((tilePositions.nextElement())).getTileType() == Tile.tileTypes.floor){
+            node[col] [row].solid= false;
+            } else if (_tileMap.get((tilePositions.nextElement())).getTileType() == wall) {
+                node[col] [row].solid= true;
+            }
+            // System.out.println(node[1] [1].col);
+            if(node[col] [row].solid == true){
+                System.out.println("solid");
+            }
 
         }
 
-        System.out.println(node[0] [0].col);
+
+//        PrintStream stream
+//                = new PrintStream(System.out);
+//        stream.println(node[0] [0].solid);
 
     }
 

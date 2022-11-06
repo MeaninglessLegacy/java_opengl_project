@@ -1,6 +1,7 @@
 package org.group11.Packages.Game.Scripts.Logic;
 
 import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile.tileTypes;
 
 import java.util.ArrayList;
@@ -39,8 +40,8 @@ public class Pathfinder {
 	ArrayList<Node> checkedList = new ArrayList<>();
 
 	public   Vector3 FindPath(Map map, Vector3 pointA, Vector3 pointB){
-
 		map.getAlltile();
+
 
 
 

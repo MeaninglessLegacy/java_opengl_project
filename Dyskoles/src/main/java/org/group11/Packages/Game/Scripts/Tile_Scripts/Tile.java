@@ -15,7 +15,7 @@ public abstract class Tile extends GameObject {
     //******************************************************************************************************************
     public enum tileTypes { floor, wall }
 
-    protected tileTypes _tileType;
+    public tileTypes _tileType;
     protected SpriteRenderer spriteRenderer;
 
     /**

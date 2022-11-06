@@ -1,5 +1,9 @@
 package org.group11.Packages.Game.Scripts.Logic;
 
+import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
+
+import java.lang.reflect.Type;
+
 public class Node {
 
     Node parent;
@@ -13,6 +17,12 @@ public class Node {
     boolean solid;
     boolean open;
     boolean checked;
+
+
+    //Tile.tileTypes types;
+
+
+
 
 
     //node constructor
