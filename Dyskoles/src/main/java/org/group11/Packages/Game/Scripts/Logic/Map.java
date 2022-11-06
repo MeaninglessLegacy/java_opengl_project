@@ -4,7 +4,7 @@ import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 
-import java.io.PrintStream;
+
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -74,7 +74,6 @@ public class Map {
         }
     }
 
-
     public void getAlltile(){
         scene = Scene.get_scene();
         int u =0;
@@ -101,23 +100,29 @@ public class Map {
         if(scene == null) return;
         for (Enumeration<String> tilePositions = _tileMap.keys(); tilePositions.hasMoreElements();) {
            // scene.Destroy(_tileMap.get(tilePositions.nextElement()));d
+            String key = tilePositions.nextElement();
+            System.out.println(key+" "+u);
+            System.out.println(_tileMap.get(key).getTileType()+" "+u);
 
-            System.out.println(_tileMap.get((tilePositions.nextElement())).getTileType() +" "+u);   // this gets the tiletype from the map
-            //System.out.println((tilePositions.nextElement()).split("[.]", 0));  // this getting all the vectors
 
-           System.out.println();
-            u++;
-            String[] res =tilePositions.nextElement().split("[.]", 0);
-            // this can get me the x and y
+            //System.out.println((tilePositions.nextElement()));
+//            System.out.println(_tileMap.get((tilePositions.nextElement())).getTileType() +" "+u);   // this gets the tiletype from the map
+//            System.out.println((tilePositions.nextElement()));  // this getting all the vectors
+//            System.out.println((tilePositions.nextElement()));
+//
+//           System.out.println();
+//            u++;
+            String[] res =(key.split("[.]", 0));
+             //this can get me the x and y
             int i =1;
             for(String myStr: res) {
                 //System.out.println(myStr);
                 if(i<2) {
-                    col =   Integer.parseInt(myStr);
+                    row =   Integer.parseInt(myStr);
                     int number = Integer.parseInt(myStr);
-                    row = Integer.parseInt(myStr);
 
-                   // System.out.println(row +"     "+t);
+
+                   System.out.println(row );
                     t++;
 
                 }
@@ -125,39 +130,41 @@ public class Map {
                 if(i == 2 ){
                     col = Integer.parseInt(myStr);
 
-                  //  System.out.println(col +"     "+t);
+                  System.out.println(col );
 
                 }
 
                 if(i==3){
                     node[col] [row] = new Node(col,row);
-                    ;
+
                 }
 
                 i++;
 
             }
 
-            // here we can access the object
-            System.out.println(node[col] [row].col);
-            if(_tileMap.get((tilePositions.nextElement())).getTileType() == Tile.tileTypes.floor){
+            // here can access the object
+
+            if(_tileMap.get(key).getTileType() == Tile.tileTypes.floor){
             node[col] [row].solid= false;
-            } else if (_tileMap.get((tilePositions.nextElement())).getTileType() == wall) {
+            } else if(_tileMap.get(key).getTileType() == Tile.tileTypes.wall){
                 node[col] [row].solid= true;
             }
             // System.out.println(node[1] [1].col);
             if(node[col] [row].solid == true){
                 System.out.println("solid");
+
+
             }
 
-        }
+            u++;
 
+        }//end of for loop
 
-//        PrintStream stream
-//                = new PrintStream(System.out);
-//        stream.println(node[0] [0].solid);
 
     }
+
+
 
 
 }

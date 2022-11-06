@@ -40,7 +40,7 @@ public class Pathfinder {
 	ArrayList<Node> checkedList = new ArrayList<>();
 
 	public   Vector3 FindPath(Map map, Vector3 pointA, Vector3 pointB){
-		map.getAlltile();
+	//	map.getAlltile();
 
 
 
