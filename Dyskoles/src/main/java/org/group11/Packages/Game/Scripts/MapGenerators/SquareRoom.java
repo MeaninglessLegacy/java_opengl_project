@@ -27,20 +27,21 @@ public class SquareRoom extends MapGenerator {
 
         for(int y = 4; y <= 6; y++) {
             Vector3 pos = new Vector3(4, y, 0);
+
             Tile newTile = new Floor();
             newTile.transform.setPosition(pos);
             newMap.setTile(pos, newTile);
             scene.Instantiate(newTile);
         }
 
-
+        //
         for(int x = 0; x< 100; x++){
             for(int y = 0; y< 100; y++){
                 Vector3 pos = new Vector3(x,y,0);
                 long randNum = Math.round(Math.random() * 4);
                 Tile newTile;
                 if (randNum == 0) {
-                     newTile = new Wall();
+                     newTile = new Wall(); //this creates walls rendomly
                 } else {
                     newTile = new Floor();
                 }

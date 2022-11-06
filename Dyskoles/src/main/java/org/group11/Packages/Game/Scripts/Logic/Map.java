@@ -70,4 +70,38 @@ public class Map {
             scene.Destroy(_tileMap.get(tilePositions.nextElement()));
         }
     }
+
+    public void getAlltile(){
+        scene = Scene.get_scene();
+        int u =0;
+        int t = 0;
+        if(scene == null) return;
+        for (Enumeration<String> tilePositions = _tileMap.keys(); tilePositions.hasMoreElements();) {
+           // scene.Destroy(_tileMap.get(tilePositions.nextElement()));d
+
+            System.out.println(_tileMap.get((tilePositions.nextElement())).getTileType() +" "+u);   // this gets the tiles from the map
+            //System.out.println((tilePositions.nextElement()).split("[.]", 0));  // this getting all the vectors
+
+           System.out.println();
+            u++;
+            String[] res =tilePositions.nextElement().split("[.]", 0);
+            // this can get me the x and y
+            int i =1;
+            for(String myStr: res) {
+                //System.out.println(myStr);
+                if(i<=2) {
+                    int number = Integer.parseInt(myStr);
+                    System.out.println(number +"     "+t);
+                    t++;
+                }
+                i++;
+
+            }
+
+
+        }
+
+    }
+
+
 }
