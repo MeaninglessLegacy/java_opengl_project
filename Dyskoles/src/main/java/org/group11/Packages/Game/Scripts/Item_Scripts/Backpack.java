@@ -9,8 +9,18 @@ public class Backpack {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    protected ArrayList<Item> _inventory;
+    protected ArrayList<Item> _inventory = new ArrayList<>();
 
+    //******************************************************************************************************************
+    //* constructor methods
+    //******************************************************************************************************************
+    public Backpack() {
+
+    }
+
+    //******************************************************************************************************************
+    //* setters and getters
+    //******************************************************************************************************************
     public ArrayList<Item> getItems() { return this._inventory; }
 
     //******************************************************************************************************************
@@ -30,12 +40,12 @@ public class Backpack {
     public boolean removeItem (Item item) {
         int i = 0;
         while (i < _inventory.size()) {
-            if (_inventory.get(i) == item) {
-                _inventory.remove(i);
-                _inventory.add(_inventory.get(_inventory.size() - 1));
-                _inventory.remove(_inventory.size() - 1);
+            if (_inventory.get(i).getClass().getName().equals(item.getClass().getName())) {
+                System.out.println("removing item from backpack");
+                _inventory.remove(item);
                 return true;
             }
+            i++;
         }
         return false;
     }

@@ -1,25 +1,44 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
-import org.group11.Packages.Engine.GameObject;
-import org.group11.Packages.Engine.Vector3;
+import org.group11.Packages.Core.Main.GameObject;
+import org.group11.Packages.Core.Main.Scene;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
 
 /**
- * Base class for character objects within our game
+ * Base class for Character objects within our game
  */
 public abstract class Character extends GameObject {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    // stores all the stats of this character
-    protected StatBlock _statBlock;
+    // Stores all the stats of this character
+    protected StatBlock _statBlock = new StatBlock();
+    // Displays the health of the character above their sprite
+    protected HealthBarOutline _healthBarOutline;
+    protected HealthBarInside _healthBarInside;
+
+    //******************************************************************************************************************
+    //* setters and getters
+    //******************************************************************************************************************
     /**
      * Returns the StatBlock of this character object
      * @return the StatBlock to return
      */
     public StatBlock getStatBlock() { return this._statBlock; }
+    /**
+     * Return the HealthBarOutline of this character object
+     * @return the HealthBarOutline to return
+     */
+    public HealthBarOutline get_healthBarOutline() { return this._healthBarOutline; }
+    /**
+     * Return the HealthBarInside of this character object
+     * @return the HealthBarInside to return
+     */
+    public HealthBarInside get_healthBarInside() { return this._healthBarInside; }
 
     //******************************************************************************************************************
-    //* character methods
+    //* methods
     //******************************************************************************************************************
     /**
      * Reduces the hp value of this character by specified amount
@@ -27,16 +46,17 @@ public abstract class Character extends GameObject {
      */
     public void takeDamage(int hp) {
         _statBlock.set_hp(_statBlock.get_hp() - hp);
-        if (_statBlock.get_hp() <= 0) {
-            // TODO: character dies
-        }
+        _healthBarInside.changeHealthBar(((float) _statBlock.get_hp()), ((float)_statBlock.get_maxHp()));
     }
 
     /**
      * Increases the hp value of this character by specified amount
      * @param hp value to increase hp by
      */
-    public void addHealth(int hp) { _statBlock.set_hp(_statBlock.get_hp() + hp); }
+    public void addHealth(int hp) {
+        _statBlock.set_hp(_statBlock.get_hp() + hp);
+        _healthBarInside.changeHealthBar(((float) _statBlock.get_hp()), ((float)_statBlock.get_maxHp()));
+    }
 
     /**
      * Increases the max hp value of this character by specified amount
@@ -51,10 +71,27 @@ public abstract class Character extends GameObject {
     public void addAttack(int atk) { _statBlock.set_Atk(_statBlock.get_atk() + atk); }
 
     /**
-     * Moves the character to the coordinates specified by the parameter
-     * @param nPos the position to which the character moves to
+     * Calling Character attacks the parameter Character, reducing the parameter Character's health. Returns true if the
+     * parameter Character's health was reduced to 0 or below, false if it hasn't
+     * @param defender Character whose health is being reduced
+     * @return true if defender's health is reduced to 0 or below, false if not
      */
-    public void moveTo(Vector3 nPos) {
-        // TODO: implement method
+    public boolean attackCharacter(Character defender) {
+        defender.takeDamage(this._statBlock.get_atk());
+        System.out.println(this.getClass().getName() + " is attacking a " + defender.getClass().getName() + "; " +
+                "Defending character now at " + defender.getStatBlock().get_hp() + " hp");
+        return defender.getStatBlock().get_hp() <= 0;
     }
+
+    /**
+     * Used to instantiate all related sprites to this Character, like health bar, character sprite, etc.
+     * Must be implemented in all children
+     */
+    public abstract void instantiateRelatedSprites(Scene scene);
+
+    /**
+     * Used to destroy all related sprites to this Character, like health bar, character sprite, etc.
+     * Must be implemented in all children
+     */
+    public abstract void destroyRelatedSprites(Scene scene);
 }

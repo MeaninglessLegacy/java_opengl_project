@@ -1,25 +1,57 @@
 package org.group11.Packages.Game.Scripts.Item_Scripts;
 
+import org.group11.Packages.Core.Components.SpriteRenderer;
+import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
+
+import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.endGame;
+
 /**
  * Exit object, when the player character runs into this object with a key they complete the level
  */
 public class Exit extends Item {
     //******************************************************************************************************************
-    //* overrides
+    //* variables
     //******************************************************************************************************************
-    public void start() {
-        // TODO: implement method
-        // Gets all sprites for object
-        // Calls constructor
+    private SpriteRenderer spriteRenderer;
+
+    //******************************************************************************************************************
+    //* constructor methods
+    //******************************************************************************************************************
+    public Exit() {
+        setupExit();
     }
 
-    public void update() {
-        // TODO: implement method
-        // changes colour when exit is accessible
+    public Exit(Vector3 pos) {
+        transform.setPosition(pos);
+        setupExit();
+    }
+
+    private void setupExit() {
+        spriteRenderer = new SpriteRenderer(this, "./Resources/prototypeExit1.png");
+        this.addComponent(spriteRenderer);
+        spriteRenderer.shiftSprite('z', (float)-0.1);
+    }
+
+    //******************************************************************************************************************
+    //* overrides
+    //******************************************************************************************************************
+    @Override
+    public boolean activate(MainCharacter c) {
+        Key testKey = new Key();
+        if (c.backpack.removeItem(testKey)) {
+            endGame(true);
+        }
+        return false;
     }
 
     @Override
-    public void activate() {
+    public void start() {
+        super.start();
+    }
 
+    @Override
+    public void update() {
+        super.update();
     }
 }

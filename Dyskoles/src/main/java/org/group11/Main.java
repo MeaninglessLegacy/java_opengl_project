@@ -1,14 +1,17 @@
 package org.group11;
 
+import org.group11.Packages.Core.Main.Engine;
+import org.group11.Packages.Core.Main.Scene;
+import org.group11.Packages.Game.Scripts.Logic.GameLogicDriver;
+
 public class Main {
-    /* pseudo code
-    new scene
-    new gamelogicdriver
-    scene.Instantiate(gamelogicdriver)
-    scene.run
-    scene.stop
-     */
+    private static Engine engine;
+    private static Scene scene;
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        engine = new Engine();
+        engine.start();
+        scene = Scene.get_scene();
+        GameLogicDriver gameLogicDriver = GameLogicDriver.getInstance();
+        scene.Instantiate(gameLogicDriver);
     }
 }

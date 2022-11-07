@@ -8,6 +8,12 @@
 .idea/**/shelf
 .idea/
 .iml
-/Dyskoles/target/
+#build and #IntelliJ
+Dyskoles/target/
+Dyskoles/.idea/**/workspace.xml
+Dyskoles/**/tasks.xml
+Dyskoles/.idea/**/usage.statistics.xml
+Dyskoles/.idea/**/dictionaries
+Dyskoles/.idea/**/shelf
 out/
 
