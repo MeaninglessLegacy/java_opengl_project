@@ -36,22 +36,22 @@ public class RenderComponent {
     //* setters
     //******************************************************************************************************************
     /**
-     *
-     * @param _texture
+     * Sets _texture to the parameter _texture
+     * @param _texture the Texture to set this _texture to
      */
     public void set_texture(Texture _texture) {this._texture = _texture;}
 
     /**
-     *
-     * @param _quadCords
+     * Sets _quadCords to the parameter _quadCords
+     * @param _quadCords the Vector2[] to set this _quadCords to
      */
     public void set_quadCords(Vector2[] _quadCords) {
         this._quadCords = _quadCords;
     }
 
     /**
-     *
-     * @param _texCords
+     * Sets _texCords to the parameter _texCords
+     * @param _texCords the Vector2[] to set this _texCords to
      */
     public void set_texCords(Vector2[] _texCords) {
         this._texCords = _texCords;
@@ -62,24 +62,24 @@ public class RenderComponent {
     //* getters
     //******************************************************************************************************************
     /**
-     *
-     * @return
+     * Returns this RenderComponents' _quadCords
+     * @return this RenderComponents' Vector2[] _quadCords
      */
     public Vector2[] get_quadCords() {
         return _quadCords;
     }
 
     /**
-     *
-     * @return
+     * Returns this RenderComponents' _texCords
+     * @return this RenderComponents' Vector2[] _texCords
      */
     public Vector2[] get_texCords() {
         return _texCords;
     }
 
     /**
-     *
-     * @return
+     * Returns this RenderComponents' _texture
+     * @return this RenderComponents' Texture _texture
      */
     public Texture get_texture() {
         return _texture;

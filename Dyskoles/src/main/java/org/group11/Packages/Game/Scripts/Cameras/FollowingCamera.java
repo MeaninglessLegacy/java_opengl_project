@@ -6,7 +6,7 @@ import org.group11.Packages.Core.Main.Camera;
 import org.group11.Packages.Core.Main.GameObject;
 
 /**
- *
+ * This Camera object follows the given subject
  */
 public class FollowingCamera extends Camera {
     private GameObject _subject;

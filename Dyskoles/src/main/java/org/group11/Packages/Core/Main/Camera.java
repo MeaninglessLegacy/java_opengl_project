@@ -13,11 +13,7 @@ public class Camera extends GameObject {
     private Vector3 viewSize = new Vector3(Constants.SCREEN_WIDTH,Constants.SCREEN_HEIGHT,0);
 
     /**
-<<<<<<< HEAD
      * Constructor for Camera, makes the orientation orthographic and sets the Camera's position in terms of z
-=======
-     * Constructs a Camera object at (0,0,-5).
->>>>>>> engine
      */
     public Camera(){
         this.transform.position.z = -5;
