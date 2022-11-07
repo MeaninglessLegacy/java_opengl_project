@@ -252,10 +252,11 @@ public class Pathfinder {
 						return currentTile;
 
 
-					}else if(map.getTile(leftTile).getTileType() != tileTypes.wall) { // go right
-
-						currentTile = leftTile;
-						return currentTile;
+					}else if(map.getTile(leftTile) != null){
+						if(map.getTile(leftTile).getTileType() != tileTypes.wall) { // go right
+							currentTile = leftTile;
+							return currentTile;
+						}
 
 					}else {
 						//go to other options in case those two are walls

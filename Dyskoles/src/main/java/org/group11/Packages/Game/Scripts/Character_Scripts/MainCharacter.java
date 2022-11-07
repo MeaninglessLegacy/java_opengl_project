@@ -67,7 +67,7 @@ public class MainCharacter extends Character{
         characterSprite = new SpriteRenderer(this, "./Resources/ump45.png");
         this.addComponent(characterSprite);
         // display sprite on top of other sprites with small z translation
-        characterSprite.get_sprite().transform.position.z -= 0.1;
+        characterSprite.get_sprite().transform.position.z -= 0.2;
         _healthBarOutline = new HealthBarOutline(this);
         _healthBarInside = new HealthBarInside(this);
         _EXPBarOutline = new EXPBarOutline(this);
@@ -126,7 +126,6 @@ public class MainCharacter extends Character{
 
     @Override
     public void instantiateRelatedSprites(Scene scene) {
-        scene.Instantiate(this);
         scene.Instantiate(_healthBarInside);
         scene.Instantiate(_healthBarOutline);
         scene.Instantiate(_EXPBarInside);
@@ -137,7 +136,6 @@ public class MainCharacter extends Character{
 
     @Override
     public void destroyRelatedSprites(Scene scene) {
-        scene.Destroy(this);
         scene.Destroy(_healthBarInside);
         scene.Destroy(_healthBarOutline);
         scene.Destroy(_EXPBarInside);
@@ -145,9 +143,14 @@ public class MainCharacter extends Character{
         scene.Destroy(_attackIncreaseIndicator);
         scene.Destroy(_healthIncreaseIndicator);
     }
-    
+
     @Override
-    public void start() { super.start(); }
+    public void Delete() {
+        destroyRelatedSprites(Scene.get_scene());
+    }
+
+    @Override
+    public void start() { instantiateRelatedSprites(Scene.get_scene()); }
 
     /**
      * Creates a 'breathing' effect by scaling the y component the sprite of this Character down and up over time
@@ -161,7 +164,7 @@ public class MainCharacter extends Character{
             x = 0;
         }
         double yScale = -Math.pow((x-1),4)+1;
-        characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale));
+        characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale), 0);
         time = System.currentTimeMillis();
         super.update();
     }

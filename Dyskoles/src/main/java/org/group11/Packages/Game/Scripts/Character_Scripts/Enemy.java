@@ -144,7 +144,7 @@ public abstract class Enemy extends Character{
             x = 0;
         }
         double yScale = -Math.pow((x-1),4)+1;
-        characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale));
+        characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale),0);
         time = System.currentTimeMillis();
         super.update();
     }

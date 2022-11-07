@@ -1,6 +1,7 @@
 package org.group11.Packages.Game.Scripts.Item_Scripts;
 
 import org.group11.Packages.Core.Components.SpriteRenderer;
+import org.group11.Packages.Core.DataStructures.Transform;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 
@@ -33,6 +34,7 @@ public class SpikeTrap extends Item {
     //* constructor methods
     //******************************************************************************************************************
     public SpikeTrap() {
+        this.transform = new Transform();
         setupSpikeTrap();
     }
 
@@ -44,7 +46,7 @@ public class SpikeTrap extends Item {
     private void setupSpikeTrap() {
         spriteRenderer = new SpriteRenderer(this, "./Resources/SpikeTrap.png");
         this.addComponent(spriteRenderer);
-        spriteRenderer.shiftSprite('z', (float)-0.1);
+        spriteRenderer.get_sprite().transform.position.z -= 0.1;
     }
 
     //******************************************************************************************************************

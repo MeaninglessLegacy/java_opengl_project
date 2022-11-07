@@ -27,7 +27,7 @@ public class HealthBarOutline extends GameObject {
 
         outsideBarSprite.shiftSprite('y', (float)0.5);
         outsideBarSprite.shiftSprite('z', (float)-0.6);
-        outsideBarSprite.get_sprite().set_scale(1, (float)0.15);
+        outsideBarSprite.get_sprite().set_scale(1, (float)0.17, 0);
     }
 
     //******************************************************************************************************************

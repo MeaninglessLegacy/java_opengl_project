@@ -2,6 +2,7 @@ package org.group11;
 
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector2;
+import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Camera;
 import org.group11.Packages.Core.Main.Engine;
 import org.group11.Packages.Core.Main.GameObject;
@@ -76,7 +77,7 @@ class PlayerObject extends GameObject {
             x = 0;
         }
         double yScale = -Math.pow((x-1),4)+1;
-        spriteRenderer.get_sprite().set_scale(1, (float)(1+0.05*yScale));
+        spriteRenderer.get_sprite().set_scale(1, (float)(1+0.05*yScale),0);
         time = System.currentTimeMillis();
     }
 
@@ -110,10 +111,10 @@ class PlayerObject extends GameObject {
             spriteRenderer.enabled = true;
         }
         if(key==79){ //o
-            spriteRenderer.get_sprite().set_scale(new Vector2(0.5f,0.5f));
+            spriteRenderer.get_sprite().set_scale(new Vector3(0.5f,0.5f,0f));
         }
         if(key==90){ //z
-            spriteRenderer.get_sprite().set_scale(new Vector2(1f,1f));
+            spriteRenderer.get_sprite().set_scale(new Vector3(1f,1f,0f));
         }
         if(key==89){ //y
             Scene.get_scene().Destroy(this);

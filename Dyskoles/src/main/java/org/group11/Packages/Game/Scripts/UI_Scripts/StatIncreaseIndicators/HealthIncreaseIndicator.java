@@ -21,7 +21,7 @@ public class HealthIncreaseIndicator extends StatIncreaseIndicator {
         statIncrease.shiftSprite('x', (float)0.55);
         statIncrease.shiftSprite('y', (float)0.2);
         statIncrease.shiftSprite('z', (float)-0.5);
-        statIncrease.get_sprite().set_scale((float)0.45, (float)0.3);
+        statIncrease.get_sprite().set_scale((float)0.45, (float)0.3, 0);
         statIncrease.enabled = false;
     }
 }

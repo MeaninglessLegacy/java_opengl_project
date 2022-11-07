@@ -5,6 +5,7 @@ import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Logic.Map;
 import org.group11.Packages.Game.Scripts.Logic.MapGenerator;
+import org.group11.Packages.Game.Scripts.Tile_Scripts.CubeWall.CubeWall;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Floor;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
@@ -17,7 +18,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- *
+ * Shamelessly copying and modifying to work in Java an old room generator algorithm I made based on someone
+ * else's idea. https://github.com/MeaninglessLegacy/test_project_1 -Eric
  */
 public class Dungeon extends MapGenerator {
     private class Tile {
@@ -71,7 +73,7 @@ public class Dungeon extends MapGenerator {
 
     private static Vector2 getCirclePoint(double circle_radius, double angle)
     {
-        float x = (float)(circle_radius * Math.cos(angle));
+        float x = (float)(1.5*circle_radius * Math.cos(angle));
         float y = (float)(circle_radius * Math.sin(angle));
         Vector2 point = new Vector2(x, y);
         return point;
@@ -79,25 +81,45 @@ public class Dungeon extends MapGenerator {
 
     private static boolean ComputeRoomOverlap(Room A, Room B)
     {
-        boolean x_overlap = A.midpoint.x - A.size.x / 2 < B.midpoint.x + B.size.x / 2 && B.midpoint.x - B.size.x / 2 < A.midpoint.x + A.size.x / 2;
-        boolean y_overlap = A.midpoint.y - A.size.y / 2 < B.midpoint.y + B.size.y / 2 && B.midpoint.y - B.size.y / 2 < A.midpoint.y + A.size.y / 2;
+        float roomALeft = A.midpoint.x - A.size.x / 2; float roomARight = A.midpoint.x + A.size.x / 2;
+        float roomBLeft = B.midpoint.x - B.size.x / 2; float roomBRight = B.midpoint.x + B.size.x / 2;
+        float roomATop = A.midpoint.y + A.size.y / 2; float roomABottom = A.midpoint.y - A.size.y / 2;
+        float roomBTop = B.midpoint.y + B.size.y / 2; float roomBBottom = B.midpoint.y - B.size.y / 2;
+        boolean x_overlap = (roomALeft >= roomBLeft && roomARight <= roomBRight)
+                ||(roomALeft <= roomBLeft && roomARight <= roomBRight && roomARight >= roomBLeft)
+                ||(roomALeft >= roomBLeft && roomARight >= roomBRight && roomALeft <= roomBRight)
+                ||(roomALeft <= roomBLeft && roomARight >= roomBRight);
+        boolean y_overlap = (roomATop >= roomBTop && roomABottom <= roomBBottom)
+                ||(roomATop <= roomBTop && roomABottom <= roomBBottom && roomATop >= roomBBottom)
+                ||(roomATop >= roomBTop && roomABottom >= roomBBottom && roomABottom <= roomBTop)
+                ||(roomATop <= roomBTop && roomABottom >= roomBBottom);
         return x_overlap == true && y_overlap == true;
     }
 
 
-    public static Vector2 computeSeperation(Room room, List<Room> all_rooms)
+    public static Vector2 computeSeperation(Room room, List<Room> all_rooms, int spacing)
     {
         Vector2 separation_vector = new Vector2(0, 0);
         int neighborCount = 0;
         for(Room otherRoom : all_rooms){
             if (otherRoom != room)
             {
+                // add spacing to room
+                room.size.x += spacing;
+                room.size.y += spacing;
+                otherRoom.size.x += spacing;
+                otherRoom.size.y += spacing;
                 if (ComputeRoomOverlap(room, otherRoom))
                 {
                     separation_vector.x += otherRoom.midpoint.x - room.midpoint.x;
                     separation_vector.y += otherRoom.midpoint.y - room.midpoint.y;
                     neighborCount++;
                 }
+                // remove spacing to room
+                room.size.x -= spacing;
+                room.size.y -= spacing;
+                otherRoom.size.x -= spacing;
+                otherRoom.size.y -= spacing;
             }
         }
         if (neighborCount == 0) return separation_vector;
@@ -165,13 +187,15 @@ public class Dungeon extends MapGenerator {
     public Map generateMap() {
         // generation parameters
         int gen_rooms = 50;
-        double generation_radius = 30;
-        int min_size = 3;
-        int max_size = 8;
+        double generation_radius = 20;
+        int min_size = 5;
+        int max_size = 10;
         int size_threshold = 10;
+        int min_hallway_size = 4;
         int max_hallway_size = 5;
-        int room_max_count = 10;
+        int room_max_count = 5;
         int room_connectivity = 0;
+        int room_spacing = 10;
         // Randomly generate rooms
         List<Room> room_points = new ArrayList<>();
         Random r = new Random(System.currentTimeMillis());
@@ -181,8 +205,8 @@ public class Dungeon extends MapGenerator {
             Vector2 room_midpoint = getCirclePoint(radius, angle);
             Room room = new Room(room_midpoint.x, room_midpoint.y);
             room_points.add(room);
-            int room_width = (int)Math.ceil(r.nextDouble((max_size-min_size))+min_size);
-            int room_height = (int)Math.ceil(r.nextDouble((max_size-min_size))+min_size);
+            int room_width = (int)Math.ceil(r.nextInt((max_size-min_size))+min_size);
+            int room_height = (int)Math.ceil(r.nextInt((max_size-min_size)/2)+min_size);
             room.size = new Vector2(room_width, room_height);
             room.node = i;
         }
@@ -193,12 +217,12 @@ public class Dungeon extends MapGenerator {
         }
         boolean simulate = true;
         int simSteps = 0;
-        while(simulate == true && simSteps < 10000){
+        while(simulate == true && simSteps < 1000){
             boolean continue_simulation = false;
             simSteps++;
             for (int i = 0; i < room_points.size(); i++) {
                 Vector2 sepVec = separationVectors.get(i);
-                sepVec = computeSeperation(room_points.get(i), room_points);
+                sepVec = computeSeperation(room_points.get(i), room_points, room_spacing);
                 if (Math.sqrt(sepVec.x * sepVec.x + sepVec.y * sepVec.y) != 0)
                 {
                     continue_simulation = true;
@@ -242,7 +266,7 @@ public class Dungeon extends MapGenerator {
             }
         }
         //sort from left to right by x value
-        Collections.sort(selectedRooms, (o1,o2) -> (int) (o2.midpoint.x - o1.midpoint.x));
+        Collections.sort(selectedRooms, (o1,o2) -> (int) (o1.midpoint.x - o2.midpoint.x));
         // create line segement connections between rooms and triangulate
         List<LineSegment> lineSegs = new ArrayList<>();
         if(selectedRooms.size() < 4 && selectedRooms.size() > 1){
@@ -388,16 +412,16 @@ public class Dungeon extends MapGenerator {
             // connect rooms with hallways, cut off rooms that don't touch hallways
             List<Room> finalRooms = new ArrayList<>();
             for(LineSegment lineSeg : hallways){
-                double room_width = Math.round(Math.abs(lineSeg.node_1_position.x - lineSeg.node_2_position.x));
-                double room_height = Math.round(Math.abs(lineSeg.node_1_position.y - lineSeg.node_2_position.y));
+                double room_width = Math.ceil(Math.abs(lineSeg.node_1_position.x - lineSeg.node_2_position.x));
+                double room_height = Math.ceil(Math.abs(lineSeg.node_1_position.y - lineSeg.node_2_position.y));
                 double room_center_x = Math.floor((lineSeg.node_1_position.x + lineSeg.node_2_position.x)/2);
                 double room_center_y = Math.floor((lineSeg.node_1_position.y + lineSeg.node_2_position.y)/2);
-                if (room_width == 0) {
-                    room_width = Math.ceil(r.nextDouble() * (max_hallway_size-3) + 3);
+                if (room_width < min_hallway_size) {
+                    room_width = Math.ceil(r.nextInt(max_hallway_size-min_hallway_size) + min_hallway_size);
                     room_center_x = Math.floor(lineSeg.node_1_position.x);
                 };
-                if(room_height == 0) {
-                    room_height = Math.ceil(r.nextDouble() * (max_hallway_size-3) + 3);
+                if(room_height < min_hallway_size) {
+                    room_height = Math.ceil(r.nextInt(max_hallway_size-min_hallway_size) + min_hallway_size);
                     room_center_y = Math.floor(lineSeg.node_1_position.y);
                 }
                 // center shifts
@@ -454,15 +478,6 @@ public class Dungeon extends MapGenerator {
             // convert edge tiles to walls
             for(Tile t : tiles){
                 Vector2 yPlus = new Vector2(t.position.x, t.position.y+1);
-                boolean isTop = true;
-                for(Tile tTest : tiles){
-                    if(tTest.position.x == yPlus.x && tTest.position.y == yPlus.y){
-                        isTop = false;
-                        break;
-                    }
-                }
-                if(isTop) t.type = 3;
-                /*Vector2 yPlus = new Vector2(t.position.x, t.position.y+1);
                 Vector2 yNeg = new Vector2(t.position.x, t.position.y-1);
                 Vector2 xPlus = new Vector2(t.position.x+1, t.position.y);
                 Vector2 xNeg = new Vector2(t.position.x-1, t.position.y);
@@ -475,19 +490,29 @@ public class Dungeon extends MapGenerator {
                                     || testT.position.x == xNeg.x && testT.position.y == xNeg.y)
                         neigh++;
                 }
-                if(neigh != 4) t.type = 3;*/
+                if(neigh != 4) t.type = 3;
             }
             // now we can make tiles at last
             Map newMap = new Map();
             Scene scene = Scene.get_scene();
+            String[] _floorTextures = {
+                    "./Resources/TileTest/T1.png",
+                    "./Resources/TileTest/T2.png",
+                    "./Resources/TileTest/T3.png",
+                    "./Resources/TileTest/T4.png",
+                    "./Resources/TileTest/T5.png",
+                    "./Resources/TileTest/T6.png",
+                    "./Resources/TileTest/T7.png",
+                    "./Resources/TileTest/T8.png"
+            };
             for(Tile t : tiles){
                 org.group11.Packages.Game.Scripts.Tile_Scripts.Tile newTile;
+                Vector3 pos = new Vector3(t.position.x, t.position.y, 0);
                 if(t.type != 3){
                     newTile = new Floor();
                 }else{
-                    newTile = new Wall();
+                    newTile = new CubeWall();
                 }
-                Vector3 pos = new Vector3(t.position.x, t.position.y, 0);
                 newTile.transform.setPosition(pos);
                 newMap.setTile(pos, newTile);
                 scene.Instantiate(newTile);

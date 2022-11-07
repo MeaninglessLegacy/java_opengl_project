@@ -4,21 +4,12 @@ import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Logic.Map;
 import org.group11.Packages.Game.Scripts.Logic.MapGenerator;
+import org.group11.Packages.Game.Scripts.Tile_Scripts.CubeWall.CubeWall;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Floor;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
-import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
 
-import java.lang.Math;
-
-/**
- * Creates a 100x100 square of randomly generated floors and walls to use for testing
- */
-public class SquareRoom extends MapGenerator {
+public class CubesRoom extends MapGenerator {
     private Scene scene;
-    /**
-     * Generates a 100x100 Square of random floor and wall tiles
-     * @return Map containing a 100x100 map of tiles
-     */
     @Override
     public Map generateMap() {
         scene = Scene.get_scene();
@@ -40,7 +31,7 @@ public class SquareRoom extends MapGenerator {
                 long randNum = Math.round(Math.random() * 4);
                 Tile newTile;
                 if (randNum == 0) {
-                     newTile = new Wall();
+                    newTile = new CubeWall();
                 } else {
                     newTile = new Floor();
                 }

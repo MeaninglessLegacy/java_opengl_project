@@ -33,7 +33,7 @@ public class Boss extends Enemy {
 
         characterSprite = new SpriteRenderer(this, "./Resources/ump9.png");
         this.addComponent(characterSprite);
-        characterSprite.get_sprite().transform.position.z -= 0.1; // place above tiles
+        characterSprite.get_sprite().transform.position.z -= 0.2; // place above tiles
         _healthBarInside = new HealthBarInside(this);
         _healthBarOutline = new HealthBarOutline(this);
         _moveCountdown = new MoveCountdown(this);
@@ -44,7 +44,6 @@ public class Boss extends Enemy {
     //******************************************************************************************************************
     @Override
     public void instantiateRelatedSprites(Scene scene) {
-        scene.Instantiate(this);
         scene.Instantiate(_healthBarInside);
         scene.Instantiate(_healthBarOutline);
         scene.Instantiate(_moveCountdown);
@@ -53,7 +52,6 @@ public class Boss extends Enemy {
 
     @Override
     public void destroyRelatedSprites(Scene scene) {
-        scene.Destroy(this);
         scene.Destroy(_healthBarInside);
         scene.Destroy(_healthBarOutline);
         scene.Destroy(_moveCountdown);
@@ -61,7 +59,12 @@ public class Boss extends Enemy {
     }
 
     @Override
-    public void start() { super.start(); }
+    public void Delete() {
+        destroyRelatedSprites(Scene.get_scene());
+    }
+
+    @Override
+    public void start() { instantiateRelatedSprites(Scene.get_scene()); }
 
     @Override
     public void update() { super.update(); }

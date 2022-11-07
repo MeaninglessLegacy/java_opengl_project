@@ -28,7 +28,7 @@ public class Key extends Item{
     private void setupKey() {
         spriteRenderer = new SpriteRenderer(this, "./Resources/key.png");
         this.addComponent(spriteRenderer);
-        spriteRenderer.shiftSprite('z', (float)-0.5);
+        spriteRenderer.shiftSprite('z', (float)-0.1);
         spriteRenderer.enabled = false;
     }
 

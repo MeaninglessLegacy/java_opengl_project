@@ -19,9 +19,20 @@ public class Floor extends Tile {
         transform.setPosition(pos);
     }
 
+    public Floor(Vector3 pos, String textureFile) {
+        setupFloor(textureFile);
+        transform.setPosition(pos);
+    }
+
+    private void setupFloor(String textureFile) {
+        _tileType = tileTypes.floor;
+        this.spriteRenderer = new SpriteRenderer(this,textureFile);
+        this.addComponent(this.spriteRenderer);
+    }
+
     private void setupFloor() {
         _tileType = tileTypes.floor;
-        this.spriteRenderer = new SpriteRenderer(this,"./Resources/GrassTile1.png");
+        this.spriteRenderer = new SpriteRenderer(this,"./Resources/WhiteTile.png");
         this.addComponent(this.spriteRenderer);
     }
 

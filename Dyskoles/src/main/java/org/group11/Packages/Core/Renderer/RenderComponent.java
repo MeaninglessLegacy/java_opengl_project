@@ -1,7 +1,7 @@
 package org.group11.Packages.Core.Renderer;
 
 import org.group11.Packages.Core.DataStructures.AssetPool;
-import org.group11.Packages.Core.DataStructures.Vector2;
+import org.group11.Packages.Core.DataStructures.Vector3;
 
 /**
  * Something that can be rendered by the Renderer, contains a Texture, the bounding vertices of the Texture, and
@@ -10,18 +10,19 @@ import org.group11.Packages.Core.DataStructures.Vector2;
 public class RenderComponent {
     private Texture _texture; // texture to render onto the quad
     // position of each vertex of the texture
-    private Vector2[] _texCords = new Vector2[] {
-            new Vector2(1.0f, 0.0f),
-            new Vector2(1.0f, 1.0f),
-            new Vector2(0.0f, 1.0f),
-            new Vector2(0.0f, 0.0f)
+    private Vector3[] _texCords = new Vector3[] {
+            new Vector3(1.0f, 0.0f, 0.0f),
+            new Vector3(1.0f, 1.0f, 0.0f),
+            new Vector3(0.0f, 1.0f, 0.0f),
+            new Vector3(0.0f, 0.0f, 0.0f)
     };
     // the position of each vertex of the quad that will be used to display the texture
-    private Vector2[] _quadCords = new Vector2[] {
-            new Vector2(1.0f, 1.0f),
-            new Vector2(1.0f, 0.0f),
-            new Vector2(0.0f, 0.0f),
-            new Vector2(0.0f, 1.0f)
+    // plot the points in order to visualize the quad
+    private Vector3[] _quadCords = new Vector3[] {
+            new Vector3(1.0f, 1.0f, 0.0f),
+            new Vector3(1.0f, 0.0f, 0.0f),
+            new Vector3(0.0f, 0.0f, 0.0f),
+            new Vector3(0.0f, 1.0f, 0.0f)
     };
 
     /**
@@ -45,7 +46,7 @@ public class RenderComponent {
      * Sets _quadCords to the parameter _quadCords
      * @param _quadCords the Vector2[] to set this _quadCords to
      */
-    public void set_quadCords(Vector2[] _quadCords) {
+    public void set_quadCords(Vector3[] _quadCords) {
         this._quadCords = _quadCords;
     }
 
@@ -53,7 +54,7 @@ public class RenderComponent {
      * Sets _texCords to the parameter _texCords
      * @param _texCords the Vector2[] to set this _texCords to
      */
-    public void set_texCords(Vector2[] _texCords) {
+    public void set_texCords(Vector3[] _texCords) {
         this._texCords = _texCords;
     }
 
@@ -65,7 +66,7 @@ public class RenderComponent {
      * Returns this RenderComponents' _quadCords
      * @return this RenderComponents' Vector2[] _quadCords
      */
-    public Vector2[] get_quadCords() {
+    public Vector3[] get_quadCords() {
         return _quadCords;
     }
 
@@ -73,7 +74,7 @@ public class RenderComponent {
      * Returns this RenderComponents' _texCords
      * @return this RenderComponents' Vector2[] _texCords
      */
-    public Vector2[] get_texCords() {
+    public Vector3[] get_texCords() {
         return _texCords;
     }
 
