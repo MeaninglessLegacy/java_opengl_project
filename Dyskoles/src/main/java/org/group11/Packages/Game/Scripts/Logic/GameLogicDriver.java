@@ -9,6 +9,7 @@ import org.group11.Packages.Game.Scripts.Character_Scripts.*;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
+import org.group11.Packages.Game.Scripts.Levels.CubesTest;
 import org.group11.Packages.Game.Scripts.Levels.FourRoom;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom2;
@@ -86,10 +87,10 @@ public class GameLogicDriver extends GameObject {
             _enemyCharacters = _gameLevel.get_enemies();
             _items = _gameLevel.get_items();
             for (MainCharacter c : _playerCharacters) {
-                c.instantiateRelatedSprites(scene);
+                scene.Instantiate(c);
             }
             for (Enemy e : _enemyCharacters) {
-                e.instantiateRelatedSprites(scene);
+                scene.Instantiate(e);
             }
             for (Item i : _items) {
                 scene.Instantiate(i);
@@ -105,7 +106,7 @@ public class GameLogicDriver extends GameObject {
      */
     public static void removeEnemy(Enemy enemy) {
         _enemyCharacters.remove(enemy);
-        enemy.destroyRelatedSprites(scene);
+        scene.Destroy(enemy);
     }
 
     /**
@@ -183,12 +184,12 @@ public class GameLogicDriver extends GameObject {
      */
     private static void activateNearbyEnemies(MainCharacter MC) {
         int squareActivateRadius = 3;
-        float MCx = MC.transform.position.x;
-        float MCy = MC.transform.position.y;
+        double MCx = MC.transform.position.x;
+        double MCy = MC.transform.position.y;
         for (Enemy e : _enemyCharacters) {
             if (!e.get_enemyActiveState()) {
-                float ex = e.transform.position.x;
-                float ey = e.transform.position.y;
+                double ex = e.transform.position.x;
+                double ey = e.transform.position.y;
 
                 if (ex <= MCx + squareActivateRadius && ex >= MCx - squareActivateRadius &&
                     ey <= MCy + squareActivateRadius && ey >= MCy - squareActivateRadius) {
@@ -297,11 +298,11 @@ public class GameLogicDriver extends GameObject {
      */
     private static void clearEverything() {
         for (MainCharacter c : _playerCharacters) {
-            c.destroyRelatedSprites(scene);
+            scene.Destroy(c);
         }
         _playerCharacters = new ArrayList<MainCharacter>();
         for (Enemy e : _enemyCharacters) {
-            e.destroyRelatedSprites(scene);
+            scene.Destroy(e);
         }
         _enemyCharacters = new ArrayList<Enemy>();
         for (Item i : _items) {
@@ -323,7 +324,7 @@ public class GameLogicDriver extends GameObject {
             _gameStarted = true;
 
             // Gets and loads a level
-            Level newLevel = new TestRoom();
+            Level newLevel = new TestRoom2();
             set_gameLevel(newLevel);
             loadNewLevel();
 
@@ -333,6 +334,8 @@ public class GameLogicDriver extends GameObject {
                 Camera followingCamera = new FollowingCamera(mc);
                 scene.Instantiate(followingCamera);
                 scene.set_mainCamera(followingCamera);
+                followingCamera.transform.setPosition(mc.transform.position);
+                followingCamera.transform.position.z = -5;
             }
         }
         super.update();

@@ -5,6 +5,7 @@ import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Logic.Map;
 import org.group11.Packages.Game.Scripts.Logic.MapGenerator;
+import org.group11.Packages.Game.Scripts.Tile_Scripts.CubeWall.CubeWall;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Floor;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
@@ -494,14 +495,24 @@ public class Dungeon extends MapGenerator {
             // now we can make tiles at last
             Map newMap = new Map();
             Scene scene = Scene.get_scene();
+            String[] _floorTextures = {
+                    "./Resources/TileTest/T1.png",
+                    "./Resources/TileTest/T2.png",
+                    "./Resources/TileTest/T3.png",
+                    "./Resources/TileTest/T4.png",
+                    "./Resources/TileTest/T5.png",
+                    "./Resources/TileTest/T6.png",
+                    "./Resources/TileTest/T7.png",
+                    "./Resources/TileTest/T8.png"
+            };
             for(Tile t : tiles){
                 org.group11.Packages.Game.Scripts.Tile_Scripts.Tile newTile;
+                Vector3 pos = new Vector3(t.position.x, t.position.y, 0);
                 if(t.type != 3){
                     newTile = new Floor();
                 }else{
-                    newTile = new Wall();
+                    newTile = new CubeWall();
                 }
-                Vector3 pos = new Vector3(t.position.x, t.position.y, 0);
                 newTile.transform.setPosition(pos);
                 newMap.setTile(pos, newTile);
                 scene.Instantiate(newTile);

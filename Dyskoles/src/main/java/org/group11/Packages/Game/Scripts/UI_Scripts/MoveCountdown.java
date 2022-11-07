@@ -45,7 +45,7 @@ public class MoveCountdown extends GameObject {
         for (MoveCDSprites CDSprite : CDSpriteList) {
             CDSprite.getCDSprite().shiftSprite('y', (float)1);
             CDSprite.getCDSprite().shiftSprite('z', (float)-0.6);
-            CDSprite.getCDSprite().get_sprite().set_scale((float)0.5, (float)0.5);
+            CDSprite.getCDSprite().get_sprite().set_scale((float)0.5, (float)0.5, 0);
         }
         disableSprites();
     }

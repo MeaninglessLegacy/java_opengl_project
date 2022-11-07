@@ -118,7 +118,8 @@ public class Scene {
     }
 
     /**
-     * Queues a GameObject to be removed from the Scene on the following Scene.update() call.
+     * Queues a GameObject to be removed from the Scene on the following Scene.update() call. Calls the Destory method
+     * of the GameObject to be removed.
      * @param obj The GameObject to remove from the Scene.
      * @return Returns Boolean false if the GameObject is already queued for destruction else returns Boolean true.
      */
@@ -128,6 +129,7 @@ public class Scene {
         }
         _queuedDestruction.add(obj);
         _renderer.remove(obj);
+        obj.Delete();
         return true;
     }
 

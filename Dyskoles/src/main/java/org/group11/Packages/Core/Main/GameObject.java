@@ -30,7 +30,8 @@ abstract public class GameObject {
     }
 
     /**
-     * Method is called when the GameObject is first created.
+     * Method is called when the GameObject is first created. All construction of children GameObjects have to be
+     * under start.
      */
     public void start() {
         return;
@@ -53,6 +54,14 @@ abstract public class GameObject {
      * @param key Ascii value of the key pressed.
      */
     public void onKeyUp(int key){
+        return;
+    }
+
+    /**
+     * This is called whenever Scene.Destroy(GameObject this) is called, this method should be overwritten to destroy
+     * all children objects attached to this GameObject.
+     */
+    public void Delete(){
         return;
     }
 

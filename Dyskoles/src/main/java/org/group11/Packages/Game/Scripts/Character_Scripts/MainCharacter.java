@@ -108,7 +108,6 @@ public class MainCharacter extends Character{
     //******************************************************************************************************************
     @Override
     public void instantiateRelatedSprites(Scene scene) {
-        scene.Instantiate(this);
         scene.Instantiate(_healthBarInside);
         scene.Instantiate(_healthBarOutline);
         scene.Instantiate(_EXPBarInside);
@@ -117,15 +116,19 @@ public class MainCharacter extends Character{
 
     @Override
     public void destroyRelatedSprites(Scene scene) {
-        scene.Destroy(this);
         scene.Destroy(_healthBarInside);
         scene.Destroy(_healthBarOutline);
         scene.Destroy(_EXPBarInside);
         scene.Destroy(_EXPBarOutline);
     }
-    
+
     @Override
-    public void start() { super.start(); }
+    public void Delete() {
+        destroyRelatedSprites(Scene.get_scene());
+    }
+
+    @Override
+    public void start() { instantiateRelatedSprites(Scene.get_scene()); }
 
     @Override
     public void update() {
@@ -136,7 +139,7 @@ public class MainCharacter extends Character{
             x = 0;
         }
         double yScale = -Math.pow((x-1),4)+1;
-        characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale));
+        characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale), 0);
         time = System.currentTimeMillis();
         super.update();
     }

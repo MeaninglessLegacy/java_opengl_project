@@ -58,7 +58,6 @@ public class Runner extends Enemy{
     //******************************************************************************************************************
     @Override
     public void instantiateRelatedSprites(Scene scene) {
-        scene.Instantiate(this);
         scene.Instantiate(_healthBarInside);
         scene.Instantiate(_healthBarOutline);
         scene.Instantiate(_moveCountdown);
@@ -67,11 +66,15 @@ public class Runner extends Enemy{
 
     @Override
     public void destroyRelatedSprites(Scene scene) {
-        scene.Destroy(this);
         scene.Destroy(_healthBarInside);
         scene.Destroy(_healthBarOutline);
         scene.Destroy(_moveCountdown);
         _moveCountdown.destroyCDSprites(scene);
+    }
+
+    @Override
+    public void Delete() {
+        destroyRelatedSprites(Scene.get_scene());
     }
 
     @Override
@@ -93,7 +96,7 @@ public class Runner extends Enemy{
     }
 
     @Override
-    public void start() { super.start(); }
+    public void start() { instantiateRelatedSprites(Scene.get_scene()); }
 
     @Override
     public void update() { super.update(); }

@@ -27,7 +27,7 @@ public class EXPBarInside extends GameObject {
 
         insideBarSprite.shiftSprite('y', (float)-0.5);
         insideBarSprite.shiftSprite('z', (float)-0.6);
-        insideBarSprite.get_sprite().set_scale(0, (float)0.1);
+        insideBarSprite.get_sprite().set_scale(0, (float)0.1, 0);
     }
 
     //******************************************************************************************************************
@@ -35,7 +35,7 @@ public class EXPBarInside extends GameObject {
     //******************************************************************************************************************
     public void changeEXPBar(float exp, float expNeeded) {
         float scale = exp/expNeeded;
-        insideBarSprite.get_sprite().set_scale(scale, (float)0.1);
+        insideBarSprite.get_sprite().set_scale(scale, (float)0.1,0);
         insideBarSprite.get_sprite().transform.position.x = -(1-scale)/2;
     }
 
