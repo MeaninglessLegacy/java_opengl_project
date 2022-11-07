@@ -67,6 +67,11 @@ public class FollowingCamera extends Camera {
         } else if (key == 'L') {
             this.transform.rotation.y += +0.1;
         }
+        if (key == 'N') {
+            this.transform.rotation.z += -0.1;
+        } else if (key == 'M') {
+            this.transform.rotation.z += +0.1;
+        }
 
         //System.out.println("rotation: "+transform.rotation.x+","+transform.rotation.y);
         //System.out.println("position: "+transform.position.x+","+transform.position.y+","+transform.position.z);

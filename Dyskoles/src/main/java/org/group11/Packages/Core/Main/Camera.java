@@ -46,8 +46,10 @@ public class Camera extends GameObject {
      */
     public Vector3 pinHoleModel(Vector3 worldPos){
         Vector3 output = new Vector3(worldPos.x, worldPos.y, worldPos.z);
-        // rotation (maybe)
+        // rotation (maybe), remove y and z rotation if it's too much
         output = Rotate(output.x, output.y, output.z, this.transform.position.x, this.transform.position.y, this.transform.position.z, 1, 0, 0, transform.rotation.x);
+        output = Rotate(output.x, output.y, output.z, this.transform.position.x, this.transform.position.y, this.transform.position.z, 0, 1, 0, transform.rotation.y);
+        output = Rotate(output.x, output.y, output.z, this.transform.position.x, this.transform.position.y, this.transform.position.z, 0, 0, 1, transform.rotation.z);
         // translate
         output.x = this.transform.position.x - output.x;
         output.y = this.transform.position.y - output.y;
