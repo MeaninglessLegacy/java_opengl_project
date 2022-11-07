@@ -118,6 +118,7 @@ public class MainCharacter extends Character{
         _healthIncreaseIndicator.activate();
     }
 
+    @Override
     public void addAttack(int atk) {
         super.addAttack(atk);
         _attackIncreaseIndicator.activate();
@@ -148,6 +149,9 @@ public class MainCharacter extends Character{
     @Override
     public void start() { super.start(); }
 
+    /**
+     * Creates a 'breathing' effect by scaling the y component the sprite of this Character down and up over time
+     */
     @Override
     public void update() {
         double timePassed = System.currentTimeMillis() - time;
@@ -163,7 +167,12 @@ public class MainCharacter extends Character{
     }
 
     private long lastTime = 0;
-
+    /**
+     * When a movement key is pressed, if there was sufficient time since the last movement key press, then gets the
+     * direction of where the MainCharacter is attempting to move and asks GameLogicDriver if it can move to that
+     * position
+     * @param key Ascii value of the key.
+     */
     @Override
     public void onKeyDown(int key) {
         int timeBeforeNextRead = 200;

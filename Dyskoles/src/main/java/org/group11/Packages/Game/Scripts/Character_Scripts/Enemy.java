@@ -131,6 +131,9 @@ public abstract class Enemy extends Character{
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+    /**
+     * Creates a 'breathing' effect by scaling the y component the sprite of this Character down and up over time
+     */
     @Override
     public void update() {
         super.update();
