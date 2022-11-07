@@ -73,8 +73,8 @@ public abstract class Enemy extends Character{
 
     /**
      * If an enemy is active, decrements their _ticksBeforeNextMove. If it decrements to 0, uses _pathfinder to find
-     * the next tile to go to then asks gameLogicDriver if they can move to it. Enemy reacts accordingly depending on
-     * what is on the next tile
+     * the next tile on the path towards the player then asks gameLogicDriver if they can move to it. Enemy reacts
+     * accordingly depending on what is on the next tile
      * @param _pathfinder used to find a path from the Enemy to their destination
      * @param _gameMap the map used by _pathfinder to find a path
      * @param MC the MainCharacter object, used to determine where the MainCharacter is for pathfinding

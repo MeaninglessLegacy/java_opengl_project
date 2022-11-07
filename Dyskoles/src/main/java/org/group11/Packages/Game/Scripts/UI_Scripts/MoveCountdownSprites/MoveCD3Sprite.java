@@ -3,6 +3,9 @@ package org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdownSprites;
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Enemy;
 
+/**
+ * Sprite that displays the moveCDSprite 3 (enemy will move in 3 more tick)
+ */
 public class MoveCD3Sprite extends MoveCDSprites {
     //******************************************************************************************************************
     //* constructor

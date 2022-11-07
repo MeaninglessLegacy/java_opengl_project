@@ -10,10 +10,13 @@ import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 
 import java.util.Random;
 
+/**
+ * Level whose map contains 4 connected rooms. Player starts in bottom left room, and must defeat the 3 bosses in the
+ * top left, top right, and bottom right rooms to gain access to the key and exit which is in the top right room
+ */
 public class FourRoom extends Level {
     public FourRoom(){
         _mapGenerator = new FourConnectedRooms();
-        Random random = new Random();
 
         // SW room (0<=x<=11, 0<=y<=11)
         _players.add(new MainCharacter(new Vector3(1, 1, 0)));

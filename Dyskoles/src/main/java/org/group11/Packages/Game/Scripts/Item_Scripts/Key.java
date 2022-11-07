@@ -50,6 +50,11 @@ public class Key extends Item{
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+    /**
+     * Adds a Key to the MainCharacter's backpack if the Key is obtainable
+     * @param c the MainCharacter who triggered the item
+     * @return true if the Item needs to disappear off the map (the Key was obtainable), false if it doesn't
+     */
     @Override
     public boolean activate(MainCharacter c) {
         if (spriteRenderer.enabled) {

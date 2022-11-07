@@ -329,6 +329,10 @@ public class GameLogicDriver extends GameObject {
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+    /**
+     * If a game has not started yet, loads the current set level and starts a new game. Also restarts a new game if
+     * the previous game has ended
+     */
     @Override
     public void update() {
         if(!_gameStarted){

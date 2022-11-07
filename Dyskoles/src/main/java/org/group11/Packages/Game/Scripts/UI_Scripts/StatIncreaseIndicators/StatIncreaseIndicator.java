@@ -3,6 +3,9 @@ package org.group11.Packages.Game.Scripts.UI_Scripts.StatIncreaseIndicators;
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.Main.GameObject;
 
+/**
+ * Abstract class for any sprites that indicate stat increases for a character
+ */
 public abstract class StatIncreaseIndicator extends GameObject {
     //******************************************************************************************************************
     //* variables

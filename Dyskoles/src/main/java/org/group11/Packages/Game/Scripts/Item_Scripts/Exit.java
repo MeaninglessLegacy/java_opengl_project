@@ -36,6 +36,11 @@ public class Exit extends Item {
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+    /**
+     * If the MainCharacter who triggered this Exit has a Key in their backpack, ends the game and the player wins
+     * @param c the MainCharacter who triggered the item
+     * @return false if the Exit wasn't triggered
+     */
     @Override
     public boolean activate(MainCharacter c) {
         Key testKey = new Key();

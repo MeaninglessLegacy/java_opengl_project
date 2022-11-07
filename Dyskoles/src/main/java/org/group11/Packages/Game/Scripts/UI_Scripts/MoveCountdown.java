@@ -10,6 +10,9 @@ import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdownSprites.MoveCDS
 
 import java.util.ArrayList;
 
+/**
+ * Class that stores all the moveCD sprites for an Enemy
+ */
 public class MoveCountdown extends GameObject {
     //******************************************************************************************************************
     //* variables

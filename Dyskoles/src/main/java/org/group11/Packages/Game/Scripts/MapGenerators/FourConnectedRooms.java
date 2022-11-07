@@ -8,9 +8,17 @@ import org.group11.Packages.Game.Scripts.Tile_Scripts.Floor;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
 
+/**
+ * Generates a map containing four rooms of a certain size, connected by a hallway
+ */
 public class FourConnectedRooms extends MapGenerator {
     private Scene scene;
 
+    /**
+     * Generates 2 quadrangles which also serve as the hallways between the rooms, then generates 4 rooms, then fills in
+     * the walls for each hallway
+     * @return Map object containing the entire tile map
+     */
     @Override
     public Map generateMap() {
         scene = Scene.get_scene();

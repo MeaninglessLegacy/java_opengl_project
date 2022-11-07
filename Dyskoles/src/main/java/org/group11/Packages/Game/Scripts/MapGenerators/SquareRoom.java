@@ -11,13 +11,13 @@ import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
 import java.lang.Math;
 
 /**
- * Creates a 100x100 square of randomly generated floors and tiles to use for testing
+ * Creates a 100x100 square of randomly generated floors and walls to use for testing
  */
 public class SquareRoom extends MapGenerator {
     private Scene scene;
     /**
-     * Generates a 101x101 Square of floor tiles, and adds a line of wall tiles along the left side
-     * @return Map containing a 10x10 map of floor tiles
+     * Generates a 100x100 Square of random floor and wall tiles
+     * @return Map containing a 100x100 map of tiles
      */
     @Override
     public Map generateMap() {
