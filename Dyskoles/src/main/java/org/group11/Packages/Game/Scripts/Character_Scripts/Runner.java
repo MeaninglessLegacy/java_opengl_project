@@ -136,7 +136,7 @@ public class Runner extends Enemy{
     }
 
     @Override
-    public void start() { super.start(); }
+    public void start() { instantiateRelatedSprites(Scene.get_scene()); }
 
     @Override
     public void update() { super.update(); }

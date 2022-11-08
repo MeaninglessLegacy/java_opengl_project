@@ -43,8 +43,8 @@ public class TestRoom2 extends Level {
         int enemies = random.nextInt(20)+10;
         for(int i=0; i < enemies; i++){
             if(random.nextInt(10)==0){
-                //Runner testRunner = new Runner(new Vector3(15, 5, 0));
-                //_enemies.add(testRunner);
+                Runner testRunner = new Runner(new Vector3(15, 5, 0));
+                _enemies.add(testRunner);
             }else{
                 Minion testMinion1 = new Minion(new Vector3(5,3,0));
                 _enemies.add(testMinion1);

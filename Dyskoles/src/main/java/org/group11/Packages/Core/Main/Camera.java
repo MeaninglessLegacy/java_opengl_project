@@ -25,7 +25,7 @@ public class Camera extends GameObject {
     //* methods
     //******************************************************************************************************************
     /**
-     * Rotation of point (x,y,z) about axis (a,b,c) along view (nu,nv, nw) by theta
+     * Rotation of point (x,y,z) about axis (a,b,c) along view axis (nu,nv, nw) by theta
      * https://stackoverflow.com/questions/44792495/c-sharp-rotating-points-about-axis
      */
     private Vector3 Rotate(double x, double y, double z, double a, double b, double c, double nu, double nv, double nw, double theta) {

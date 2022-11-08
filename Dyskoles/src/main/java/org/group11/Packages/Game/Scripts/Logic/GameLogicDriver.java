@@ -217,7 +217,7 @@ public class GameLogicDriver extends GameObject {
                 if (e instanceof Runner) {
                     if (((Runner) e).decrementTicksUntilVanish()) {
                         enemiesToRemove.add(e);
-                        e.destroyRelatedSprites(scene);
+                        scene.Destroy(e);
                     }
                 }
             }
