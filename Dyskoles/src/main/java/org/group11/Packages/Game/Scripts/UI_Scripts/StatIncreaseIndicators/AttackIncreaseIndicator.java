@@ -18,9 +18,20 @@ public class AttackIncreaseIndicator extends StatIncreaseIndicator {
         this.transform = MC.transform;
 
         statIncrease.shiftSprite('x', (float)0.55);
-        statIncrease.shiftSprite('y', (float)-0.2);
+        statIncrease.shiftSprite('y', (float)-0.4);
         statIncrease.shiftSprite('z', (float)-0.5);
         statIncrease.get_sprite().set_scale((float)0.45, (float)0.3, 0);
         statIncrease.enabled = false;
+    }
+
+    @Override
+    public void update() {
+        if(System.currentTimeMillis()-timeWhenActivated > timeBeforeDisappear) {
+            statIncrease.get_sprite().transform.position.y = -0.4f;
+            statIncrease.enabled = false;
+        }
+        if(System.currentTimeMillis()-timeWhenActivated < timeBeforeDisappear) {
+            statIncrease.shiftSprite('y', (float)0.001);
+        }
     }
 }

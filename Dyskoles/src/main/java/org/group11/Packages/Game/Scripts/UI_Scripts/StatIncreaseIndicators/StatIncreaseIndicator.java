@@ -13,8 +13,8 @@ public abstract class StatIncreaseIndicator extends GameObject {
     // Sprite that renders when the MainCharacter gains an additional stat
     protected SpriteRenderer statIncrease;
     // Used to calculate the time to until the sprite disappears
-    private long timeWhenActivated = 0;
-    private int timeBeforeDisappear = 2000;
+    protected long timeWhenActivated = 0;
+    protected int timeBeforeDisappear = 2000;
 
     //******************************************************************************************************************
     //* methods
