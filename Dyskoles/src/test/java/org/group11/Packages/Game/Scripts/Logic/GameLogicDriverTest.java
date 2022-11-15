@@ -1,4 +1,5 @@
 package org.group11.Packages.Game.Scripts.Logic;
+import org.group11.Packages.Game.Scripts.Levels.TestLevel;
 import org.group11.Packages.Game.Scripts.Logic.GameLogicDriver;
 import org.junit.Before;
 import org.junit.Test;
