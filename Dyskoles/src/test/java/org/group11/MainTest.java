@@ -9,14 +9,13 @@ public class MainTest {
     private static Engine engine;
     private static Scene scene;
     public static void main(String[] args) {
-        //engine = new Engine();
-        //engine.start();
+        /*
+        engine = new Engine();
+        engine.start();
         scene = Scene.get_scene();
         GameLogicDriver gameLogicDriver = GameLogicDriver.getInstance();
         scene.Instantiate(gameLogicDriver);
 
-
-        MainCharacterTest MCTest = new MainCharacterTest();
-        MCTest.testMainCharacter();
+         */
     }
 }
