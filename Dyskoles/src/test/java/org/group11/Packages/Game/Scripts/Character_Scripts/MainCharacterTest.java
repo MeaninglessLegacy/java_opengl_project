@@ -73,12 +73,4 @@ public class MainCharacterTest {
         assert(!MC.attackCharacter(minion));
         assert(MC.attackCharacter(minion));
     }
-
-    public void testMainCharacter() {
-        addExpTest();
-        addAttackTest();
-        addHealthTest();
-        takeDamageTest();
-        attackEnemyTest();
-    }
 }
