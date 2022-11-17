@@ -3,6 +3,9 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Runs tests on various methods for the Runner class
+ */
 public class RunnerTest {
     private Runner runner;
 
@@ -11,6 +14,10 @@ public class RunnerTest {
         runner = new Runner();
     }
 
+    /**
+     * Tests that the Runner's method to decrement the amount of ticks until it vanishes works properly, and returns
+     * true once that attribute reaches 0 and the Runner needs to disappear
+     */
     @Test
     public void decrementTicksUntilVanishTest() {
         setup();
@@ -23,6 +30,9 @@ public class RunnerTest {
         assert(runner.decrementTicksUntilVanish());
     }
 
+    /**
+     * Tests that the Runner gives the MainCharacter that defeated it the proper rewards (various stat increases)
+     */
     @Test
     public void giveRewardsTest() {
         setup();
@@ -37,5 +47,10 @@ public class RunnerTest {
         assert(MC._statBlock.get_atk() == OriginalAtk + runner.atkGiven);
         assert(MC._statBlock.get_hp() == OriginalHp + runner.maxHpGiven);
         assert(MC._statBlock.get_maxHp() == OriginalMaxHp + runner.maxHpGiven);
+    }
+
+    @Test
+    public void canEnemyMoveTest() {
+        // TODO: implement
     }
 }
