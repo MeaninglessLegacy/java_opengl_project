@@ -57,20 +57,17 @@ public abstract class Enemy extends Character{
      * Returns the _ticksBeforeNextMove value of this Enemy
      * @return the _ticksBeforeNextMOve value of this Enemy
      */
-    public int get_ticksBeforeNextMove() {
-        return _ticksBeforeNextMove;
-    }
+    public int get_ticksBeforeNextMove() { return _ticksBeforeNextMove; }
+
+    /**
+     * Sets the sprite displaying the number of moves before
+     * @param num the number to set the _moveCountdown sprite to
+     */
+    public void set_moveCountdownNumber(int num) { _moveCountdown.changeCountdown(num); }
 
     //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
-    /**
-     * Sets the sprite displaying the number of moves before
-     */
-    public void set_moveCountdownNumber(int num) {
-        _moveCountdown.changeCountdown(num);
-    }
-
     /**
      * If an enemy is active, decrements their _ticksBeforeNextMove. If it decrements to 0, uses _pathfinder to find
      * the next tile on the path towards the player then asks gameLogicDriver if they can move to it. Enemy reacts
