@@ -27,27 +27,25 @@ public class GameLogicDriver extends GameObject {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    private static Level _gameLevel = null;
+    private static ArrayList<Level> _gameLevelList = new ArrayList<>();
     private static Map _gameMap =  null;
     private static Pathfinder _pathfinder = null;
     private static ArrayList<MainCharacter> _playerCharacters = new ArrayList<>();
     private static ArrayList<Enemy> _enemyCharacters = new ArrayList<>();
     private static ArrayList<Item> _items = new ArrayList<>();
-    private static final int player1ArrayPosition = 0;
 
     private static boolean _gameStarted = false;
+
+    // Used to switch between different Levels
+    private static int _gameStage = 1;
+
+    private static final int player1ArrayPosition = 0;
 
     private static Scene scene;
 
     //******************************************************************************************************************
     //* getters and setters
     //******************************************************************************************************************
-    /**
-     * Change _gameLevel to specified level
-     * @param newLevel the level to set as
-     */
-    public static void set_gameLevel(Level newLevel){ _gameLevel = newLevel; }
-
     /**
      * Gets whether the game is currently running or not
      * @return true if the game is still running, false if not
@@ -77,16 +75,52 @@ public class GameLogicDriver extends GameObject {
     //* methods
     //******************************************************************************************************************
     /**
+     * Sets the Level at the specified stage index (which is a 1-based index) in the GameLogicDriver's _gameLevelList
+     * arraylist (0 based index). Given stage index must be: 1 <= stage index <= number of Levels in _gameLevelList + 1.
+     * If a Level already exists at the specified stage index, then overwrites the current Level with the new Level.
+     * @param newLevel the Level to set at the specified 1-based index
+     * @param stage the 1-based index of where to set the given Level
+     * @return true if the Level was successfully set at the specified 1-based index, false if the given index was out
+     * of range
+     */
+    public static boolean set_gameLevelAtStage(Level newLevel, int stage) {
+        if (stage - 1 > _gameLevelList.size() || stage - 1 < 0) {
+            return false;
+        }
+        else if (stage - 1 == _gameLevelList.size()) {
+            _gameLevelList.add(newLevel);
+        }
+        else {
+            _gameLevelList.set(stage - 1, newLevel);
+        }
+        return true;
+    }
+
+    /**
+     * Returns the Level at the specified stage index (1-based index) from the GameLogicDriver's _gameLevelList
+     * arraylist
+     * @param stage the 1-based index of where to get the Level
+     * @return the Level at the specified 1-based index
+     */
+    public static Level get_gameLevelAtStage(int stage) {
+        if (stage - 1 > _gameLevelList.size() || stage - 1 < 0) {
+            return null;
+        }
+        return _gameLevelList.get(stage - 1);
+    }
+
+    /**
      * If the GameLogicDriver has a Level, sets all the variables in the GameLogicDriver according to _gameLevel
      */
     private static void loadNewLevel() {
-        if (_gameLevel != null) {
-            MapGenerator mapGen = _gameLevel.get_mapGenerator();
+        Level curLevel = get_gameLevelAtStage(_gameStage);
+        if (curLevel != null) {
+            MapGenerator mapGen = curLevel.get_mapGenerator();
             _gameMap = mapGen.generateMap();
-            _gameLevel.initializeLevel(_gameMap);
-            _playerCharacters = _gameLevel.get_players();
-            _enemyCharacters = _gameLevel.get_enemies();
-            _items = _gameLevel.get_items();
+            curLevel.initializeLevel(_gameMap);
+            _playerCharacters = curLevel.get_players();
+            _enemyCharacters = curLevel.get_enemies();
+            _items = curLevel.get_items();
             for (MainCharacter c : _playerCharacters) {
                 scene.Instantiate(c);
             }
@@ -302,6 +336,9 @@ public class GameLogicDriver extends GameObject {
      */
     public static void endGame(boolean won) {
         System.out.println("The game has ended");
+        if (won) {
+            _gameStage++;
+        }
         clearEverything();
         _gameStarted = false;
     }
@@ -332,17 +369,27 @@ public class GameLogicDriver extends GameObject {
     //* overrides
     //******************************************************************************************************************
     /**
-     * If a game has not started yet, loads the current set level and starts a new game. Also restarts a new game if
-     * the previous game has ended
+     * If a game is not running, sets/resets all the Levels and loads the Level according to the _gameStage variable.
+     * Then creates a Camera to follow the player's character
      */
     @Override
     public void update() {
         if(!_gameStarted){
             _gameStarted = true;
 
-            // Gets and loads a level
-            Level newLevel = new TestRoom2();
-            set_gameLevel(newLevel);
+            // Sets/Resets all the levels
+            Level newLevel1 = new TestRoom();
+            set_gameLevelAtStage(newLevel1, 1);
+            Level newLevel2 = new TestRoom2();
+            set_gameLevelAtStage(newLevel2, 2);
+
+            /* If the _gameStage is greater than the number of Levels available, resets _gameStage to the stage of
+             the last Level */
+            if (_gameStage > _gameLevelList.size()) {
+                _gameStage--;
+            }
+
+            // Loads the appropriate level
             loadNewLevel();
 
             // Creates the camera that will follow the player character
