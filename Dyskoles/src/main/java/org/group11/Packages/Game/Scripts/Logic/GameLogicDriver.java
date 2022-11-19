@@ -378,10 +378,8 @@ public class GameLogicDriver extends GameObject {
             _gameStarted = true;
 
             // Sets/Resets all the levels
-            Level newLevel1 = new TestRoom();
-            set_gameLevelAtStage(newLevel1, 1);
             Level newLevel2 = new TestRoom2();
-            set_gameLevelAtStage(newLevel2, 2);
+            set_gameLevelAtStage(newLevel2, 1);
 
             /* If the _gameStage is greater than the number of Levels available, resets _gameStage to the stage of
              the last Level */
