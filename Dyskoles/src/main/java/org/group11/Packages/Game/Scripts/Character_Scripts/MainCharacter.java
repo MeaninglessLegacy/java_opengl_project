@@ -122,17 +122,8 @@ public class MainCharacter extends Character{
     }
 
     @Override
-    public void instantiateRelatedSprites(Scene scene) {
-        scene.Instantiate(_healthBarInside);
-        scene.Instantiate(_healthBarOutline);
-        scene.Instantiate(_EXPBarInside);
-        scene.Instantiate(_EXPBarOutline);
-        scene.Instantiate(_attackIncreaseIndicator);
-        scene.Instantiate(_healthIncreaseIndicator);
-    }
-
-    @Override
-    public void destroyRelatedSprites(Scene scene) {
+    public void Delete() {
+        Scene scene = Scene.get_scene();
         scene.Destroy(_healthBarInside);
         scene.Destroy(_healthBarOutline);
         scene.Destroy(_EXPBarInside);
@@ -142,12 +133,15 @@ public class MainCharacter extends Character{
     }
 
     @Override
-    public void Delete() {
-        destroyRelatedSprites(Scene.get_scene());
+    public void start() {
+        Scene scene = Scene.get_scene();
+        scene.Instantiate(_healthBarInside);
+        scene.Instantiate(_healthBarOutline);
+        scene.Instantiate(_EXPBarInside);
+        scene.Instantiate(_EXPBarOutline);
+        scene.Instantiate(_attackIncreaseIndicator);
+        scene.Instantiate(_healthIncreaseIndicator);
     }
-
-    @Override
-    public void start() { instantiateRelatedSprites(Scene.get_scene()); }
 
     /**
      * Runs any animations the character's sprite needs

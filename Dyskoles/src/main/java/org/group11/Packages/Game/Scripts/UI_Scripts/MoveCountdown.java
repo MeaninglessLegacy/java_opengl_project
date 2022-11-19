@@ -76,23 +76,27 @@ public class MoveCountdown extends GameObject {
         }
     }
 
-    /**
-     * Instantiates all MoveCD Sprites
-     * @param scene used to instantiate the sprites
-     */
-    public void instantiateCDSprites(Scene scene) {
+    //******************************************************************************************************************
+    //* overrides
+    //******************************************************************************************************************
+    @Override
+    public void Delete() {
+        Scene scene = Scene.get_scene();
+        for (MoveCDSprites CDSprite : CDSpriteList) {
+            scene.Destroy(CDSprite);
+        }
+    }
+
+    @Override
+    public void update() { super.update(); }
+
+    @Override
+    public void start() {
+        Scene scene = Scene.get_scene();
         for (MoveCDSprites CDSprite : CDSpriteList) {
             scene.Instantiate(CDSprite);
         }
     }
 
-    /**
-     * Destroys all MoveCD Sprites
-     * @param scene used to destroy the sprites
-     */
-    public void destroyCDSprites(Scene scene) {
-        for (MoveCDSprites CDSprite : CDSpriteList) {
-            scene.Destroy(CDSprite);
-        }
-    }
+
 }

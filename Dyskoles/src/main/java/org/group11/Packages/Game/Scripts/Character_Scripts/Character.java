@@ -175,16 +175,4 @@ public abstract class Character extends GameObject {
             System.out.println("Cannot animation attack, character sprite null");
         }
     }
-
-    /**
-     * Used to instantiate all related sprites to this Character, like health bar, character sprite, etc.
-     * Must be implemented in all children
-     */
-    public abstract void instantiateRelatedSprites(Scene scene);
-
-    /**
-     * Used to destroy all related sprites to this Character, like health bar, character sprite, etc.
-     * Must be implemented in all children
-     */
-    public abstract void destroyRelatedSprites(Scene scene);
 }

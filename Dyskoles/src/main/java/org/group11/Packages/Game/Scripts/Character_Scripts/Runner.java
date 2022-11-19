@@ -107,27 +107,6 @@ public class Runner extends Enemy{
     }
 
     @Override
-    public void instantiateRelatedSprites(Scene scene) {
-        scene.Instantiate(_healthBarInside);
-        scene.Instantiate(_healthBarOutline);
-        scene.Instantiate(_moveCountdown);
-        _moveCountdown.instantiateCDSprites(scene);
-    }
-
-    @Override
-    public void destroyRelatedSprites(Scene scene) {
-        scene.Destroy(_healthBarInside);
-        scene.Destroy(_healthBarOutline);
-        scene.Destroy(_moveCountdown);
-        _moveCountdown.destroyCDSprites(scene);
-    }
-
-    @Override
-    public void Delete() {
-        destroyRelatedSprites(Scene.get_scene());
-    }
-
-    @Override
     public void giveRewards(MainCharacter MC) {
         MC.addExp(expGiven);
         MC.addAttack(atkGiven);
@@ -136,7 +115,21 @@ public class Runner extends Enemy{
     }
 
     @Override
-    public void start() { instantiateRelatedSprites(Scene.get_scene()); }
+    public void Delete() {
+        Scene scene = Scene.get_scene();
+        scene.Destroy(_healthBarInside);
+        scene.Destroy(_healthBarOutline);
+        scene.Destroy(_moveCountdown);
+
+    }
+
+    @Override
+    public void start() {
+        Scene scene = Scene.get_scene();
+        scene.Instantiate(_healthBarInside);
+        scene.Instantiate(_healthBarOutline);
+        scene.Instantiate(_moveCountdown);
+    }
 
     @Override
     public void update() { super.update(); }
