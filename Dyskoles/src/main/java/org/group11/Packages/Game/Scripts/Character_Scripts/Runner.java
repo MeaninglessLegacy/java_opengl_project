@@ -5,8 +5,8 @@ import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Logic.Map;
 import org.group11.Packages.Game.Scripts.Logic.Pathfinder;
-import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
-import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBar.HealthBarInside;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBar.HealthBarOutline;
 import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdown;
 
 import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.enemyCheckMove;

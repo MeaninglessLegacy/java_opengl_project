@@ -1,4 +1,4 @@
-package org.group11.Packages.Game.Scripts.UI_Scripts;
+package org.group11.Packages.Game.Scripts.UI_Scripts.EXPBar;
 
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.Main.GameObject;

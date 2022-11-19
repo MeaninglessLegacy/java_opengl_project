@@ -3,8 +3,8 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Scene;
-import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
-import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarOutline;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBar.HealthBarInside;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBar.HealthBarOutline;
 import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdown;
 
 /**
