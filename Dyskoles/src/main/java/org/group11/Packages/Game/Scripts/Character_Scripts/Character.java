@@ -1,5 +1,7 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Packages.Core.Components.SpriteRenderer;
+import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.GameObject;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBarInside;
@@ -12,11 +14,23 @@ public abstract class Character extends GameObject {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
+    // Used to help render and control the character's sprite
+    protected SpriteRenderer characterSprite;
+    protected boolean facingRight = true;
+    double time; // time since last update
+    double x; // character scaling parameter for breathing effect
+
     // Stores all the stats of this character
     protected StatBlock _statBlock = new StatBlock();
+
     // Displays the health of the character above their sprite
     protected HealthBarOutline _healthBarOutline;
     protected HealthBarInside _healthBarInside;
+
+    // Used to help animate the attack animation for a character
+    protected boolean isAttacking = false;
+    protected String isAttackingDirection;
+    protected int attackAnimationCounter = 0;
 
     //******************************************************************************************************************
     //* setters and getters
@@ -79,8 +93,87 @@ public abstract class Character extends GameObject {
     public boolean attackCharacter(Character defender) {
         defender.takeDamage(this._statBlock.get_atk());
         System.out.println(this.getClass().getName() + " is attacking a " + defender.getClass().getName() + "; " +
-                "Defending character now at " + defender.getStatBlock().get_hp() + " hp");
+                           "Defending character now at " + defender.getStatBlock().get_hp() + " hp");
+
+        this.isAttacking = true;
+        Vector3 attackerPos = this.transform.position;
+        Vector3 defenderPos = defender.transform.position;
+        if (defenderPos.x == attackerPos.x && defenderPos.y > attackerPos.y) {
+            isAttackingDirection = "up";
+        }
+        else if (defenderPos.x == attackerPos.x && defenderPos.y < attackerPos.y) {
+            isAttackingDirection = "down";
+        }
+        else if (defenderPos.x < attackerPos.x && defenderPos.y == attackerPos.y) {
+            isAttackingDirection = "left";
+        }
+        else if (defenderPos.x > attackerPos.x && defenderPos.y == attackerPos.y) {
+            isAttackingDirection = "right";
+        }
+        else {
+            System.out.println("Illegal character attacking direction, check attackCharacter() in Character");
+        }
+
         return defender.getStatBlock().get_hp() <= 0;
+    }
+
+    /**
+     * If a Character is attacking another Character, moves the attacking Character's sprite forwards and backwards in
+     * the direction of the defending Character
+     */
+    public void attackAnimation() {
+        float animationScale = (float)0.04;
+
+        if (characterSprite != null) {
+            if (isAttackingDirection.equals("up")) {
+                if (attackAnimationCounter >= 0 && attackAnimationCounter < 6) {
+                    characterSprite.shiftSprite('y', animationScale);
+                }
+                else {
+                    characterSprite.shiftSprite('y', -animationScale);
+                }
+                attackAnimationCounter++;
+            }
+            else if (isAttackingDirection.equals("down")) {
+                if (attackAnimationCounter >= 0 && attackAnimationCounter < 6) {
+                    characterSprite.shiftSprite('y', -animationScale);
+                }
+                else {
+                    characterSprite.shiftSprite('y', animationScale);
+                }
+                attackAnimationCounter++;
+            }
+            else if (isAttackingDirection.equals("left")) {
+                if (attackAnimationCounter >= 0 && attackAnimationCounter < 6) {
+                    characterSprite.shiftSprite('x', -animationScale);
+                }
+                else {
+                    characterSprite.shiftSprite('x', animationScale);
+                }
+                attackAnimationCounter++;
+            }
+            else if (isAttackingDirection.equals("right")) {
+                if (attackAnimationCounter >= 0 && attackAnimationCounter < 6) {
+                    characterSprite.shiftSprite('x', animationScale);
+                }
+                else {
+                    characterSprite.shiftSprite('x', -animationScale);
+                }
+                attackAnimationCounter++;
+            }
+            else {
+                System.out.println("Illegal character attacking direction, check attackAnimation() in Character");
+            }
+
+            if (attackAnimationCounter == 12) {
+                attackAnimationCounter = 0;
+                isAttacking = false;
+                isAttackingDirection = null;
+            }
+        }
+        else {
+            System.out.println("Cannot animation attack, character sprite null");
+        }
     }
 
     /**

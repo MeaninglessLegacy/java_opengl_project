@@ -59,16 +59,11 @@ public class Boss extends Enemy {
     }
 
     @Override
-    public void Delete() {
-        destroyRelatedSprites(Scene.get_scene());
-    }
+    public void Delete() { destroyRelatedSprites(Scene.get_scene()); }
 
     @Override
     public void start() { instantiateRelatedSprites(Scene.get_scene()); }
 
     @Override
     public void update() { super.update(); }
-
-    @Override
-    public void onKeyDown(int key) { super.update(); }
 }

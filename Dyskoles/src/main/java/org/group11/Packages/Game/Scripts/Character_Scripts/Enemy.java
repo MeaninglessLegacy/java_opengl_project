@@ -15,11 +15,6 @@ public abstract class Enemy extends Character{
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    // used to help render and control the sprite
-    protected SpriteRenderer characterSprite;
-    protected boolean facingRight = true;
-    double time; // time since last update
-    double x; // character scaling parameter for breathing effect
     // counter, when this counter reaches 0 it means that this character can make another move
     protected int _ticksBeforeNextMove = 2;
     /* counter reset value, when this character makes a move, this character's _ticksBeforeNextMove counter should be
@@ -129,11 +124,11 @@ public abstract class Enemy extends Character{
     //* overrides
     //******************************************************************************************************************
     /**
-     * Creates a 'breathing' effect by scaling the y component the sprite of this Character down and up over time
+     * Runs any animations the character sprite needs
      */
     @Override
     public void update() {
-        super.update();
+        // Animates the 'breathing' effect of the character
         double timePassed = System.currentTimeMillis() - time;
         if(x < 2) {
             x += timePassed / 500;
@@ -141,8 +136,14 @@ public abstract class Enemy extends Character{
             x = 0;
         }
         double yScale = -Math.pow((x-1),4)+1;
-        characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale),0);
+        characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale), 0);
         time = System.currentTimeMillis();
+
+        // If the Enemy attacks a character, animates the attack
+        if (isAttacking) {
+            attackAnimation();
+        }
+
         super.update();
     }
 }

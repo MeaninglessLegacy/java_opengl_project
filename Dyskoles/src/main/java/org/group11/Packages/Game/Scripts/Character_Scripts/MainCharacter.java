@@ -28,12 +28,6 @@ public class MainCharacter extends Character{
     protected AttackIncreaseIndicator _attackIncreaseIndicator;
     protected HealthIncreaseIndicator _healthIncreaseIndicator;
 
-    // Used to help render and control the sprite
-    protected SpriteRenderer characterSprite;
-    protected boolean facingRight = true;
-    double time; // time since last update
-    double x; // character scaling parameter for breathing effect
-
     //******************************************************************************************************************
     //* setters and getters
     //******************************************************************************************************************
@@ -153,10 +147,11 @@ public class MainCharacter extends Character{
     public void start() { instantiateRelatedSprites(Scene.get_scene()); }
 
     /**
-     * Creates a 'breathing' effect by scaling the y component the sprite of this Character down and up over time
+     * Runs any animations the character's sprite needs
      */
     @Override
     public void update() {
+        // Animates the 'breathing' effect of the character
         double timePassed = System.currentTimeMillis() - time;
         if(x < 2) {
             x += timePassed / 500;
@@ -166,6 +161,12 @@ public class MainCharacter extends Character{
         double yScale = -Math.pow((x-1),4)+1;
         characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale), 0);
         time = System.currentTimeMillis();
+
+        // If the MainCharacter attacks a character, animates the attack
+        if (isAttacking) {
+            attackAnimation();
+        }
+
         super.update();
     }
 
