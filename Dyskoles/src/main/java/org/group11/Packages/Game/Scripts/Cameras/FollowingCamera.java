@@ -9,10 +9,15 @@ import org.group11.Packages.Core.Main.GameObject;
  * This Camera object follows the given subject
  */
 public class FollowingCamera extends Camera {
+    //******************************************************************************************************************
+    //* variables
+    //******************************************************************************************************************
     private GameObject _subject;
-
     private Vector3 targetPos = new Vector3();
 
+    //******************************************************************************************************************
+    //* constructor
+    //******************************************************************************************************************
     public FollowingCamera(GameObject subject){
         this.transform.position = new Vector3(0,0,-8);
         this.transform.rotation = new Vector3(-2.6f,0f,0f);

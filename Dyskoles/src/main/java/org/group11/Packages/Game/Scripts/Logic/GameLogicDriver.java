@@ -5,6 +5,7 @@ import org.group11.Packages.Core.Main.Camera;
 import org.group11.Packages.Core.Main.GameObject;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Cameras.FollowingCamera;
+import org.group11.Packages.Game.Scripts.Cameras.MenuCamera;
 import org.group11.Packages.Game.Scripts.Character_Scripts.*;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
@@ -27,6 +28,8 @@ public class GameLogicDriver extends GameObject {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
+    private static Scene scene;
+
     private static ArrayList<Level> _gameLevelList = new ArrayList<>();
     private static Map _gameMap =  null;
     private static Pathfinder _pathfinder = null;
@@ -39,9 +42,14 @@ public class GameLogicDriver extends GameObject {
     // Used to switch between different Levels
     private static int _gameStage = 1;
 
-    private static final int player1ArrayPosition = 0;
+    // Cameras used by the engine
+    private static Camera followingCamera;
+    private static Camera menuCamera;
 
-    private static Scene scene;
+    // Used to display the menu
+    private static MenuScreen menu;
+
+    private static final int player1ArrayPosition = 0;
 
     //******************************************************************************************************************
     //* getters and setters
@@ -137,6 +145,41 @@ public class GameLogicDriver extends GameObject {
     }
 
     /**
+     * TODO: javadoc
+     */
+    public static void startNewLevel() {
+        // Gets rid of the menu
+        scene.Destroy(menu);
+        menu = null;
+
+        // Sets/Resets all the levels
+        Level newLevel2 = new TestRoom();
+        set_gameLevelAtStage(newLevel2, 1);
+
+        /* If the _gameStage is greater than the number of Levels available, resets _gameStage to the stage of
+         the last Level */
+        if (_gameStage > _gameLevelList.size()) {
+            _gameStage--;
+        }
+
+        // Loads the appropriate level
+        loadNewLevel();
+
+        // Creates the camera that will follow the player character
+        if(!_playerCharacters.isEmpty()){
+            MainCharacter mc = _playerCharacters.get(player1ArrayPosition);
+            followingCamera = new FollowingCamera(mc);
+            scene.Instantiate(followingCamera);
+            scene.set_mainCamera(followingCamera);
+            followingCamera.transform.setPosition(mc.transform.position);
+            followingCamera.transform.position.z = -5;
+        }
+
+        _gameStarted = true;
+    }
+
+
+    /**
      * Removes the given Enemy from the game
      * @param enemy the Enemy to remove
      */
@@ -180,7 +223,6 @@ public class GameLogicDriver extends GameObject {
     public static void MCCheckItem(MainCharacter MC) {
         Item itemOnTile = checkForItem(MC.transform.position);
         if (itemOnTile != null) {
-            System.out.println("Tile player is currently on has an item");
             if (itemOnTile.activate(MC)) {
                 _items.remove(itemOnTile);
                 scene.Destroy(itemOnTile);
@@ -341,6 +383,10 @@ public class GameLogicDriver extends GameObject {
         }
         clearEverything();
         _gameStarted = false;
+
+        menu = new MenuScreen();
+        scene.Instantiate(menuCamera);
+        scene.set_mainCamera(menuCamera);
     }
 
     /**
@@ -358,48 +404,21 @@ public class GameLogicDriver extends GameObject {
         for (Item i : _items) {
             scene.Destroy(i);
         }
+        _gameMap.clearMap();
+        scene.Destroy(followingCamera);
+
         _playerCharacters = new ArrayList<>();
         _enemyCharacters = new ArrayList<>();
         _items = new ArrayList<>();
-        _gameMap.clearMap();
         _gameMap = null;
+        followingCamera = null;
     }
 
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
-    /**
-     * If a game is not running, sets/resets all the Levels and loads the Level according to the _gameStage variable.
-     * Then creates a Camera to follow the player's character
-     */
     @Override
     public void update() {
-        if(!_gameStarted){
-            _gameStarted = true;
-
-            // Sets/Resets all the levels
-            Level newLevel2 = new TestRoom2();
-            set_gameLevelAtStage(newLevel2, 1);
-
-            /* If the _gameStage is greater than the number of Levels available, resets _gameStage to the stage of
-             the last Level */
-            if (_gameStage > _gameLevelList.size()) {
-                _gameStage--;
-            }
-
-            // Loads the appropriate level
-            loadNewLevel();
-
-            // Creates the camera that will follow the player character
-            if(!_playerCharacters.isEmpty()){
-                MainCharacter mc = _playerCharacters.get(player1ArrayPosition);
-                Camera followingCamera = new FollowingCamera(mc);
-                scene.Instantiate(followingCamera);
-                scene.set_mainCamera(followingCamera);
-                followingCamera.transform.setPosition(mc.transform.position);
-                followingCamera.transform.position.z = -5;
-            }
-        }
         super.update();
     }
 
@@ -407,6 +426,13 @@ public class GameLogicDriver extends GameObject {
     public void start() {
         scene = Scene.get_scene();
         _pathfinder = new Pathfinder();
+
+        menuCamera = new MenuCamera();
+        scene.Instantiate(menuCamera);
+        scene.set_mainCamera(menuCamera);
+
+        menu = new MenuScreen();
+        scene.Instantiate(menu);
     }
 
     @Override
