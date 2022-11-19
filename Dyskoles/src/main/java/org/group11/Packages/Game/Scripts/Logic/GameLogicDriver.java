@@ -145,12 +145,12 @@ public class GameLogicDriver extends GameObject {
     }
 
     /**
-     * TODO: javadoc
+     * Is called after exiting a menu. Closes the menu, resets all the levels then loads the current level and sets the
+     * main camera to the camera that follows the player
      */
     public static void startNewLevel() {
         // Gets rid of the menu
         scene.Destroy(menu);
-        menu = null;
 
         // Sets/Resets all the levels
         Level newLevel2 = new TestRoom();
@@ -384,9 +384,10 @@ public class GameLogicDriver extends GameObject {
         clearEverything();
         _gameStarted = false;
 
-        menu = new MenuScreen();
         scene.Instantiate(menuCamera);
         scene.set_mainCamera(menuCamera);
+
+        scene.Instantiate(menu);
     }
 
     /**

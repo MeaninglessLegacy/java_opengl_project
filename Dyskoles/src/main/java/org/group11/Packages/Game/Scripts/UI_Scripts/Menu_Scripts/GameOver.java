@@ -8,7 +8,6 @@ public class GameOver extends GameObject {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    // Sprite that renders how much of the health bar that is full
     SpriteRenderer gameOverSprite;
 
     //******************************************************************************************************************
@@ -19,9 +18,9 @@ public class GameOver extends GameObject {
         this.addComponent(gameOverSprite);
 
         // Sets the sprite at a specified position on the menu
-        this.transform.position = new Vector3(0, 0, 0);
+        this.transform.position = new Vector3(0, 8, 0);
 
-        gameOverSprite.get_sprite().set_scale(1, 1,0);
+        gameOverSprite.get_sprite().set_scale(10, 8,0);
     }
 
     //******************************************************************************************************************

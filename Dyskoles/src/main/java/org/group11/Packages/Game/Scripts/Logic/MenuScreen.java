@@ -1,6 +1,5 @@
 package org.group11.Packages.Game.Scripts.Logic;
 
-import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.Main.GameObject;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.GameOver;
@@ -10,8 +9,7 @@ public class MenuScreen extends GameObject {
     //* variables
     //******************************************************************************************************************
     private Scene scene;
-    private GameLogicDriver GLD;
-    private GameOver gameOverSprite;
+    private final GameOver gameOverSprite;
 
     private boolean onMenu;
 
@@ -20,13 +18,14 @@ public class MenuScreen extends GameObject {
     //******************************************************************************************************************
     public MenuScreen() {
         gameOverSprite = new GameOver();
-
-        onMenu = true;
     }
 
     //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
+    public void createMenu() {
+        scene.Instantiate(gameOverSprite);
+    }
 
     //******************************************************************************************************************
     //* overrides
@@ -39,18 +38,17 @@ public class MenuScreen extends GameObject {
     @Override
     public void start() {
         scene = Scene.get_scene();
-        GLD = GameLogicDriver.getInstance();
-        super.start();
+        onMenu = true;
+
+        createMenu();
     }
 
     @Override
     public void onKeyDown(int key) {
         if (onMenu) {
             if (key == ' ') {
-                System.out.println("space pressed");
                 onMenu = false;
-                scene.Destroy(this);
-                GLD.startNewLevel();
+                GameLogicDriver.startNewLevel();
             }
         }
         super.onKeyDown(key);
