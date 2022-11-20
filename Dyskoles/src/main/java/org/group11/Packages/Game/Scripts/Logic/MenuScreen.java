@@ -25,6 +25,8 @@ public class MenuScreen extends GameObject {
     //* constructor
     //******************************************************************************************************************
     public MenuScreen() {
+        scene = Scene.get_scene();
+
         menuElements.put("menuBackground", new MenuBackground());
         menuElements.put("Instructions", new Instructions());
         menuElements.put("youWin", new YouWin());
@@ -35,17 +37,19 @@ public class MenuScreen extends GameObject {
         menuElements.put("spaceNextLevel", new SpaceNextLevel());
         menuElements.put("spaceRetry", new SpaceRetry());
         menuElements.put("spaceStartOver", new SpaceStartOver());
+
+        createTitleScreen();
     }
 
     //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
     private void createTitleScreen() {
-
+        scene.Instantiate(menuElements.get("Instructions"));
+        scene.Instantiate(menuElements.get("spaceStartGame"));
     }
 
     public void createMenu(boolean won, int _gameStage, int numberOfLevels) {
-        /*
         if (won) {
             scene.Instantiate(menuElements.get("youWin"));
             scene.Instantiate(menuElements.get("exitReached"));
@@ -61,12 +65,6 @@ public class MenuScreen extends GameObject {
             scene.Instantiate(menuElements.get("healthReduced0"));
             scene.Instantiate(menuElements.get("spaceRetry"));
         }
-        */
-
-
-
-        scene.Instantiate(menuElements.get("gameOver"));
-        scene.Instantiate(menuElements.get("spaceRetry"));
     }
 
     //******************************************************************************************************************
@@ -79,10 +77,7 @@ public class MenuScreen extends GameObject {
 
     @Override
     public void start() {
-        scene = Scene.get_scene();
         onMenu = true;
-
-        createMenu(true, 1, 1);
     }
 
     @Override

@@ -9,7 +9,7 @@ public class MenuCamera extends Camera {
     //******************************************************************************************************************
     public MenuCamera() {
         this.transform.position = new Vector3(0,0,-8);
-        this.transform.rotation = new Vector3(-2.6f,0f,0f);
+        this.transform.rotation = new Vector3(3.14f,0f,0f);
     }
 
     //******************************************************************************************************************

@@ -387,6 +387,7 @@ public class GameLogicDriver extends GameObject {
         scene.Instantiate(menuCamera);
         scene.set_mainCamera(menuCamera);
 
+        menu.createMenu(won, _gameStage, _gameLevelList.size());
         scene.Instantiate(menu);
     }
 

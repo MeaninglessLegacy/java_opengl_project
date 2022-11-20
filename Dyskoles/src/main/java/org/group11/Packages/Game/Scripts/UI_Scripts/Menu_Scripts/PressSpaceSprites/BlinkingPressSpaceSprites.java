@@ -1,7 +1,7 @@
 package org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.PressSpaceSprites;
 
 import org.group11.Packages.Core.Components.SpriteRenderer;
-import org.group11.Packages.Core.Main.GameObject;
+import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.MenuElement;
 
 public abstract class BlinkingPressSpaceSprites extends MenuElement {
@@ -15,6 +15,14 @@ public abstract class BlinkingPressSpaceSprites extends MenuElement {
     protected int timeBeforeSpriteToggle = 1000;
 
     //******************************************************************************************************************
+    //* methods
+    //******************************************************************************************************************
+    protected void setupSprite() {
+        this.transform.position = new Vector3(0, -10f, 20);
+        spriteRenderer.get_sprite().set_scale(28, 11,0);
+    }
+
+    //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
     @Override
@@ -22,6 +30,9 @@ public abstract class BlinkingPressSpaceSprites extends MenuElement {
         timeWhenActivated = System.currentTimeMillis();
     }
 
+    /**
+     * Turns the sprite on/off every second
+     */
     @Override
     public void update() {
         if(System.currentTimeMillis()-timeWhenActivated > timeBeforeSpriteToggle) {

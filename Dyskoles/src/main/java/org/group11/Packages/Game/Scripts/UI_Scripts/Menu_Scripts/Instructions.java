@@ -17,14 +17,10 @@ public class Instructions extends MenuElement{
         this.addComponent(spriteRenderer);
 
         // Sets the sprite at a specified position on the menu
-        this.transform.position = new Vector3(0, 0, 0);
+        this.transform.position = new Vector3(0, 1, 20);
 
-        spriteRenderer.get_sprite().set_scale(10, 8,0);
+        spriteRenderer.get_sprite().set_scale(30, 20,0);
     }
-
-    //******************************************************************************************************************
-    //* methods
-    //******************************************************************************************************************
 
     //******************************************************************************************************************
     //* overrides
