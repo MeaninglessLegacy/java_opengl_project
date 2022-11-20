@@ -19,7 +19,6 @@ public class MinionTest {
      */
     @Test
     public void takeDamageTest() {
-        setup();
         int OriginalHp = minion._statBlock.get_hp();
 
         minion.takeDamage(1);
@@ -35,8 +34,7 @@ public class MinionTest {
      * MainCharacter died or not
      */
     @Test
-    public void attackEnemyTest() {
-        setup();
+    public void attackCharacterTest() {
         MainCharacter MC = new MainCharacter();
 
         // Should take Minion 3 attacks to kill a MainCharacter with 3 health
@@ -50,7 +48,6 @@ public class MinionTest {
      */
     @Test
     public void giveRewardsTest() {
-        setup();
         MainCharacter MC = new MainCharacter();
         int OriginalExp = MC._statBlock.get_exp();
 

@@ -19,7 +19,6 @@ public class BossTest {
      */
     @Test
     public void takeDamageTest() {
-        setup();
         int OriginalHp = boss._statBlock.get_hp();
 
         boss.takeDamage(1);
@@ -34,8 +33,7 @@ public class BossTest {
      * MainCharacter died or not
      */
     @Test
-    public void attackEnemyTest() {
-        setup();
+    public void attackCharacterTest() {
         MainCharacter MC = new MainCharacter();
 
         // Should take Boss only 1 attack to kill a MainCharacter with 3 health
@@ -55,7 +53,6 @@ public class BossTest {
      */
     @Test
     public void giveRewardsTest() {
-        setup();
         MainCharacter MC = new MainCharacter();
         int OriginalExp = MC._statBlock.get_exp();
 

@@ -1,5 +1,6 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Engine;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Logic.GameLogicDriver;
@@ -30,7 +31,6 @@ public class MainCharacterTest {
      */
     @Test
     public void addExpTest() {
-        setup();
         int OriginalExp = MC._statBlock.get_exp();
 
         MC.addExp(2);
@@ -38,21 +38,20 @@ public class MainCharacterTest {
     }
 
     /**
-     * Tests the function that increases a MainCharacter's level when enough exp is adsded to them
+     * Tests the function that increases a MainCharacter's level when enough exp is added to them
      */
     @Test
     public void levelUpTest () {
-        setup();
         int OriginalExp = MC._statBlock.get_exp();
         int OriginalLvl = MC._statBlock.get_lvl();
 
         // After this, MC should level up and exp should reset
-        MC.addExp(5);
+        MC.addExp(MC.EXPPerLevelMultiplier);
         assert(MC._statBlock.get_exp() == 0 && MC._statBlock.get_lvl() == OriginalLvl + 1);
 
         // MC should not level after this
-        MC.addExp(5);
-        assert(MC._statBlock.get_exp() == OriginalExp + 5 && MC._statBlock.get_lvl() == OriginalLvl + 1);
+        MC.addExp(MC.EXPPerLevelMultiplier);
+        assert(MC._statBlock.get_exp() == OriginalExp + MC.EXPPerLevelMultiplier && MC._statBlock.get_lvl() == OriginalLvl + 1);
     }
 
     /**
@@ -60,7 +59,6 @@ public class MainCharacterTest {
      */
     @Test
     public void addAttackTest() {
-        setup();
         int OriginalAtk = MC._statBlock.get_atk();
 
         MC.addAttack(1);
@@ -72,7 +70,6 @@ public class MainCharacterTest {
      */
     @Test
     public void addHealthTest() {
-        setup();
         int OriginalHp = MC._statBlock.get_hp();
         int OriginalMaxHp = MC._statBlock.get_maxHp();
 
@@ -91,7 +88,6 @@ public class MainCharacterTest {
      */
     @Test
     public void takeDamageTest() {
-        setup();
         int OriginalHp = MC._statBlock.get_hp();
 
         MC.takeDamage(1);
@@ -108,12 +104,31 @@ public class MainCharacterTest {
      */
     @Test
     public void attackEnemyTest() {
-        setup();
-        Minion minion = new Minion();
+        Minion minion = new Minion(new Vector3(0,1,0));
 
         // Should take MainCharacter 3 attacks to kill Minion with 3 health
         assert(!MC.attackCharacter(minion));
         assert(!MC.attackCharacter(minion));
         assert(MC.attackCharacter(minion));
+    }
+
+    /**
+     * Tests if the direction that the MainCharacter is attacking is correctly set when it attacks
+     */
+    @Test
+    public void attackingDirection() {
+        Minion northMinion = new Minion(new Vector3(0,1,0));
+        Minion eastMinion = new Minion(new Vector3(1,0,0));
+        Minion southMinion = new Minion(new Vector3(0,-1,0));
+        Minion westMinion = new Minion(new Vector3(-1,0,0));
+
+        MC.attackCharacter(northMinion);
+        assert(MC.isAttackingDirection.equals("up"));
+        MC.attackCharacter(eastMinion);
+        assert(MC.isAttackingDirection.equals("right"));
+        MC.attackCharacter(southMinion);
+        assert(MC.isAttackingDirection.equals("down"));
+        MC.attackCharacter(westMinion);
+        assert(MC.isAttackingDirection.equals("left"));
     }
 }

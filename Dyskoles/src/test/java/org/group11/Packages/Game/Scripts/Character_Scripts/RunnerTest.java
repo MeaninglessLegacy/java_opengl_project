@@ -20,7 +20,6 @@ public class RunnerTest {
      */
     @Test
     public void decrementTicksUntilVanishTest() {
-        setup();
         int totalTicks = 20;
         runner._enemyActive = true;
 
@@ -35,7 +34,6 @@ public class RunnerTest {
      */
     @Test
     public void giveRewardsTest() {
-        setup();
         MainCharacter MC = new MainCharacter();
         int OriginalExp = MC._statBlock.get_exp();
         int OriginalAtk = MC._statBlock.get_atk();
