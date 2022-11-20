@@ -1,20 +1,14 @@
-package org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts;
+package org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.PressSpaceSprites;
 
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
-import org.group11.Packages.Core.Main.GameObject;
 
-public class MenuBackground extends GameObject {
-    //******************************************************************************************************************
-    //* variables
-    //******************************************************************************************************************
-    SpriteRenderer spriteRenderer;
-
+public class SpaceStartOver extends BlinkingPressSpaceSprites {
     //******************************************************************************************************************
     //* constructor
     //******************************************************************************************************************
-    public MenuBackground() {
-        spriteRenderer = new SpriteRenderer(this, "./resources/MenuBackground.png");
+    public SpaceStartOver() {
+        spriteRenderer = new SpriteRenderer(this, "./resources/SpaceStartOver.png");
         this.addComponent(spriteRenderer);
 
         // Sets the sprite at a specified position on the menu
@@ -22,10 +16,6 @@ public class MenuBackground extends GameObject {
 
         spriteRenderer.get_sprite().set_scale(10, 8,0);
     }
-
-    //******************************************************************************************************************
-    //* methods
-    //******************************************************************************************************************
 
     //******************************************************************************************************************
     //* overrides

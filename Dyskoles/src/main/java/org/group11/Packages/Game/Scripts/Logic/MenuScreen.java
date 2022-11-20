@@ -3,6 +3,7 @@ package org.group11.Packages.Game.Scripts.Logic;
 import org.group11.Packages.Core.Main.GameObject;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.GameOver;
+import org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.PressSpaceSprites.SpaceRetry;
 
 public class MenuScreen extends GameObject {
     //******************************************************************************************************************
@@ -10,6 +11,7 @@ public class MenuScreen extends GameObject {
     //******************************************************************************************************************
     private Scene scene;
     private final GameOver gameOverSprite;
+    private final SpaceRetry spaceRetrySprite;
 
     private boolean onMenu;
 
@@ -18,6 +20,7 @@ public class MenuScreen extends GameObject {
     //******************************************************************************************************************
     public MenuScreen() {
         gameOverSprite = new GameOver();
+        spaceRetrySprite = new SpaceRetry();
     }
 
     //******************************************************************************************************************
@@ -25,6 +28,7 @@ public class MenuScreen extends GameObject {
     //******************************************************************************************************************
     public void createMenu() {
         scene.Instantiate(gameOverSprite);
+        scene.Instantiate(spaceRetrySprite);
     }
 
     //******************************************************************************************************************
@@ -57,5 +61,6 @@ public class MenuScreen extends GameObject {
     @Override
     public void Delete() {
         scene.Destroy(gameOverSprite);
+        scene.Destroy(spaceRetrySprite);
     }
 }

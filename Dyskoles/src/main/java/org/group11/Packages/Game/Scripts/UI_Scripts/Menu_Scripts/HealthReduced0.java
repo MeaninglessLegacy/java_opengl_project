@@ -4,7 +4,7 @@ import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.GameObject;
 
-public class MenuBackground extends GameObject {
+public class HealthReduced0 extends GameObject {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
@@ -13,8 +13,8 @@ public class MenuBackground extends GameObject {
     //******************************************************************************************************************
     //* constructor
     //******************************************************************************************************************
-    public MenuBackground() {
-        spriteRenderer = new SpriteRenderer(this, "./resources/MenuBackground.png");
+    public HealthReduced0() {
+        spriteRenderer = new SpriteRenderer(this, "./resources/HealthReduced0.png");
         this.addComponent(spriteRenderer);
 
         // Sets the sprite at a specified position on the menu
