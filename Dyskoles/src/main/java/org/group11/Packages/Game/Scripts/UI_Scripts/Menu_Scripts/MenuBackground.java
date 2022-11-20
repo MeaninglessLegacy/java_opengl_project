@@ -4,7 +4,7 @@ import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.GameObject;
 
-public class MenuBackground extends GameObject {
+public class MenuBackground extends MenuElement {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************

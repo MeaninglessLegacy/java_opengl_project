@@ -4,7 +4,7 @@ import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.GameObject;
 
-public class GameOver extends GameObject {
+public class GameOver extends MenuElement {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************

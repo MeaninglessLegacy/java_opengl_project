@@ -2,8 +2,9 @@ package org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.PressSpaceSpri
 
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.Main.GameObject;
+import org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.MenuElement;
 
-public abstract class BlinkingPressSpaceSprites extends GameObject {
+public abstract class BlinkingPressSpaceSprites extends MenuElement {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
