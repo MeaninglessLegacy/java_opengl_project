@@ -23,6 +23,9 @@ public class MainCharacter extends Character{
     // Used to store items this MainCharacter picks up
     public Backpack backpack = new Backpack();
 
+    // This value * the current level of the MainCharacter = the amount of EXP needed to level up
+    protected int EXPPerLevelMultiplier = 5;
+
     // Displays the exp of the MainCharacter below their sprite
     protected EXPBarOutline _EXPBarOutline;
     protected EXPBarInside _EXPBarInside;
@@ -87,7 +90,7 @@ public class MainCharacter extends Character{
             _statBlock.set_exp(_statBlock.get_exp() - (5 * _statBlock.get_lvl()));
             addLevel();
         }
-        _EXPBarInside.changeEXPBar((float)_statBlock.get_exp(), ((float)5 * _statBlock.get_lvl()));
+        _EXPBarInside.changeEXPBar((float)_statBlock.get_exp(), ((float)EXPPerLevelMultiplier * _statBlock.get_lvl()));
     }
 
     /**
@@ -108,6 +111,12 @@ public class MainCharacter extends Character{
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+    @Override
+    public void setStatBlock(StatBlock statBlock) {
+        super.setStatBlock(statBlock);
+        _healthBarInside.changeHealthBar((float)_statBlock.get_hp(), (float)_statBlock.get_maxHp());
+        _EXPBarInside.changeEXPBar((float)_statBlock.get_exp(), (float)EXPPerLevelMultiplier * _statBlock.get_lvl());
+    }
 
     @Override
     public void addMaxHealth(int maxHp) {

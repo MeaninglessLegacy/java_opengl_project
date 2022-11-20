@@ -41,6 +41,11 @@ public abstract class Character extends GameObject {
      */
     public StatBlock getStatBlock() { return this._statBlock; }
     /**
+     * Sets the StatBlock of this character object
+     * @param statBlock the StatBlock to set this character's StatBlock to
+     */
+    public void setStatBlock(StatBlock statBlock) { this._statBlock = statBlock; }
+    /**
      * Return the HealthBarOutline of this character object
      * @return the HealthBarOutline to return
      */
