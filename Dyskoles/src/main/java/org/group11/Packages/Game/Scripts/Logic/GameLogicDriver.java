@@ -120,7 +120,7 @@ public class GameLogicDriver extends GameObject {
     /**
      * If the GameLogicDriver has a Level, sets all the variables in the GameLogicDriver according to _gameLevel
      */
-    private static void loadNewLevel() {
+    protected static void loadNewLevel() {
         Level curLevel = get_gameLevelAtStage(_gameStage);
         if (curLevel != null) {
             MapGenerator mapGen = curLevel.get_mapGenerator();
