@@ -30,26 +30,26 @@ public class GameLogicDriver extends GameObject {
     //******************************************************************************************************************
     private static Scene scene;
 
-    private static ArrayList<Level> _gameLevelList = new ArrayList<>();
-    private static Map _gameMap =  null;
-    private static Pathfinder _pathfinder = null;
-    private static ArrayList<MainCharacter> _playerCharacters = new ArrayList<>();
-    private static ArrayList<Enemy> _enemyCharacters = new ArrayList<>();
-    private static ArrayList<Item> _items = new ArrayList<>();
+    protected static ArrayList<Level> _gameLevelList = new ArrayList<>();
+    protected static Map _gameMap =  null;
+    protected static Pathfinder _pathfinder = null;
+    protected static ArrayList<MainCharacter> _playerCharacters = new ArrayList<>();
+    protected static ArrayList<Enemy> _enemyCharacters = new ArrayList<>();
+    protected static ArrayList<Item> _items = new ArrayList<>();
 
-    private static boolean _gameStarted = false;
+    protected static boolean _gameStarted = false;
 
     // Used to switch between different Levels
-    private static int _gameStage = 1;
+    protected static int _gameStage = 1;
 
     // Cameras used by the engine
-    private static Camera followingCamera;
-    private static Camera menuCamera;
+    private static Camera _followingCamera;
+    private static Camera _menuCamera;
 
     // Used to display the menu
-    private static MenuScreen menu;
+    protected static MenuScreen _menu;
 
-    private static final int player1ArrayPosition = 0;
+    private static final int _player1ArrayPosition = 0;
 
     //******************************************************************************************************************
     //* getters and setters
@@ -150,7 +150,7 @@ public class GameLogicDriver extends GameObject {
      */
     public static void startNewLevel() {
         // Gets rid of the menu
-        scene.Destroy(menu);
+        scene.Destroy(_menu);
 
         // Sets/Resets all the levels
         Level newLevel2 = new TestRoom();
@@ -167,12 +167,12 @@ public class GameLogicDriver extends GameObject {
 
         // Creates the camera that will follow the player character
         if(!_playerCharacters.isEmpty()){
-            MainCharacter mc = _playerCharacters.get(player1ArrayPosition);
-            followingCamera = new FollowingCamera(mc);
-            scene.Instantiate(followingCamera);
-            scene.set_mainCamera(followingCamera);
-            followingCamera.transform.setPosition(mc.transform.position);
-            followingCamera.transform.position.z = -5;
+            MainCharacter mc = _playerCharacters.get(_player1ArrayPosition);
+            _followingCamera = new FollowingCamera(mc);
+            scene.Instantiate(_followingCamera);
+            scene.set_mainCamera(_followingCamera);
+            _followingCamera.transform.setPosition(mc.transform.position);
+            _followingCamera.transform.position.z = -5;
         }
 
         _gameStarted = true;
@@ -246,7 +246,7 @@ public class GameLogicDriver extends GameObject {
     /**
      * If all bosses are dead, makes all Keys visible, and therefore obtainable by a MainCharacter
      */
-    private static void enableKeys() {
+    protected static void enableKeys() {
         if (checkForAllDeadBoss()) {
             for (Item i : _items) {
                 if (i instanceof Key) {
@@ -260,7 +260,7 @@ public class GameLogicDriver extends GameObject {
      * If an Enemy is within a certain range of a MainCharacter, activates the Enemy, and they will begin to pursue the
      * MainCharacter if not already activated
      */
-    private static void activateNearbyEnemies(MainCharacter MC) {
+    protected static void activateNearbyEnemies(MainCharacter MC) {
         int squareActivateRadius = 3;
         double MCx = MC.transform.position.x;
         double MCy = MC.transform.position.y;
@@ -285,7 +285,7 @@ public class GameLogicDriver extends GameObject {
      * <p>If the enemy is a Runner, calls decrementTicksUntilVanish to see if they need to disappear. If they do, then
      * deletes that Runner</p>
      */
-    private static void enemyLogic(MainCharacter MC) {
+    protected static void enemyLogic(MainCharacter MC) {
         ArrayList<Enemy> enemiesToRemove = new ArrayList<>();
         for (Enemy e : _enemyCharacters) {
             if (getGameState()) {
@@ -350,7 +350,7 @@ public class GameLogicDriver extends GameObject {
      * Iterates through _items and sees if there's any items on the given Vector3 pos
      * @return Item object if there is one on the given position, or null if there isn't
      */
-    private static Item checkForItem(Vector3 pos) {
+    protected static Item checkForItem(Vector3 pos) {
         for (Item i : _items) {
             if (i.transform.position.x == pos.x && i.transform.position.y == pos.y) {
                 return i;
@@ -363,7 +363,7 @@ public class GameLogicDriver extends GameObject {
      * Iterates through _enemyCharacters to see if all Boss enemies are dead
      * @return true if there are no more Boss enemies, false if there is at least one more
      */
-    private static boolean checkForAllDeadBoss() {
+    protected static boolean checkForAllDeadBoss() {
         for (Enemy e : _enemyCharacters) {
             if (e instanceof Boss) {
                 return false;
@@ -384,17 +384,17 @@ public class GameLogicDriver extends GameObject {
         clearEverything();
         _gameStarted = false;
 
-        scene.Instantiate(menuCamera);
-        scene.set_mainCamera(menuCamera);
+        scene.Instantiate(_menuCamera);
+        scene.set_mainCamera(_menuCamera);
 
-        menu.createMenu(won, _gameStage, _gameLevelList.size());
-        scene.Instantiate(menu);
+        _menu.createMenu(won, _gameStage, _gameLevelList.size());
+        scene.Instantiate(_menu);
     }
 
     /**
      * Deletes all objects and variables in GameLogicDriver and resets everything to it's initial state
      */
-    private static void clearEverything() {
+    protected static void clearEverything() {
         for (MainCharacter c : _playerCharacters) {
             scene.Destroy(c);
         }
@@ -407,13 +407,13 @@ public class GameLogicDriver extends GameObject {
             scene.Destroy(i);
         }
         _gameMap.clearMap();
-        scene.Destroy(followingCamera);
+        scene.Destroy(_followingCamera);
 
         _playerCharacters = new ArrayList<>();
         _enemyCharacters = new ArrayList<>();
         _items = new ArrayList<>();
         _gameMap = null;
-        followingCamera = null;
+        _followingCamera = null;
     }
 
     //******************************************************************************************************************
@@ -429,12 +429,12 @@ public class GameLogicDriver extends GameObject {
         scene = Scene.get_scene();
         _pathfinder = new Pathfinder();
 
-        menuCamera = new MenuCamera();
-        scene.Instantiate(menuCamera);
-        scene.set_mainCamera(menuCamera);
+        _menuCamera = new MenuCamera();
+        scene.Instantiate(_menuCamera);
+        scene.set_mainCamera(_menuCamera);
 
-        menu = new MenuScreen();
-        scene.Instantiate(menu);
+        _menu = new MenuScreen();
+        scene.Instantiate(_menu);
     }
 
     @Override
