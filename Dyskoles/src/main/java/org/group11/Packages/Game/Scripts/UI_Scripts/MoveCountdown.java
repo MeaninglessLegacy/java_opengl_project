@@ -17,23 +17,16 @@ public class MoveCountdown extends GameObject {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-
-    MoveCD1Sprite countdown1;
-    MoveCD2Sprite countdown2;
-    MoveCD3Sprite countdown3;
-
-    ArrayList<MoveCDSprites> CDSpriteList = new ArrayList<>();
+    // Stores all the move countdown sprites
+    protected ArrayList<MoveCDSprites> CDSpriteList = new ArrayList<>();
 
     //******************************************************************************************************************
     //* constructor
     //******************************************************************************************************************
     public MoveCountdown(Enemy enemy) {
-        countdown1 = new MoveCD1Sprite(enemy);
-        CDSpriteList.add(countdown1);
-        countdown2 = new MoveCD2Sprite(enemy);
-        CDSpriteList.add(countdown2);
-        countdown3 = new MoveCD3Sprite(enemy);
-        CDSpriteList.add(countdown3);
+        CDSpriteList.add(new MoveCD1Sprite(enemy));
+        CDSpriteList.add(new MoveCD2Sprite(enemy));
+        CDSpriteList.add(new MoveCD3Sprite(enemy));
 
         setupSprites();
     }
