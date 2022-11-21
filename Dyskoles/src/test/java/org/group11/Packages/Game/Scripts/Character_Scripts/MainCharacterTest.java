@@ -2,6 +2,7 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
 
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Engine;
+import org.group11.Packages.Core.Main.GameObject;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Logic.GameLogicDriver;
 import org.junit.Before;
@@ -11,19 +12,41 @@ import org.junit.Test;
  * Runs tests on various methods for the MainCharacter class
  */
 public class MainCharacterTest {
-    MainCharacter MC;
+    boolean everythingInstantiated = false;
     private Engine engine;
     private Scene scene;
+    MainCharacter MC;
+    Boss boss;
+
+    private class SetupClass extends GameObject {
+        @Override
+        public void start() {
+            // General instantiations
+            MC = new MainCharacter();
+            scene.Instantiate(MC);
+
+            // attackEnemyTest() and attackingDirection()
+            boss = new Boss(new Vector3(0,1,0));
+            scene.Instantiate(boss);
+
+            everythingInstantiated = true;
+        }
+    }
 
     @Before
     public void setup() {
         engine = new Engine();
         engine.start();
         scene = Scene.get_scene();
-        GameLogicDriver gameLogicDriver = GameLogicDriver.getInstance();
-        scene.Instantiate(gameLogicDriver);
 
-        MC = new MainCharacter();
+        SetupClass setupClass = new SetupClass();
+        scene.Instantiate(setupClass);
+
+        int i = 0;
+        while (!everythingInstantiated) {
+            i++;
+            System.out.println(i);
+        }
     }
 
     /**
@@ -104,12 +127,12 @@ public class MainCharacterTest {
      */
     @Test
     public void attackEnemyTest() {
-        Minion minion = new Minion(new Vector3(0,1,0));
 
-        // Should take MainCharacter 3 attacks to kill Minion with 3 health
-        assert(!MC.attackCharacter(minion));
-        assert(!MC.attackCharacter(minion));
-        assert(MC.attackCharacter(minion));
+        // Should take MainCharacter 10 attacks to kill Boss with 10 health
+        for (int i = 0; i < 9; i++) {
+            assert(!MC.attackCharacter(boss));
+        }
+        assert(MC.attackCharacter(boss));
     }
 
     /**
@@ -117,18 +140,19 @@ public class MainCharacterTest {
      */
     @Test
     public void attackingDirection() {
-        Minion northMinion = new Minion(new Vector3(0,1,0));
-        Minion eastMinion = new Minion(new Vector3(1,0,0));
-        Minion southMinion = new Minion(new Vector3(0,-1,0));
-        Minion westMinion = new Minion(new Vector3(-1,0,0));
-
-        MC.attackCharacter(northMinion);
+        MC.attackCharacter(boss);
         assert(MC.isAttackingDirection.equals("up"));
-        MC.attackCharacter(eastMinion);
+
+        boss.transform.position = new Vector3(1,0,0);
+        MC.attackCharacter(boss);
         assert(MC.isAttackingDirection.equals("right"));
-        MC.attackCharacter(southMinion);
+
+        boss.transform.position = new Vector3(0,-1,0);
+        MC.attackCharacter(boss);
         assert(MC.isAttackingDirection.equals("down"));
-        MC.attackCharacter(westMinion);
+
+        boss.transform.position = new Vector3(-1,0,0);
+        MC.attackCharacter(boss);
         assert(MC.isAttackingDirection.equals("left"));
     }
 }

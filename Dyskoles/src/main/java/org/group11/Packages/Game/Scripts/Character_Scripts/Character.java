@@ -73,7 +73,9 @@ public abstract class Character extends GameObject {
      * @param hp value to increase hp by
      */
     public void addHealth(int hp) {
-        _statBlock.set_hp(_statBlock.get_hp() + hp);
+        if (_statBlock.get_hp() < _statBlock.get_maxHp()) {
+            _statBlock.set_hp(_statBlock.get_hp() + hp);
+        }
         _healthBarInside.changeHealthBar(((float) _statBlock.get_hp()), ((float)_statBlock.get_maxHp()));
     }
 

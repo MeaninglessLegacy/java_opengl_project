@@ -1,9 +1,11 @@
 package org.group11.Packages.Game.Scripts.Logic;
+import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Boss;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Enemy;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Minion;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
+import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
 import org.group11.Packages.Game.Scripts.Levels.TestLevel;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom2;
@@ -14,9 +16,12 @@ public class GameLogicDriverTest {
 
     @Before
     public void setup() {
-
+        GameLogicDriver.clearEverything();
     }
 
+    /**
+     * Tests the method that adds a Level to the game
+     */
     @Test
     public void set_gameLevelTest() {
         TestRoom level1 = new TestRoom();
@@ -25,6 +30,9 @@ public class GameLogicDriverTest {
         assert(GameLogicDriver._gameLevelList.get(0) == level1);
     }
 
+    /**
+     * Tests the method that overwrites a Level at a certain stage
+     */
     @Test
     public void overwrite_gameLevelTest() {
         TestRoom level1 = new TestRoom();
@@ -40,6 +48,9 @@ public class GameLogicDriverTest {
         assert(GameLogicDriver._gameLevelList.get(1) == level2);
     }
 
+    /**
+     * Tests the method that returns what the game's Level is at a certain stage
+     */
     @Test
     public void get_gameLevelTest() {
         TestRoom level1 = new TestRoom();
@@ -51,6 +62,9 @@ public class GameLogicDriverTest {
         assert(GameLogicDriver.get_gameLevelAtStage(0) == null);
     }
 
+    /**
+     * Tests the GameLogicDriver's ability to load a new Level
+     */
     @Test
     public void loadNewLevelTest() {
         TestLevel level1 = new TestLevel();
@@ -66,9 +80,12 @@ public class GameLogicDriverTest {
 
     @Test
     public void startNewLevelTest() {
-
+        // TODO: implement
     }
 
+    /**
+     * Tests the method to remove an Enemy from the game
+     */
     @Test
     public void removeEnemyTest() {
         Minion minion = new Minion();
@@ -83,5 +100,67 @@ public class GameLogicDriverTest {
         assert(GameLogicDriver._enemyCharacters.size() == 0);
     }
 
+    /**
+     * Tests the method to check if a MainCharacter can move into a tile when it is a floor tile and is clear of any
+     * characters
+     */
+    @Test
+    public void MCCheckMoveClearTest() {
+        TestLevel level1 = new TestLevel();
+        GameLogicDriver.set_gameLevelAtStage(level1, 1);
+        GameLogicDriver.loadNewLevel();
+
+        assert(GameLogicDriver.MCCheckMove(GameLogicDriver._playerCharacters.get(0), new Vector3(1,2,0)));
+    }
+
+    /**
+     * Tests the method to check if a MainCharacter can move into a tile when it is a floor tile but has an enemy which
+     * is killed, thus is clear to move in to
+     */
+    @Test
+    public void MCCheckMoveEnemyClearTest() {
+        TestLevel level1 = new TestLevel();
+        GameLogicDriver.set_gameLevelAtStage(level1, 1);
+        GameLogicDriver.loadNewLevel();
+        GameLogicDriver._enemyCharacters.get(0).getStatBlock().set_hp(1);
+
+        assert(GameLogicDriver.MCCheckMove(GameLogicDriver._playerCharacters.get(0), new Vector3(1,2,0)));
+    }
+
+    /**
+     * Tests the method to check if a MainCharacter can move into a tile when it is a floor tile but has an enemy which
+     * is not killed, thus is not clear to move in to
+     */
+    @Test
+    public void MCCheckMoveEnemyNotClearTest() {
+        TestLevel level1 = new TestLevel();
+        GameLogicDriver.set_gameLevelAtStage(level1, 1);
+        GameLogicDriver.loadNewLevel();
+
+        assert(!GameLogicDriver.MCCheckMove(GameLogicDriver._playerCharacters.get(0), new Vector3(1,2,0)));
+    }
+
+    /**
+     * Tests the method to check if a MainCharacter can move into a tile when it is a wall, thus cannot move in to it
+     */
+    @Test
+    public void MCCheckMoveWallTest() {
+        TestLevel level1 = new TestLevel();
+        GameLogicDriver.set_gameLevelAtStage(level1, 1);
+        GameLogicDriver.loadNewLevel();
+
+        assert(!GameLogicDriver.MCCheckMove(GameLogicDriver._playerCharacters.get(0), new Vector3(-1,2,0)));
+    }
+
+    /**
+     * Tests what happens when a MainCharacter is on a tile with no item when the method to check for an item is called
+     */
+    @Test
+    public void MCCheckItemNoneTest() {
+        int initialItemsNumber = GameLogicDriver._items.size();
+
+        GameLogicDriver.MCCheckItem(GameLogicDriver._playerCharacters.get(0));
+        assert (GameLogicDriver._items.size() == initialItemsNumber);
+    }
 
 }
