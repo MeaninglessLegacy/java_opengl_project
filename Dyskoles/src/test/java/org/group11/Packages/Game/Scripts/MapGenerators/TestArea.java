@@ -7,6 +7,7 @@ import org.group11.Packages.Game.Scripts.Logic.MapGenerator;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.CubeWall.CubeWall;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Floor;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
+import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
 
 /**
  * Creates a map with a 5x5 area of floor tiles and a line of walls along the left of that square
@@ -23,8 +24,7 @@ public class TestArea extends MapGenerator {
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
                 Vector3 pos = new Vector3(x, y, 0);
-                Tile newTile = new Floor();
-                newTile.transform.setPosition(pos);
+                Tile newTile = new Floor(pos);
                 newMap.setTile(pos, newTile);
                 scene.Instantiate(newTile);
             }
@@ -32,9 +32,8 @@ public class TestArea extends MapGenerator {
 
         // generates walls along the left of the 5x5 floor tiles
         for (int y = 0; y < 5; y++) {
-            Vector3 pos = new Vector3(4, y, 0);
-            Tile newTile = new CubeWall();
-            newTile.transform.setPosition(pos);
+            Vector3 pos = new Vector3(-1, y, 0);
+            Tile newTile = new Wall(pos);
             newMap.setTile(pos, newTile);
             scene.Instantiate(newTile);
         }

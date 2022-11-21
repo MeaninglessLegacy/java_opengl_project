@@ -1,5 +1,9 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Core.Main.Engine;
+import org.group11.Packages.Core.Main.GameObject;
+import org.group11.Packages.Core.Main.Scene;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -7,13 +11,51 @@ import org.junit.Test;
  * Runs tests on various methods for the Boss class
  */
 public class BossTest {
+    //******************************************************************************************************************
+    //* variables
+    //******************************************************************************************************************
+    boolean everythingInstantiated = false;
+    private Engine engine;
+    private Scene scene;
+
+    private MainCharacter MC;
     private Boss boss;
+
+    //******************************************************************************************************************
+    //* setup
+    //******************************************************************************************************************
+    private class SetupClass extends GameObject {
+        @Override
+        public void start() {
+            // General instantiations
+            MC = new MainCharacter();
+            scene.Instantiate(MC);
+
+            // attackEnemyTest() and attackingDirection()
+            boss = new Boss(new Vector3(0,1,0));
+            scene.Instantiate(boss);
+
+            everythingInstantiated = true;
+        }
+    }
 
     @Before
     public void setup() {
-        boss = new Boss();
+        engine = new Engine();
+        engine.start();
+        scene = Scene.get_scene();
+
+        SetupClass setupClass = new SetupClass();
+        scene.Instantiate(setupClass);
+
+        while (!everythingInstantiated) {
+            System.out.print("");
+        }
     }
 
+    //******************************************************************************************************************
+    //* tests
+    //******************************************************************************************************************
     /**
      * Tests the function to reduce a Boss's health
      */
@@ -25,6 +67,7 @@ public class BossTest {
         assert(boss._statBlock._hp == OriginalHp - 1);
 
         // Negative health does not matter for the takeDamage() method
+        boss.takeDamage(10);
         assert(boss._statBlock._hp == OriginalHp - 11);
     }
 
@@ -49,15 +92,15 @@ public class BossTest {
     }
 
     /**
-     * Tests that the Boss gives the MainCharacter that defeated it the proper amount of exp
+     * Tests that the Boss gives the MainCharacter that defeated it the proper amount of exp. Boss gives 5 exp which
+     * should level up the MainCharacter
      */
     @Test
     public void giveRewardsTest() {
         MainCharacter MC = new MainCharacter();
-        int OriginalExp = MC._statBlock.get_exp();
 
         boss.giveRewards(MC);
-        assert(MC._statBlock.get_exp() == OriginalExp + boss.expGiven);
+        assert(MC._statBlock.get_exp() == 0 && MC.getStatBlock().get_lvl() == 2);
     }
 
     @Test

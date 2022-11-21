@@ -1,5 +1,9 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Core.Main.Engine;
+import org.group11.Packages.Core.Main.GameObject;
+import org.group11.Packages.Core.Main.Scene;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -7,13 +11,51 @@ import org.junit.Test;
  * Runs tests on various methods for the Runner class
  */
 public class RunnerTest {
+    //******************************************************************************************************************
+    //* variables
+    //******************************************************************************************************************
+    boolean everythingInstantiated = false;
+    private Engine engine;
+    private Scene scene;
+
+    private MainCharacter MC;
     private Runner runner;
+
+    //******************************************************************************************************************
+    //* setup
+    //******************************************************************************************************************
+    private class SetupClass extends GameObject {
+        @Override
+        public void start() {
+            // General instantiations
+            MC = new MainCharacter();
+            scene.Instantiate(MC);
+
+            // attackEnemyTest() and attackingDirection()
+            runner = new Runner(new Vector3(0,1,0));
+            scene.Instantiate(runner);
+
+            everythingInstantiated = true;
+        }
+    }
 
     @Before
     public void setup() {
-        runner = new Runner();
+        engine = new Engine();
+        engine.start();
+        scene = Scene.get_scene();
+
+        SetupClass setupClass = new SetupClass();
+        scene.Instantiate(setupClass);
+
+        while (!everythingInstantiated) {
+            System.out.print("");
+        }
     }
 
+    //******************************************************************************************************************
+    //* tests
+    //******************************************************************************************************************
     /**
      * Tests that the Runner's method to decrement the amount of ticks until it vanishes works properly, and returns
      * true once that attribute reaches 0 and the Runner needs to disappear
@@ -34,7 +76,6 @@ public class RunnerTest {
      */
     @Test
     public void giveRewardsTest() {
-        MainCharacter MC = new MainCharacter();
         int OriginalExp = MC._statBlock.get_exp();
         int OriginalAtk = MC._statBlock.get_atk();
         int OriginalHp = MC._statBlock.get_hp();

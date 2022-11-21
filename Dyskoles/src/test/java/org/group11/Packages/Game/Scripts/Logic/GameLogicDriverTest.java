@@ -1,11 +1,13 @@
 package org.group11.Packages.Game.Scripts.Logic;
 import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Core.Main.Engine;
+import org.group11.Packages.Core.Main.GameObject;
+import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Boss;
-import org.group11.Packages.Game.Scripts.Character_Scripts.Enemy;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Minion;
-import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
-import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
+import org.group11.Packages.Game.Scripts.Item_Scripts.RegenHeart;
+import org.group11.Packages.Game.Scripts.Item_Scripts.RegenHeartTest;
 import org.group11.Packages.Game.Scripts.Levels.TestLevel;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom2;
@@ -13,12 +15,46 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GameLogicDriverTest {
+    //******************************************************************************************************************
+    //* variables
+    //******************************************************************************************************************
+    boolean everythingInstantiated = false;
+    private Engine engine;
+    private Scene scene;
+
+    //******************************************************************************************************************
+    //* setup
+    //******************************************************************************************************************
+    private class SetupClass extends GameObject {
+        @Override
+        public void start() {
+            // General instantiations
+            GameLogicDriver GLD = GameLogicDriver.getInstance();
+            scene.Instantiate(GLD);
+
+            everythingInstantiated = true;
+        }
+    }
 
     @Before
     public void setup() {
+        engine = new Engine();
+        engine.start();
+        scene = Scene.get_scene();
+
+        SetupClass setupClass = new SetupClass();
+        scene.Instantiate(setupClass);
+
+        while (!everythingInstantiated) {
+            System.out.print("");
+        }
+
         GameLogicDriver.clearEverything();
     }
 
+    //******************************************************************************************************************
+    //* tests
+    //******************************************************************************************************************
     /**
      * Tests the method that adds a Level to the game
      */

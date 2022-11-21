@@ -12,12 +12,19 @@ import org.junit.Test;
  * Runs tests on various methods for the MainCharacter class
  */
 public class MainCharacterTest {
+    //******************************************************************************************************************
+    //* variables
+    //******************************************************************************************************************
     boolean everythingInstantiated = false;
     private Engine engine;
     private Scene scene;
-    MainCharacter MC;
-    Boss boss;
 
+    private MainCharacter MC;
+    private Boss boss;
+
+    //******************************************************************************************************************
+    //* setup
+    //******************************************************************************************************************
     private class SetupClass extends GameObject {
         @Override
         public void start() {
@@ -42,13 +49,14 @@ public class MainCharacterTest {
         SetupClass setupClass = new SetupClass();
         scene.Instantiate(setupClass);
 
-        int i = 0;
         while (!everythingInstantiated) {
-            i++;
-            System.out.println(i);
+            System.out.print("");
         }
     }
 
+    //******************************************************************************************************************
+    //* tests
+    //******************************************************************************************************************
     /**
      * Tests the function to add exp for a MainCharacter
      */
