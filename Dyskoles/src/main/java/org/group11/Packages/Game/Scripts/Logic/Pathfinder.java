@@ -22,7 +22,7 @@ public class Pathfinder {
 	boolean pointBReached = false;
 	int step=0;
 
-	public static Vector3 FindPath(Map map, Vector3 pointA, Vector3 pointB){
+	public  Vector3 FindPath(Map map, Vector3 pointA, Vector3 pointB){
 
 		Vector3 nextTile;
 
