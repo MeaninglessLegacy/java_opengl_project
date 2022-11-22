@@ -423,14 +423,17 @@ public class GameLogicDriver extends GameObject {
         for (Item i : _items) {
             scene.Destroy(i);
         }
-        _gameMap.clearMap();
+        _items = new ArrayList<>();
+
+        if (_gameMap != null) {
+            _gameMap.clearMap();
+        }
+        _gameMap = null;
+
         scene.Destroy(_followingCamera);
 
-        _playerCharacters = new ArrayList<>();
-        _enemyCharacters = new ArrayList<>();
-        _items = new ArrayList<>();
-        _gameMap = null;
-        _followingCamera = null;
+        _gameLevelList = new ArrayList<>();
+        _defaultGameLevelList = new ArrayList<>();
     }
 
     //******************************************************************************************************************
