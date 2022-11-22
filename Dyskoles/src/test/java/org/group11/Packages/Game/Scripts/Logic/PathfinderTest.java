@@ -7,6 +7,9 @@ import org.group11.Packages.Game.Scripts.Character_Scripts.Boss;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacterTest;
 import org.group11.Packages.Game.Scripts.MapGenerators.SquareRoom;
+import org.group11.Packages.Game.Scripts.MapGenerators.mappathfindingtest;
+import org.group11.Packages.Game.Scripts.Tile_Scripts.Floor;
+import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions.*;
@@ -24,6 +27,8 @@ public class PathfinderTest {
     MainCharacter MC;
     Boss boss;
     private Pathfinder pathfinder;
+    private Floor floor;
+    private Wall wall;
 
     private class SetupClass extends GameObject {
         @Override
@@ -31,8 +36,19 @@ public class PathfinderTest {
             // General instantiations
 
             SquareRoom newroom = new SquareRoom();
-            map = newroom.generateMap();
+           // map = newroom.generateMap();
+
+
+            //creating a new room for testing properly
+            mappathfindingtest newroom2 = new mappathfindingtest();
+            map = newroom2.generateMap();
             pathfinder = new Pathfinder();
+
+
+            floor = new Floor();
+            wall = new Wall();
+            scene.Instantiate(floor);
+            scene.Instantiate(wall);
 
             everythingInstantiated = true;
         }
