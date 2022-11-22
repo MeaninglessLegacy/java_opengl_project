@@ -29,7 +29,41 @@ public class mappathfindingtest extends MapGenerator {
         }
 
         // generating walls
-        for (int y = 4; y < 8; y++) {
+        for (int x = 3; x < 5; x++) {
+            Vector3 pos = new Vector3(x, 4, 0);
+            Tile newTile = new CubeWall();
+            newTile.transform.setPosition(pos);
+            newMap.setTile(pos, newTile);
+            scene.Instantiate(newTile);
+        }
+
+        for (int x = 3; x < 5; x++) {
+            Vector3 pos = new Vector3(x, 7, 0);
+            Tile newTile = new CubeWall();
+            newTile.transform.setPosition(pos);
+            newMap.setTile(pos, newTile);
+            scene.Instantiate(newTile);
+        }
+
+        for (int x = 5; x < 7; x++) {
+            Vector3 pos = new Vector3(x, 4, 0);
+            Tile newTile = new CubeWall();
+            newTile.transform.setPosition(pos);
+            newMap.setTile(pos, newTile);
+            scene.Instantiate(newTile);
+        }
+
+
+        for (int x = 5; x < 7; x++) {
+            Vector3 pos = new Vector3(x, 7, 0);
+            Tile newTile = new CubeWall();
+            newTile.transform.setPosition(pos);
+            newMap.setTile(pos, newTile);
+            scene.Instantiate(newTile);
+        }
+
+
+        for (int y = 5; y < 7; y++) {
             Vector3 pos = new Vector3(3, y, 0);
             Tile newTile = new CubeWall();
             newTile.transform.setPosition(pos);
@@ -37,16 +71,10 @@ public class mappathfindingtest extends MapGenerator {
             scene.Instantiate(newTile);
         }
 
-        for (int y = 4; y < 8; y++) {
-            Vector3 pos = new Vector3(7, y, 0);
-            Tile newTile = new CubeWall();
-            newTile.transform.setPosition(pos);
-            newMap.setTile(pos, newTile);
-            scene.Instantiate(newTile);
-        }
 
-        for (int y = 4; y < 5; y++) {
-            Vector3 pos = new Vector3(5, y, 0);
+
+        for (int y = 5; y < 7; y++) {
+            Vector3 pos = new Vector3(7, y, 0);
             Tile newTile = new CubeWall();
             newTile.transform.setPosition(pos);
             newMap.setTile(pos, newTile);
