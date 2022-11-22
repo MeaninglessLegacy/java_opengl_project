@@ -29,10 +29,9 @@ public class MinionTest {
         public void start() {
             // General instantiations
             MC = new MainCharacter();
-            scene.Instantiate(MC);
+            minion = new Minion();
 
-            // attackEnemyTest() and attackingDirection()
-            minion = new Minion(new Vector3(0,1,0));
+            scene.Instantiate(MC);
             scene.Instantiate(minion);
 
             everythingInstantiated = true;
@@ -57,7 +56,7 @@ public class MinionTest {
     //* tests
     //******************************************************************************************************************
     /**
-     * Tests the function to reduce a Minion's health
+     * Tests Minion's method to take damage and reduce its health
      */
     @Test
     public void takeDamageTest() {
@@ -72,8 +71,7 @@ public class MinionTest {
     }
 
     /**
-     * Tests the whether the minion properly attacks a MainCharacter, and if the function properly returns whether the
-     * MainCharacter died or not
+     * Tests Minion's method to attack a MainCharacter, and whether the method returns if the MainCharacter died or not
      */
     @Test
     public void attackCharacterTest() {
@@ -84,7 +82,7 @@ public class MinionTest {
     }
 
     /**
-     * Tests that the Minion gives the MainCharacter that defeated it the proper amount of exp
+     * Tests Minion's method to give appropriate amount of EXP to the MainCharacter that defeated it.
      */
     @Test
     public void giveRewardsTest() {

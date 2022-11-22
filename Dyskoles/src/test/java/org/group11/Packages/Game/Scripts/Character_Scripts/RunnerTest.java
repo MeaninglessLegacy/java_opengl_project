@@ -29,10 +29,9 @@ public class RunnerTest {
         public void start() {
             // General instantiations
             MC = new MainCharacter();
-            scene.Instantiate(MC);
+            runner = new Runner();
 
-            // attackEnemyTest() and attackingDirection()
-            runner = new Runner(new Vector3(0,1,0));
+            scene.Instantiate(MC);
             scene.Instantiate(runner);
 
             everythingInstantiated = true;
@@ -57,8 +56,8 @@ public class RunnerTest {
     //* tests
     //******************************************************************************************************************
     /**
-     * Tests that the Runner's method to decrement the amount of ticks until it vanishes works properly, and returns
-     * true once that attribute reaches 0 and the Runner needs to disappear
+     * Tests Runner's method to decrement the amount of ticks until it vanishes works properly, and returns true once
+     * that attribute reaches 0 and the Runner needs to disappear
      */
     @Test
     public void decrementTicksUntilVanishTest() {
@@ -72,7 +71,7 @@ public class RunnerTest {
     }
 
     /**
-     * Tests that the Runner gives the MainCharacter that defeated it the proper rewards (various stat increases)
+     * Tests Runner's method to give the MainCharacter that defeated it the proper rewards (various stat increases)
      */
     @Test
     public void giveRewardsTest() {

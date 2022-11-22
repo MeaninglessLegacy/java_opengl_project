@@ -27,8 +27,8 @@ public class BackpackTest {
         public void start() {
             // General instantiations
             backpack = new Backpack();
-
             key = new Key();
+
             scene.Instantiate(key);
 
             everythingInstantiated = true;
@@ -52,21 +52,25 @@ public class BackpackTest {
     //******************************************************************************************************************
     //* tests
     //******************************************************************************************************************
+    /**
+     * Tests Backpack's method to add an item to its inventory
+     */
     @Test
     public void addItemTest() {
         backpack.addItem(key);
-        ArrayList<Item> itemList = new ArrayList<>();
-        itemList.add(key);
 
-        assert(itemList == backpack.getItems());
+        assert(backpack.getItems().size() == 1);
+        assert(backpack.getItems().get(0) == key);
     }
 
+    /**
+     * Tests Backpack's method to remove an item to its inventory
+     */
     @Test
     public void removeItemTest() {
         backpack.addItem(key);
-        ArrayList<Item> itemList = new ArrayList<>();
 
         assert(backpack.removeItem(key));
-        assert(itemList == backpack.getItems());
+        assert(backpack.getItems().size() == 0);
     }
 }

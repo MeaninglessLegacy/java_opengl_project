@@ -29,9 +29,9 @@ public class SpikeTrapTest {
         public void start() {
             // General instantiations
             spikeTrap = new SpikeTrap();
-            scene.Instantiate(spikeTrap);
-
             MC = new MainCharacter();
+
+            scene.Instantiate(spikeTrap);
             scene.Instantiate(MC);
 
             everythingInstantiated = true;
@@ -56,8 +56,7 @@ public class SpikeTrapTest {
     //* tests
     //******************************************************************************************************************
     /**
-     * Tests if the Character who activates a SpikeTrap has their health reduced by the amount of damage the SpikeTrap
-     * does
+     * Tests SpikeTrap's method to activate and damage the MainCharacter that activated it
      */
     @Test
     public void activateTest() {

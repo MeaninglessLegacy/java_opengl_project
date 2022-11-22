@@ -29,9 +29,9 @@ public class KeyTest {
         public void start() {
             // General instantiations
             key = new Key();
-            scene.Instantiate(key);
-
             MC = new MainCharacter();
+
+            scene.Instantiate(key);
             scene.Instantiate(MC);
 
             everythingInstantiated = true;
@@ -56,25 +56,23 @@ public class KeyTest {
     //* tests
     //******************************************************************************************************************
     /**
-     * Tests whether the key is picked up when the sprite is disabled and the key should not be obtainable
+     * Tests Key's method to activate when its sprite is disabled and should not be obtainable
      */
     @Test
     public void disabledActivateTest() {
-        Backpack backpack = new Backpack();
-
         assert(!key.activate(MC));
-        assert(MC.backpack == backpack);
+        assert(MC.backpack._inventory.size() == 0);
     }
 
     /**
-     * Tests whether the key is picked up when the sprite is enabled and the key should be obtainable
+     * Tests Key's method to activate when the sprite is enabled and the key should be obtainable
      */
     @Test
     public void enabledActivateTest() {
-        Backpack backpack = new Backpack();
-        backpack.addItem(key);
+        key.setKeyVisibility(true);
 
         assert(key.activate(MC));
-        assert(MC.backpack == backpack);
+        assert(MC.backpack._inventory.size() == 1);
+        assert(MC.backpack._inventory.get(0) instanceof Key);
     }
 }

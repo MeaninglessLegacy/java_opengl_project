@@ -16,6 +16,7 @@ public class ExitTest {
     private Scene scene;
 
     private Exit exit;
+    private Key key;
     private MainCharacter MC;
 
     //******************************************************************************************************************
@@ -26,10 +27,12 @@ public class ExitTest {
         public void start() {
             // General instantiations
             exit = new Exit();
-            scene.Instantiate(exit);
-
             MC = new MainCharacter();
+            key = new Key();
+
+            scene.Instantiate(exit);
             scene.Instantiate(MC);
+            scene.Instantiate(key);
 
             everythingInstantiated = true;
         }
@@ -53,7 +56,7 @@ public class ExitTest {
     //* tests
     //******************************************************************************************************************
     /**
-     * Tests whether if a MainCharacter with no key in their backpack can activate an Exit
+     * Tests Exit's activate method when the activating MainCharacter has no key in their Backpack
      */
     @Test
     public void noKeyActivate() {

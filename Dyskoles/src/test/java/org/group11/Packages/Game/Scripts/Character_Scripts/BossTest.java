@@ -29,10 +29,9 @@ public class BossTest {
         public void start() {
             // General instantiations
             MC = new MainCharacter();
-            scene.Instantiate(MC);
+            boss = new Boss();
 
-            // attackEnemyTest() and attackingDirection()
-            boss = new Boss(new Vector3(0,1,0));
+            scene.Instantiate(MC);
             scene.Instantiate(boss);
 
             everythingInstantiated = true;
@@ -57,7 +56,7 @@ public class BossTest {
     //* tests
     //******************************************************************************************************************
     /**
-     * Tests the function to reduce a Boss's health
+     * Tests Boss's method to take damage and reduce its health
      */
     @Test
     public void takeDamageTest() {
@@ -72,8 +71,7 @@ public class BossTest {
     }
 
     /**
-     * Tests the whether the boss properly attacks a MainCharacter, and if the function properly returns whether the
-     * MainCharacter died or not
+     * Tests Boss's method to attack a MainCharacter and see if the MainCharacter died or not
      */
     @Test
     public void attackCharacterTest() {
@@ -92,8 +90,8 @@ public class BossTest {
     }
 
     /**
-     * Tests that the Boss gives the MainCharacter that defeated it the proper amount of exp. Boss gives 5 exp which
-     * should level up the MainCharacter
+     * Tests Boss's method to give appropriate amount of EXP to the MainCharacter that defeated it. Boss gives 5 EXP
+     * which should level up the MainCharacter
      */
     @Test
     public void giveRewardsTest() {

@@ -29,9 +29,9 @@ public class RegenHeartTest {
         public void start() {
             // General instantiations
             regenHeart = new RegenHeart();
-            scene.Instantiate(regenHeart);
-
             MC = new MainCharacter();
+
+            scene.Instantiate(regenHeart);
             scene.Instantiate(MC);
 
             everythingInstantiated = true;
@@ -56,7 +56,7 @@ public class RegenHeartTest {
     //* tests
     //******************************************************************************************************************
     /**
-     * Tests if a RegenHeart is not activated when the activating Character has full health
+     * Tests RegenHeart's method to activate when the activating MainCharacter is at full health
      */
     @Test
     public void fullHpActivate() {
@@ -64,7 +64,7 @@ public class RegenHeartTest {
     }
 
     /**
-     * Tests if a RegenHeart is activated when the activating Character doesn't have full health
+     * Tests RegenHeart's method to activate when the activating MainCharacter is not at full health
      */
     @Test
     public void notFullHpActivate() {

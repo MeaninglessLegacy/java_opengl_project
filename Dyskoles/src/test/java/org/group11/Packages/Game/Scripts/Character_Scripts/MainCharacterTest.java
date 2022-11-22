@@ -30,10 +30,9 @@ public class MainCharacterTest {
         public void start() {
             // General instantiations
             MC = new MainCharacter();
-            scene.Instantiate(MC);
+            boss = new Boss();
 
-            // attackEnemyTest() and attackingDirection()
-            boss = new Boss(new Vector3(0,1,0));
+            scene.Instantiate(MC);
             scene.Instantiate(boss);
 
             everythingInstantiated = true;
@@ -58,7 +57,7 @@ public class MainCharacterTest {
     //* tests
     //******************************************************************************************************************
     /**
-     * Tests the function to add exp for a MainCharacter
+     * Tests MainCharacter's method to add EXP to itself
      */
     @Test
     public void addExpTest() {
@@ -69,7 +68,7 @@ public class MainCharacterTest {
     }
 
     /**
-     * Tests the function that increases a MainCharacter's level when enough exp is added to them
+     * Tests MainCharacter's method to level up when enough exp is added to them
      */
     @Test
     public void levelUpTest () {
@@ -86,7 +85,7 @@ public class MainCharacterTest {
     }
 
     /**
-     * Tests the function to increase attack for a MainCharacter
+     * Tests MainCharacter's method to increase its attack
      */
     @Test
     public void addAttackTest() {
@@ -97,7 +96,7 @@ public class MainCharacterTest {
     }
 
     /**
-     * Tests the functions to increase health and max health for a MainCharacter
+     * Tests MainCharacter's methods to increase max health and health
      */
     @Test
     public void addHealthTest() {
@@ -115,7 +114,7 @@ public class MainCharacterTest {
     }
 
     /**
-     * Tests the function to reduce a MainCharacter's health
+     * Tests MainCharacter's method to take damage and reduce health
      */
     @Test
     public void takeDamageTest() {
@@ -130,8 +129,7 @@ public class MainCharacterTest {
     }
 
     /**
-     * Tests the whether the MainCharacter properly attacks an Enemy, and if the function properly returns whether the
-     * enemy died or not
+     * Tests MainCharacter's method to attack an Enemy, and whether the method returns if the Enemy died or not
      */
     @Test
     public void attackEnemyTest() {
@@ -144,10 +142,11 @@ public class MainCharacterTest {
     }
 
     /**
-     * Tests if the direction that the MainCharacter is attacking is correctly set when it attacks
+     * Tests MainCharacter's method to correctly set the direction its attacking for the attack animation
      */
     @Test
     public void attackingDirection() {
+        boss.transform.position = new Vector3(0,1,0);
         MC.attackCharacter(boss);
         assert(MC.isAttackingDirection.equals("up"));
 
