@@ -29,9 +29,9 @@ public class MoveCountdownTest {
         public void start() {
             // General instantiations
             boss = new Boss();
-            scene.Instantiate(boss);
+            moveCountdown = new MoveCountdown(boss);
 
-            moveCountdown= new MoveCountdown(boss);
+            scene.Instantiate(boss);
             scene.Instantiate(moveCountdown);
 
             everythingInstantiated = true;
@@ -66,33 +66,33 @@ public class MoveCountdownTest {
     }
 
     /**
-     * Tests that the correct sprite is enabled when the remaining ticks before move for an enemy is 1
+     * Tests that MoveCountdown's method sets the correct sprite when the remaining ticks before an Enemy moves is 1
      */
     @Test
     public void MoveCD1EnabledTest() {
-        boss.set_moveCountdownNumber(1);
+        moveCountdown.changeCountdown(1);
         assert(moveCountdown.CDSpriteList.get(0).getCDSprite().enabled);
         assert(!moveCountdown.CDSpriteList.get(1).getCDSprite().enabled);
         assert(!moveCountdown.CDSpriteList.get(2).getCDSprite().enabled);
     }
 
     /**
-     * Tests that the correct sprite is enabled when the remaining ticks before move for an enemy is 2
+     * Tests that MoveCountdown's method sets the correct sprite when the remaining ticks before an Enemy moves is 2
      */
     @Test
     public void MoveCD2EnabledTest() {
-        boss.set_moveCountdownNumber(2);
+        moveCountdown.changeCountdown(2);
         assert(!moveCountdown.CDSpriteList.get(0).getCDSprite().enabled);
         assert(moveCountdown.CDSpriteList.get(1).getCDSprite().enabled);
         assert(!moveCountdown.CDSpriteList.get(2).getCDSprite().enabled);
     }
 
     /**
-     * Tests that the correct sprite is enabled when the remaining ticks before move for an enemy is 3
+     * Tests that MoveCountdown's method sets the correct sprite when the remaining ticks before an Enemy moves is 3
      */
     @Test
     public void MoveCD3EnabledTest() {
-        boss.set_moveCountdownNumber(3);
+        moveCountdown.changeCountdown(3);
         assert(!moveCountdown.CDSpriteList.get(0).getCDSprite().enabled);
         assert(!moveCountdown.CDSpriteList.get(1).getCDSprite().enabled);
         assert(moveCountdown.CDSpriteList.get(2).getCDSprite().enabled);
