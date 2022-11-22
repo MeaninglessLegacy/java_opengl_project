@@ -6,6 +6,7 @@ import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Boss;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Minion;
+import org.group11.Packages.Game.Scripts.Character_Scripts.Runner;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
 import org.group11.Packages.Game.Scripts.Item_Scripts.RegenHeart;
 import org.group11.Packages.Game.Scripts.Item_Scripts.SpikeTrap;
@@ -29,6 +30,7 @@ public class GameLogicDriverTest {
     private MainCharacter MC;
     private Boss boss;
     private Minion minion;
+    private Runner runner;
     private Key key;
     private RegenHeart regenHeart;
     private SpikeTrap spikeTrap;
@@ -54,6 +56,7 @@ public class GameLogicDriverTest {
             MC = new MainCharacter();
             boss = new Boss();
             minion = new Minion();
+            runner = new Runner();
             key = new Key();
             regenHeart = new RegenHeart();
             spikeTrap = new SpikeTrap();
@@ -63,6 +66,7 @@ public class GameLogicDriverTest {
             scene.Instantiate(MC);
             scene.Instantiate(boss);
             scene.Instantiate(minion);
+            scene.Instantiate(runner);
             scene.Instantiate(key);
             scene.Instantiate(regenHeart);
             scene.Instantiate(spikeTrap);
@@ -247,7 +251,174 @@ public class GameLogicDriverTest {
         GameLogicDriver._items.add(regenHeart);
 
         GameLogicDriver.MCCheckItem(GameLogicDriver._playerCharacters.get(0));
-        assert (GameLogicDriver._items.size() == 1);
+        assert(GameLogicDriver._items.size() == 1);
+        assert(MC.backpack.getItems().isEmpty());
     }
 
+    /**
+     * Tests GameLogicDriver's method to check for an item when a MainCharacter is on a tile with an item, but the item
+     * is not picked up
+     */
+    @Test
+    public void MCCheckItemNoPickupTest() {
+        MC.transform.setPosition(new Vector3(0,2,0));
+        GameLogicDriver._playerCharacters.add(MC);
+
+        regenHeart.transform.setPosition(new Vector3(0,2,0));
+        GameLogicDriver._items.add(regenHeart);
+
+        GameLogicDriver.MCCheckItem(GameLogicDriver._playerCharacters.get(0));
+        assert(GameLogicDriver._items.size() == 1);
+        assert(MC.backpack.getItems().isEmpty());
+    }
+
+    /**
+     * Tests GameLogicDriver's method to check for an item when a MainCharacter is on a tile with an item, and the item
+     * is picked up
+     */
+    @Test
+    public void MCCheckItemPickupTest() {
+        MC.transform.setPosition(new Vector3(0,2,0));
+        GameLogicDriver._playerCharacters.add(MC);
+        MC.takeDamage(1);
+
+        regenHeart.transform.setPosition(new Vector3(0,2,0));
+        GameLogicDriver._items.add(regenHeart);
+
+        GameLogicDriver.MCCheckItem(GameLogicDriver._playerCharacters.get(0));
+        assert(GameLogicDriver._items.size() == 0);
+    }
+
+    /**
+     * Tests GameLogicDriver's method to make all Keys obtainable when all the bosses are dead
+     */
+    @Test
+    public void enableKeysTest() {
+        GameLogicDriver._enemyCharacters.add(minion);
+        GameLogicDriver._enemyCharacters.add(boss);
+        GameLogicDriver._items.add(key);
+
+        GameLogicDriver.enableKeys();
+        assert(!key.getKeyVisibility());
+
+        GameLogicDriver.removeEnemy(boss);
+
+        GameLogicDriver.enableKeys();
+        assert(key.getKeyVisibility());
+    }
+
+    /**
+     * Tests GameLogicDriver's method to activate enemies so that they will move when there is a MainCharacter within
+     * 3 tiles of the enemy
+     */
+    @Test
+    public void activateNearbyEnemiesTest() {
+        MC.transform.setPosition(new Vector3(0, 2, 0));
+        boss.transform.setPosition(new Vector3(1, 2, 0));
+        minion.transform.setPosition(new Vector3(3, 0, 0));
+        runner.transform.setPosition(new Vector3(4, 2, 0));
+        GameLogicDriver._playerCharacters.add(MC);
+        GameLogicDriver._enemyCharacters.add(boss);
+        GameLogicDriver._enemyCharacters.add(minion);
+        GameLogicDriver._enemyCharacters.add(runner);
+
+        GameLogicDriver.activateNearbyEnemies(MC);
+        assert(boss.get_enemyActiveState());
+        assert(minion.get_enemyActiveState());
+        assert(!runner.get_enemyActiveState());
+    }
+
+    @Test
+    public void enemyLogicTest() {
+        // TODO: implement
+    }
+
+    /**
+     * Tests GameLogicDriver's method to check what Character if any is in a certain tile for the calling Enemy, and
+     * have that calling Enemy attack if the Character is a MainCharacter
+     */
+    @Test
+    public void enemyCheckMoveTest() {
+        MC.transform.setPosition(new Vector3(1, 2, 0));
+        boss.transform.setPosition(new Vector3(0, 3, 0));
+        minion.transform.setPosition(new Vector3(0, 2, 0));
+        GameLogicDriver._playerCharacters.add(MC);
+        GameLogicDriver._enemyCharacters.add(boss);
+        GameLogicDriver._enemyCharacters.add(minion);
+
+        assert(GameLogicDriver.enemyCheckMove(minion, new Vector3(0, 1, 0)) == null);
+        assert(GameLogicDriver.enemyCheckMove(minion, new Vector3(0, 3, 0)) == boss);
+        assert(GameLogicDriver.enemyCheckMove(minion, new Vector3(1, 2, 0)) == MC);
+        assert(MC.getStatBlock().get_hp() == MC.getStatBlock().get_maxHp() - minion.getStatBlock().get_atk());
+    }
+
+    /**
+     * Tests GameLogicDriver's method to check if there's any Character on the given tile
+     */
+    @Test
+    public void checkForCharacterTest() {
+        MC.transform.setPosition(new Vector3(1, 2, 0));
+        boss.transform.setPosition(new Vector3(0, 3, 0));
+        GameLogicDriver._playerCharacters.add(MC);
+        GameLogicDriver._enemyCharacters.add(boss);
+
+        assert(GameLogicDriver.checkForCharacter(new Vector3(3, 3, 0)) == null);
+        assert(GameLogicDriver.checkForCharacter(new Vector3(1, 2, 0)) == MC);
+        assert(GameLogicDriver.checkForCharacter(new Vector3(0, 3, 0)) == boss);
+    }
+
+    /**
+     * Tests GameLogicDriver's method to check if there's any Item on the given tile
+     */
+    @Test
+    public void checkForItemTest() {
+        key.transform.setPosition(new Vector3(1, 1, 0));
+        GameLogicDriver._items.add(key);
+
+        assert(GameLogicDriver.checkForItem(new Vector3(1, 2, 0)) == null);
+        assert(GameLogicDriver.checkForItem(new Vector3(1, 1, 0)) == key);
+    }
+
+    /**
+     * Tests GameLogicDriver's method to check if all the bosses are dead
+     */
+    @Test
+    public void checkForAllDeadBossTest() {
+        GameLogicDriver._enemyCharacters.add(minion);
+        GameLogicDriver._enemyCharacters.add(boss);
+        GameLogicDriver._enemyCharacters.add(runner);
+
+        assert(!GameLogicDriver.checkForAllDeadBoss());
+
+        GameLogicDriver.removeEnemy(boss);
+        assert(GameLogicDriver.checkForAllDeadBoss());
+    }
+
+    @Test
+    public void endGameTest() {
+        // TODO: implement
+    }
+
+    /**
+     * Tests GameLogicDriver's method to reset all of it's attributes
+     */
+    @Test
+    public void clearEverythingTest() {
+        GameLogicDriver.set_gameLevelAtStage(testLevel1, 1);
+        GameLogicDriver.loadNewLevel();
+        GameLogicDriver._playerCharacters.add(MC);
+        GameLogicDriver._enemyCharacters.add(boss);
+        GameLogicDriver._enemyCharacters.add(minion);
+        GameLogicDriver._items.add(key);
+        GameLogicDriver._items.add(regenHeart);
+
+        GameLogicDriver.clearEverything();
+
+        assert(GameLogicDriver._playerCharacters.size() == 0);
+        assert(GameLogicDriver._enemyCharacters.size() == 0);
+        assert(GameLogicDriver._items.size() == 0);
+        assert(GameLogicDriver._gameLevelList.size() == 0);
+        assert(GameLogicDriver._defaultGameLevelList.size() == 0);
+        assert(GameLogicDriver._gameMap == null);
+    }
 }
