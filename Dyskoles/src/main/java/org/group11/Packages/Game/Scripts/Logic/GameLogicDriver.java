@@ -430,7 +430,9 @@ public class GameLogicDriver extends GameObject {
         }
         _gameMap = null;
 
-        scene.Destroy(_followingCamera);
+        if (_followingCamera != null) {
+            scene.Destroy(_followingCamera);
+        }
 
         _gameLevelList = new ArrayList<>();
         _defaultGameLevelList = new ArrayList<>();
