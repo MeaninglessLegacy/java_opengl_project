@@ -29,10 +29,16 @@ public class mappathfindingtest extends MapGenerator {
         }
 
         // generating walls
+        for (int y = 4; y < 8; y++) {
+            Vector3 pos = new Vector3(3, y, 0);
+            Tile newTile = new CubeWall();
+            newTile.transform.setPosition(pos);
+            newMap.setTile(pos, newTile);
+            scene.Instantiate(newTile);
+        }
 
-
-        for (int y = 0; y < 2; y++) {
-            Vector3 pos = new Vector3(2, y, 0);
+        for (int y = 4; y < 8; y++) {
+            Vector3 pos = new Vector3(7, y, 0);
             Tile newTile = new CubeWall();
             newTile.transform.setPosition(pos);
             newMap.setTile(pos, newTile);
