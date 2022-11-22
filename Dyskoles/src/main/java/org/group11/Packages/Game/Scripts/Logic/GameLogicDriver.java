@@ -10,11 +10,7 @@ import org.group11.Packages.Game.Scripts.Character_Scripts.*;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
-import org.group11.Packages.Game.Scripts.Levels.CubesTest;
-import org.group11.Packages.Game.Scripts.Levels.FourRoom;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom;
-import org.group11.Packages.Game.Scripts.Levels.TestRoom2;
-import org.group11.Packages.Game.Scripts.MapGenerators.Dungeon;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 
 import java.util.ArrayList;
@@ -28,9 +24,10 @@ public class GameLogicDriver extends GameObject {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    private static Scene scene;
+    protected static Scene scene;
 
     protected static ArrayList<Level> _gameLevelList = new ArrayList<>();
+    protected static ArrayList<Level> _defaultGameLevelList = new ArrayList<>();
     protected static Map _gameMap =  null;
     protected static Pathfinder _pathfinder = null;
     protected static ArrayList<MainCharacter> _playerCharacters = new ArrayList<>();
@@ -111,17 +108,37 @@ public class GameLogicDriver extends GameObject {
      * @return the Level at the specified 1-based index
      */
     public static Level get_gameLevelAtStage(int stage) {
-        if (stage - 1 > _gameLevelList.size() || stage - 1 < 0) {
+        if (stage > _gameLevelList.size() || stage - 1 < 0) {
             return null;
         }
         return _gameLevelList.get(stage - 1);
     }
 
     /**
+     * Returns the Level at the specified stage index (1-based index) from the GameLogicDriver's _defaultGameLevelList
+     * arraylist
+     * @param stage the 1-based index of where to get the Level
+     * @return the Level at the specified 1-based index
+     */
+    private static Level get_defaultGameLevelAtStage(int stage) {
+        if (stage > _defaultGameLevelList.size() || stage - 1 < 0) {
+            return null;
+        }
+        return _defaultGameLevelList.get(stage - 1);
+    }
+
+    /**
      * If the GameLogicDriver has a Level, sets all the variables in the GameLogicDriver according to _gameLevel
      */
     protected static void loadNewLevel() {
-        Level curLevel = get_gameLevelAtStage(_gameStage);
+        Level curLevel;
+        if (_gameLevelList.size() > 0) {
+            curLevel = get_gameLevelAtStage(_gameStage);
+        }
+        else {
+            curLevel = get_defaultGameLevelAtStage(_gameStage);
+        }
+
         if (curLevel != null) {
             MapGenerator mapGen = curLevel.get_mapGenerator();
             _gameMap = mapGen.generateMap();
@@ -152,9 +169,9 @@ public class GameLogicDriver extends GameObject {
         // Gets rid of the menu
         scene.Destroy(_menu);
 
-        // Sets/Resets all the levels
+        // Sets/Resets all the default levels
         Level newLevel2 = new TestRoom();
-        set_gameLevelAtStage(newLevel2, 1);
+        _defaultGameLevelList.add(newLevel2);
 
         /* If the _gameStage is greater than the number of Levels available, resets _gameStage to the stage of
          the last Level */
