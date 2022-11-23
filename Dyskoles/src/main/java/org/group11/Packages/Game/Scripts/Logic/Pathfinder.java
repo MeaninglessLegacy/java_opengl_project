@@ -180,11 +180,11 @@ public class Pathfinder {
 
 					} else {
 						//go to other options in case those two are walls
-						if(map.getTile(downTile).getTileType() != tileTypes.wall) {
-							currentTile = downTile;
+						if(map.getTile(rightTile).getTileType() != tileTypes.wall) {
+							currentTile = rightTile;
 							return currentTile;
 						}else {
-							currentTile = rightTile;
+							currentTile = downTile;
 							return currentTile;
 						}
 					}

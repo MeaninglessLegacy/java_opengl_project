@@ -89,16 +89,18 @@ public class PathfinderTest {
     }
 
     /**
-     * PathfinderTest1: when pointB is on the right and up of pointA and there is tiles between
+     * PathfinderTest1: when pointB is on the right and up of pointA and there is wall up and left
+     * the result should be 5, the right tile
      */
     @Test
     public void PathfinderTest1(){
         Vector3 pointA = new Vector3(4,6,0);
         Vector3 pointB = new Vector3(2,9,0);
-        Vector3 walltest = new Vector3(3,7,0);
-        System.out.println(map.getTile(walltest).getTileType());
-
-       assertEquals(4 ,pathfinder.FindPath(map,pointA,pointB).x);
+       assertEquals(5 ,pathfinder.FindPath(map,pointA,pointB).x);
     }
+
+    /**
+     * PathfinderTest2: when pointB in on the
+     */
 
 }
