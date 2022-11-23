@@ -89,18 +89,31 @@ public class PathfinderTest {
     }
 
     /**
-     * PathfinderTest1: when pointB is on the right and up of pointA and there is wall up and left
+     * PathfinderTest1A: when pointB is on the right and up of pointA and there is wall up and left
+     * the xDistance<=yDistance
      * the result should be 5, the right tile
      */
     @Test
-    public void PathfinderTest1(){
-        Vector3 pointA = new Vector3(4,6,0);
-        Vector3 pointB = new Vector3(2,9,0);
-       assertEquals(5 ,pathfinder.FindPath(map,pointA,pointB).x);
+    public void PathfinderTest1A(){
+        Vector3 pointA = new Vector3(6,6,0);
+        Vector3 pointB = new Vector3(8,13,0);
+        assertEquals(5 ,pathfinder.FindPath(map,pointA,pointB).x);
+        assertEquals(6 ,pathfinder.FindPath(map,pointA,pointB).y);
     }
 
     /**
-     * PathfinderTest2: when pointB in on the
+     * PathfinderTest1B: when pointB is on the right and up of pointA and there is wall up and left
+     * the xDistance>=yDistance
+     * the result should be 5, the right tile
      */
+
+    @Test
+    public void PathfinderTest1B(){
+        Vector3 pointA = new Vector3(6,6,0);
+        Vector3 pointB = new Vector3(10,9,0);
+        assertEquals(5 ,pathfinder.FindPath(map,pointA,pointB).x);
+        assertEquals(6 ,pathfinder.FindPath(map,pointA,pointB).y);
+    }
+
 
 }

@@ -91,7 +91,7 @@ public class Pathfinder {
 
 					}else {
 						//go to other options in case those two are walls
-						if(map.getTile(upTile).getTileType() != tileTypes.wall) {
+						if(map.getTile(leftTile).getTileType() != tileTypes.wall) {
 							currentTile = leftTile;
 							return currentTile;
 						}else {
