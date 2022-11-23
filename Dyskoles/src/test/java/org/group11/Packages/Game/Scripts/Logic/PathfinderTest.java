@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions.*;
 import junit.framework.TestCase;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -87,5 +88,17 @@ public class PathfinderTest {
 
     }
 
+    /**
+     * PathfinderTest1: when pointB is on the right and up of pointA and there is tiles between
+     */
+    @Test
+    public void PathfinderTest1(){
+        Vector3 pointA = new Vector3(4,6,0);
+        Vector3 pointB = new Vector3(2,9,0);
+        Vector3 walltest = new Vector3(3,7,0);
+        System.out.println(map.getTile(walltest).getTileType());
+
+       assertEquals(4 ,pathfinder.FindPath(map,pointA,pointB).x);
+    }
 
 }
