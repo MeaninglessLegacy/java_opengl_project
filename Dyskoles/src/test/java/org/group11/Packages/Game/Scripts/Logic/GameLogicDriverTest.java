@@ -44,7 +44,7 @@ public class GameLogicDriverTest {
     private class SetupClass extends GameObject {
         @Override
         public void start() {
-            System.out.println("started");
+            System.out.println("Test started");
             // General instantiations
             GameLogicDriver GLD = GameLogicDriver.getInstance();
             scene.Instantiate(GLD);
@@ -79,15 +79,19 @@ public class GameLogicDriverTest {
 
     @Before
     public void setup() {
-        engine = new Engine();
-        engine.start();
-        scene = Scene.get_scene();
+        if (engine == null) {
+            engine = new Engine();
+            engine.start();
+        }
+        if (scene == null) {
+            scene = Scene.get_scene();
+        }
 
         if (GameLogicDriver._gameMap != null || GameLogicDriver._playerCharacters.size() != 0 ||
             GameLogicDriver._enemyCharacters.size() != 0 || GameLogicDriver._items.size() != 0 ||
             GameLogicDriver._gameLevelList.size() != 0) {
             GameLogicDriver.clearEverything();
-            System.out.println("cleared everything");
+            System.out.println("Cleared everything");
         }
 
         SetupClass setupClass = new SetupClass();
