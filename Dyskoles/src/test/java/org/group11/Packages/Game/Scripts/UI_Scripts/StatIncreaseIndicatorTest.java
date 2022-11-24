@@ -58,22 +58,46 @@ public class StatIncreaseIndicatorTest {
     //* tests
     //******************************************************************************************************************
     /**
-     * Tests AttackIncreaseIndicator's method to activate and display the sprite
+     * Tests AttackIncreaseIndicator's method to activate and display the sprite, then disable the sprite after 2
+     * seconds
      */
     @Test
     public void AttackIncreaseIndicatorActivateTest() {
-        atkIncreaseIndicator.activate();
+        long curTime = System.currentTimeMillis();
+        int timeBeforeDisappear = 2000;
 
+        atkIncreaseIndicator.activate();
         assert(atkIncreaseIndicator.getSprite().enabled);
+
+        boolean spriteShouldBeActivated = true;
+        while (spriteShouldBeActivated) {
+            if (System.currentTimeMillis() - curTime > timeBeforeDisappear + 100) {
+                spriteShouldBeActivated = false;
+            }
+        }
+
+        assert(!atkIncreaseIndicator.getSprite().enabled);
     }
 
     /**
-     * Tests HealthIncreaseIndicator's method to activate and display the sprite
+     * Tests HealthIncreaseIndicator's method to activate and display the sprite, then disable the sprite after 2
+     * seconds
      */
     @Test
     public void HealthIncreaseIndicatorActivateTest() {
-        hpIncreaseIndicator.activate();
+        long curTime = System.currentTimeMillis();
+        int timeBeforeDisappear = 2000;
 
+        hpIncreaseIndicator.activate();
         assert(hpIncreaseIndicator.getSprite().enabled);
+
+        boolean spriteShouldBeActivated = true;
+        while (spriteShouldBeActivated) {
+            if (System.currentTimeMillis() - curTime > timeBeforeDisappear + 100) {
+                spriteShouldBeActivated = false;
+            }
+        }
+
+        assert(!hpIncreaseIndicator.getSprite().enabled);
     }
 }
