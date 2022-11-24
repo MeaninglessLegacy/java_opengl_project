@@ -128,7 +128,9 @@ public class GameLogicDriver extends GameObject {
     }
 
     /**
-     * If the GameLogicDriver has a Level, sets all the variables in the GameLogicDriver according to _gameLevel
+     * If levels have been set in _gameLevelList, then GameLogicDriver loads the appropriate Level from that list by
+     * getting that Level's list of MainCharacters, Enemies, Items, and it's tile map. Otherwise loads the appropriate
+     * level from _defaultGameLevelList
      */
     protected static void loadNewLevel() {
         Level curLevel;
