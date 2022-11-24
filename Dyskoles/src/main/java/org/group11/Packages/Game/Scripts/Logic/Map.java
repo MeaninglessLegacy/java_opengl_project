@@ -81,5 +81,6 @@ public class Map {
         for (Enumeration<String> tilePositions = _tileMap.keys(); tilePositions.hasMoreElements();) {
             scene.Destroy(_tileMap.get(tilePositions.nextElement()));
         }
+        _tileMap = new Hashtable<>();
     }
 }
