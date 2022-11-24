@@ -8,8 +8,6 @@ public abstract class BlinkingPressSpaceSprites extends MenuElement {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    SpriteRenderer spriteRenderer;
-
     // Used to calculate the time to until the sprite disappears/reappears
     protected long timeWhenActivated = 0;
     protected int timeBeforeSpriteToggle = 1000;
