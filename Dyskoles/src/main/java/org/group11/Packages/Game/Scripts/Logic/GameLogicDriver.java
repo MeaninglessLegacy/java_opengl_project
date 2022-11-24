@@ -10,7 +10,6 @@ import org.group11.Packages.Game.Scripts.Character_Scripts.*;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
-import org.group11.Packages.Game.Scripts.Levels.TestRoom;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom2;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 
@@ -134,7 +133,7 @@ public class GameLogicDriver extends GameObject {
      */
     public static void startNewLevel() {
         // Gets rid of the menu
-        scene.Destroy(_menu);
+        if (_menu != null) scene.Destroy(_menu);
 
         resetDefaultLevels();
         checkGameStage();
@@ -173,7 +172,7 @@ public class GameLogicDriver extends GameObject {
 
     /**
      * If levels have been set in _gameLevelList, then GameLogicDriver loads the appropriate Level from that list by
-     * getting that Level's list of MainCharacters, Enemies, Items, and it's tile map. Otherwise loads the appropriate
+     * getting that Level's list of MainCharacters, Enemies, Items, and it's tile map. Otherwise, loads the appropriate
      * level from _defaultGameLevelList
      */
     protected static void loadNewLevel() {
