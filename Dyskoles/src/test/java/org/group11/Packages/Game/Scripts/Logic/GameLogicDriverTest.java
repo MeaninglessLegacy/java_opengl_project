@@ -11,6 +11,7 @@ import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
 import org.group11.Packages.Game.Scripts.Item_Scripts.RegenHeart;
 import org.group11.Packages.Game.Scripts.Item_Scripts.SpikeTrap;
 import org.group11.Packages.Game.Scripts.Levels.TestLevel;
+import org.group11.Packages.Game.Scripts.Levels.TestRoom2;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Floor;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
 import org.junit.Before;
@@ -146,6 +147,34 @@ public class GameLogicDriverTest {
     }
 
     /**
+     * Tests GameLogicDriver's method to correctly reset _gameStage to 1 if needed
+     */
+    @Test
+    public void checkGameStageTest() {
+        GameLogicDriver.checkGameStage();
+        assert(GameLogicDriver._gameStage == 1);
+
+        GameLogicDriver._gameStage++;
+        GameLogicDriver.checkGameStage();
+        assert(GameLogicDriver._gameStage == 1);
+
+        TestLevel testLevel1 = new TestLevel();
+        TestLevel testLevel2 = new TestLevel();
+        TestLevel testLevel3 = new TestLevel();
+        GameLogicDriver.set_gameLevelAtStage(testLevel1, 1);
+        GameLogicDriver.set_gameLevelAtStage(testLevel2, 2);
+        GameLogicDriver.set_gameLevelAtStage(testLevel3, 3);
+
+        GameLogicDriver._gameStage += 2;
+        GameLogicDriver.checkGameStage();
+        assert(GameLogicDriver._gameStage == 3);
+
+        GameLogicDriver._gameStage++;
+        GameLogicDriver.checkGameStage();
+        assert(GameLogicDriver._gameStage == 1);
+    }
+
+    /**
      * Tests GameLogicDriver's method to load a new Level
      */
     @Test
@@ -160,11 +189,6 @@ public class GameLogicDriverTest {
         assert(GameLogicDriver._items == testLevel1._items);
 
         // TODO test if sprites enabled?
-    }
-
-    @Test
-    public void startNewLevelTest() {
-        // TODO: implement
     }
 
     /**

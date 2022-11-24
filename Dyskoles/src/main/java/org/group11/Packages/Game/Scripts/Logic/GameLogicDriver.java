@@ -129,6 +129,49 @@ public class GameLogicDriver extends GameObject {
     }
 
     /**
+     * Is called after exiting a menu. Closes the menu, resets all the levels then loads the current level and sets the
+     * main camera to the camera that follows the player
+     */
+    public static void startNewLevel() {
+        // Gets rid of the menu
+        scene.Destroy(_menu);
+
+        resetDefaultLevels();
+        checkGameStage();
+        loadNewLevel();
+
+        // Creates the camera that will follow the player character
+        if(!_playerCharacters.isEmpty()){
+            MainCharacter mc = _playerCharacters.get(_player1ArrayPosition);
+            _followingCamera = new FollowingCamera(mc);
+            scene.Instantiate(_followingCamera);
+            scene.set_mainCamera(_followingCamera);
+            _followingCamera.transform.setPosition(mc.transform.position);
+            _followingCamera.transform.position.z = -5;
+        }
+
+        _gameStarted = true;
+    }
+
+    /**
+     * Sets or resets the default levels of the game
+     */
+    protected static void resetDefaultLevels() {
+        Level newLevel = new TestRoom2();
+        _defaultGameLevelList.add(newLevel);
+    }
+
+    /**
+     * If the player has reached the last stage, resets the game to the first stage
+     */
+    protected static void checkGameStage() {
+        if ((_gameStage > _gameLevelList.size() && _gameLevelList.size() != 0) ||
+            (_gameStage > _defaultGameLevelList.size() && _gameLevelList.size() == 0)) {
+            _gameStage = 1;
+        }
+    }
+
+    /**
      * If levels have been set in _gameLevelList, then GameLogicDriver loads the appropriate Level from that list by
      * getting that Level's list of MainCharacters, Enemies, Items, and it's tile map. Otherwise loads the appropriate
      * level from _defaultGameLevelList
@@ -163,47 +206,6 @@ public class GameLogicDriver extends GameObject {
             System.out.println("Could not load level as GameLogicDriver has no level");
         }
     }
-
-    /**
-     * Is called after exiting a menu. Closes the menu, resets all the levels then loads the current level and sets the
-     * main camera to the camera that follows the player
-     */
-    public static void startNewLevel() {
-        // Gets rid of the menu
-        scene.Destroy(_menu);
-
-        resetDefaultLevels();
-
-        // If the player has reached the last stage, resets the game to the first stage
-        if ((_gameStage > _gameLevelList.size() && _gameLevelList.size() != 0) ||
-             _gameStage > _defaultGameLevelList.size()) {
-            _gameStage = 1;
-        }
-
-        // Loads the appropriate level
-        loadNewLevel();
-
-        // Creates the camera that will follow the player character
-        if(!_playerCharacters.isEmpty()){
-            MainCharacter mc = _playerCharacters.get(_player1ArrayPosition);
-            _followingCamera = new FollowingCamera(mc);
-            scene.Instantiate(_followingCamera);
-            scene.set_mainCamera(_followingCamera);
-            _followingCamera.transform.setPosition(mc.transform.position);
-            _followingCamera.transform.position.z = -5;
-        }
-
-        _gameStarted = true;
-    }
-
-    /**
-     * Sets or resets the default levels of the game
-     */
-    protected static void resetDefaultLevels() {
-        Level newLevel = new TestRoom2();
-        _defaultGameLevelList.add(newLevel);
-    }
-
 
     /**
      * Removes the given Enemy from the game
@@ -466,6 +468,8 @@ public class GameLogicDriver extends GameObject {
 
         _menu = new MenuScreen();
         scene.Instantiate(_menu);
+
+        resetDefaultLevels();
     }
 
     @Override
