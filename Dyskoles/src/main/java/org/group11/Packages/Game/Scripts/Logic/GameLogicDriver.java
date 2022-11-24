@@ -11,6 +11,7 @@ import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom;
+import org.group11.Packages.Game.Scripts.Levels.TestRoom2;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 
 import java.util.ArrayList;
@@ -171,14 +172,12 @@ public class GameLogicDriver extends GameObject {
         // Gets rid of the menu
         scene.Destroy(_menu);
 
-        // Sets/Resets all the default levels
-        Level newLevel2 = new TestRoom();
-        _defaultGameLevelList.add(newLevel2);
+        resetDefaultLevels();
 
-        /* If the _gameStage is greater than the number of Levels available, resets _gameStage to the stage of
-         the last Level */
-        if (_gameStage > _gameLevelList.size()) {
-            _gameStage--;
+        // If the player has reached the last stage, resets the game to the first stage
+        if ((_gameStage > _gameLevelList.size() && _gameLevelList.size() != 0) ||
+             _gameStage > _defaultGameLevelList.size()) {
+            _gameStage = 1;
         }
 
         // Loads the appropriate level
@@ -195,6 +194,14 @@ public class GameLogicDriver extends GameObject {
         }
 
         _gameStarted = true;
+    }
+
+    /**
+     * Sets or resets the default levels of the game
+     */
+    protected static void resetDefaultLevels() {
+        Level newLevel = new TestRoom2();
+        _defaultGameLevelList.add(newLevel);
     }
 
 
