@@ -81,7 +81,7 @@ public class MenuScreen extends GameObject {
      * Gets the MenuElement specified by the parameter string and attempts to enable it
      * @param s the string by which to try and get the MenuElement
      */
-    private void enableSprite(String s) {
+    protected void enableSprite(String s) {
         MenuElement element = menuElements.get(s);
         if (element != null) {
             scene.Instantiate(element);
