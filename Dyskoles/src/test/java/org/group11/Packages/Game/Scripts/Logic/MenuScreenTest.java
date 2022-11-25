@@ -133,4 +133,34 @@ public class MenuScreenTest {
             }
         }
     }
+
+    /**
+     * Tests that the sprites that say "press space to ___" properly 'blink'
+     */
+    @Test
+    public void blinkingSpaceSpritesTest() {
+        long curTime = System.currentTimeMillis();
+        int timeBeforeToggle = 1000;
+
+        menu.enableSprite("spaceStartGame");
+        menu.enableSprite("spaceNextLevel");
+        menu.enableSprite("spaceRetry");
+        menu.enableSprite("spaceStartOver");
+        assert(menu.menuElements.get("spaceStartGame").getSprite().enabled);
+        assert(menu.menuElements.get("spaceNextLevel").getSprite().enabled);
+        assert(menu.menuElements.get("spaceRetry").getSprite().enabled);
+        assert(menu.menuElements.get("spaceStartOver").getSprite().enabled);
+
+        boolean spritesShouldBeActivated = true;
+        while (spritesShouldBeActivated) {
+            if (System.currentTimeMillis() - curTime > timeBeforeToggle + 100) {
+                spritesShouldBeActivated = false;
+            }
+        }
+
+        assert(!menu.menuElements.get("spaceStartGame").getSprite().enabled);
+        assert(!menu.menuElements.get("spaceNextLevel").getSprite().enabled);
+        assert(!menu.menuElements.get("spaceRetry").getSprite().enabled);
+        assert(!menu.menuElements.get("spaceStartOver").getSprite().enabled);
+    }
 }
