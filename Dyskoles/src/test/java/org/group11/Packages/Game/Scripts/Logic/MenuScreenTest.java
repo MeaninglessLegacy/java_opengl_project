@@ -13,6 +13,9 @@ import org.junit.Test;
 
 import java.util.Collection;
 
+/**
+ * Runs tests on various methods for the MenuScreen class
+ */
 public class MenuScreenTest {
     //******************************************************************************************************************
     //* variables

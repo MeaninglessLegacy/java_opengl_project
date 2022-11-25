@@ -8,6 +8,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+/**
+ * Runs tests on various methods for the Backpack class
+ */
 public class BackpackTest {
     //******************************************************************************************************************
     //* variables

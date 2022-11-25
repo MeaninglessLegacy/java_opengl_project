@@ -9,6 +9,9 @@ import org.group11.Packages.Game.Scripts.UI_Scripts.StatIncreaseIndicators.Healt
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Runs tests on various methods for the StatIncreaseIndicator class
+ */
 public class StatIncreaseIndicatorTest {
     //******************************************************************************************************************
     //* variables

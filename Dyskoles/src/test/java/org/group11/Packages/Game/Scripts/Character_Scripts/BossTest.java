@@ -1,6 +1,5 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
-import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Engine;
 import org.group11.Packages.Core.Main.GameObject;
 import org.group11.Packages.Core.Main.Scene;

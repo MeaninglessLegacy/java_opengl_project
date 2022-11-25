@@ -10,6 +10,9 @@ import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdownSprites.MoveCD3
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Runs tests on various methods for the MoveCountdown class
+ */
 public class MoveCountdownTest {
     //******************************************************************************************************************
     //* variables

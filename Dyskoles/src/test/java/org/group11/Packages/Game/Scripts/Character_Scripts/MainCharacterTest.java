@@ -4,7 +4,6 @@ import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Engine;
 import org.group11.Packages.Core.Main.GameObject;
 import org.group11.Packages.Core.Main.Scene;
-import org.group11.Packages.Game.Scripts.Logic.GameLogicDriver;
 import org.junit.Before;
 import org.junit.Test;
 

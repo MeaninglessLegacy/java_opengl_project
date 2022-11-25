@@ -12,6 +12,9 @@ import org.junit.Test;
 
 import java.util.List;
 
+/**
+ * Runs tests on various methods for the Map class
+ */
 public class MapTest {
     //******************************************************************************************************************
     //* variables

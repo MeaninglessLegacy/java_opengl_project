@@ -7,6 +7,9 @@ import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Runs tests on various methods for the Exit class
+ */
 public class ExitTest {
     //******************************************************************************************************************
     //* variables
