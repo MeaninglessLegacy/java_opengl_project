@@ -1,14 +1,11 @@
 package org.group11.Packages.Game.Scripts.Logic;
 
-import org.group11.Packages.Core.Main.Engine;
-import org.group11.Packages.Core.Main.GameObject;
-import org.group11.Packages.Core.Main.Scene;
+import org.group11.Packages.Game.Scripts.TestSetup;
 import org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.*;
 import org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.PressSpaceSprites.SpaceNextLevel;
 import org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.PressSpaceSprites.SpaceRetry;
 import org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.PressSpaceSprites.SpaceStartGame;
 import org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.PressSpaceSprites.SpaceStartOver;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -16,45 +13,7 @@ import java.util.Collection;
 /**
  * Runs tests on various methods for the MenuScreen class
  */
-public class MenuScreenTest {
-    //******************************************************************************************************************
-    //* variables
-    //******************************************************************************************************************
-    boolean everythingInstantiated = false;
-    private Engine engine;
-    private Scene scene;
-
-    private MenuScreen menu;
-
-    //******************************************************************************************************************
-    //* setup
-    //******************************************************************************************************************
-    private class SetupClass extends GameObject {
-        @Override
-        public void start() {
-            // General instantiations
-            menu = new MenuScreen();
-
-            scene.Instantiate(menu);
-
-            everythingInstantiated = true;
-        }
-    }
-
-    @Before
-    public void setup() {
-        engine = new Engine();
-        engine.start();
-        scene = Scene.get_scene();
-
-        SetupClass setupClass = new SetupClass();
-        scene.Instantiate(setupClass);
-
-        while (!everythingInstantiated) {
-            System.out.print("");
-        }
-    }
-
+public class MenuScreenTest extends TestSetup {
     //******************************************************************************************************************
     //* tests
     //******************************************************************************************************************
@@ -63,7 +22,7 @@ public class MenuScreenTest {
      */
     @Test
     public void startMenuTest() {
-        Collection<MenuElement> spriteList = menu.menuElements.values();
+        Collection<MenuElement> spriteList = menuScreen.menuElements.values();
         for (MenuElement e : spriteList) {
             if (e instanceof Instructions || e instanceof SpaceStartGame) {
                 assert(e.getSprite().enabled);
@@ -79,10 +38,10 @@ public class MenuScreenTest {
      */
     @Test
     public void playerLoseTest() {
-        scene.Destroy(menu);
-        menu.createMenu(false, 1, 1);
+        scene.Destroy(menuScreen);
+        menuScreen.createMenu(false, 1, 1);
 
-        Collection<MenuElement> spriteList = menu.menuElements.values();
+        Collection<MenuElement> spriteList = menuScreen.menuElements.values();
         for (MenuElement e : spriteList) {
             if (e instanceof GameOver || e instanceof HealthReduced0 || e instanceof SpaceRetry) {
                 assert(e.getSprite().enabled);
@@ -99,10 +58,10 @@ public class MenuScreenTest {
      */
     @Test
     public void playerWinNextLevelTest() {
-        scene.Destroy(menu);
-        menu.createMenu(true, 1, 2);
+        scene.Destroy(menuScreen);
+        menuScreen.createMenu(true, 1, 2);
 
-        Collection<MenuElement> spriteList = menu.menuElements.values();
+        Collection<MenuElement> spriteList = menuScreen.menuElements.values();
         for (MenuElement e : spriteList) {
             System.out.println(e.getClass().getName() + ", " + e.getSprite().enabled);
             if (e instanceof YouWin || e instanceof ExitReached || e instanceof SpaceNextLevel) {
@@ -120,10 +79,10 @@ public class MenuScreenTest {
      */
     @Test
     public void playerWinEndOfLevelsTest() {
-        scene.Destroy(menu);
-        menu.createMenu(true, 1, 1);
+        scene.Destroy(menuScreen);
+        menuScreen.createMenu(true, 1, 1);
 
-        Collection<MenuElement> spriteList = menu.menuElements.values();
+        Collection<MenuElement> spriteList = menuScreen.menuElements.values();
         for (MenuElement e : spriteList) {
             if (e instanceof YouWin || e instanceof ExitReached || e instanceof SpaceStartOver) {
                 assert(e.getSprite().enabled);
@@ -142,14 +101,14 @@ public class MenuScreenTest {
         long curTime = System.currentTimeMillis();
         int timeBeforeToggle = 1000;
 
-        menu.enableSprite("spaceStartGame");
-        menu.enableSprite("spaceNextLevel");
-        menu.enableSprite("spaceRetry");
-        menu.enableSprite("spaceStartOver");
-        assert(menu.menuElements.get("spaceStartGame").getSprite().enabled);
-        assert(menu.menuElements.get("spaceNextLevel").getSprite().enabled);
-        assert(menu.menuElements.get("spaceRetry").getSprite().enabled);
-        assert(menu.menuElements.get("spaceStartOver").getSprite().enabled);
+        menuScreen.enableSprite("spaceStartGame");
+        menuScreen.enableSprite("spaceNextLevel");
+        menuScreen.enableSprite("spaceRetry");
+        menuScreen.enableSprite("spaceStartOver");
+        assert(menuScreen.menuElements.get("spaceStartGame").getSprite().enabled);
+        assert(menuScreen.menuElements.get("spaceNextLevel").getSprite().enabled);
+        assert(menuScreen.menuElements.get("spaceRetry").getSprite().enabled);
+        assert(menuScreen.menuElements.get("spaceStartOver").getSprite().enabled);
 
         boolean spritesShouldBeActivated = true;
         while (spritesShouldBeActivated) {
@@ -158,9 +117,9 @@ public class MenuScreenTest {
             }
         }
 
-        assert(!menu.menuElements.get("spaceStartGame").getSprite().enabled);
-        assert(!menu.menuElements.get("spaceNextLevel").getSprite().enabled);
-        assert(!menu.menuElements.get("spaceRetry").getSprite().enabled);
-        assert(!menu.menuElements.get("spaceStartOver").getSprite().enabled);
+        assert(!menuScreen.menuElements.get("spaceStartGame").getSprite().enabled);
+        assert(!menuScreen.menuElements.get("spaceNextLevel").getSprite().enabled);
+        assert(!menuScreen.menuElements.get("spaceRetry").getSprite().enabled);
+        assert(!menuScreen.menuElements.get("spaceStartOver").getSprite().enabled);
     }
 }

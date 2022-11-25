@@ -1,56 +1,12 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
-import org.group11.Packages.Core.Main.Engine;
-import org.group11.Packages.Core.Main.GameObject;
-import org.group11.Packages.Core.Main.Scene;
-import org.junit.Before;
+import org.group11.Packages.Game.Scripts.TestSetup;
 import org.junit.Test;
 
 /**
  * Runs tests on various methods for the Boss class
  */
-public class BossTest {
-    //******************************************************************************************************************
-    //* variables
-    //******************************************************************************************************************
-    boolean everythingInstantiated = false;
-    private Engine engine;
-    private Scene scene;
-
-    private MainCharacter MC;
-    private Boss boss;
-
-    //******************************************************************************************************************
-    //* setup
-    //******************************************************************************************************************
-    private class SetupClass extends GameObject {
-        @Override
-        public void start() {
-            // General instantiations
-            MC = new MainCharacter();
-            boss = new Boss();
-
-            scene.Instantiate(MC);
-            scene.Instantiate(boss);
-
-            everythingInstantiated = true;
-        }
-    }
-
-    @Before
-    public void setup() {
-        engine = new Engine();
-        engine.start();
-        scene = Scene.get_scene();
-
-        SetupClass setupClass = new SetupClass();
-        scene.Instantiate(setupClass);
-
-        while (!everythingInstantiated) {
-            System.out.print("");
-        }
-    }
-
+public class BossTest extends TestSetup {
     //******************************************************************************************************************
     //* tests
     //******************************************************************************************************************

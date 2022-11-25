@@ -1,5 +1,4 @@
 package org.group11.Packages.Game.Scripts.Logic;
-import org.group11.Main;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Engine;
 import org.group11.Packages.Core.Main.GameObject;
@@ -13,6 +12,7 @@ import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
 import org.group11.Packages.Game.Scripts.Item_Scripts.RegenHeart;
 import org.group11.Packages.Game.Scripts.Item_Scripts.SpikeTrap;
 import org.group11.Packages.Game.Scripts.Levels.TestLevel;
+import org.group11.Packages.Game.Scripts.TestSetup;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Floor;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
 import org.junit.Before;
@@ -21,7 +21,7 @@ import org.junit.Test;
 /**
  * Runs tests on various methods for the GameLogicDriver class
  */
-public class GameLogicDriverTest {
+public class GameLogicDriverTest extends TestSetup {
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
