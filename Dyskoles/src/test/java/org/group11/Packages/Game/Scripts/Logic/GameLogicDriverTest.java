@@ -1,4 +1,5 @@
 package org.group11.Packages.Game.Scripts.Logic;
+import org.group11.Main;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Engine;
 import org.group11.Packages.Core.Main.GameObject;
@@ -7,16 +8,19 @@ import org.group11.Packages.Game.Scripts.Character_Scripts.Boss;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Minion;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Runner;
+import org.group11.Packages.Game.Scripts.Item_Scripts.Exit;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
 import org.group11.Packages.Game.Scripts.Item_Scripts.RegenHeart;
 import org.group11.Packages.Game.Scripts.Item_Scripts.SpikeTrap;
 import org.group11.Packages.Game.Scripts.Levels.TestLevel;
-import org.group11.Packages.Game.Scripts.Levels.TestRoom2;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Floor;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Runs tests on various methods for the GameLogicDriver class
+ */
 public class GameLogicDriverTest {
     //******************************************************************************************************************
     //* variables
@@ -33,6 +37,8 @@ public class GameLogicDriverTest {
     private Key key;
     private RegenHeart regenHeart;
     private SpikeTrap spikeTrap;
+    private Exit exit;
+    private MenuScreen menuScreen;
 
     private Floor floor;
     private Wall wall;
@@ -57,8 +63,10 @@ public class GameLogicDriverTest {
             key = new Key();
             regenHeart = new RegenHeart();
             spikeTrap = new SpikeTrap();
+            exit = new Exit();
             floor = new Floor();
             wall = new Wall();
+            menuScreen = new MenuScreen();
 
             scene.Instantiate(MC);
             scene.Instantiate(boss);
@@ -67,8 +75,10 @@ public class GameLogicDriverTest {
             scene.Instantiate(key);
             scene.Instantiate(regenHeart);
             scene.Instantiate(spikeTrap);
+            scene.Instantiate(exit);
             scene.Instantiate(floor);
             scene.Instantiate(wall);
+            scene.Instantiate(menuScreen);
 
             everythingInstantiated = true;
         }
@@ -187,8 +197,6 @@ public class GameLogicDriverTest {
         assert(GameLogicDriver._playerCharacters == testLevel1._players);
         assert(GameLogicDriver._enemyCharacters == testLevel1._enemies);
         assert(GameLogicDriver._items == testLevel1._items);
-
-        // TODO test if sprites enabled?
     }
 
     /**
@@ -372,9 +380,48 @@ public class GameLogicDriverTest {
         assert(!runner1.get_enemyActiveState());
     }
 
+    /**
+     * Tests GameLogicDriver's method to iterate through it's list of enemies and call on them to perform logic
+     */
     @Test
     public void enemyLogicTest() {
-        // TODO: implement
+        TestLevel testLevel1 = new TestLevel();
+        GameLogicDriver.set_gameLevelAtStage(testLevel1, 1);
+
+        MainCharacter MC1 = new MainCharacter(new Vector3(3, 3, 0));
+        Boss boss1 = new Boss(new Vector3(3, 1, 0));
+        Minion minion1 = new Minion(new Vector3(1, 1, 0));
+        Runner runner1 = new Runner(new Vector3(1, 3, 0));
+
+        GameLogicDriver.startNewLevel();
+
+        GameLogicDriver._playerCharacters.add(MC1);
+        GameLogicDriver._enemyCharacters.add(boss1);
+        GameLogicDriver._enemyCharacters.add(minion1);
+        GameLogicDriver._enemyCharacters.add(runner1);
+
+        int bossMaxTicks = boss1.get_ticksBeforeNextMove();
+        int minionMaxTicks = minion1.get_ticksBeforeNextMove();
+        int runnerMaxTicks = runner1.get_ticksBeforeNextMove();
+
+        GameLogicDriver.enemyLogic(MC);
+
+        assert(minion1.get_ticksBeforeNextMove() == minionMaxTicks);
+        assert(boss1.get_ticksBeforeNextMove() == bossMaxTicks);
+        assert(runner1.get_ticksBeforeNextMove() == runnerMaxTicks);
+
+        GameLogicDriver.activateNearbyEnemies(MC);
+        GameLogicDriver.enemyLogic(MC);
+
+        assert(minion1.get_ticksBeforeNextMove() == minionMaxTicks - 1);
+        assert(boss1.get_ticksBeforeNextMove() == bossMaxTicks - 1);
+        assert(runner1.get_ticksBeforeNextMove() == runnerMaxTicks - 1);
+
+        GameLogicDriver.enemyLogic(MC);
+
+        assert(minion1.get_ticksBeforeNextMove() == minionMaxTicks);
+        assert(boss1.get_ticksBeforeNextMove() == bossMaxTicks - 2);
+        assert(runner1.get_ticksBeforeNextMove() == runnerMaxTicks);
     }
 
     /**
@@ -445,9 +492,35 @@ public class GameLogicDriverTest {
         assert(GameLogicDriver.checkForAllDeadBoss());
     }
 
+    /**
+     * Tests GameLogicDriver's method to end the game
+     */
     @Test
     public void endGameTest() {
-        // TODO: implement
+        TestLevel testLevel1 = new TestLevel();
+        TestLevel testLevel2 = new TestLevel();
+        TestLevel testLevel3 = new TestLevel();
+        MainCharacter MC1 = new MainCharacter();
+
+        GameLogicDriver.set_gameLevelAtStage(testLevel1, 1);
+        GameLogicDriver.set_gameLevelAtStage(testLevel2, 2);
+        GameLogicDriver.set_gameLevelAtStage(testLevel3, 3);
+        GameLogicDriver._playerCharacters.add(MC1);
+        GameLogicDriver.startNewLevel();
+        GameLogicDriver.endGame(true);
+
+        assert (!GameLogicDriver._gameStarted);
+        assert (GameLogicDriver._gameStage == 2);
+
+        GameLogicDriver.set_gameLevelAtStage(testLevel1, 1);
+        GameLogicDriver.set_gameLevelAtStage(testLevel2, 2);
+        GameLogicDriver.set_gameLevelAtStage(testLevel3, 3);
+        GameLogicDriver._playerCharacters.add(MC1);
+        GameLogicDriver.startNewLevel();
+        GameLogicDriver.endGame(false);
+
+        assert(!GameLogicDriver._gameStarted);
+        assert(GameLogicDriver._gameStage == 2);
     }
 
     /**
