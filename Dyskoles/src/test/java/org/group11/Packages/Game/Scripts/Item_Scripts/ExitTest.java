@@ -4,6 +4,7 @@ import org.group11.Packages.Core.Main.Engine;
 import org.group11.Packages.Core.Main.GameObject;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
+import org.group11.Packages.Game.Scripts.Logic.GameLogicDriver;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -65,6 +66,4 @@ public class ExitTest {
     public void noKeyActivate() {
         assert(!exit.activate(MC));
     }
-
-    // TODO: figure out what to do when MC has a key
 }
