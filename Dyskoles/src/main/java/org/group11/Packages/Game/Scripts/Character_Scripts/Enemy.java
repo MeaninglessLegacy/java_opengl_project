@@ -100,14 +100,11 @@ public abstract class Enemy extends Character{
                     else if (characterInNextSpace instanceof MainCharacter) {
                         _ticksBeforeNextMove = _ticksPerMove;
                     }
-                    else {
+                    else if (characterInNextSpace instanceof Enemy) {
                         _ticksBeforeNextMove = 1;
-
-
-                        // TODO: uncomment later
-                        System.out.println((nextMove.x - this.transform.position.x) + ", " + (nextMove.y - this.transform.position.y));
-
-
+                    }
+                    else {
+                        System.out.println("Undefined movement behaviour, check Enemy class");
                     }
                 }
                 else {

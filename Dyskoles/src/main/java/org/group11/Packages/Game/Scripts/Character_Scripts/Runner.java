@@ -71,6 +71,14 @@ public class Runner extends Enemy{
     //******************************************************************************************************************
     //* overrides
     //******************************************************************************************************************
+    /**
+     * If the Runner is active, decrements their _ticksBeforeNextMove. If it decrements to 0, uses _pathfinder to find
+     * the next tile on the path towards either the boss if it is alive, or the player if it is not,
+     * then asks gameLogicDriver if they can move to it. Enemy reacts accordingly depending on what is on the next tile
+     * @param _pathfinder used to find a path from the Enemy to their destination
+     * @param _gameMap the map used by _pathfinder to find a path
+     * @param MC the MainCharacter object, used to determine where the MainCharacter is for pathfinding
+     */
     @Override
     public void canEnemyMove(Pathfinder _pathfinder, Map _gameMap, MainCharacter MC) {
         if (_enemyActive) {
@@ -90,7 +98,7 @@ public class Runner extends Enemy{
                 Vector3 nextMove = _pathfinder.FindPath(_gameMap, this.transform.position, positionToGoTo);
 
                 // Checking if the enemy can move onto that Tile enemy can move
-                System.out.println("Checking if enemy can move");
+                System.out.println("Checking if runner can move");
                 if (nextMove != null) {
                     Character characterInNextSpace = enemyCheckMove(this, nextMove);
                     /* After interacting with any character in the next tile, moves this Enemy if it can move or keeps
@@ -100,16 +108,17 @@ public class Runner extends Enemy{
                         this.transform.setPosition(nextMove);
                         _ticksBeforeNextMove = _ticksPerMove;
                     }
-                    else if (characterInNextSpace instanceof MainCharacter) {
-                        _ticksBeforeNextMove = _ticksPerMove;
+                    else if (characterInNextSpace instanceof MainCharacter ||
+                             characterInNextSpace instanceof Enemy) {
+                        _ticksBeforeNextMove = 1;
                     }
                     else {
-                        _ticksBeforeNextMove = 1;
+                        System.out.println("Undefined movement behaviour, check Runner class");
                     }
                 }
                 else {
                     _ticksBeforeNextMove = 1;
-                    System.out.println("Next move for enemy is null");
+                    System.out.println("Next move for runner is null");
                 }
             }
             // Changes the countdown sprite above the Enemy to reflect how many ticks until it moves
