@@ -63,7 +63,6 @@ public class MenuScreenTest extends TestSetup {
 
         Collection<MenuElement> spriteList = menuScreen.menuElements.values();
         for (MenuElement e : spriteList) {
-            System.out.println(e.getClass().getName() + ", " + e.getSprite().enabled);
             if (e instanceof YouWin || e instanceof ExitReached || e instanceof SpaceNextLevel) {
                 assert(e.getSprite().enabled);
             }
