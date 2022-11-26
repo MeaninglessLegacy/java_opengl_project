@@ -3,11 +3,14 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.Scene;
+import org.group11.Packages.Game.Scripts.Logic.GameLogicDriver;
 import org.group11.Packages.Game.Scripts.Logic.Map;
 import org.group11.Packages.Game.Scripts.Logic.Pathfinder;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBar.HealthBarInside;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBar.HealthBarOutline;
 import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdown;
+
+import java.util.ArrayList;
 
 import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.enemyCheckMove;
 
@@ -74,9 +77,17 @@ public class Runner extends Enemy{
             if (--_ticksBeforeNextMove == 0) {
                 // Getting the next Tile the Runner will move on to
                 System.out.println("Runner is getting nextMove");
-                // TODO: figure out how to get a random point in opposite direction of player
-                Vector3 farAwayPosition = new Vector3(30, 2, 0);
-                Vector3 nextMove = _pathfinder.FindPath(_gameMap, this.transform.position, farAwayPosition);
+                ArrayList<Enemy> enemyList = GameLogicDriver.getEnemyList();
+                Vector3 positionToGoTo = null;
+                for (Enemy e : enemyList) {
+                    if (e instanceof Boss) {
+                        positionToGoTo = e.transform.position;
+                    }
+                }
+                if (positionToGoTo == null) {
+                    positionToGoTo = MC.transform.position;
+                }
+                Vector3 nextMove = _pathfinder.FindPath(_gameMap, this.transform.position, positionToGoTo);
 
                 // Checking if the enemy can move onto that Tile enemy can move
                 System.out.println("Checking if enemy can move");

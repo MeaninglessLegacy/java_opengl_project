@@ -57,6 +57,14 @@ public class GameLogicDriver extends GameObject {
      */
     public static boolean getGameState() { return _gameStarted; }
 
+    /**
+     * Returns this GameLogicDriver's list of enemies
+     * @return this GameLogicDriver's list of enemies
+     */
+    public static ArrayList<Enemy> getEnemyList() {
+        return _enemyCharacters;
+    }
+
     //******************************************************************************************************************
     //* singleton constructor and methods
     //******************************************************************************************************************
