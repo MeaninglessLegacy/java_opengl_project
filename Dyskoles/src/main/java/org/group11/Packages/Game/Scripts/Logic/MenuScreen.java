@@ -17,7 +17,7 @@ public class MenuScreen extends GameObject {
     //******************************************************************************************************************
     private Scene scene;
 
-    protected HashMap<String, MenuElement> menuElements = new HashMap<>();
+    protected HashMap<MenuScreenElements, MenuElement> menuElements = new HashMap<>();
 
     private boolean onMenu;
 
@@ -27,16 +27,16 @@ public class MenuScreen extends GameObject {
     public MenuScreen() {
         scene = Scene.get_scene();
 
-        menuElements.put("menuBackground", new MenuBackground());
-        menuElements.put("instructions", new Instructions());
-        menuElements.put("youWin", new YouWin());
-        menuElements.put("exitReached", new ExitReached());
-        menuElements.put("gameOver", new GameOver());
-        menuElements.put("healthReduced0", new HealthReduced0());
-        menuElements.put("spaceStartGame", new SpaceStartGame());
-        menuElements.put("spaceNextLevel", new SpaceNextLevel());
-        menuElements.put("spaceRetry", new SpaceRetry());
-        menuElements.put("spaceStartOver", new SpaceStartOver());
+        menuElements.put(MenuScreenElements.menuBackground, new MenuBackground());
+        menuElements.put(MenuScreenElements.instructions, new Instructions());
+        menuElements.put(MenuScreenElements.youWin, new YouWin());
+        menuElements.put(MenuScreenElements.exitReached, new ExitReached());
+        menuElements.put(MenuScreenElements.gameOver, new GameOver());
+        menuElements.put(MenuScreenElements.healthReduced0, new HealthReduced0());
+        menuElements.put(MenuScreenElements.spaceStartGame, new SpaceStartGame());
+        menuElements.put(MenuScreenElements.spaceNextLevel, new SpaceNextLevel());
+        menuElements.put(MenuScreenElements.spaceRetry, new SpaceRetry());
+        menuElements.put(MenuScreenElements.spaceStartOver, new SpaceStartOver());
 
         disableSprites();
         createTitleScreen();
@@ -49,8 +49,8 @@ public class MenuScreen extends GameObject {
      * Enables the sprite required to create the beginning menu
      */
     private void createTitleScreen() {
-        enableSprite("instructions");
-        enableSprite("spaceStartGame");
+        enableSprite(MenuScreenElements.instructions);
+        enableSprite(MenuScreenElements.spaceStartGame);
     }
 
     /**
@@ -61,19 +61,19 @@ public class MenuScreen extends GameObject {
      */
     public void createMenu(boolean won, int _gameStage, int numberOfLevels) {
         if (won) {
-            enableSprite("youWin");
-            enableSprite("exitReached");
+            enableSprite(MenuScreenElements.youWin);
+            enableSprite(MenuScreenElements.exitReached);
             if (_gameStage < numberOfLevels) {
-                enableSprite("spaceNextLevel");
+                enableSprite(MenuScreenElements.spaceNextLevel);
             }
             else {
-                enableSprite("spaceStartOver");
+                enableSprite(MenuScreenElements.spaceStartOver);
             }
         }
         else {
-            enableSprite("gameOver");
-            enableSprite("healthReduced0");
-            enableSprite("spaceRetry");
+            enableSprite(MenuScreenElements.gameOver);
+            enableSprite(MenuScreenElements.healthReduced0);
+            enableSprite(MenuScreenElements.spaceRetry);
         }
     }
 
@@ -81,14 +81,14 @@ public class MenuScreen extends GameObject {
      * Gets the MenuElement specified by the parameter string and attempts to enable it
      * @param s the string by which to try and get the MenuElement
      */
-    protected void enableSprite(String s) {
+    protected void enableSprite(MenuScreenElements s) {
         MenuElement element = menuElements.get(s);
         if (element != null) {
             scene.Instantiate(element);
             element.getSprite().enabled = true;
         }
         else {
-            System.out.println("Unable to retrieve menu sprite with given string");
+            System.out.println("Unable to retrieve menu sprite with given argument");
         }
     }
 

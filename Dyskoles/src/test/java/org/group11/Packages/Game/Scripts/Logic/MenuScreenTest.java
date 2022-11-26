@@ -101,14 +101,14 @@ public class MenuScreenTest extends TestSetup {
         long curTime = System.currentTimeMillis();
         int timeBeforeToggle = 1000;
 
-        menuScreen.enableSprite("spaceStartGame");
-        menuScreen.enableSprite("spaceNextLevel");
-        menuScreen.enableSprite("spaceRetry");
-        menuScreen.enableSprite("spaceStartOver");
-        assert(menuScreen.menuElements.get("spaceStartGame").getSprite().enabled);
-        assert(menuScreen.menuElements.get("spaceNextLevel").getSprite().enabled);
-        assert(menuScreen.menuElements.get("spaceRetry").getSprite().enabled);
-        assert(menuScreen.menuElements.get("spaceStartOver").getSprite().enabled);
+        menuScreen.enableSprite(MenuScreenElements.spaceStartGame);
+        menuScreen.enableSprite(MenuScreenElements.spaceNextLevel);
+        menuScreen.enableSprite(MenuScreenElements.spaceRetry);
+        menuScreen.enableSprite(MenuScreenElements.spaceStartOver);
+        assert(menuScreen.menuElements.get(MenuScreenElements.spaceStartGame).getSprite().enabled);
+        assert(menuScreen.menuElements.get(MenuScreenElements.spaceNextLevel).getSprite().enabled);
+        assert(menuScreen.menuElements.get(MenuScreenElements.spaceRetry).getSprite().enabled);
+        assert(menuScreen.menuElements.get(MenuScreenElements.spaceStartOver).getSprite().enabled);
 
         boolean spritesShouldBeActivated = true;
         while (spritesShouldBeActivated) {
@@ -117,9 +117,9 @@ public class MenuScreenTest extends TestSetup {
             }
         }
 
-        assert(!menuScreen.menuElements.get("spaceStartGame").getSprite().enabled);
-        assert(!menuScreen.menuElements.get("spaceNextLevel").getSprite().enabled);
-        assert(!menuScreen.menuElements.get("spaceRetry").getSprite().enabled);
-        assert(!menuScreen.menuElements.get("spaceStartOver").getSprite().enabled);
+        assert(!menuScreen.menuElements.get(MenuScreenElements.spaceStartGame).getSprite().enabled);
+        assert(!menuScreen.menuElements.get(MenuScreenElements.spaceNextLevel).getSprite().enabled);
+        assert(!menuScreen.menuElements.get(MenuScreenElements.spaceRetry).getSprite().enabled);
+        assert(!menuScreen.menuElements.get(MenuScreenElements.spaceStartOver).getSprite().enabled);
     }
 }
