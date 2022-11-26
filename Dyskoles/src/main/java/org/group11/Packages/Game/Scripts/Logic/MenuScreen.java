@@ -8,8 +8,8 @@ import org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.PressSpaceSprit
 import org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.PressSpaceSprites.SpaceStartGame;
 import org.group11.Packages.Game.Scripts.UI_Scripts.Menu_Scripts.PressSpaceSprites.SpaceStartOver;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
 
 public class MenuScreen extends GameObject {
     //******************************************************************************************************************
@@ -17,7 +17,7 @@ public class MenuScreen extends GameObject {
     //******************************************************************************************************************
     private Scene scene;
 
-    HashMap<String, MenuElement> menuElements = new HashMap<>();
+    protected HashMap<MenuScreenElements, MenuElement> menuElements = new HashMap<>();
 
     private boolean onMenu;
 
@@ -27,43 +27,79 @@ public class MenuScreen extends GameObject {
     public MenuScreen() {
         scene = Scene.get_scene();
 
-        menuElements.put("menuBackground", new MenuBackground());
-        menuElements.put("Instructions", new Instructions());
-        menuElements.put("youWin", new YouWin());
-        menuElements.put("exitReached", new ExitReached());
-        menuElements.put("gameOver", new GameOver());
-        menuElements.put("healthReduced0", new HealthReduced0());
-        menuElements.put("spaceStartGame", new SpaceStartGame());
-        menuElements.put("spaceNextLevel", new SpaceNextLevel());
-        menuElements.put("spaceRetry", new SpaceRetry());
-        menuElements.put("spaceStartOver", new SpaceStartOver());
+        menuElements.put(MenuScreenElements.menuBackground, new MenuBackground());
+        menuElements.put(MenuScreenElements.instructions, new Instructions());
+        menuElements.put(MenuScreenElements.youWin, new YouWin());
+        menuElements.put(MenuScreenElements.exitReached, new ExitReached());
+        menuElements.put(MenuScreenElements.gameOver, new GameOver());
+        menuElements.put(MenuScreenElements.healthReduced0, new HealthReduced0());
+        menuElements.put(MenuScreenElements.spaceStartGame, new SpaceStartGame());
+        menuElements.put(MenuScreenElements.spaceNextLevel, new SpaceNextLevel());
+        menuElements.put(MenuScreenElements.spaceRetry, new SpaceRetry());
+        menuElements.put(MenuScreenElements.spaceStartOver, new SpaceStartOver());
 
+        disableSprites();
         createTitleScreen();
     }
 
     //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
+    /**
+     * Enables the sprite required to create the beginning menu
+     */
     private void createTitleScreen() {
-        scene.Instantiate(menuElements.get("Instructions"));
-        scene.Instantiate(menuElements.get("spaceStartGame"));
+        enableSprite(MenuScreenElements.instructions);
+        enableSprite(MenuScreenElements.spaceStartGame);
     }
 
+    /**
+     * Enables the correct sprites to create the appropriate menu based on the condition of the game
+     * @param won whether the player has won a round or not
+     * @param _gameStage the current stage that the player is on
+     * @param numberOfLevels the number of levels in the game
+     */
     public void createMenu(boolean won, int _gameStage, int numberOfLevels) {
         if (won) {
-            scene.Instantiate(menuElements.get("youWin"));
-            scene.Instantiate(menuElements.get("exitReached"));
+            enableSprite(MenuScreenElements.youWin);
+            enableSprite(MenuScreenElements.exitReached);
             if (_gameStage < numberOfLevels) {
-                scene.Instantiate(menuElements.get("spaceNextLevel"));
+                enableSprite(MenuScreenElements.spaceNextLevel);
             }
             else {
-                scene.Instantiate(menuElements.get("spaceStartOver"));
+                enableSprite(MenuScreenElements.spaceStartOver);
             }
         }
         else {
-            scene.Instantiate(menuElements.get("gameOver"));
-            scene.Instantiate(menuElements.get("healthReduced0"));
-            scene.Instantiate(menuElements.get("spaceRetry"));
+            enableSprite(MenuScreenElements.gameOver);
+            enableSprite(MenuScreenElements.healthReduced0);
+            enableSprite(MenuScreenElements.spaceRetry);
+        }
+    }
+
+    /**
+     * Gets the MenuElement specified by the parameter string and attempts to enable it
+     * @param s the string by which to try and get the MenuElement
+     */
+    protected void enableSprite(MenuScreenElements s) {
+        MenuElement element = menuElements.get(s);
+        if (element != null) {
+            scene.Instantiate(element);
+            element.getSprite().enabled = true;
+        }
+        else {
+            System.out.println("Unable to retrieve menu sprite with given argument");
+        }
+    }
+
+    /**
+     * Disables all the menu sprites
+     */
+    private void disableSprites() {
+        Collection<MenuElement> toDisable = menuElements.values();
+        for (MenuElement e : toDisable) {
+            e.getSprite().enabled = false;
+            scene.Destroy(e);
         }
     }
 
@@ -85,6 +121,7 @@ public class MenuScreen extends GameObject {
         if (onMenu) {
             if (key == ' ') {
                 onMenu = false;
+                disableSprites();
                 GameLogicDriver.startNewLevel();
             }
         }
@@ -93,9 +130,6 @@ public class MenuScreen extends GameObject {
 
     @Override
     public void Delete() {
-        Set<String> toDelete = menuElements.keySet();
-        for (String s : toDelete) {
-            scene.Destroy(menuElements.get(s));
-        }
+        disableSprites();
     }
 }

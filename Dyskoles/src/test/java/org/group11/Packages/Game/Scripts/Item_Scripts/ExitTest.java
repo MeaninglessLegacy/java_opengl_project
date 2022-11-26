@@ -1,60 +1,28 @@
 package org.group11.Packages.Game.Scripts.Item_Scripts;
 
-import org.group11.Packages.Core.Main.Engine;
-import org.group11.Packages.Core.Main.GameObject;
-import org.group11.Packages.Core.Main.Scene;
-import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
-import org.junit.Before;
+import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Game.Scripts.TestSetup;
 import org.junit.Test;
 
-public class ExitTest {
-    //******************************************************************************************************************
-    //* variables
-    //******************************************************************************************************************
-    boolean everythingInstantiated = false;
-    private Engine engine;
-    private Scene scene;
-
-    private Exit exit;
-    private Key key;
-    private MainCharacter MC;
-
-    //******************************************************************************************************************
-    //* setup
-    //******************************************************************************************************************
-    private class SetupClass extends GameObject {
-        @Override
-        public void start() {
-            // General instantiations
-            exit = new Exit();
-            MC = new MainCharacter();
-            key = new Key();
-
-            scene.Instantiate(exit);
-            scene.Instantiate(MC);
-            scene.Instantiate(key);
-
-            everythingInstantiated = true;
-        }
-    }
-
-    @Before
-    public void setup() {
-        engine = new Engine();
-        engine.start();
-        scene = Scene.get_scene();
-
-        SetupClass setupClass = new SetupClass();
-        scene.Instantiate(setupClass);
-
-        while (!everythingInstantiated) {
-            System.out.print("");
-        }
-    }
-
+/**
+ * Runs tests on various methods for the Exit class
+ */
+public class ExitTest extends TestSetup {
     //******************************************************************************************************************
     //* tests
     //******************************************************************************************************************
+    /**
+     * Tests Exit's constructor
+     */
+    @Test
+    public void ExitConstructorTest() {
+        Vector3 newPos = new Vector3(1, 1, 0);
+        Exit exit1 = new Exit(newPos);
+
+        assert(exit1.transform.position.x == newPos.x && exit1.transform.position.y == newPos.y);
+        assert(exit1.spriteRenderer != null);
+    }
+
     /**
      * Tests Exit's activate method when the activating MainCharacter has no key in their Backpack
      */
@@ -62,6 +30,4 @@ public class ExitTest {
     public void noKeyActivate() {
         assert(!exit.activate(MC));
     }
-
-    // TODO: figure out what to do when MC has a key
 }

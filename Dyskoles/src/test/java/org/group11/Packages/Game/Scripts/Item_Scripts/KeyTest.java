@@ -1,60 +1,28 @@
 package org.group11.Packages.Game.Scripts.Item_Scripts;
 
-import org.group11.Packages.Core.Main.Engine;
-import org.group11.Packages.Core.Main.GameObject;
-import org.group11.Packages.Core.Main.Scene;
-import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
-import org.junit.Before;
+import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Game.Scripts.TestSetup;
 import org.junit.Test;
 
 /**
  * Runs tests on various methods for the Key class
  */
-public class KeyTest {
-    //******************************************************************************************************************
-    //* variables
-    //******************************************************************************************************************
-    boolean everythingInstantiated = false;
-    private Engine engine;
-    private Scene scene;
-
-    private Key key;
-    private MainCharacter MC;
-
-    //******************************************************************************************************************
-    //* setup
-    //******************************************************************************************************************
-    private class SetupClass extends GameObject {
-        @Override
-        public void start() {
-            // General instantiations
-            key = new Key();
-            MC = new MainCharacter();
-
-            scene.Instantiate(key);
-            scene.Instantiate(MC);
-
-            everythingInstantiated = true;
-        }
-    }
-
-    @Before
-    public void setup() {
-        engine = new Engine();
-        engine.start();
-        scene = Scene.get_scene();
-
-        SetupClass setupClass = new SetupClass();
-        scene.Instantiate(setupClass);
-
-        while (!everythingInstantiated) {
-            System.out.print("");
-        }
-    }
-
+public class KeyTest extends TestSetup {
     //******************************************************************************************************************
     //* tests
     //******************************************************************************************************************
+    /**
+     * Tests Key's constructor
+     */
+    @Test
+    public void KeyConstructorTest() {
+        Vector3 newPos = new Vector3(1, 1, 0);
+        Key key1 = new Key(newPos);
+
+        assert(key1.transform.position.x == newPos.x && key1.transform.position.y == newPos.y);
+        assert(key1.spriteRenderer != null);
+    }
+
     /**
      * Tests Key's method to activate when its sprite is disabled and should not be obtainable
      */

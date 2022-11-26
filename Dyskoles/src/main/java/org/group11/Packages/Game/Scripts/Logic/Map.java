@@ -18,6 +18,17 @@ public class Map {
     private Scene scene;
 
     //******************************************************************************************************************
+    //* setters and getters
+    //******************************************************************************************************************
+    /**
+     * Return this Map's _tileMap
+     * @return this Map's _tileMap
+     */
+    public Dictionary<String, Tile> get_tileMap() {
+        return _tileMap;
+    }
+
+    //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
     /**
@@ -81,5 +92,6 @@ public class Map {
         for (Enumeration<String> tilePositions = _tileMap.keys(); tilePositions.hasMoreElements();) {
             scene.Destroy(_tileMap.get(tilePositions.nextElement()));
         }
+        _tileMap = new Hashtable<>();
     }
 }

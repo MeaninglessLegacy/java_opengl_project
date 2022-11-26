@@ -1,61 +1,38 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Main;
 import org.group11.Packages.Core.DataStructures.Vector3;
-import org.group11.Packages.Core.Main.Engine;
-import org.group11.Packages.Core.Main.GameObject;
-import org.group11.Packages.Core.Main.Scene;
-import org.group11.Packages.Game.Scripts.Logic.GameLogicDriver;
-import org.junit.Before;
+import org.group11.Packages.Game.Scripts.TestSetup;
 import org.junit.Test;
 
 /**
  * Runs tests on various methods for the MainCharacter class
  */
-public class MainCharacterTest {
-    //******************************************************************************************************************
-    //* variables
-    //******************************************************************************************************************
-    boolean everythingInstantiated = false;
-    private Engine engine;
-    private Scene scene;
-
-    private MainCharacter MC;
-    private Boss boss;
-
-    //******************************************************************************************************************
-    //* setup
-    //******************************************************************************************************************
-    private class SetupClass extends GameObject {
-        @Override
-        public void start() {
-            // General instantiations
-            MC = new MainCharacter();
-            boss = new Boss();
-
-            scene.Instantiate(MC);
-            scene.Instantiate(boss);
-
-            everythingInstantiated = true;
-        }
-    }
-
-    @Before
-    public void setup() {
-        engine = new Engine();
-        engine.start();
-        scene = Scene.get_scene();
-
-        SetupClass setupClass = new SetupClass();
-        scene.Instantiate(setupClass);
-
-        while (!everythingInstantiated) {
-            System.out.print("");
-        }
-    }
-
+public class MainCharacterTest extends TestSetup {
     //******************************************************************************************************************
     //* tests
     //******************************************************************************************************************
+    /**
+     * Tests MainCharacter's constructor
+     */
+    @Test
+    public void MCConstructorTest() {
+        Vector3 newPos = new Vector3(1, 1, 0);
+        MainCharacter MC1 = new MainCharacter(newPos);
+
+        assert(MC1.transform.position.x == newPos.x && MC1.transform.position.y == newPos.y);
+        assert(MC1.characterSprite != null);
+        assert(MC1.getStatBlock().get_atk() == 1);
+        assert(MC1.getStatBlock().get_hp() == 3);
+        assert(MC1.getStatBlock().get_maxHp() == 3);
+        assert(MC1._healthBarInside != null);
+        assert(MC1._healthBarOutline != null);
+        assert(MC1._EXPBarInside != null);
+        assert(MC1._EXPBarOutline != null);
+        assert(MC1._healthIncreaseIndicator != null);
+        assert(MC1._attackIncreaseIndicator != null);
+    }
+
     /**
      * Tests MainCharacter's method to add EXP to itself
      */

@@ -17,8 +17,20 @@ public abstract class StatIncreaseIndicator extends GameObject {
     protected int timeBeforeDisappear = 2000;
 
     //******************************************************************************************************************
+    //* setters and getters
+    //******************************************************************************************************************
+    /**
+     * Returns this object's sprite
+     * @return this object's sprite
+     */
+    public SpriteRenderer getSprite() { return statIncrease; }
+
+    //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
+    /**
+     * Activates the object and enables the sprite
+     */
     public void activate() {
         statIncrease.enabled = true;
         timeWhenActivated = System.currentTimeMillis();

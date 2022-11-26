@@ -1,60 +1,28 @@
 package org.group11.Packages.Game.Scripts.Item_Scripts;
 
-import org.group11.Packages.Core.Main.Engine;
-import org.group11.Packages.Core.Main.GameObject;
-import org.group11.Packages.Core.Main.Scene;
-import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
-import org.junit.Before;
+import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Game.Scripts.TestSetup;
 import org.junit.Test;
 
 /**
  * Runs tests on various methods for the RegenHeart class
  */
-public class RegenHeartTest {
-    //******************************************************************************************************************
-    //* variables
-    //******************************************************************************************************************
-    boolean everythingInstantiated = false;
-    private Engine engine;
-    private Scene scene;
-
-    private RegenHeart regenHeart;
-    private MainCharacter MC;
-
-    //******************************************************************************************************************
-    //* setup
-    //******************************************************************************************************************
-    private class SetupClass extends GameObject {
-        @Override
-        public void start() {
-            // General instantiations
-            regenHeart = new RegenHeart();
-            MC = new MainCharacter();
-
-            scene.Instantiate(regenHeart);
-            scene.Instantiate(MC);
-
-            everythingInstantiated = true;
-        }
-    }
-
-    @Before
-    public void setup() {
-        engine = new Engine();
-        engine.start();
-        scene = Scene.get_scene();
-
-        SetupClass setupClass = new SetupClass();
-        scene.Instantiate(setupClass);
-
-        while (!everythingInstantiated) {
-            System.out.print("");
-        }
-    }
-
+public class RegenHeartTest extends TestSetup {
     //******************************************************************************************************************
     //* tests
     //******************************************************************************************************************
+    /**
+     * Tests RegenHeart's constructor
+     */
+    @Test
+    public void RegenHeartConstructorTest() {
+        Vector3 newPos = new Vector3(1, 1, 0);
+        RegenHeart regenHeart1 = new RegenHeart(newPos);
+
+        assert(regenHeart1.transform.position.x == newPos.x && regenHeart1.transform.position.y == newPos.y);
+        assert(regenHeart1.spriteRenderer != null);
+    }
+
     /**
      * Tests RegenHeart's method to activate when the activating MainCharacter is at full health
      */
