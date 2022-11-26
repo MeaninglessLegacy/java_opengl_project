@@ -88,6 +88,8 @@ public class PathfinderTest {
 
     }
 
+    //1 A move to the right or up
+
     /**
      * PathfinderTest1A: when pointB is on the right and up of pointA and there is wall up and left
      * the xDistance<=yDistance
@@ -115,5 +117,55 @@ public class PathfinderTest {
         assertEquals(6 ,pathfinder.FindPath(map,pointA,pointB).y);
     }
 
+    //2  A move to the right or down
+    /**
+     * PathfinderTest2A: pointB is on the right and down
+     * xDistance<= yDistance
+    */
+    @Test
+    public void PathfinderTest2A(){
+    Vector3 pointA = new Vector3(6,5,0);
+    Vector3 pointB = new Vector3(8,1,0);
+    assertEquals(5 ,pathfinder.FindPath(map,pointA,pointB).x);
+    assertEquals(5,pathfinder.FindPath(map,pointA,pointB).y);
+    }
+
+
+    /**
+     * PathfinderTest2B: pointB is on the right and down
+     * xDistance>= yDistance
+     */
+
+    @Test
+    public void PathfinderTest2B(){
+        Vector3 pointA = new Vector3(6,5,0);
+        Vector3 pointB = new Vector3(10,2,0);
+        assertEquals(5 ,pathfinder.FindPath(map,pointA,pointB).x);
+        assertEquals(5,pathfinder.FindPath(map,pointA,pointB).y);
+    }
+
+    /**
+     * Pathfinder3A: pointB is on left and up
+     * xDistance<=yDistance means goes first left and then up
+     */
+    @Test
+    public void PathfinderTest3A(){
+        Vector3 pointA = new Vector3(4,6,0);
+        Vector3 pointB = new Vector3(8,11,0);
+        assertEquals(5 ,pathfinder.FindPath(map,pointA,pointB).x);
+        assertEquals(6,pathfinder.FindPath(map,pointA,pointB).y);
+    }
+
+    /**
+     * Pathfinder3B: pointB is on left and up
+     * xDistance>=yDistance means goes first up and then left
+     */
+    @Test
+    public void PathfinderTest3B(){
+        Vector3 pointA = new Vector3(4,6,0);
+        Vector3 pointB = new Vector3(1,7,0);
+        assertEquals(5 ,pathfinder.FindPath(map,pointA,pointB).x);
+        assertEquals(6,pathfinder.FindPath(map,pointA,pointB).y);
+    }
 
 }

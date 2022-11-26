@@ -218,7 +218,7 @@ public class Pathfinder {
 
 
 
-			//  A move to the left or down
+			//4  A move to the left or down
 			if(pointA.x >= pointB.x && pointA.y >= pointB.y) { //fixe the error
 
 
