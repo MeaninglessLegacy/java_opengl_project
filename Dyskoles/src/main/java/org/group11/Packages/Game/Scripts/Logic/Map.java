@@ -379,7 +379,7 @@ public class Map {
 
 
         }
-        return new Vector3(startNode.row, startNode.col,0);
+        return new Vector3(goalNode.row, goalNode.col,0);
         //return null;
     }
 
