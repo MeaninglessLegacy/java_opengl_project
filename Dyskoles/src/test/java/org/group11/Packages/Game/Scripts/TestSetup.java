@@ -86,6 +86,7 @@ public abstract class TestSetup {
             backpack = new Backpack();
             map = new Map();
 
+            // Instantiations
             scene.Instantiate(MC);
             scene.Instantiate(boss);
             scene.Instantiate(minion);
@@ -95,6 +96,9 @@ public abstract class TestSetup {
             scene.Instantiate(spikeTrap);
             scene.Instantiate(exit);
             scene.Instantiate(menuScreen);
+            scene.Instantiate(moveCountdown);
+            scene.Instantiate(attackIncreaseIndicator);
+            scene.Instantiate(healthIncreaseIndicator);
             scene.Instantiate(floor);
             scene.Instantiate(wall);
 
