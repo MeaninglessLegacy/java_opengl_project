@@ -1,5 +1,9 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Core.Main.GameObject;
+import org.group11.Packages.Game.Scripts.Logic.GameLogicDriver;
+import org.group11.Packages.Game.Scripts.Logic.Pathfinder;
 import org.group11.Packages.Game.Scripts.TestSetup;
 import org.junit.Test;
 
@@ -56,8 +60,28 @@ public class BossTest extends TestSetup {
         assert(MC._statBlock.get_exp() == 0 && MC.getStatBlock().get_lvl() == 2);
     }
 
+    /**
+     * Tests Boss's method to correctly set the direction its attacking for the attack animation
+     */
     @Test
-    public void canEnemyMoveTest() {
-        // TODO: implement
+    public void attackingDirection() {
+        MC.getStatBlock().set_MaxHp(100);
+        MC.getStatBlock().set_hp(100);
+
+        MC.transform.position = new Vector3(0,1,0);
+        boss.attackCharacter(MC);
+        assert(boss.isAttackingDirection.equals("up"));
+
+        MC.transform.position = new Vector3(1,0,0);
+        boss.attackCharacter(MC);
+        assert(boss.isAttackingDirection.equals("right"));
+
+        MC.transform.position = new Vector3(0,-1,0);
+        boss.attackCharacter(MC);
+        assert(boss.isAttackingDirection.equals("down"));
+
+        MC.transform.position = new Vector3(-1,0,0);
+        boss.attackCharacter(MC);
+        assert(boss.isAttackingDirection.equals("left"));
     }
 }

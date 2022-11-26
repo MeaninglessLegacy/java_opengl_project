@@ -1,5 +1,6 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.TestSetup;
 import org.junit.Test;
 
@@ -47,8 +48,28 @@ public class MinionTest extends TestSetup {
         assert(MC._statBlock.get_exp() == OriginalExp + minion.expGiven);
     }
 
+    /**
+     * Tests Minion's method to correctly set the direction its attacking for the attack animation
+     */
     @Test
-    public void canEnemyMoveTest() {
-        // TODO: implement
+    public void attackingDirection() {
+        MC.getStatBlock().set_MaxHp(100);
+        MC.getStatBlock().set_hp(100);
+
+        MC.transform.position = new Vector3(0,1,0);
+        minion.attackCharacter(MC);
+        assert(minion.isAttackingDirection.equals("up"));
+
+        MC.transform.position = new Vector3(1,0,0);
+        minion.attackCharacter(MC);
+        assert(minion.isAttackingDirection.equals("right"));
+
+        MC.transform.position = new Vector3(0,-1,0);
+        minion.attackCharacter(MC);
+        assert(minion.isAttackingDirection.equals("down"));
+
+        MC.transform.position = new Vector3(-1,0,0);
+        minion.attackCharacter(MC);
+        assert(minion.isAttackingDirection.equals("left"));
     }
 }

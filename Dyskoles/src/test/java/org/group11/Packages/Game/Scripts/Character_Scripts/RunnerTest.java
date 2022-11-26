@@ -41,9 +41,4 @@ public class RunnerTest extends TestSetup {
         assert(MC._statBlock.get_hp() == OriginalHp + runner.maxHpGiven);
         assert(MC._statBlock.get_maxHp() == OriginalMaxHp + runner.maxHpGiven);
     }
-
-    @Test
-    public void canEnemyMoveTest() {
-        // TODO: implement
-    }
 }

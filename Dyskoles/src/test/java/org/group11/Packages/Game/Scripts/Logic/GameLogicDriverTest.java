@@ -548,4 +548,66 @@ public class GameLogicDriverTest extends TestSetup {
         assert(GameLogicDriver._defaultGameLevelList.size() == 0);
         assert(GameLogicDriver._gameMap == null);
     }
+
+    /**
+     * Tests Enemy's canEnemyMove method. Must be contained in this test class to access GameLogicDriver's attributes
+     */
+    @Test
+    public void enemyCanEnemyMoveTest() {
+        MainCharacter MC1 = new MainCharacter(new Vector3(0, 4, 0));
+        MC1.getStatBlock().set_MaxHp(100);
+        MC1.getStatBlock().set_hp(100);
+        Boss boss1 = new Boss(new Vector3(0, 2, 0));
+        Minion minion1 = new Minion(new Vector3(0, 3, 0));
+        Minion minion2 = new Minion(new Vector3(1, 2, 0));
+        Minion minion3 = new Minion(new Vector3(0, 1, 0));
+        Pathfinder pathfinder = new Pathfinder();
+
+        GameLogicDriver.set_gameLevelAtStage(testLevel, 1);
+        GameLogicDriver.startNewLevel();
+        GameLogicDriver._playerCharacters.add(MC1);
+        GameLogicDriver._enemyCharacters.add(boss1);
+        GameLogicDriver._enemyCharacters.add(minion1);
+        GameLogicDriver._enemyCharacters.add(minion2);
+        GameLogicDriver._enemyCharacters.add(minion3);
+
+        // Testing when enemy is not activated
+        boss1.canEnemyMove(pathfinder, GameLogicDriver._gameMap, MC1);
+
+        assert(boss1.get_ticksBeforeNextMove() == 3);
+
+        // Enemy is activated, should decrement their move countdown
+        boss1.set_enemyActiveState(true);
+        boss1.canEnemyMove(pathfinder, GameLogicDriver._gameMap, MC1);
+
+        assert(boss1.get_ticksBeforeNextMove() == 2);
+
+        // Enemy tries to move but is trapped in by other enemies, so move countdown timer resets to 1
+        boss1.set_ticksBeforeNextMove(1);
+        boss1.canEnemyMove(pathfinder, GameLogicDriver._gameMap, MC1);
+
+        assert(boss1.get_ticksBeforeNextMove() == 1);
+
+        // Path is now free, enemy should move towards MainCharacter
+        GameLogicDriver._enemyCharacters.remove(minion2);
+        Vector3 bossOriginalPos = boss.transform.position;
+        boss1.canEnemyMove(pathfinder, GameLogicDriver._gameMap, MC1);
+
+        assert(boss1.get_ticksBeforeNextMove() == 3);
+        assert(boss1.transform.position.x != bossOriginalPos.x);
+
+        // Enemy attempts to move into the position with a MainCharacter, attacks that MainCharacter
+        // TODO: figure out how to make enemy attack MC
+        GameLogicDriver._enemyCharacters.remove(minion1);
+        GameLogicDriver._enemyCharacters.remove(minion3);
+        boss1.transform.setPosition(new Vector3(0, 2, 0));
+        MC1.transform.setPosition(new Vector3(0, 3, 0));
+        boss1.set_ticksBeforeNextMove(1);
+        boss1.canEnemyMove(pathfinder, GameLogicDriver._gameMap, MC1);
+        /*
+        assert(boss1.get_ticksBeforeNextMove() == 3);
+        assert(bossOriginalPos.x == boss1.transform.position.x && bossOriginalPos.y == boss1.transform.position.y);
+        assert(MC1.getStatBlock().get_hp() == MC1.getStatBlock().get_maxHp() - boss1.getStatBlock().get_atk());
+         */
+    }
 }
