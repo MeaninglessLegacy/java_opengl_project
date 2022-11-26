@@ -62,6 +62,7 @@ public abstract class TestSetup {
     protected class SetupClass extends GameObject {
         @Override
         public void start() {
+            System.out.println("initializing everything");
             // Levels
             testLevel = new TestLevel();
             // Characters
@@ -121,5 +122,6 @@ public abstract class TestSetup {
         while (!everythingInstantiated) {
             System.out.print("");
         }
+        System.out.println("test starting");
     }
 }
