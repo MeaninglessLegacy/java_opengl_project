@@ -18,6 +18,18 @@ public class MenuScreenTest extends TestSetup {
     //* tests
     //******************************************************************************************************************
     /**
+     * Tests MenuScreen's constructor
+     */
+    @Test
+    public void MenuScreenConstructorTest() {
+        MenuScreen menuScreen1 = new MenuScreen();
+        Collection<MenuElement> spriteList = menuScreen1.menuElements.values();
+        for (MenuElement e : spriteList) {
+            assert(e.getSprite() != null);
+        }
+    }
+
+    /**
      * Tests that the correct menu elements are enabled at the start of the game (when the MenuScreen is initialized)
      */
     @Test

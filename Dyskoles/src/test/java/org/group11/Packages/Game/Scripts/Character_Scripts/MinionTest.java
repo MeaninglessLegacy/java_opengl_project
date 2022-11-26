@@ -12,6 +12,23 @@ public class MinionTest extends TestSetup {
     //* tests
     //******************************************************************************************************************
     /**
+     * Tests Minion's constructor
+     */
+    @Test
+    public void MinionConstructorTest() {
+        Vector3 newPos = new Vector3(1, 1, 0);
+        Minion minion1 = new Minion(newPos);
+
+        assert(minion1.transform.position.x == newPos.x && minion1.transform.position.y == newPos.y);
+        assert(minion1.characterSprite != null);
+        assert(minion1.getStatBlock().get_atk() == 1);
+        assert(minion1.getStatBlock().get_hp() == 3);
+        assert(minion1.getStatBlock().get_maxHp() == 3);
+        assert(minion1._healthBarInside != null);
+        assert(minion1._healthBarOutline != null);
+    }
+
+    /**
      * Tests Minion's method to take damage and reduce its health
      */
     @Test

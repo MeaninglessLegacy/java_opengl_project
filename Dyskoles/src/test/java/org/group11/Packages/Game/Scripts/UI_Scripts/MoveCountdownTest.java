@@ -4,7 +4,9 @@ import org.group11.Packages.Game.Scripts.TestSetup;
 import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdownSprites.MoveCD1Sprite;
 import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdownSprites.MoveCD2Sprite;
 import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdownSprites.MoveCD3Sprite;
+import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdownSprites.MoveCDSprites;
 import org.junit.Test;
+
 
 /**
  * Runs tests on various methods for the MoveCountdown class
@@ -13,6 +15,17 @@ public class MoveCountdownTest extends TestSetup {
     //******************************************************************************************************************
     //* tests
     //******************************************************************************************************************
+    /**
+     * Tests MoveCountdown's constructor
+     */
+    @Test
+    public void MoveCountdownConstructorTest() {
+        MoveCountdown moveCountdown1 = new MoveCountdown(boss);
+        for (MoveCDSprites s : moveCountdown1.CDSpriteList) {
+            assert(s.getCDSprite().get_sprite() != null);
+        }
+    }
+
     /**
      * Tests that all the MoveCDSprites have been set in the correct position in moveCountdown's arraylist
      */

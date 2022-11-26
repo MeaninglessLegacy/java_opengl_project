@@ -1,9 +1,6 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
 import org.group11.Packages.Core.DataStructures.Vector3;
-import org.group11.Packages.Core.Main.GameObject;
-import org.group11.Packages.Game.Scripts.Logic.GameLogicDriver;
-import org.group11.Packages.Game.Scripts.Logic.Pathfinder;
 import org.group11.Packages.Game.Scripts.TestSetup;
 import org.junit.Test;
 
@@ -14,6 +11,24 @@ public class BossTest extends TestSetup {
     //******************************************************************************************************************
     //* tests
     //******************************************************************************************************************
+    /**
+     * Tests Boss's constructor
+     */
+    @Test
+    public void BossConstructorTest() {
+        Vector3 newPos = new Vector3(1, 1, 0);
+        Boss boss1 = new Boss(newPos);
+
+        assert(boss1.transform.position.x == newPos.x && boss1.transform.position.y == newPos.y);
+        assert(boss1.characterSprite != null);
+        assert(boss1.getStatBlock().get_atk() == 3);
+        assert(boss1.getStatBlock().get_hp() == 10);
+        assert(boss1.getStatBlock().get_maxHp() == 10);
+        assert(boss1.get_ticksBeforeNextMove() == 3);
+        assert(boss1._healthBarInside != null);
+        assert(boss1._healthBarOutline != null);
+    }
+
     /**
      * Tests Boss's method to take damage and reduce its health
      */

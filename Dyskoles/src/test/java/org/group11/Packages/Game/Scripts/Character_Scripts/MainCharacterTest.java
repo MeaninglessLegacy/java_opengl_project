@@ -1,5 +1,6 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
+import org.group11.Main;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.TestSetup;
 import org.junit.Test;
@@ -11,6 +12,27 @@ public class MainCharacterTest extends TestSetup {
     //******************************************************************************************************************
     //* tests
     //******************************************************************************************************************
+    /**
+     * Tests MainCharacter's constructor
+     */
+    @Test
+    public void MCConstructorTest() {
+        Vector3 newPos = new Vector3(1, 1, 0);
+        MainCharacter MC1 = new MainCharacter(newPos);
+
+        assert(MC1.transform.position.x == newPos.x && MC1.transform.position.y == newPos.y);
+        assert(MC1.characterSprite != null);
+        assert(MC1.getStatBlock().get_atk() == 1);
+        assert(MC1.getStatBlock().get_hp() == 3);
+        assert(MC1.getStatBlock().get_maxHp() == 3);
+        assert(MC1._healthBarInside != null);
+        assert(MC1._healthBarOutline != null);
+        assert(MC1._EXPBarInside != null);
+        assert(MC1._EXPBarOutline != null);
+        assert(MC1._healthIncreaseIndicator != null);
+        assert(MC1._attackIncreaseIndicator != null);
+    }
+
     /**
      * Tests MainCharacter's method to add EXP to itself
      */

@@ -1,5 +1,6 @@
 package org.group11.Packages.Game.Scripts.Item_Scripts;
 
+import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.TestSetup;
 import org.junit.Test;
 
@@ -10,6 +11,18 @@ public class RegenHeartTest extends TestSetup {
     //******************************************************************************************************************
     //* tests
     //******************************************************************************************************************
+    /**
+     * Tests RegenHeart's constructor
+     */
+    @Test
+    public void RegenHeartConstructorTest() {
+        Vector3 newPos = new Vector3(1, 1, 0);
+        RegenHeart regenHeart1 = new RegenHeart(newPos);
+
+        assert(regenHeart1.transform.position.x == newPos.x && regenHeart1.transform.position.y == newPos.y);
+        assert(regenHeart1.spriteRenderer != null);
+    }
+
     /**
      * Tests RegenHeart's method to activate when the activating MainCharacter is at full health
      */
