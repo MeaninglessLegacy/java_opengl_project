@@ -203,11 +203,11 @@ public class Pathfinder {
 
 					}else {
 						//go to other options in case those two are walls
-						if(map.getTile(downTile).getTileType() != tileTypes.wall) {
-							currentTile = downTile;
+						if(map.getTile(rightTile).getTileType() != tileTypes.wall) {
+							currentTile = rightTile;
 							return currentTile;
 						}else {
-							currentTile = rightTile;
+							currentTile = downTile ;
 							return currentTile;
 						}
 					} 
@@ -219,7 +219,7 @@ public class Pathfinder {
 
 
 			//4  A move to the left or down
-			if(pointA.x >= pointB.x && pointA.y >= pointB.y) { //fixe the error
+			if(pointA.x >= pointB.x && pointA.y >= pointB.y) { //fix the error
 
 
 				if(Math.abs(xDistance)<=Math.abs(yDistance) ) { // 1st shortest way is left and 2nd is down 
@@ -236,11 +236,11 @@ public class Pathfinder {
 
 					} else {
 						//go to other options in case those two are walls
-						if(map.getTile(upTile).getTileType() != tileTypes.wall) {
-							currentTile = upTile;
+						if(map.getTile(rightTile).getTileType() != tileTypes.wall) {
+							currentTile = rightTile;
 							return currentTile;
 						}else {
-							currentTile = rightTile;
+							currentTile = upTile ;
 							return currentTile;
 						}
 					}
@@ -252,7 +252,7 @@ public class Pathfinder {
 						return currentTile;
 
 
-					}else if(map.getTile(leftTile) != null){
+					}else if(map.getTile(leftTile).getTileType() != tileTypes.wall){
 						if(map.getTile(leftTile).getTileType() != tileTypes.wall) { // go right
 							currentTile = leftTile;
 							return currentTile;

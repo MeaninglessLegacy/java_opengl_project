@@ -168,4 +168,30 @@ public class PathfinderTest {
         assertEquals(6,pathfinder.FindPath(map,pointA,pointB).y);
     }
 
+    /**
+     * Pathfinder4A: pointA is on left and down
+     * xDistance<=yDistance means goes first left and  then down
+     */
+    @Test
+    public void PathfinderTest4A(){
+        Vector3 pointA = new Vector3(4,5,0);
+        Vector3 pointB = new Vector3(2,3,0);
+        assertEquals(5 ,pathfinder.FindPath(map,pointA,pointB).x);
+        assertEquals(5,pathfinder.FindPath(map,pointA,pointB).y);
+    }
+
+    /**
+     * Pathfinder4B: pointB is on left and down
+     * xDistance>=yDistance means goes first down and then left
+     */
+    @Test
+    public void PathfinderTest4B(){
+        Vector3 pointA = new Vector3(4,5,0);
+        Vector3 pointB = new Vector3(2,4,0);
+        assertEquals(5 ,pathfinder.FindPath(map,pointA,pointB).x);
+        assertEquals(5,pathfinder.FindPath(map,pointA,pointB).y);
+    }
+
+
+
 }
