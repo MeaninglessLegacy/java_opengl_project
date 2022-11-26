@@ -22,9 +22,17 @@ public class Pathfinder {
 	boolean pointBReached = false;
 	int step=0;
 
+	/**
+	 * Findpath gets below parameters and returns nextposition ,
+	 * @param map
+	 * @param pointA
+	 * @param pointB
+	 * @return
+	 */
+
 	public  Vector3 FindPath(Map map, Vector3 pointA, Vector3 pointB){
 		Vector3 nextposition = new Vector3(0,0,0);
-		nextposition= map.getAlltile(pointA,pointB);
+		nextposition= map.getNextPosition(pointA,pointB);
 		//String positionkey = map.getPosKey(nextposition);
 		//System.out.printf(pointB.x+" "+pointB.y+"\n");
 		//System.out.println(positionkey + " this is the next position ");

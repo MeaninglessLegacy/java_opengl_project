@@ -96,9 +96,11 @@ public class Map {
     }
 
 
-    //----------------------------Converting map to nodes----------------------------------------------------------------------
+    //******************************************************************************************************************
+    //* methods for Pathfinder. These methods will help convert the map into arrayList of nodes and calculate the next best position
+    //******************************************************************************************************************
 
-    public Vector3 getAlltile(Vector3 pointA, Vector3 pointB){
+    public Vector3 getNextPosition(Vector3 pointA, Vector3 pointB){
         int u =0;
         int t = 0;
 
