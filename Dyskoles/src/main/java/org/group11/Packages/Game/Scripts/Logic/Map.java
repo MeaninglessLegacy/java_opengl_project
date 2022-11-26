@@ -100,6 +100,12 @@ public class Map {
     //* methods for Pathfinder. These methods will help convert the map into arrayList of nodes and calculate the next best position
     //******************************************************************************************************************
 
+    /**
+     *  This method gets the next posiontion of the game
+     * @param pointA
+     * @param pointB
+     * @return nextpostion
+     */
     public Vector3 getNextPosition(Vector3 pointA, Vector3 pointB){
         int u =0;
         int t = 0;
@@ -114,13 +120,9 @@ public class Map {
         boolean goalReached = false;
 
 
-
+        // this for loop will loop throug the enumeration and convert all the tiles into arraylist
         for (Enumeration<String> tilePositions = _tileMap.keys(); tilePositions.hasMoreElements();){  // this loop is getting all the tiles in the map
             String key = tilePositions.nextElement();
-            //System.out.println(key+" num "+u);
-           //dSystem.out.println(_tileMap.get(key).getTileType()+" "+u);
-
-
 
             //this will split the data from a string into node list
 
@@ -185,7 +187,7 @@ public class Map {
 
         //System.out.println(nodeArrayList.get(u-1).row +"  printing the actual data for test "+nodeArrayList.get(u-1).col );
 
-        // setting the origne
+        // setting the origine
         int Ax = (int) pointA.x;
         int Ay = (int) pointA.y;
         int Bx = (int) pointB.x;
@@ -372,9 +374,6 @@ public class Map {
                 Vector3 newvec = new Vector3(current.row,current.col,0);
                 //losestPosition = newvec;
                 return newvec;
-
-
-
             }
 
 
