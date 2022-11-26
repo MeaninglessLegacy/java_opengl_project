@@ -46,10 +46,9 @@ public class GameLogicDriverTest extends TestSetup {
     //******************************************************************************************************************
     //* setup
     //******************************************************************************************************************
-    private class SetupClass extends GameObject {
+    private class SpecificSetupClass extends GameObject{
         @Override
         public void start() {
-            System.out.println("Test started");
             // General instantiations
             GameLogicDriver GLD = GameLogicDriver.getInstance();
             scene.Instantiate(GLD);
@@ -84,15 +83,11 @@ public class GameLogicDriverTest extends TestSetup {
         }
     }
 
-    @Before
+    @Override
     public void setup() {
-        if (engine == null) {
-            engine = new Engine();
-            engine.start();
-        }
-        if (scene == null) {
-            scene = Scene.get_scene();
-        }
+        engine = new Engine();
+        engine.start();
+        scene = Scene.get_scene();
 
         if (GameLogicDriver._gameMap != null || GameLogicDriver._playerCharacters.size() != 0 ||
             GameLogicDriver._enemyCharacters.size() != 0 || GameLogicDriver._items.size() != 0 ||
@@ -101,12 +96,13 @@ public class GameLogicDriverTest extends TestSetup {
             System.out.println("Cleared everything");
         }
 
-        SetupClass setupClass = new SetupClass();
-        scene.Instantiate(setupClass);
+        SpecificSetupClass specificSetupClass = new SpecificSetupClass();
+        scene.Instantiate(specificSetupClass);
 
         while (!everythingInstantiated) {
             System.out.print("");
         }
+        System.out.println("Test started");
     }
 
     //******************************************************************************************************************
