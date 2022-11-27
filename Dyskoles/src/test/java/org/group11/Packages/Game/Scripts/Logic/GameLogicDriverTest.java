@@ -12,10 +12,10 @@ import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
 import org.group11.Packages.Game.Scripts.Item_Scripts.RegenHeart;
 import org.group11.Packages.Game.Scripts.Item_Scripts.SpikeTrap;
 import org.group11.Packages.Game.Scripts.Levels.TestLevel;
+import org.group11.Packages.Game.Scripts.Levels.TestRoom2;
 import org.group11.Packages.Game.Scripts.TestSetup;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Floor;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -117,6 +117,9 @@ public class GameLogicDriverTest extends TestSetup {
 
         assert(GameLogicDriver.set_gameLevelAtStage(testLevel1, 1));
         assert(GameLogicDriver._gameLevelList.get(0) == testLevel1);
+        // Testing out of bounds
+        assert(!GameLogicDriver.set_gameLevelAtStage(testLevel1, 3));
+        assert(!GameLogicDriver.set_gameLevelAtStage(testLevel1, -1));
     }
 
     /**
@@ -550,7 +553,7 @@ public class GameLogicDriverTest extends TestSetup {
     }
 
     /**
-     * Tests Enemy's canEnemyMove method. Must be contained in this test class to access GameLogicDriver's attributes
+     * Tests Enemy's canEnemyMove() method. Must be contained in this test class to access GameLogicDriver's attributes
      */
     @Test
     public void enemyCanEnemyMoveTest() {
@@ -589,25 +592,38 @@ public class GameLogicDriverTest extends TestSetup {
         assert(boss1.get_ticksBeforeNextMove() == 1);
 
         // Path is now free, enemy should move towards MainCharacter
-        GameLogicDriver._enemyCharacters.remove(minion2);
+        GameLogicDriver._enemyCharacters.remove(minion1);
         Vector3 bossOriginalPos = boss.transform.position;
         boss1.canEnemyMove(pathfinder, GameLogicDriver._gameMap, MC1);
 
         assert(boss1.get_ticksBeforeNextMove() == 3);
-        assert(boss1.transform.position.x != bossOriginalPos.x);
+        assert(boss1.transform.position.y != bossOriginalPos.y);
 
         // Enemy attempts to move into the position with a MainCharacter, attacks that MainCharacter
-        // TODO: figure out how to make enemy attack MC
-        GameLogicDriver._enemyCharacters.remove(minion1);
-        GameLogicDriver._enemyCharacters.remove(minion3);
         boss1.transform.setPosition(new Vector3(0, 2, 0));
         MC1.transform.setPosition(new Vector3(0, 3, 0));
         boss1.set_ticksBeforeNextMove(1);
         boss1.canEnemyMove(pathfinder, GameLogicDriver._gameMap, MC1);
-        /*
+
         assert(boss1.get_ticksBeforeNextMove() == 3);
-        assert(bossOriginalPos.x == boss1.transform.position.x && bossOriginalPos.y == boss1.transform.position.y);
         assert(MC1.getStatBlock().get_hp() == MC1.getStatBlock().get_maxHp() - boss1.getStatBlock().get_atk());
-         */
+    }
+
+    /**
+     * Tests Exit's activate() method when the player has a key
+     */
+    @Test
+    public void exitKeyActivateTest() {
+        MainCharacter MC1 = new MainCharacter();
+        MC1.backpack.addItem(new Key());
+        Exit exit1 = new Exit();
+
+        GameLogicDriver.set_gameLevelAtStage(testLevel, 1);
+        GameLogicDriver.startNewLevel();
+        GameLogicDriver._playerCharacters.add(MC1);
+        GameLogicDriver._items.add(exit1);
+
+        exit1.activate(MC1);
+        assert(!GameLogicDriver._gameStarted);
     }
 }

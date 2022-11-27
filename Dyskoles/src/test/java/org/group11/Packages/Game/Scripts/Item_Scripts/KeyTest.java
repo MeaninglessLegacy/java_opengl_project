@@ -24,6 +24,17 @@ public class KeyTest extends TestSetup {
     }
 
     /**
+     * Tests Key's method to enable and disable its sprite
+     */
+    @Test
+    public void KeyToggleTest() {
+        assert(!key.getKeyVisibility());
+
+        key.setKeyVisibility(true);
+        assert(key.getKeyVisibility());
+    }
+
+    /**
      * Tests Key's method to activate when its sprite is disabled and should not be obtainable
      */
     @Test
