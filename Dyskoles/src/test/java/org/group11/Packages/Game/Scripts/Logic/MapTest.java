@@ -73,15 +73,8 @@ public class MapTest extends TestSetup {
     }
 
 
-    /**
-     * Test for pathinfinder helper functions
-     */
 
-    @Test
-    public void getNexPositionTest(){
-        Vector3 pointA = new Vector3(5,5,0);
-        Vector3 pointB = new Vector3(2,3,0);
-        assertNotNull(map.getNextPosition(pointA,pointB));
-    }
+
+
 
 }
