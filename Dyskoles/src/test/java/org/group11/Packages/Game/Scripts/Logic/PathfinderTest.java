@@ -9,6 +9,7 @@ import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacterTest;
 import org.group11.Packages.Game.Scripts.MapGenerators.SquareRoom;
 import org.group11.Packages.Game.Scripts.MapGenerators.mappathfindingtest;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Floor;
+import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,25 +95,25 @@ public class PathfinderTest {
      * PathfinderTest1: this will test if the result is different form the initial position
      */
     @Test
-    public void PathfinderTest1(){
+    public void PathfinderTestResultNotPointA(){
         Vector3 pointA = new Vector3(6,6,0);
         Vector3 pointB = new Vector3(8,13,0);
 
         assertNotEquals(pointA,pathfinder.FindPath(map,pointA,pointB));
+
     }
 
     /**
-     * PathfinderTest1B: when pointB is on the right and up of pointA and there is wall up and left
-     * the xDistance>=yDistance
-     * the result should be 5, the right tile
+     * PathfinderTest2 test if the result is not a wall
+
      */
 
     @Test
-    public void PathfinderTest1B(){
+    public void PathfinderTestResultNotWall(){
         Vector3 pointA = new Vector3(6,6,0);
         Vector3 pointB = new Vector3(10,9,0);
-        assertEquals(5 ,pathfinder.FindPath(map,pointA,pointB).x);
-        assertEquals(6 ,pathfinder.FindPath(map,pointA,pointB).y);
+
+        assertNotEquals(Tile.tileTypes.wall,map.getTile(pathfinder.FindPath(map,pointA,pointB)).getTileType());
     }
 
 
