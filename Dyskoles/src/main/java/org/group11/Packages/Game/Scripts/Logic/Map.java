@@ -56,7 +56,7 @@ public class Map {
     }
 
     // Eric - I need this to spawn enemies on the floor!!
-    /**
+    /**`
      * Returns a list of all Floor tiles within the map.
      * @return Floor tile list.
      */
@@ -125,20 +125,15 @@ public class Map {
             String key = tilePositions.nextElement();
 
             //this will split the data from a string into node list
-
             String[] res =(key.split("[.]", 0));
-            //this can get me the x and y
+            //this will get me the x and y coordinates
             int i =1;
             for(String myStr: res) {
-                //System.out.println(myStr);
+
                 if(i<2) {
                     row =   Integer.parseInt(myStr);
                     int number = Integer.parseInt(myStr);
-
-
-                    //System.out.println(row +" row " );
                     t++;
-
                 }
 
                 if(i == 2 ){
@@ -150,22 +145,16 @@ public class Map {
                         for(String tokenstr: tokens){
                             if(tokensNum != 1){
                                 col = - Integer.parseInt(tokenstr);
-
-                               // System.out.println(col+ " col" );
                             }
-
                             tokensNum++;
                         }
                     }else {
                         col = Integer.parseInt(myStr);
-                        //System.out.println(col+ " col" );
                     }
-
                 }
 
                 if(i==3){
-                    //node[col] [row] = new Node(col,row);
-                    nodeArrayList.add(new Node(col,row));// this contains all the nodes and positionaw
+                    nodeArrayList.add(new Node(col,row));// this contains all the nodes and positions
                 }
 
                 i++;
@@ -176,18 +165,15 @@ public class Map {
 
             //setting the tiles as solid or not solid
             if(_tileMap.get(key).getTileType() == Tile.tileTypes.floor){
-                //node[col] [row].solid= false;
                 nodeArrayList.get(u).solid = false;
             } else if(_tileMap.get(key).getTileType() == Tile.tileTypes.wall){
-                // node[col] [row].solid= true;
                 nodeArrayList.get(u).solid = true;
             }
             u++;
         }//end of for loop for the enumeration
 
-        //System.out.println(nodeArrayList.get(u-1).row +"  printing the actual data for test "+nodeArrayList.get(u-1).col );
 
-        // setting the origine
+        // setting the start and goalnode
         int Ax = (int) pointA.x;
         int Ay = (int) pointA.y;
         int Bx = (int) pointB.x;
@@ -195,7 +181,7 @@ public class Map {
 
         Node startNode = setStartNode(nodeArrayList,Ax,Ay);
         Node goalNode = setGoalNode(nodeArrayList,Bx,By);
-        //System.out.println("proper goal node row"+pointB.x);
+
         Node currentNode = startNode;
 
         setCostOnNodes(nodeArrayList,startNode,goalNode);
@@ -204,6 +190,7 @@ public class Map {
     }
 
     /**
+     * this method set a node as start node
      * @param col
      * @param row
      * @return
@@ -216,27 +203,35 @@ public class Map {
                 startNode1 = nodeArrayList.get(counter);
             }
         }
-        //System.out.println("Start node "+ startNode1.col + startNode1.row);
-
         return startNode1;
     }
 
 
-
+    /**
+     * This will set a node as the goal node
+     * @param nodeArrayList
+     * @param row
+     * @param col
+     * @return node
+     */
     private Node setGoalNode(ArrayList<Node> nodeArrayList, int row, int col) {
         Node goalNode= new Node(0,0);
         for (int counter = 0; counter < nodeArrayList.size(); counter++){
             if(nodeArrayList.get(counter).row ==row && nodeArrayList.get(counter).col ==col){
                 nodeArrayList.get(counter).setAsStart();
                 goalNode = nodeArrayList.get(counter);
-                //System.out.println("goalnode node "+goalNode.row);
             }
         }
-        //System.out.println("goalnode node row "+goalNode.row + "col "+goalNode.col);
 
         return goalNode;
     }
 
+    /**
+     * This method set the cost of a node: the cost is the axes distance between the goal and start
+     * @param nodeArrayList
+     * @param startNode
+     * @param goalNode
+     */
 
     private void setCostOnNodes(ArrayList<Node> nodeArrayList, Node startNode, Node goalNode) {
 
@@ -244,9 +239,7 @@ public class Map {
         int row1 = 0;
         for(int counter = 0; counter < nodeArrayList.size(); counter++) {
 
-            //System.out.println(node[col1][row1].col +"  "+node[col1][row1].row );
             getCost(nodeArrayList.get(counter),startNode,goalNode);
-
             col1 ++;
             if(col1 == 100) {
                 col1 = 0;
@@ -255,7 +248,12 @@ public class Map {
         }
     }
 
-
+    /**
+     * this calculate the cost which is the distance between start, current and goal node
+     * @param node
+     * @param startNode
+     * @param goalNode
+     */
     //  calculates the distance between start,current and goal nodes
     private void getCost(Node node, Node startNode, Node goalNode) {
         // GET G COST (The distance from the start node)
@@ -275,7 +273,17 @@ public class Map {
 
     }
 
-
+    /**
+     * This method will search the closest path and return a vector of the closest path
+     * @param nodeArrayList
+     * @param openList
+     * @param checkedList
+     * @param currentNode
+     * @param goalReached
+     * @param goalNode
+     * @param startNode
+     * @return
+     */
     // this will autosearch the path automaticlay
     public Vector3 autosearch(ArrayList<Node> nodeArrayList, ArrayList<Node> openList, ArrayList<Node> checkedList, Node currentNode, boolean goalReached, Node goalNode, Node startNode) {
 
@@ -353,7 +361,12 @@ public class Map {
         return vector;
     }
 
-
+    /**
+     * This method checks if a node has been opened and add it to openlist to the openList in case it's not opened
+     * @param node
+     * @param currentNode
+     * @param openList
+     */
     private void openNode(Node node, Node currentNode, ArrayList<Node> openList) {
         if(node.open == false && node.checked == false && node.solid == false) {
             // If the node is not opened yet, add it to the open list.
@@ -363,23 +376,27 @@ public class Map {
         }
     }
 
+    /**
+     *  This method backtracks and gives the best path
+     * @param goalNode
+     * @param startNode
+     * @return a vector
+     */
     private Vector3 trackThePath(Node goalNode, Node startNode) {
 
-        // Backtrack and draw the best path
+        // Backtrack and give the best path
         Node current = goalNode;
         while(current != startNode) {
             current = current.parent;
             if(current.parent == startNode) {
-                //System.out.println( current.row+" closest "+current.col);
                 Vector3 newvec = new Vector3(current.row,current.col,0);
-                //losestPosition = newvec;
                 return newvec;
             }
 
 
         }
         return new Vector3(goalNode.row, goalNode.col,0);
-        //return null;
+
     }
 
 

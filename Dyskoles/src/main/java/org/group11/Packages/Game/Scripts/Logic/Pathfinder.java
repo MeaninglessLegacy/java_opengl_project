@@ -33,9 +33,6 @@ public class Pathfinder {
 	public  Vector3 FindPath(Map map, Vector3 pointA, Vector3 pointB){
 		Vector3 nextposition = new Vector3(0,0,0);
 		nextposition= map.getNextPosition(pointA,pointB);
-		//String positionkey = map.getPosKey(nextposition);
-		//System.out.printf(pointB.x+" "+pointB.y+"\n");
-		//System.out.println(positionkey + " this is the next position ");
 		return nextposition;
 
 	}
