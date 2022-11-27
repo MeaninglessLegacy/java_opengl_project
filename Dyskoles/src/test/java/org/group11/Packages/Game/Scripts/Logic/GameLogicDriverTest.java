@@ -12,6 +12,7 @@ import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
 import org.group11.Packages.Game.Scripts.Item_Scripts.RegenHeart;
 import org.group11.Packages.Game.Scripts.Item_Scripts.SpikeTrap;
 import org.group11.Packages.Game.Scripts.Levels.TestLevel;
+import org.group11.Packages.Game.Scripts.Levels.TestRoom2;
 import org.group11.Packages.Game.Scripts.TestSetup;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Floor;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
@@ -116,6 +117,9 @@ public class GameLogicDriverTest extends TestSetup {
 
         assert(GameLogicDriver.set_gameLevelAtStage(testLevel1, 1));
         assert(GameLogicDriver._gameLevelList.get(0) == testLevel1);
+        // Testing out of bounds
+        assert(!GameLogicDriver.set_gameLevelAtStage(testLevel1, 3));
+        assert(!GameLogicDriver.set_gameLevelAtStage(testLevel1, -1));
     }
 
     /**
