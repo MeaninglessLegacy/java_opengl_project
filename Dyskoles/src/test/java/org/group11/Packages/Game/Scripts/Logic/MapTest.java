@@ -8,6 +8,7 @@ import org.group11.Packages.Game.Scripts.Tile_Scripts.Wall;
 import org.junit.Test;
 
 import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Runs tests on various methods for the Map class
@@ -70,4 +71,17 @@ public class MapTest extends TestSetup {
         map.clearMap();
         assert(map.get_tileMap().size() == 0);
     }
+
+
+    /**
+     * Test for pathinfinder helper functions
+     */
+
+    @Test
+    public void getNexPositionTest(){
+        Vector3 pointA = new Vector3(5,5,0);
+        Vector3 pointB = new Vector3(2,3,0);
+        assertNotNull(map.getNextPosition(pointA,pointB));
+    }
+
 }

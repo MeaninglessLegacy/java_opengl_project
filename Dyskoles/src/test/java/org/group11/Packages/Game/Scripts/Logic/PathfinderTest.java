@@ -81,8 +81,8 @@ public class PathfinderTest {
     @Test
     public void pathfinderresultnotnull(){
 
-        Vector3 pointA = new Vector3(5,5,0);
-        Vector3 pointB = new Vector3(2,3,0);
+        Vector3 pointA = new Vector3(4,6,0);
+        Vector3 pointB = new Vector3(8,5,0);
 
         assertNotNull(pathfinder.FindPath(map,pointA,pointB));
 
@@ -92,7 +92,7 @@ public class PathfinderTest {
 
 
     /**
-     * PathfinderTest1: this will test if the result is different form the initial position
+     * PathfinderTestResultNotPointA: this will test if the result is different form the initial position
      */
     @Test
     public void PathfinderTestResultNotPointA(){
@@ -104,7 +104,7 @@ public class PathfinderTest {
     }
 
     /**
-     * PathfinderTest2 test if the result is not a wall
+     * PathfinderTestResultNotWall test if the result is not a wall
 
      */
 

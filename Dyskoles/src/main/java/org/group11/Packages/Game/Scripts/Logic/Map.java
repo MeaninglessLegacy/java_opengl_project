@@ -109,7 +109,7 @@ public class Map {
     public Vector3 getNextPosition(Vector3 pointA, Vector3 pointB){
         int u =0;
         int t = 0;
-
+        System.out.println("here1");
         int col = 0;
         int row = 0;
 
@@ -122,6 +122,7 @@ public class Map {
 
         // this for loop will loop throug the enumeration and convert all the tiles into arraylist
         for (Enumeration<String> tilePositions = _tileMap.keys(); tilePositions.hasMoreElements();){  // this loop is getting all the tiles in the map
+            System.out.println("here2");
             String key = tilePositions.nextElement();
 
             //this will split the data from a string into node list
@@ -185,7 +186,7 @@ public class Map {
         Node currentNode = startNode;
 
         setCostOnNodes(nodeArrayList,startNode,goalNode);
-
+        System.out.println("cost done");
         return  autosearch(nodeArrayList,openList,checkedList,currentNode,goalReached,goalNode,startNode);
     }
 
@@ -269,7 +270,6 @@ public class Map {
 
         node.fCost = node.gCost + node.hCost;
 
-        //System.out.println(node.fCost + " G cost "+node.gCost );
 
     }
 
@@ -286,8 +286,12 @@ public class Map {
      */
     // this will autosearch the path automaticlay
     public Vector3 autosearch(ArrayList<Node> nodeArrayList, ArrayList<Node> openList, ArrayList<Node> checkedList, Node currentNode, boolean goalReached, Node goalNode, Node startNode) {
+        System.out.println("autosearch started");
+        int step = 0;
 
         while(goalReached == false) {
+            System.out.println("autosearch started while loop");
+            System.out.println(nodeArrayList.size());
             int col = currentNode.col;
 
             int row = currentNode.row;
@@ -350,13 +354,15 @@ public class Map {
             if(!openList.isEmpty()){ currentNode = openList.get(bestNodeIndex);}
 
             if(currentNode == goalNode) {
-                goalReached = true;
+                //goalReached = true;
+                System.out.println("track path reached");
                 return trackThePath(goalNode,startNode);
             }
 
-
+            step++;
+            if(step == nodeArrayList.size()){ goalReached = true;}
         }
-        //step++;
+
         Vector3 vector = new Vector3(startNode.col, startNode.row, 0);
         return vector;
     }
@@ -383,7 +389,7 @@ public class Map {
      * @return a vector
      */
     private Vector3 trackThePath(Node goalNode, Node startNode) {
-
+        System.out.println("here4");
         // Backtrack and give the best path
         Node current = goalNode;
         while(current != startNode) {
