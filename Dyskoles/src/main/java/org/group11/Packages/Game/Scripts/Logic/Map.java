@@ -386,7 +386,7 @@ public class Map {
      *  This method backtracks and gives the best path
      * @param goalNode
      * @param startNode
-     * @return a vector
+     * @return a vector which is the sext position
      */
     private Vector3 trackThePath(Node goalNode, Node startNode) {
         System.out.println("here4");
