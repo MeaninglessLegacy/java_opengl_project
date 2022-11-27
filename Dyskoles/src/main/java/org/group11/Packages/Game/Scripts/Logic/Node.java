@@ -19,7 +19,7 @@ public class Node {
     boolean checked;
 
 
-    //Tile.tileTypes types;
+
 
 
 
