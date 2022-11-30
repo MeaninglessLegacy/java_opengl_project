@@ -34,7 +34,7 @@ public class MainCharacter extends Character{
     double time; // time since last update
     double x; // character scaling parameter for breathing effect
 
-    // used to animate running from previous tile to new tile
+    // used to animate running and move the character
     private Vector3 moveVector = new Vector3(); // direction to move the character in
     private int frame = 1; // current animation frame
     private double lastFrameTime = 0; // time since last frame in MS
@@ -186,16 +186,14 @@ public class MainCharacter extends Character{
                 frame++;
                 lastFrameTime = 0;
             }
-            Vector3 spritePos = characterSprite.get_sprite().transform.position;
-            spritePos.x = moveVector.x - moveVector.x/10;
-            spritePos.y = moveVector.y - moveVector.y/10;
+            this.transform.position.x += moveVector.x/10;
+            this.transform.position.y += moveVector.y/10;
             moveVector.x -= moveVector.x/10;
             moveVector.y -= moveVector.y/10;
         }else{
             // since game logic is on a integer grid we need to snap back to the grid when done
-            Vector3 spritePos = characterSprite.get_sprite().transform.position;
-            spritePos.x = 0;
-            spritePos.y = 0;
+            this.transform.position.x = Math.round(this.transform.position.x);
+            this.transform.position.y = Math.round(this.transform.position.y);
             characterSprite.get_sprite().set_texture("./Resources/ump45.png");
         }
         super.update();
@@ -242,11 +240,11 @@ public class MainCharacter extends Character{
             if (nextMove != null) {
                 boolean canMove = MCCheckMove(this, nextMove);
                 if (canMove) {
-                    this.transform.setPosition(nextMove);
-                    //set the "velocity" vector of character sprite
-                    moveVector.x = -(nextMove.x-playerX);
-                    moveVector.y = -(nextMove.y-playerY);
-                    moveVector.z = -(nextMove.z-playerZ);
+                    //this.transform.setPosition(nextMove);
+                    //set the "velocity" vector of character
+                    moveVector.x = nextMove.x-playerX;
+                    moveVector.y = nextMove.y-playerY;
+                    moveVector.z = nextMove.z-playerZ;
                 }
             }
 
