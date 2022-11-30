@@ -34,8 +34,11 @@ public class MainCharacter extends Character{
     double time; // time since last update
     double x; // character scaling parameter for breathing effect
 
-    // used to animate running and move the character
+    // smoothly move character
     private Vector3 moveVector = new Vector3(); // direction to move the character in
+
+    // animate character
+    private char state = 0;// animation state
     private int frame = 1; // current animation frame
     private double lastFrameTime = 0; // time since last frame in MS
 
@@ -158,13 +161,25 @@ public class MainCharacter extends Character{
     public void start() { instantiateRelatedSprites(Scene.get_scene()); }
 
     /**
+     * Override default attackCharacter to include setting the character animation state to attack.
+     */
+    @Override
+    public boolean attackCharacter(Character defender) {
+        state = 2;
+        frame = 1;
+        return super.attackCharacter(defender);
+    }
+
+    /**
      * Creates a 'breathing' effect by scaling the y component the sprite of this Character down and up over time. Also
-     * moves this object in the direction of the
+     * smoothly move the character to it's destination.
      */
     @Override
     public void update() {
-        // animate bob
+        // all animations are tied to time passed
         double timePassed = System.currentTimeMillis() - time;
+        lastFrameTime += timePassed;
+        // animate bob
         if(x < 2) {
             x += timePassed / 500;
         }else{
@@ -173,28 +188,43 @@ public class MainCharacter extends Character{
         double yScale = -Math.pow((x-1),4)+1;
         characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale), 0);
         time = System.currentTimeMillis();
-        // move character and animate run
-        // animation is bad, takes a lot of memory need to implement sprite sheets
-        lastFrameTime += timePassed;
+        // smoothly move character
         // calculate how much remaining distance to move
         double moveVectorSum = Math.abs(moveVector.x) + Math.abs(moveVector.y);
-        // move towards position
         if(moveVectorSum > 0.1){
+            if(state!= 2)state = 1;
+            this.transform.position.x += moveVector.x/10;
+            this.transform.position.y += moveVector.y/10;
+            moveVector.x -= moveVector.x/10;
+            moveVector.y -= moveVector.y/10;
+        }else{
+            if(state!= 2)state = 0;
+            // since game logic is on a integer grid we need to snap back to the grid when done
+            this.transform.position.x = Math.round(this.transform.position.x);
+            this.transform.position.y = Math.round(this.transform.position.y);
+        }
+        // animate based on state
+        // animation is bad, takes a lot of memory need to implement sprite sheets
+        if(state == 0){
+            characterSprite.get_sprite().set_texture("./Resources/ump45.png");
+        }else if(state == 1){
             if(lastFrameTime > 50){
                 if(frame > 18) frame = 1;
                 characterSprite.get_sprite().set_texture("./Resources/ump45/ump45 ("+frame+").png");
                 frame++;
                 lastFrameTime = 0;
             }
-            this.transform.position.x += moveVector.x/10;
-            this.transform.position.y += moveVector.y/10;
-            moveVector.x -= moveVector.x/10;
-            moveVector.y -= moveVector.y/10;
-        }else{
-            // since game logic is on a integer grid we need to snap back to the grid when done
-            this.transform.position.x = Math.round(this.transform.position.x);
-            this.transform.position.y = Math.round(this.transform.position.y);
-            characterSprite.get_sprite().set_texture("./Resources/ump45.png");
+        }else if(state == 2){
+            if(lastFrameTime > 20){
+                if(frame > 10) {
+                    frame = 1;
+                    state = 0;
+                }
+                characterSprite.get_sprite().set_scale(0.9f, (float)(0.9+0.05*yScale), 0); // image scale is off
+                characterSprite.get_sprite().set_texture("./Resources/ump45/ump45-gun ("+frame+").png");
+                frame++;
+                lastFrameTime = 0;
+            }
         }
         super.update();
     }
@@ -237,20 +267,31 @@ public class MainCharacter extends Character{
             }
 
             // MainCharacter attempts to move
+            Vector3 chrStartPos = new Vector3();
+            boolean chrMoved = false;
             if (nextMove != null) {
                 boolean canMove = MCCheckMove(this, nextMove);
                 if (canMove) {
-                    //this.transform.setPosition(nextMove);
+                    // need to instantaneously move character so game logic can process the turn  then we
+                    // can move it back to animate the move
+                    chrStartPos.x = this.transform.position.x;
+                    chrStartPos.y = this.transform.position.y;
+                    chrStartPos.z = this.transform.position.z;
+                    this.transform.setPosition(nextMove);
+                    chrMoved = true;
                     //set the "velocity" vector of character
                     moveVector.x = nextMove.x-playerX;
                     moveVector.y = nextMove.y-playerY;
                     moveVector.z = nextMove.z-playerZ;
                 }
             }
-
+            // Perform logic after the character moves
             // Checks for items
             MCCheckItem(this);
             afterMCMoveLogic(this);
+            // Shift character back to start position to animate movement, since we needed to instantaneously move
+            // character to new position first to handle game logic
+            if(chrMoved)this.transform.setPosition(chrStartPos);
         }
     }
 }
