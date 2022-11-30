@@ -104,6 +104,19 @@ class PlayerObject extends GameObject {
             }
             lastFrameTime = 0;
         }
+        // slow down
+        if(velocity.x > 0){
+            velocity.x -= 0.001;
+        }
+        if(velocity.x < 0){
+            velocity.x += 0.001;
+        }
+        if(velocity.y > 0){
+            velocity.y -= 0.001;
+        }
+        if(velocity.y < 0){
+            velocity.y += 0.001;
+        }
         // mov
         if(velocity.x > velocityThreshold){
             if(facingRight == false) spriteRenderer.get_sprite().flipX();
@@ -202,6 +215,18 @@ class movingCamera extends Camera {
         }
         if(key==84){ // t
             this.transform.position.z -= 0.02;
+        }
+        if(key == '1'){
+            this.transform.rotation.y += 0.01;
+        }
+        if(key == '2'){
+            this.transform.rotation.y -= 0.01;
+        }
+        if(key == '3'){
+            this.transform.rotation.x += 0.01;
+        }
+        if(key == '4'){
+            this.transform.rotation.x -= 0.01;
         }
     }
 }

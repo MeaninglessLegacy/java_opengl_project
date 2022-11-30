@@ -26,7 +26,7 @@ public class FollowingCamera extends Camera {
     public void update() {
         if(_subject == null) return;
         targetPos.x = _subject.transform.position.x;
-        targetPos.y = _subject.transform.position.y-3;
+        targetPos.y = _subject.transform.position.y-2;
         targetPos.z = _subject.transform.position.z;
         Vector3 thisPos = this.transform.position;
         float distance = (float)Math.sqrt(
@@ -72,8 +72,5 @@ public class FollowingCamera extends Camera {
         } else if (key == 'M') {
             this.transform.rotation.z += +0.1;
         }
-
-        //System.out.println("rotation: "+transform.rotation.x+","+transform.rotation.y);
-        //System.out.println("position: "+transform.position.x+","+transform.position.y+","+transform.position.z);
     }
 }

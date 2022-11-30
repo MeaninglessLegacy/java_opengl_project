@@ -31,7 +31,7 @@ public class Window {
     private Vector4 _clearColor = new Vector4(0f, 0f, 0f, 0f); // background color
 
     //******************************************************************************************************************
-    //* ids for initialized glfwWindow and ALC
+    //* ids for initialized glfwWindow and al
     //******************************************************************************************************************
     private long _glfwWindow = 0L;
     private long _audioContext = 0L;

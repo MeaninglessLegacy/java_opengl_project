@@ -133,7 +133,7 @@ public class Renderer {
     //* add and remove objects from the renderList
     //******************************************************************************************************************
     /**
-     *
+     * Add game object to rendering list.
      * @param gameObject
      */
     public void add(GameObject gameObject){
@@ -144,7 +144,7 @@ public class Renderer {
     }
 
     /**
-     *
+     * Remove game object from rendering list.
      * @param gameObject
      */
     public void remove(GameObject gameObject){

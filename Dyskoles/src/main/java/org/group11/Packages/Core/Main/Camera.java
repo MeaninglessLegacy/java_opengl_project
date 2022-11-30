@@ -3,8 +3,6 @@ package org.group11.Packages.Core.Main;
 import org.group11.Packages.Core.DataStructures.Vector2;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Util.Constants;
-import org.lwjgl.ovr.OVRMatrix4f;
-import org.lwjgl.ovr.OVRVector3f;
 
 /**
  * Camera object that the game can be viewed through when set as the main camera of the scene.
@@ -19,6 +17,7 @@ public class Camera extends GameObject {
      */
     public Camera(){
         this.transform.position.z = -5;
+        this.transform.rotation.x = 3.14f;
     }
 
     //******************************************************************************************************************

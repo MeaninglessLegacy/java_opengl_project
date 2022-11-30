@@ -31,13 +31,8 @@ public class Texture {
     public Texture(BufferedImage image, boolean hasAlpha){
         // Check OpenGL context, will crash if trying to bind a texture without a OpenGL context
         if(glfwGetCurrentContext() == NULL){
-            Window window = Window.get_window();
-            if(window.get_glfwWindow() != NULL){
-                glfwMakeContextCurrent(window.get_glfwWindow()); // set current context
-            }else{
-                System.out.println("Failed to load texture. Reason: No current OpenGL context.");
-                System.exit(-1);
-            }
+            System.out.println("Failed to load texture. Reason: No current OpenGL context.");
+            System.exit(-1);
         }
         /* taken from and modified from
         https://stackoverflow.com/questions/59856706/how-can-i-load-bufferedimage-as-opengl-texture */
@@ -94,13 +89,8 @@ public class Texture {
 
         // Check OpenGL context, will crash if trying to bind a texture without a OpenGL context
         if(glfwGetCurrentContext() == NULL){
-            Window window = Window.get_window();
-            if(window.get_glfwWindow() != NULL){
-                glfwMakeContextCurrent(window.get_glfwWindow()); // set current context
-            }else{
-                System.out.println("Failed to load texture \""+filePath+"\" Reason: No current OpenGL context.");
-                System.exit(-1);
-            }
+            System.out.println("Failed to load texture \""+filePath+"\" Reason: No current OpenGL context.");
+            System.exit(-1);
         }
 
         // get ByteButter with pixel color data

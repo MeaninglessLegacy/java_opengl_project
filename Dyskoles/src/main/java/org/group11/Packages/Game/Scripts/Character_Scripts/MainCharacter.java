@@ -75,7 +75,7 @@ public class MainCharacter extends Character{
         characterSprite = new SpriteRenderer(this, "./Resources/ump45.png");
         this.addComponent(characterSprite);
         // display sprite on top of other sprites with small z translation
-        characterSprite.get_sprite().transform.position.z -= 0.5;
+        characterSprite.get_sprite().transform.position.z -= 0.4;
         _healthBarOutline = new HealthBarOutline(this);
         _healthBarInside = new HealthBarInside(this);
         _EXPBarOutline = new EXPBarOutline(this);
@@ -179,15 +179,6 @@ public class MainCharacter extends Character{
         // all animations are tied to time passed
         double timePassed = System.currentTimeMillis() - time;
         lastFrameTime += timePassed;
-        // animate bob
-        if(x < 2) {
-            x += timePassed / 500;
-        }else{
-            x = 0;
-        }
-        double yScale = -Math.pow((x-1),4)+1;
-        characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale), 0);
-        time = System.currentTimeMillis();
         // smoothly move character
         // calculate how much remaining distance to move
         double moveVectorSum = Math.abs(moveVector.x) + Math.abs(moveVector.y);
@@ -203,6 +194,15 @@ public class MainCharacter extends Character{
             this.transform.position.x = Math.round(this.transform.position.x);
             this.transform.position.y = Math.round(this.transform.position.y);
         }
+        // animate bob
+        if(x < 2) {
+            x += timePassed / 500;
+        }else{
+            x = 0;
+        }
+        double yScale = -Math.pow((x-1),4)+1;
+        characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale), 0);
+        time = System.currentTimeMillis();
         // animate based on state
         // animation is bad, takes a lot of memory need to implement sprite sheets
         if(state == 0){
