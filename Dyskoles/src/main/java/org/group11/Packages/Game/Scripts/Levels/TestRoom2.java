@@ -42,7 +42,7 @@ public class TestRoom2 extends Level {
         _enemies.add(testBoss);
         int enemies = random.nextInt(20)+10;
         for(int i=0; i < enemies; i++){
-            if(random.nextInt(10)==0){
+            if(random.nextInt(40)==0){
                 Runner testRunner = new Runner(new Vector3(15, 5, 0));
                 _enemies.add(testRunner);
             }else{

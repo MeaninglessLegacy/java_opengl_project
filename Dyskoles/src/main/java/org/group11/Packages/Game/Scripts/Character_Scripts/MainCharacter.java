@@ -34,6 +34,18 @@ public class MainCharacter extends Character{
     protected AttackIncreaseIndicator _attackIncreaseIndicator;
     protected HealthIncreaseIndicator _healthIncreaseIndicator;
 
+    // time of last update call
+    protected double _lastUpdateTime;
+
+    // smoothly move character during update() calls
+    private Vector3 _moveVector = new Vector3(); // direction to move the character in
+
+    // animate character
+    private char _aniState = 0;// animation state
+    private int _aniFrame = 1; // current animation frame
+    private double _timeSinceLastFrame = 0; // time since last frame in MS
+    private double _breathingScale; // character scaling parameter for breathing effect
+
     //******************************************************************************************************************
     //* setters and getters
     //******************************************************************************************************************
@@ -64,10 +76,10 @@ public class MainCharacter extends Character{
         _statBlock.set_MaxHp(3);
         _statBlock.set_hp(3);
         _statBlock.set_Atk(1);
-        characterSprite = new SpriteRenderer(this, "./Resources/ump45.png");
+        characterSprite = new SpriteRenderer(this, "./Resources/ump45/ump45.png");
         this.addComponent(characterSprite);
         // display sprite on top of other sprites with small z translation
-        characterSprite.get_sprite().transform.position.z -= 0.2;
+        characterSprite.get_sprite().transform.position.z -= 0.4;
         _healthBarOutline = new HealthBarOutline(this);
         _healthBarInside = new HealthBarInside(this);
         _EXPBarOutline = new EXPBarOutline(this);
@@ -153,30 +165,101 @@ public class MainCharacter extends Character{
     }
 
     /**
-     * Runs any animations the character's sprite needs
+     * Override takeDamage to include setting death animation.
+     */
+    @Override
+    public void takeDamage(int hp) {
+        super.takeDamage(hp);
+        if(_statBlock._hp <= 0){
+            _aniState = 3;
+            _aniFrame = 1;
+        }
+    }
+
+    /**
+     * Override attackCharacter to include setting the character animation state to attack.
+     */
+    @Override
+    public boolean attackCharacter(Character defender) {
+        // set animation parameters
+        _aniState = 2;
+        _aniFrame = 1;
+        return super.attackCharacter(defender);
+    }
+
+    /**
+     * Smoothly moves character to next position based on the _moveVector. And animates the character based on the
+     * character _animState.
      */
     @Override
     public void update() {
-        // Animates the 'breathing' effect of the character
-        double timePassed = System.currentTimeMillis() - time;
-        if(x < 2) {
-            x += timePassed / 500;
+        // all animations are tied to time passed
+        double timePassed = System.currentTimeMillis() - _lastUpdateTime;
+        _timeSinceLastFrame += timePassed;
+        _lastUpdateTime = System.currentTimeMillis();
+        // animations that override movement
+        boolean animOveride = _aniState == 2 || _aniState == 3;
+        // smoothly move character based on remaining _moveVector
+        double moveVectorSum = Math.abs(_moveVector.x) + Math.abs(_moveVector.y);
+        if(moveVectorSum > 0.1){
+            if(!animOveride) _aniState = 1;
+            this.transform.position.x += _moveVector.x/10;
+            this.transform.position.y += _moveVector.y/10;
+            _moveVector.x -= _moveVector.x/10;
+            _moveVector.y -= _moveVector.y/10;
         }else{
-            x = 0;
+            if(!animOveride) _aniState = 0;
+            // since game logic is on a integer grid we need to snap back to the grid when done
+            this.transform.position.x = Math.round(this.transform.position.x);
+            this.transform.position.y = Math.round(this.transform.position.y);
         }
-        double yScale = -Math.pow((x-1),4)+1;
-        characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale), 0);
-        time = System.currentTimeMillis();
-
-        // If the MainCharacter attacks a character, animates the attack
+        // animate character bobbing
+        if(_breathingScale < 2) {
+            _breathingScale += timePassed / 500;
+        }else{
+            _breathingScale = 0;
+        }
+        double yScale = -Math.pow((_breathingScale -1),4)+1;
+        if(!animOveride)characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale), 0);
+        // animate based on state
+        // animation is bad, takes a lot of memory need to implement sprite sheets
+        if(_aniState == 0){
+            characterSprite.get_sprite().set_texture("./Resources/ump45/ump45.png");
+        }else if(_aniState == 1){
+            if(_timeSinceLastFrame > 50){
+                if(_aniFrame > 18) _aniFrame = 1;
+                characterSprite.get_sprite().set_texture("./Resources/ump45/run/ump45 ("+ _aniFrame +").png");
+                _aniFrame++;
+                _timeSinceLastFrame = 0;
+            }
+        }else if(_aniState == 2){
+            if(_timeSinceLastFrame > 20){
+                if(_aniFrame > 10) {
+                    _aniFrame = 1;
+                    _aniState = 0;
+                }
+                characterSprite.get_sprite().set_scale(0.9f, (float)(0.9+0.05*yScale), 0); // image scale is off
+                characterSprite.get_sprite().set_texture("./Resources/ump45/gun/ump45-gun ("+ _aniFrame +").png");
+                _aniFrame++;
+                _timeSinceLastFrame = 0;
+            }
+        }else if(_aniState == 3){
+            if(_timeSinceLastFrame > 20){
+                if(_aniFrame < 18 && _aniFrame > 0) {
+                    characterSprite.get_sprite().set_scale(1.5f, 1.5f, 0);
+                    characterSprite.get_sprite().set_texture("./Resources/ump45/death/ump45-death (" + _aniFrame + ").png");
+                    _aniFrame++;
+                    _timeSinceLastFrame = 0;
+                }
+            }
+        }
         if (isAttacking) {
             attackAnimation();
         }
-
         super.update();
     }
 
-    private long lastTime = 0;
+    private long _lastButtonPressTime = 0; // debounce key press
     /**
      * When a movement key is pressed, if there was sufficient time since the last movement key press, then gets the
      * direction of where the MainCharacter is attempting to move and asks GameLogicDriver if it can move to that
@@ -185,10 +268,11 @@ public class MainCharacter extends Character{
      */
     @Override
     public void onKeyDown(int key) {
+        if(_statBlock._hp < 1) return; // check if character is dead
         int timeBeforeNextRead = 200;
-        if(System.currentTimeMillis()-lastTime > timeBeforeNextRead &&
+        if(System.currentTimeMillis()- _lastButtonPressTime > timeBeforeNextRead &&
            (key == 'W' || key == 'A' || key == 'S' || key == 'D')) {
-            lastTime = System.currentTimeMillis();
+            _lastButtonPressTime = System.currentTimeMillis();
 
             // Gets the position of where this MainCharacter is moving to next
             float playerX = transform.position.x;
@@ -199,31 +283,45 @@ public class MainCharacter extends Character{
                 nextMove = new Vector3(playerX, playerY + 1, playerZ);
             } else if (key == 'A') {
                 nextMove = new Vector3(playerX - 1, playerY, playerZ);
-                if(facingRight){
-                    facingRight = false;
+                if(_chrIsFacingRight){
+                    _chrIsFacingRight = false;
                     characterSprite.get_sprite().flipX();
                 }
             } else if (key == 'S') {
                 nextMove = new Vector3(playerX, playerY - 1, playerZ);
             } else if (key == 'D') {
                 nextMove = new Vector3(playerX + 1, playerY, playerZ);
-                if(!facingRight){
-                    facingRight = true;
+                if(!_chrIsFacingRight){
+                    _chrIsFacingRight = true;
                     characterSprite.get_sprite().flipX();
                 }
             }
-
+            // Create move animation start position and check if the character successfully moved
+            Vector3 chrStartPos = new Vector3();
+            boolean chrMoved = false;
             // MainCharacter attempts to move
             if (nextMove != null) {
                 boolean canMove = MCCheckMove(this, nextMove);
                 if (canMove) {
+                    // Setup move animation start position
+                    chrStartPos.x = this.transform.position.x;
+                    chrStartPos.y = this.transform.position.y;
+                    chrStartPos.z = this.transform.position.z;
+                    chrMoved = true;
+                    // Need to instantaneously move character so game logic can process the turn
                     this.transform.setPosition(nextMove);
+                    // Set the "velocity" vector of character
+                    _moveVector.x = nextMove.x-playerX;
+                    _moveVector.y = nextMove.y-playerY;
+                    _moveVector.z = nextMove.z-playerZ;
                 }
             }
-
+            // Perform logic after the character moves
             // Checks for items
             MCCheckItem(this);
             afterMCMoveLogic(this);
+            // Shift character back to start position after logic processing so the movement is animated correctly
+            if(chrMoved)this.transform.setPosition(chrStartPos);
         }
     }
 }

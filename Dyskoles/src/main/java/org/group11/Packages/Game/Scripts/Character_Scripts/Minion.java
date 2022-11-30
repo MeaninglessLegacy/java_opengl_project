@@ -35,7 +35,7 @@ public class Minion extends Enemy{
         _healthBarOutline = new HealthBarOutline(this);
         _moveCountdown = new MoveCountdown(this);
 
-        facingRight = false;
+        _chrIsFacingRight = false;
     }
 
     //******************************************************************************************************************

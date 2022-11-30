@@ -98,6 +98,7 @@ public class Map {
 
     //******************************************************************************************************************
     //* methods for Pathfinder. These methods will help convert the map into arrayList of nodes and calculate the next best position
+    //* Eric - PLEASE MOVE THIS TO ITS OWN CLASS
     //******************************************************************************************************************
 
     /**

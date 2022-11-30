@@ -1,14 +1,10 @@
 package org.group11.Packages.Game.Scripts.Tile_Scripts.CubeWall;
 
 import org.group11.Packages.Core.DataStructures.Vector3;
-import org.group11.Packages.Core.Main.GameObject;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * A cube shaped wall.
@@ -34,6 +30,7 @@ public class CubeWall extends Tile {
      * Sets up the cube faces.
      */
     private void SetupFaces(){
+        Random r = new Random();
         Vector3[] cubeVertices = new Vector3[]{
                 new Vector3(-0.5f, 0.5f, -0.5f),
                 new Vector3(0.5f, 0.5f, -0.5f),

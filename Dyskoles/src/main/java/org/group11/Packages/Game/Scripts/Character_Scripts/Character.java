@@ -3,7 +3,6 @@ package org.group11.Packages.Game.Scripts.Character_Scripts;
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Core.Main.GameObject;
-import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBar.HealthBarInside;
 import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBar.HealthBarOutline;
 
@@ -16,9 +15,7 @@ public abstract class Character extends GameObject {
     //******************************************************************************************************************
     // Used to help render and control the character's sprite
     protected SpriteRenderer characterSprite;
-    protected boolean facingRight = true;
-    double time; // time since last update
-    double x; // character scaling parameter for breathing effect
+    protected boolean _chrIsFacingRight = true;
 
     // Stores all the stats of this character
     protected StatBlock _statBlock = new StatBlock();
@@ -65,6 +62,7 @@ public abstract class Character extends GameObject {
      */
     public void takeDamage(int hp) {
         _statBlock.set_hp(_statBlock.get_hp() - hp);
+        if(_statBlock._hp < 0) _statBlock.set_hp(0);
         _healthBarInside.changeHealthBar(((float) _statBlock.get_hp()), ((float)_statBlock.get_maxHp()));
     }
 

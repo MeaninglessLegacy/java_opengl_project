@@ -17,7 +17,6 @@ public class Pathfinder {
 	 * @param pointB the point to where to find a path to
 	 * @return the first Vector3 in the path to from point A to point B
 	 */
-
 	// these will help to check if we have reached point B
 	boolean pointBReached = false;
 	int step=0;
@@ -29,20 +28,10 @@ public class Pathfinder {
 	 * @param pointB
 	 * @return
 	 */
-
 	public  Vector3 FindPath(Map map, Vector3 pointA, Vector3 pointB){
 		Vector3 nextposition = new Vector3(0,0,0);
 		nextposition= map.getNextPosition(pointA,pointB);
 		return nextposition;
 
 	}
-
-
-
-
-
-
-
-
-
 }

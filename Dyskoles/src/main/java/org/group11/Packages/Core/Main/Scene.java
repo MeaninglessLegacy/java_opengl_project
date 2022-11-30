@@ -201,7 +201,7 @@ public class Scene {
     }
 
     //******************************************************************************************************************
-    //* event listeners
+    //* event listeners - move to own class
     //******************************************************************************************************************
     /**
      * When called, sets the state of the given key to 1 (key is down) inside the Scene's _keyState. Scene uses these

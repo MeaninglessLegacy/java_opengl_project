@@ -10,6 +10,7 @@ import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.openal.ALCapabilities;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL45;
 
 import static java.sql.Types.NULL;
 import static org.lwjgl.glfw.GLFW.*;
@@ -30,7 +31,7 @@ public class Window {
     private Vector4 _clearColor = new Vector4(0f, 0f, 0f, 0f); // background color
 
     //******************************************************************************************************************
-    //* ids for initialized glfwWindow and ALC
+    //* ids for initialized glfwWindow and al
     //******************************************************************************************************************
     private long _glfwWindow = 0L;
     private long _audioContext = 0L;

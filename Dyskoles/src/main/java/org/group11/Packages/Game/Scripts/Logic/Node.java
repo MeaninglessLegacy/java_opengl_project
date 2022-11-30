@@ -5,7 +5,6 @@ import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 import java.lang.reflect.Type;
 
 public class Node {
-
     Node parent;
     int col;
     int row;
@@ -18,15 +17,7 @@ public class Node {
     boolean open;
     boolean checked;
 
-
-
-
-
-
-
-
     //node constructor
-
     public Node(int col, int row) {
         this.col = col;
         this.row =row;
@@ -65,11 +56,4 @@ public class Node {
     public void setAsPath() {
 
     }
-
-
-
-
-
-
-
 }

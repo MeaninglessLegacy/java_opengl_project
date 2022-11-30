@@ -407,12 +407,18 @@ public class GameLogicDriver extends GameObject {
         return true;
     }
 
+    // find a way to fix this and make it more clean
+    // delay game ended by a few ticks so the player can see cause of death + death animation
+    private static boolean _clearGame = false;
+    private static boolean _gameWonState = false;
+    private static int _clearDelayAmount = 50;
     /**
      * Ends the current game and the player either wins or loses, depending on the parameter
      * @param won true if the player won (has reached the exit with a key), false if not (player died)
      */
     public static void endGame(boolean won) {
         System.out.println("The game has ended");
+        /*
         if (won) {
             _gameStage++;
         }
@@ -424,6 +430,10 @@ public class GameLogicDriver extends GameObject {
 
         _menu.createMenu(won, _gameStage, _gameLevelList.size());
         scene.Instantiate(_menu);
+         */
+        _clearDelayAmount = 50;
+        _gameWonState = won;
+        _clearGame = true;
     }
 
     /**
@@ -461,6 +471,25 @@ public class GameLogicDriver extends GameObject {
     //******************************************************************************************************************
     @Override
     public void update() {
+        // delay ending the game by a few ticks for animation to run
+        if(_clearGame == true){
+            if(_clearDelayAmount < 0){
+                _clearGame = false;
+                if (_gameWonState) {
+                    _gameStage++;
+                }
+                clearEverything();
+                _gameStarted = false;
+
+                scene.Instantiate(_menuCamera);
+                scene.set_mainCamera(_menuCamera);
+
+                _menu.createMenu(_gameWonState, _gameStage, _gameLevelList.size());
+                scene.Instantiate(_menu);
+            }else{
+                _clearDelayAmount -= 1;
+            }
+        }
         super.update();
     }
 

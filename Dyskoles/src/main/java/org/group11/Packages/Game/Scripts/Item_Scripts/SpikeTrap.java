@@ -45,7 +45,15 @@ public class SpikeTrap extends Item {
     private void setupSpikeTrap() {
         spriteRenderer = new SpriteRenderer(this, "./Resources/SpikeTrap.png");
         this.addComponent(spriteRenderer);
-        spriteRenderer.get_sprite().transform.position.z -= 0.1;
+        //spriteRenderer.get_sprite().transform.position.z -= 0.1; // if texture is flat must be elevated from floor
+        // create new quads to make spike trap vertical
+        Vector3[] quadCords = new Vector3[] {
+                new Vector3(0.5f, 0.5f, -0.5f),
+                new Vector3(0.5f, 0f, 0f),
+                new Vector3(-0.5f, 0f, 0f),
+                new Vector3(-0.5f, 0.5f, -0.5f)
+        };
+        spriteRenderer.get_sprite().renderComponent.set_quadCords(quadCords);
     }
 
     //******************************************************************************************************************

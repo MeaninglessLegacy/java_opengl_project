@@ -1,6 +1,5 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
-import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
 import org.group11.Packages.Game.Scripts.Logic.Map;
 import org.group11.Packages.Game.Scripts.Logic.Pathfinder;
@@ -26,6 +25,10 @@ public abstract class Enemy extends Character{
     public int expGiven = 1;
     // displays how many ticks until this enemy moves above their sprite
     protected MoveCountdown _moveCountdown;
+
+    // used to animate breathing
+    protected double _lastUpdateTime; // time of last update
+    protected double _breathingScale; // character scaling parameter for breathing effect
 
     //******************************************************************************************************************
     //* setters and getters
@@ -86,12 +89,12 @@ public abstract class Enemy extends Character{
                        it in place if it can't */
                     if (characterInNextSpace == null) {
                         System.out.println("Enemy is moving");
-                        if (nextMove.x < this.transform.position.x && facingRight) {
-                            facingRight = false;
+                        if (nextMove.x < this.transform.position.x && _chrIsFacingRight) {
+                            _chrIsFacingRight = false;
                             characterSprite.get_sprite().flipX();
                         }
-                        else if (nextMove.x > this.transform.position.x && !facingRight) {
-                            facingRight = true;
+                        else if (nextMove.x > this.transform.position.x && !_chrIsFacingRight) {
+                            _chrIsFacingRight = true;
                             characterSprite.get_sprite().flipX();
                         }
                         this.transform.setPosition(nextMove);
@@ -132,15 +135,15 @@ public abstract class Enemy extends Character{
     @Override
     public void update() {
         // Animates the 'breathing' effect of the character
-        double timePassed = System.currentTimeMillis() - time;
-        if(x < 2) {
-            x += timePassed / 500;
+        double timePassed = System.currentTimeMillis() - _lastUpdateTime;
+        if(_breathingScale < 2) {
+            _breathingScale += timePassed / 500;
         }else{
-            x = 0;
+            _breathingScale = 0;
         }
-        double yScale = -Math.pow((x-1),4)+1;
+        double yScale = -Math.pow((_breathingScale -1),4)+1;
         characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale), 0);
-        time = System.currentTimeMillis();
+        _lastUpdateTime = System.currentTimeMillis();
 
         // If the Enemy attacks a character, animates the attack
         if (isAttacking) {
