@@ -10,6 +10,7 @@ import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.openal.ALCapabilities;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL45;
 
 import static java.sql.Types.NULL;
 import static org.lwjgl.glfw.GLFW.*;

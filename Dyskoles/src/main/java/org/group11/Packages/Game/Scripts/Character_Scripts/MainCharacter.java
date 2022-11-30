@@ -34,6 +34,11 @@ public class MainCharacter extends Character{
     double time; // time since last update
     double x; // character scaling parameter for breathing effect
 
+    // used to animate running from previous tile to new tile
+    private Vector3 moveVector = new Vector3(); // direction to move the character in
+    private int frame = 1; // current animation frame
+    private double lastFrameTime = 0; // time since last frame in MS
+
     //******************************************************************************************************************
     //* setters and getters
     //******************************************************************************************************************
@@ -67,7 +72,7 @@ public class MainCharacter extends Character{
         characterSprite = new SpriteRenderer(this, "./Resources/ump45.png");
         this.addComponent(characterSprite);
         // display sprite on top of other sprites with small z translation
-        characterSprite.get_sprite().transform.position.z -= 0.2;
+        characterSprite.get_sprite().transform.position.z -= 0.5;
         _healthBarOutline = new HealthBarOutline(this);
         _healthBarInside = new HealthBarInside(this);
         _EXPBarOutline = new EXPBarOutline(this);
@@ -153,10 +158,12 @@ public class MainCharacter extends Character{
     public void start() { instantiateRelatedSprites(Scene.get_scene()); }
 
     /**
-     * Creates a 'breathing' effect by scaling the y component the sprite of this Character down and up over time
+     * Creates a 'breathing' effect by scaling the y component the sprite of this Character down and up over time. Also
+     * moves this object in the direction of the
      */
     @Override
     public void update() {
+        // animate bob
         double timePassed = System.currentTimeMillis() - time;
         if(x < 2) {
             x += timePassed / 500;
@@ -166,6 +173,31 @@ public class MainCharacter extends Character{
         double yScale = -Math.pow((x-1),4)+1;
         characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale), 0);
         time = System.currentTimeMillis();
+        // move character and animate run
+        // animation is bad, takes a lot of memory need to implement sprite sheets
+        lastFrameTime += timePassed;
+        // calculate how much remaining distance to move
+        double moveVectorSum = Math.abs(moveVector.x) + Math.abs(moveVector.y);
+        // move towards position
+        if(moveVectorSum > 0.1){
+            if(lastFrameTime > 50){
+                if(frame > 18) frame = 1;
+                characterSprite.get_sprite().set_texture("./Resources/ump45/ump45 ("+frame+").png");
+                frame++;
+                lastFrameTime = 0;
+            }
+            Vector3 spritePos = characterSprite.get_sprite().transform.position;
+            spritePos.x = moveVector.x - moveVector.x/10;
+            spritePos.y = moveVector.y - moveVector.y/10;
+            moveVector.x -= moveVector.x/10;
+            moveVector.y -= moveVector.y/10;
+        }else{
+            // since game logic is on a integer grid we need to snap back to the grid when done
+            Vector3 spritePos = characterSprite.get_sprite().transform.position;
+            spritePos.x = 0;
+            spritePos.y = 0;
+            characterSprite.get_sprite().set_texture("./Resources/ump45.png");
+        }
         super.update();
     }
 
@@ -211,6 +243,10 @@ public class MainCharacter extends Character{
                 boolean canMove = MCCheckMove(this, nextMove);
                 if (canMove) {
                     this.transform.setPosition(nextMove);
+                    //set the "velocity" vector of character sprite
+                    moveVector.x = -(nextMove.x-playerX);
+                    moveVector.y = -(nextMove.y-playerY);
+                    moveVector.z = -(nextMove.z-playerZ);
                 }
             }
 

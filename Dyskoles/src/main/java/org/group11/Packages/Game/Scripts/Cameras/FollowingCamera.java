@@ -15,7 +15,7 @@ public class FollowingCamera extends Camera {
 
     public FollowingCamera(GameObject subject){
         this.transform.position = new Vector3(0,0,-8);
-        this.transform.rotation = new Vector3(-2.6f,0f,0f);
+        this.transform.rotation = new Vector3(-2.8f,0f,0f);
         this._subject = subject;
     }
 

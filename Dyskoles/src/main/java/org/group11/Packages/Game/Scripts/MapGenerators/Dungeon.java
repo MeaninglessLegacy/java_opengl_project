@@ -188,13 +188,13 @@ public class Dungeon extends MapGenerator {
         // generation parameters
         int gen_rooms = 50;
         double generation_radius = 20;
-        int min_size = 5;
-        int max_size = 10;
+        int min_size = 20;
+        int max_size = 40;
         int size_threshold = 10;
         int min_hallway_size = 4;
         int max_hallway_size = 5;
-        int room_max_count = 5;
-        int room_connectivity = 0;
+        int room_max_count = 10;
+        int room_connectivity = 100;
         int room_spacing = 10;
         // Randomly generate rooms
         List<Room> room_points = new ArrayList<>();
@@ -229,10 +229,15 @@ public class Dungeon extends MapGenerator {
                 }
             }
             for (int i = 0; i < room_points.size(); i++) {
-                room_points.get(i).midpoint.x += separationVectors.get(i).x;
-                room_points.get(i).midpoint.y += separationVectors.get(i).y;
+                room_points.get(i).midpoint.x += separationVectors.get(i).x*3;
+                room_points.get(i).midpoint.y += separationVectors.get(i).y*3;
             }
             if (!continue_simulation) break;
+        }
+        // 1/4 room sizes
+        for(Room room : room_points){
+            room.size.x = Math.round(room.size.x/4);
+            room.size.y = Math.round(room.size.y/4);
         }
         // Snap all rooms back to grid alignment
         for(Room room : room_points){
@@ -378,7 +383,7 @@ public class Dungeon extends MapGenerator {
             }
             // add segs back if want some extra connections
             if(room_connectivity > 0){
-                int extraConnections = (int) discardedSegs.size()*room_connectivity/100;
+                int extraConnections = discardedSegs.size()*room_connectivity/100;
                 if(extraConnections > discardedSegs.size()) extraConnections = discardedSegs.size();
                 for(int i = 0; i < extraConnections; i++){
                     int randIndex = r.nextInt(discardedSegs.size());
@@ -496,20 +501,15 @@ public class Dungeon extends MapGenerator {
             Map newMap = new Map();
             Scene scene = Scene.get_scene();
             String[] _floorTextures = {
-                    "./Resources/TileTest/T1.png",
-                    "./Resources/TileTest/T2.png",
-                    "./Resources/TileTest/T3.png",
-                    "./Resources/TileTest/T4.png",
-                    "./Resources/TileTest/T5.png",
-                    "./Resources/TileTest/T6.png",
-                    "./Resources/TileTest/T7.png",
-                    "./Resources/TileTest/T8.png"
+                    "./Resources/WhiteTile.png",
+                    "./Resources/WhiteTile-2.png",
+                    "./Resources/WhiteTile-3.png"
             };
             for(Tile t : tiles){
                 org.group11.Packages.Game.Scripts.Tile_Scripts.Tile newTile;
                 Vector3 pos = new Vector3(t.position.x, t.position.y, 0);
                 if(t.type != 3){
-                    newTile = new Floor();
+                    newTile = new Floor(pos, _floorTextures[r.nextInt(_floorTextures.length)]);
                 }else{
                     newTile = new CubeWall();
                 }

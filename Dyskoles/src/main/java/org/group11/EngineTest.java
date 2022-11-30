@@ -44,6 +44,8 @@ class Creator extends GameObject {
         System.out.println("Time taken: "+(System.currentTimeMillis()-time));
         time = System.currentTimeMillis();
         Camera newCamera = new movingCamera();
+        newCamera.transform.rotation.x = 3.14f;
+        newCamera.transform.position.z = -5;
         scene.Instantiate(newCamera);
         scene.set_mainCamera(newCamera);
         System.out.println("Instantiated: "+newCamera);
@@ -60,6 +62,12 @@ class PlayerObject extends GameObject {
 
     private boolean move = true;
 
+    private Vector3 velocity = new Vector3();
+    private float velocityThreshold = 0.01f;
+    private char state = 0;
+    private int frame = 1;
+    private double lastFrameTime = 0;
+
     private boolean facingRight = true;
     PlayerObject(String n, boolean move){
         spriteRenderer = new SpriteRenderer(this,"./Resources/ump45.png");
@@ -70,6 +78,7 @@ class PlayerObject extends GameObject {
 
     @Override
     public void update() {
+        // animate bob
         double timepassed = System.currentTimeMillis() - time;
         if(x < 2) {
             x += timepassed / 500;
@@ -79,6 +88,47 @@ class PlayerObject extends GameObject {
         double yScale = -Math.pow((x-1),4)+1;
         spriteRenderer.get_sprite().set_scale(1, (float)(1+0.05*yScale),0);
         time = System.currentTimeMillis();
+        // animate run
+        lastFrameTime += timepassed;
+        if(lastFrameTime > 50){
+            if(state == 0){
+                spriteRenderer.get_sprite().set_texture("./Resources/ump45.png");
+            }else if(state == 1){
+                if(frame < 18){
+                    spriteRenderer.get_sprite().set_texture("./Resources/ump45/ump45 ("+frame+").png");
+                    frame++;
+                }else{
+                    spriteRenderer.get_sprite().set_texture("./Resources/ump45/ump45 ("+frame+").png");
+                    frame = 1;
+                }
+            }
+            lastFrameTime = 0;
+        }
+        // mov
+        if(velocity.x > velocityThreshold){
+            if(facingRight == false) spriteRenderer.get_sprite().flipX();
+            facingRight = true;
+        }else if(velocity.x < -velocityThreshold){
+            if(facingRight == true) spriteRenderer.get_sprite().flipX();
+            facingRight = false;
+        }
+        if(Math.abs(velocity.x) > velocityThreshold){
+            this.transform.position.x += velocity.x;
+            if(state != 1) {
+                state = 1;
+            }
+        }
+        if(Math.abs(velocity.y) > velocityThreshold){
+            this.transform.position.y += velocity.y;
+            if(state != 1) {
+                state = 1;
+            }
+        }
+        if(Math.abs(velocity.x) < velocityThreshold && Math.abs(velocity.y) < velocityThreshold){
+            if(state != 0) {
+                state = 0;
+            }
+        }
     }
 
     @Override
@@ -89,20 +139,24 @@ class PlayerObject extends GameObject {
     public void onKeyDown(int key) {
         if(!move) return;
         if(key==65){
-            if(facingRight == true) spriteRenderer.get_sprite().flipX();
-            facingRight = false;
-            this.transform.position.x -= 0.02;
+            if(velocity.x > -0.05){
+                velocity.x -= 0.003;
+            }
         }
         if(key==68){
-            if(facingRight == false) spriteRenderer.get_sprite().flipX();
-            facingRight = true;
-            this.transform.position.x += 0.02;
+            if(velocity.x < 0.05){
+                velocity.x += 0.003;
+            }
         }
         if(key==83){
-            this.transform.position.y -= 0.02;
+            if(velocity.y > -0.05){
+                velocity.y -= 0.003;
+            }
         }
         if(key==87){
-            this.transform.position.y += 0.02;
+            if(velocity.y < 0.05){
+                velocity.y += 0.003;
+            }
         }
         if(key==78){ // n
             spriteRenderer.enabled = false;
