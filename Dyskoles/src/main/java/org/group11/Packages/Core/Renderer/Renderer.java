@@ -155,7 +155,7 @@ public class Renderer {
     }
 
     /**
-     *
+     * Add spriteRenderer to rendering list.
      * @param spriteRenderer
      */
     public void add(SpriteRenderer spriteRenderer){
@@ -163,7 +163,7 @@ public class Renderer {
     }
 
     /**
-     *
+     * Remove spriteRenderer from rendering list.
      * @param spriteRenderer
      */
     public void remove(SpriteRenderer spriteRenderer){

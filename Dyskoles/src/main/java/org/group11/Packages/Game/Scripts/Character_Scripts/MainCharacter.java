@@ -30,17 +30,17 @@ public class MainCharacter extends Character{
 
     // Used to help render and control the sprite
     protected SpriteRenderer characterSprite;
-    protected boolean facingRight = true;
-    double time; // time since last update
-    double x; // character scaling parameter for breathing effect
+    protected boolean _chrFacingRight = true;
+    protected double _lastUpdateTime; // time since last update
 
-    // smoothly move character
-    private Vector3 moveVector = new Vector3(); // direction to move the character in
+    // smoothly move character during update() calls
+    private Vector3 _moveVector = new Vector3(); // direction to move the character in
 
     // animate character
-    private char state = 0;// animation state
-    private int frame = 1; // current animation frame
-    private double lastFrameTime = 0; // time since last frame in MS
+    private char _aniState = 0;// animation state
+    private int _aniFrame = 1; // current animation frame
+    private double _timeSinceLastFrame = 0; // time since last frame in MS
+    private double _breathingScale; // character scaling parameter for breathing effect
 
     //******************************************************************************************************************
     //* setters and getters
@@ -165,71 +165,71 @@ public class MainCharacter extends Character{
      */
     @Override
     public boolean attackCharacter(Character defender) {
-        state = 2;
-        frame = 1;
+        // set animation parameters
+        _aniState = 2;
+        _aniFrame = 1;
         return super.attackCharacter(defender);
     }
 
     /**
-     * Creates a 'breathing' effect by scaling the y component the sprite of this Character down and up over time. Also
-     * smoothly move the character to it's destination.
+     * Smoothly moves character to next position based on the _moveVector. And animates the character based on the
+     * character _animState.
      */
     @Override
     public void update() {
         // all animations are tied to time passed
-        double timePassed = System.currentTimeMillis() - time;
-        lastFrameTime += timePassed;
-        // smoothly move character
-        // calculate how much remaining distance to move
-        double moveVectorSum = Math.abs(moveVector.x) + Math.abs(moveVector.y);
+        double timePassed = System.currentTimeMillis() - _lastUpdateTime;
+        _timeSinceLastFrame += timePassed;
+        // smoothly move character based on remaining _moveVector
+        double moveVectorSum = Math.abs(_moveVector.x) + Math.abs(_moveVector.y);
         if(moveVectorSum > 0.1){
-            if(state!= 2)state = 1;
-            this.transform.position.x += moveVector.x/10;
-            this.transform.position.y += moveVector.y/10;
-            moveVector.x -= moveVector.x/10;
-            moveVector.y -= moveVector.y/10;
+            if(_aniState != 2) _aniState = 1;
+            this.transform.position.x += _moveVector.x/10;
+            this.transform.position.y += _moveVector.y/10;
+            _moveVector.x -= _moveVector.x/10;
+            _moveVector.y -= _moveVector.y/10;
         }else{
-            if(state!= 2)state = 0;
+            if(_aniState != 2) _aniState = 0;
             // since game logic is on a integer grid we need to snap back to the grid when done
             this.transform.position.x = Math.round(this.transform.position.x);
             this.transform.position.y = Math.round(this.transform.position.y);
         }
-        // animate bob
-        if(x < 2) {
-            x += timePassed / 500;
+        // animate character bobbing
+        if(_breathingScale < 2) {
+            _breathingScale += timePassed / 500;
         }else{
-            x = 0;
+            _breathingScale = 0;
         }
-        double yScale = -Math.pow((x-1),4)+1;
+        double yScale = -Math.pow((_breathingScale -1),4)+1;
         characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale), 0);
-        time = System.currentTimeMillis();
+        _lastUpdateTime = System.currentTimeMillis();
         // animate based on state
         // animation is bad, takes a lot of memory need to implement sprite sheets
-        if(state == 0){
+        if(_aniState == 0){
             characterSprite.get_sprite().set_texture("./Resources/ump45.png");
-        }else if(state == 1){
-            if(lastFrameTime > 50){
-                if(frame > 18) frame = 1;
-                characterSprite.get_sprite().set_texture("./Resources/ump45/ump45 ("+frame+").png");
-                frame++;
-                lastFrameTime = 0;
+        }else if(_aniState == 1){
+            if(_timeSinceLastFrame > 50){
+                if(_aniFrame > 18) _aniFrame = 1;
+                characterSprite.get_sprite().set_texture("./Resources/ump45/ump45 ("+ _aniFrame +").png");
+                _aniFrame++;
+                _timeSinceLastFrame = 0;
             }
-        }else if(state == 2){
-            if(lastFrameTime > 20){
-                if(frame > 10) {
-                    frame = 1;
-                    state = 0;
+        }else if(_aniState == 2){
+            if(_timeSinceLastFrame > 20){
+                if(_aniFrame > 10) {
+                    _aniFrame = 1;
+                    _aniState = 0;
                 }
                 characterSprite.get_sprite().set_scale(0.9f, (float)(0.9+0.05*yScale), 0); // image scale is off
-                characterSprite.get_sprite().set_texture("./Resources/ump45/ump45-gun ("+frame+").png");
-                frame++;
-                lastFrameTime = 0;
+                characterSprite.get_sprite().set_texture("./Resources/ump45/ump45-gun ("+ _aniFrame +").png");
+                _aniFrame++;
+                _timeSinceLastFrame = 0;
             }
         }
         super.update();
     }
 
-    private long lastTime = 0;
+    private long _lastButtonPressTime = 0; // debounce key press
     /**
      * When a movement key is pressed, if there was sufficient time since the last movement key press, then gets the
      * direction of where the MainCharacter is attempting to move and asks GameLogicDriver if it can move to that
@@ -239,9 +239,9 @@ public class MainCharacter extends Character{
     @Override
     public void onKeyDown(int key) {
         int timeBeforeNextRead = 200;
-        if(System.currentTimeMillis()-lastTime > timeBeforeNextRead &&
+        if(System.currentTimeMillis()- _lastButtonPressTime > timeBeforeNextRead &&
            (key == 'W' || key == 'A' || key == 'S' || key == 'D')) {
-            lastTime = System.currentTimeMillis();
+            _lastButtonPressTime = System.currentTimeMillis();
 
             // Gets the position of where this MainCharacter is moving to next
             float playerX = transform.position.x;
@@ -252,45 +252,44 @@ public class MainCharacter extends Character{
                 nextMove = new Vector3(playerX, playerY + 1, playerZ);
             } else if (key == 'A') {
                 nextMove = new Vector3(playerX - 1, playerY, playerZ);
-                if(facingRight){
-                    facingRight = false;
+                if(_chrFacingRight){
+                    _chrFacingRight = false;
                     characterSprite.get_sprite().flipX();
                 }
             } else if (key == 'S') {
                 nextMove = new Vector3(playerX, playerY - 1, playerZ);
             } else if (key == 'D') {
                 nextMove = new Vector3(playerX + 1, playerY, playerZ);
-                if(!facingRight){
-                    facingRight = true;
+                if(!_chrFacingRight){
+                    _chrFacingRight = true;
                     characterSprite.get_sprite().flipX();
                 }
             }
-
-            // MainCharacter attempts to move
+            // Create move animation start position and check if the character successfully moved
             Vector3 chrStartPos = new Vector3();
             boolean chrMoved = false;
+            // MainCharacter attempts to move
             if (nextMove != null) {
                 boolean canMove = MCCheckMove(this, nextMove);
                 if (canMove) {
-                    // need to instantaneously move character so game logic can process the turn  then we
-                    // can move it back to animate the move
+                    // Setup move animation start position
                     chrStartPos.x = this.transform.position.x;
                     chrStartPos.y = this.transform.position.y;
                     chrStartPos.z = this.transform.position.z;
-                    this.transform.setPosition(nextMove);
                     chrMoved = true;
-                    //set the "velocity" vector of character
-                    moveVector.x = nextMove.x-playerX;
-                    moveVector.y = nextMove.y-playerY;
-                    moveVector.z = nextMove.z-playerZ;
+                    // Need to instantaneously move character so game logic can process the turn
+                    this.transform.setPosition(nextMove);
+                    // Set the "velocity" vector of character
+                    _moveVector.x = nextMove.x-playerX;
+                    _moveVector.y = nextMove.y-playerY;
+                    _moveVector.z = nextMove.z-playerZ;
                 }
             }
             // Perform logic after the character moves
             // Checks for items
             MCCheckItem(this);
             afterMCMoveLogic(this);
-            // Shift character back to start position to animate movement, since we needed to instantaneously move
-            // character to new position first to handle game logic
+            // Shift character back to start position after logic processing so the movement is animated correctly
             if(chrMoved)this.transform.setPosition(chrStartPos);
         }
     }
