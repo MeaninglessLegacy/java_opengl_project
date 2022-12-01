@@ -411,7 +411,7 @@ public class GameLogicDriver extends GameObject {
     // delay game ended by a few ticks so the player can see cause of death + death animation
     private static boolean _clearGame = false;
     private static boolean _gameWonState = false;
-    private static int _clearDelayAmount = 50;
+    private static int _clearDelayAmount = 100;
     /**
      * Ends the current game and the player either wins or loses, depending on the parameter
      * @param won true if the player won (has reached the exit with a key), false if not (player died)
@@ -431,7 +431,7 @@ public class GameLogicDriver extends GameObject {
         _menu.createMenu(won, _gameStage, _gameLevelList.size());
         scene.Instantiate(_menu);
          */
-        _clearDelayAmount = 50;
+        _clearDelayAmount = 100;
         _gameWonState = won;
         _clearGame = true;
     }
