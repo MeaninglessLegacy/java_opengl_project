@@ -10,6 +10,8 @@ import org.group11.Packages.Game.Scripts.Character_Scripts.*;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
+import org.group11.Packages.Game.Scripts.Levels.FourRoom;
+import org.group11.Packages.Game.Scripts.Levels.TestRoom;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom2;
 import org.group11.Packages.Game.Scripts.Tile_Scripts.Tile;
 

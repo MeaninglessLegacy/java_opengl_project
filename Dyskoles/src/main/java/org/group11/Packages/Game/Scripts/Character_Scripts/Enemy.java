@@ -5,6 +5,8 @@ import org.group11.Packages.Game.Scripts.Logic.Map;
 import org.group11.Packages.Game.Scripts.Logic.Pathfinder;
 import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdown;
 
+import java.util.Random;
+
 import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.enemyCheckMove;
 
 /**
@@ -75,6 +77,8 @@ public abstract class Enemy extends Character{
      * @param MC the MainCharacter object, used to determine where the MainCharacter is for pathfinding
      */
     public void canEnemyMove(Pathfinder _pathfinder, Map _gameMap, MainCharacter MC) {
+        Random r = new Random(); // set ticks before next move as random values between 1-ticks per move
+        int randomizeNextTick = r.nextInt(_ticksPerMove)+1;
         if (_enemyActive) {
             if (--_ticksBeforeNextMove == 0) {
                 // Getting the next Tile the Enemy will move on to
@@ -98,10 +102,10 @@ public abstract class Enemy extends Character{
                             characterSprite.get_sprite().flipX();
                         }
                         this.transform.setPosition(nextMove);
-                        _ticksBeforeNextMove = _ticksPerMove;
+                        _ticksBeforeNextMove = randomizeNextTick;
                     }
                     else if (characterInNextSpace instanceof MainCharacter) {
-                        _ticksBeforeNextMove = _ticksPerMove;
+                        _ticksBeforeNextMove = randomizeNextTick;
                     }
                     else if (characterInNextSpace instanceof Enemy) {
                         _ticksBeforeNextMove = 1;

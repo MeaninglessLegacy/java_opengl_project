@@ -198,17 +198,17 @@ public class MainCharacter extends Character{
         _timeSinceLastFrame += timePassed;
         _lastUpdateTime = System.currentTimeMillis();
         // animations that override movement
-        boolean animOveride = _aniState == 2 || _aniState == 3;
+        boolean animOverride = _aniState > 1;
         // smoothly move character based on remaining _moveVector
         double moveVectorSum = Math.abs(_moveVector.x) + Math.abs(_moveVector.y);
         if(moveVectorSum > 0.1){
-            if(!animOveride) _aniState = 1;
+            if(!animOverride) _aniState = 1;
             this.transform.position.x += _moveVector.x/10;
             this.transform.position.y += _moveVector.y/10;
             _moveVector.x -= _moveVector.x/10;
             _moveVector.y -= _moveVector.y/10;
         }else{
-            if(!animOveride) _aniState = 0;
+            if(!animOverride) _aniState = 0;
             // since game logic is on a integer grid we need to snap back to the grid when done
             this.transform.position.x = Math.round(this.transform.position.x);
             this.transform.position.y = Math.round(this.transform.position.y);
@@ -220,7 +220,7 @@ public class MainCharacter extends Character{
             _breathingScale = 0;
         }
         double yScale = -Math.pow((_breathingScale -1),4)+1;
-        if(!animOveride)characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale), 0);
+        if(!animOverride)characterSprite.get_sprite().set_scale(1, (float)(1+0.05*yScale), 0);
         // animate based on state
         // animation is bad, takes a lot of memory need to implement sprite sheets
         if(_aniState == 0){
@@ -245,7 +245,7 @@ public class MainCharacter extends Character{
             }
         }else if(_aniState == 3){
             if(_timeSinceLastFrame > 20){
-                if(_aniFrame < 18 && _aniFrame > 0) {
+                if(_aniFrame <= 18 && _aniFrame > 0) {
                     characterSprite.get_sprite().set_scale(1.5f, 1.5f, 0);
                     characterSprite.get_sprite().set_texture("./Resources/ump45/death/ump45-death (" + _aniFrame + ").png");
                     _aniFrame++;

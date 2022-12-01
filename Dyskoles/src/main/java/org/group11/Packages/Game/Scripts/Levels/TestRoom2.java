@@ -28,7 +28,7 @@ public class TestRoom2 extends Level {
         // items
         int items = random.nextInt(20)+20;
         for(int i=0; i < items; i++){
-            if(random.nextInt(4)==0){
+            if(random.nextInt(6)==0){
                 RegenHeart testRegenHeart = new RegenHeart(new Vector3(6, 4, 0));
                 _items.add(testRegenHeart);
             }else{
@@ -40,7 +40,7 @@ public class TestRoom2 extends Level {
         // enemies
         Boss testBoss = new Boss(new Vector3(1,5,0));
         _enemies.add(testBoss);
-        int enemies = random.nextInt(20)+10;
+        int enemies = random.nextInt(20)+20;
         for(int i=0; i < enemies; i++){
             if(random.nextInt(40)==0){
                 Runner testRunner = new Runner(new Vector3(15, 5, 0));
