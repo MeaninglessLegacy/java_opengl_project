@@ -5,7 +5,7 @@ How to build the game
 
 How to run the game (continued from "How to build the game")
 1) Change directory to ../Dyskoles/target/
-2) Run the command: ```java -jar ???```
+2) Run the command: ```java -jar TBA-1.0-SNAPSHOT.jar```
 
 How to test the game (continued from "How to build the game")
-1) ???
+1) To run all the tests, run the command: ```mvn test```
