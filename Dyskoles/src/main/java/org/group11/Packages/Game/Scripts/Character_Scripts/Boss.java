@@ -28,8 +28,6 @@ public class Boss extends Enemy {
         _statBlock.set_Atk(3);
         _statBlock.set_MaxHp(10);
         _statBlock.set_hp(10);
-        _ticksBeforeNextMove = 3;
-        _ticksPerMove = 3;
 
         characterSprite = new SpriteRenderer(this, "./Resources/ump9.png");
         this.addComponent(characterSprite);

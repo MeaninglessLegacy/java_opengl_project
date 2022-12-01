@@ -269,7 +269,7 @@ public class MainCharacter extends Character{
     @Override
     public void onKeyDown(int key) {
         if(_statBlock._hp < 1) return; // check if character is dead
-        int timeBeforeNextRead = 200;
+        int timeBeforeNextRead = 400;
         if(System.currentTimeMillis()- _lastButtonPressTime > timeBeforeNextRead &&
            (key == 'W' || key == 'A' || key == 'S' || key == 'D')) {
             _lastButtonPressTime = System.currentTimeMillis();
