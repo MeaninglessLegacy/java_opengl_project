@@ -2,6 +2,7 @@ package org.group11.Packages.Game.Scripts.Item_Scripts;
 
 import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Character_Scripts.MainCharacter;
 
 import static org.group11.Packages.Game.Scripts.Logic.GameLogicDriver.endGame;

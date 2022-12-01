@@ -73,8 +73,8 @@ public class Dungeon extends MapGenerator {
 
     private static Vector2 getCirclePoint(double circle_radius, double angle)
     {
-        float x = (float)(1.5*circle_radius * Math.cos(angle));
-        float y = (float)(circle_radius * Math.sin(angle));
+        float x = (float)(circle_radius * Math.cos(angle));
+        float y = (float)(0.5*circle_radius * Math.sin(angle));
         Vector2 point = new Vector2(x, y);
         return point;
     }
@@ -85,15 +85,15 @@ public class Dungeon extends MapGenerator {
         float roomBLeft = B.midpoint.x - B.size.x / 2; float roomBRight = B.midpoint.x + B.size.x / 2;
         float roomATop = A.midpoint.y + A.size.y / 2; float roomABottom = A.midpoint.y - A.size.y / 2;
         float roomBTop = B.midpoint.y + B.size.y / 2; float roomBBottom = B.midpoint.y - B.size.y / 2;
-        boolean x_overlap = (roomALeft >= roomBLeft && roomARight <= roomBRight)
-                ||(roomALeft <= roomBLeft && roomARight <= roomBRight && roomARight >= roomBLeft)
-                ||(roomALeft >= roomBLeft && roomARight >= roomBRight && roomALeft <= roomBRight)
-                ||(roomALeft <= roomBLeft && roomARight >= roomBRight);
-        boolean y_overlap = (roomATop >= roomBTop && roomABottom <= roomBBottom)
-                ||(roomATop <= roomBTop && roomABottom <= roomBBottom && roomATop >= roomBBottom)
-                ||(roomATop >= roomBTop && roomABottom >= roomBBottom && roomABottom <= roomBTop)
-                ||(roomATop <= roomBTop && roomABottom >= roomBBottom);
-        return x_overlap == true && y_overlap == true;
+        boolean x_overlap = (roomALeft > roomBLeft && roomARight < roomBRight)
+                ||(roomALeft < roomBLeft && roomARight < roomBRight && roomARight > roomBLeft)
+                ||(roomALeft > roomBLeft && roomARight > roomBRight && roomALeft < roomBRight)
+                ||(roomALeft < roomBLeft && roomARight > roomBRight);
+        boolean y_overlap = (roomATop > roomBTop && roomABottom < roomBBottom)
+                ||(roomATop < roomBTop && roomABottom < roomBBottom && roomATop > roomBBottom)
+                ||(roomATop > roomBTop && roomABottom > roomBBottom && roomABottom < roomBTop)
+                ||(roomATop < roomBTop && roomABottom > roomBBottom);
+        return x_overlap && y_overlap;
     }
 
 
@@ -149,7 +149,7 @@ public class Dungeon extends MapGenerator {
         double c_2 = a_2 * line_2.node_1_position.x + b_2 * line_2.node_1_position.y;
 
         double det = a_1 * b_2 - b_1 * a_2;
-        double epsilon = 0.00001;
+        double epsilon = 0.01;
 
         if(Math.abs(det) < epsilon)
         {
@@ -187,26 +187,26 @@ public class Dungeon extends MapGenerator {
     public Map generateMap() {
         // generation parameters
         int gen_rooms = 50;
-        double generation_radius = 20;
-        int min_size = 20;
-        int max_size = 40;
-        int size_threshold = 10;
+        double generation_radius = 10;
+        int min_size = 4;
+        int max_size = 8;
+        int size_threshold = 30;
         int min_hallway_size = 4;
-        int max_hallway_size = 5;
+        int max_hallway_size = 6;
         int room_max_count = 10;
         int room_connectivity = 100;
-        int room_spacing = 10;
+        int room_spacing = 1;
         // Randomly generate rooms
         List<Room> room_points = new ArrayList<>();
         Random r = new Random(System.currentTimeMillis());
         for (int i = 0; i < gen_rooms; i++){
-            double angle = 2* Math.PI * r.nextDouble();
-            double radius = generation_radius * r.nextDouble();
+            double angle = 2* Math.PI*r.nextDouble(1);
+            double radius = generation_radius*r.nextDouble(1)+5;
             Vector2 room_midpoint = getCirclePoint(radius, angle);
             Room room = new Room(room_midpoint.x, room_midpoint.y);
             room_points.add(room);
-            int room_width = (int)Math.ceil(r.nextInt((max_size-min_size))+min_size);
-            int room_height = (int)Math.ceil(r.nextInt((max_size-min_size)/2)+min_size);
+            int room_width = (int)Math.floor(r.nextInt((max_size-min_size))+min_size);
+            int room_height = (int)Math.floor(r.nextInt((max_size-min_size))+min_size);
             room.size = new Vector2(room_width, room_height);
             room.node = i;
         }
@@ -217,27 +217,22 @@ public class Dungeon extends MapGenerator {
         }
         boolean simulate = true;
         int simSteps = 0;
-        while(simulate == true && simSteps < 1000){
+        while(simulate == true && simSteps < 100){
             boolean continue_simulation = false;
             simSteps++;
             for (int i = 0; i < room_points.size(); i++) {
-                Vector2 sepVec = separationVectors.get(i);
-                sepVec = computeSeperation(room_points.get(i), room_points, room_spacing);
-                if (Math.sqrt(sepVec.x * sepVec.x + sepVec.y * sepVec.y) != 0)
+                Vector2 sepVec = computeSeperation(room_points.get(i), room_points, room_spacing);
+                if (Math.sqrt(sepVec.x * sepVec.x + sepVec.y * sepVec.y) > 0.5)
                 {
                     continue_simulation = true;
                 }
+                separationVectors.set(i, sepVec);
             }
             for (int i = 0; i < room_points.size(); i++) {
-                room_points.get(i).midpoint.x += separationVectors.get(i).x*3;
-                room_points.get(i).midpoint.y += separationVectors.get(i).y*3;
+                room_points.get(i).midpoint.x += separationVectors.get(i).x/10;
+                room_points.get(i).midpoint.y += separationVectors.get(i).y/10;
             }
             if (!continue_simulation) break;
-        }
-        // 1/4 room sizes
-        for(Room room : room_points){
-            room.size.x = Math.round(room.size.x/4);
-            room.size.y = Math.round(room.size.y/4);
         }
         // Snap all rooms back to grid alignment
         for(Room room : room_points){
@@ -271,7 +266,7 @@ public class Dungeon extends MapGenerator {
             }
         }
         //sort from left to right by x value
-        Collections.sort(selectedRooms, (o1,o2) -> (int) (o1.midpoint.x - o2.midpoint.x));
+        selectedRooms.sort((o2,o1)-> (int) (o1.midpoint.x - o2.midpoint.x));
         // create line segement connections between rooms and triangulate
         List<LineSegment> lineSegs = new ArrayList<>();
         if(selectedRooms.size() < 4 && selectedRooms.size() > 1){
@@ -318,6 +313,7 @@ public class Dungeon extends MapGenerator {
                             break;
                         }
                     }
+                    if(r.nextInt(3)>1)checkSegGood = true; // randomness keep bad
                     if(checkSegGood) lineSegs.add(SN2);
                 }
             }
@@ -394,7 +390,8 @@ public class Dungeon extends MapGenerator {
             // create hallways
             List<LineSegment> hallways = new ArrayList<>();
             for(LineSegment lineSeg : minTree){
-                if(r.nextInt(2)==0){
+                int hallway_type = r.nextInt(5);
+                if(hallway_type==0){
                     Vector2 v1 = new Vector2(lineSeg.node_1_position.x, lineSeg.node_1_position.y);
                     Vector2 v2 = new Vector2(lineSeg.node_1_position.x, lineSeg.node_2_position.y);
                     LineSegment v_seg = new LineSegment(v1, v2);
@@ -403,7 +400,7 @@ public class Dungeon extends MapGenerator {
                     LineSegment h_seg = new LineSegment(h1, h2);
                     hallways.add(v_seg);
                     hallways.add(h_seg);
-                }else{
+                }else if(hallway_type==1){
                     Vector2 h1 = new Vector2(lineSeg.node_1_position.x, lineSeg.node_1_position.y);
                     Vector2 h2 = new Vector2(lineSeg.node_2_position.x, lineSeg.node_2_position.y);
                     LineSegment v_seg = new LineSegment(h1, h2);
@@ -412,6 +409,11 @@ public class Dungeon extends MapGenerator {
                     LineSegment h_seg = new LineSegment(v1, v2);
                     hallways.add(v_seg);
                     hallways.add(h_seg);
+                }else{
+                    Vector2 v1 = new Vector2(lineSeg.node_1_position.x, lineSeg.node_1_position.y);
+                    Vector2 v2 = new Vector2(lineSeg.node_2_position.x, lineSeg.node_2_position.y);
+                    LineSegment d_seg = new LineSegment(v1, v2);
+                    hallways.add(d_seg);
                 }
             }
             // connect rooms with hallways, cut off rooms that don't touch hallways
@@ -422,11 +424,11 @@ public class Dungeon extends MapGenerator {
                 double room_center_x = Math.floor((lineSeg.node_1_position.x + lineSeg.node_2_position.x)/2);
                 double room_center_y = Math.floor((lineSeg.node_1_position.y + lineSeg.node_2_position.y)/2);
                 if (room_width < min_hallway_size) {
-                    room_width = Math.ceil(r.nextInt(max_hallway_size-min_hallway_size) + min_hallway_size);
+                    room_width = Math.ceil(r.nextInt(max_hallway_size-min_hallway_size+1) + min_hallway_size-1);
                     room_center_x = Math.floor(lineSeg.node_1_position.x);
                 };
                 if(room_height < min_hallway_size) {
-                    room_height = Math.ceil(r.nextInt(max_hallway_size-min_hallway_size) + min_hallway_size);
+                    room_height = Math.ceil(r.nextInt(max_hallway_size-min_hallway_size+1) + min_hallway_size-1);
                     room_center_y = Math.floor(lineSeg.node_1_position.y);
                 }
                 // center shifts
@@ -452,6 +454,7 @@ public class Dungeon extends MapGenerator {
                     }
                 }
             }
+            // create tiles
             List<Tile> tiles = new ArrayList<>();
             for(Room room : finalRooms){
                 Vector2 startCorner = new Vector2(room.midpoint.x - room.size.x / 2, room.midpoint.y + room.size.y / 2);
