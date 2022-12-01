@@ -16,4 +16,6 @@ Dyskoles/.idea/**/usage.statistics.xml
 Dyskoles/.idea/**/dictionaries
 Dyskoles/.idea/**/shelf
 out/
+.project
+my-app.iml
 

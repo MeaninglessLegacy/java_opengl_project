@@ -1,6 +1,5 @@
 package org.group11.Packages.Core.Main;
 
-
 import org.group11.Packages.Core.DataStructures.Vector4;
 import org.group11.Packages.Core.Util.Constants;
 import org.lwjgl.Version;
@@ -10,7 +9,6 @@ import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.openal.ALCapabilities;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL45;
 
 import static java.sql.Types.NULL;
 import static org.lwjgl.glfw.GLFW.*;
@@ -145,6 +143,8 @@ public class Window {
         _scene.render();
         // swap the color buffers
         glfwSwapBuffers(_glfwWindow);
+        // poll window close, stop engine if necessary
+        if(glfwWindowShouldClose(_glfwWindow)) Engine.stopCoreLoop();
     }
 
     //******************************************************************************************************************

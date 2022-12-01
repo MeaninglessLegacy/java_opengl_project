@@ -1,9 +1,7 @@
 package org.group11.Packages.Core.Renderer;
 
-import org.group11.Packages.Core.Main.Window;
 import org.lwjgl.BufferUtils;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;

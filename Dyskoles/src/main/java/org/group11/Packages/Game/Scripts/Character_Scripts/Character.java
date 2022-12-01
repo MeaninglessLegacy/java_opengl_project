@@ -26,7 +26,7 @@ public abstract class Character extends GameObject {
 
     // Used to help animate the attack animation for a character
     protected boolean isAttacking = false;
-    protected String isAttackingDirection;
+    protected String isAttackingDirection = "";
     protected int attackAnimationCounter = 0;
 
     //******************************************************************************************************************

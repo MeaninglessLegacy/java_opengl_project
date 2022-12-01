@@ -97,7 +97,7 @@ public class Engine extends Thread{
     /**
      * Stops the core logical loop if it is running.
      */
-    public void stopCoreLoop(){
+    public static void stopCoreLoop(){
         _runCoreLoop = false;
     }
 }
