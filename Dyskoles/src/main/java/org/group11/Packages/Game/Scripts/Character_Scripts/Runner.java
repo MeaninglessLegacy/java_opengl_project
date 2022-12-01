@@ -44,8 +44,8 @@ public class Runner extends Enemy{
         expGiven = 0;
         maxHpGiven = 1;
         atkGiven = 1;
-        _ticksPerMove = 2;
-        _ticksBeforeNextMove = 2;
+        _ticksPerMove = 1;
+        _ticksBeforeNextMove = 1;
 
         characterSprite = new SpriteRenderer(this, "./Resources/m1911.png");
         this.addComponent(characterSprite);

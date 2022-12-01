@@ -3,10 +3,7 @@ package org.group11.Packages.Game.Scripts.UI_Scripts;
 import org.group11.Packages.Core.Main.GameObject;
 import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Enemy;
-import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdownSprites.MoveCD1Sprite;
-import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdownSprites.MoveCD2Sprite;
-import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdownSprites.MoveCD3Sprite;
-import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdownSprites.MoveCDSprites;
+import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdownSprites.*;
 
 import java.util.ArrayList;
 
@@ -24,6 +21,7 @@ public class MoveCountdown extends GameObject {
     //* constructor
     //******************************************************************************************************************
     public MoveCountdown(Enemy enemy) {
+        CDSpriteList.add(new MoveCD0Sprite(enemy));
         CDSpriteList.add(new MoveCD1Sprite(enemy));
         CDSpriteList.add(new MoveCD2Sprite(enemy));
         CDSpriteList.add(new MoveCD3Sprite(enemy));
@@ -61,11 +59,11 @@ public class MoveCountdown extends GameObject {
      */
     public void changeCountdown(int ticksUntilMove) {
         disableSprites();
-        if (ticksUntilMove >= 1 && ticksUntilMove <= 3) {
-            CDSpriteList.get(ticksUntilMove - 1).enableSprite();
+        if (ticksUntilMove >= 0 && ticksUntilMove <= 3) {
+            CDSpriteList.get(ticksUntilMove).enableSprite();
         }
         else {
-            CDSpriteList.get(2).enableSprite();
+            CDSpriteList.get(3).enableSprite();
         }
     }
 

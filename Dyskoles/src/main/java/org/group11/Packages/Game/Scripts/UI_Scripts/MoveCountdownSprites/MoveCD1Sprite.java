@@ -4,7 +4,7 @@ import org.group11.Packages.Core.Components.SpriteRenderer;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Enemy;
 
 /**
- * Sprite that displays the moveCDSprite 1 (enemy will move in 1 more tick)
+ * Sprite that displays the moveCDSprite 1 (enemy will move in 2 more ticks)
  */
 public class MoveCD1Sprite extends MoveCDSprites {
     //******************************************************************************************************************

@@ -14,11 +14,11 @@ public abstract class Enemy extends Character{
     //******************************************************************************************************************
     //* variables
     //******************************************************************************************************************
-    // counter, when this counter reaches 0 it means that this character can make another move
-    protected int _ticksBeforeNextMove = 3;
+    // counter, when this counter goes below 0 it means that this character can make another move
+    protected int _ticksBeforeNextMove = 2;
     /* counter reset value, when this character makes a move, this character's _ticksBeforeNextMove counter should be
     set to this value*/
-    protected int _ticksPerMove = 3;
+    protected int _ticksPerMove = 2;
     // this boolean tracks if this character should perform enemy logic
     protected boolean _enemyActive = false;
     // this integer tells the game how much exp will be given to the Character who kills this Enemy
@@ -76,7 +76,7 @@ public abstract class Enemy extends Character{
      */
     public void canEnemyMove(Pathfinder _pathfinder, Map _gameMap, MainCharacter MC) {
         if (_enemyActive) {
-            if (--_ticksBeforeNextMove == 0) {
+            if (--_ticksBeforeNextMove < 0) {
                 // Getting the next Tile the Enemy will move on to
                 System.out.println("Regular Enemy is getting nextMove");
                 Vector3 nextMove = _pathfinder.FindPath(_gameMap, this.transform.position, MC.transform.position);
