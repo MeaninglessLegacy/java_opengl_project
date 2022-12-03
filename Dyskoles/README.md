@@ -9,3 +9,6 @@ How to run the game (continued from "How to build the game")
 
 How to test the game (continued from "How to build the game")
 1) To run all the tests, run the command: ```mvn test```
+
+How to generate Javadocs for the game (continued from "How to build the game")
+1) run the command: ```mvn javadoc:javadoc```
