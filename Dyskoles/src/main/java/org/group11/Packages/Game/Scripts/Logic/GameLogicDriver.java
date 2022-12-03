@@ -91,7 +91,7 @@ public class GameLogicDriver extends GameObject {
     //******************************************************************************************************************
     /**
      * Sets the Level at the specified stage index (which is a 1-based index) in the GameLogicDriver's _gameLevelList
-     * arraylist (0 based index). Given stage index must be: 1 <= stage index <= number of Levels in _gameLevelList + 1.
+     * arraylist (0 based index). Given stage index must be between 1 and number of Levels in _gameLevelList + 1.
      * If a Level already exists at the specified stage index, then overwrites the current Level with the new Level.
      * @param newLevel the Level to set at the specified 1-based index
      * @param stage the 1-based index of where to set the given Level
