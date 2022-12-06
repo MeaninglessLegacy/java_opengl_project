@@ -12,13 +12,4 @@ public class SpaceNextLevel extends BlinkingPressSpaceSprites{
 
         setupSprite();
     }
-
-    //******************************************************************************************************************
-    //* overrides
-    //******************************************************************************************************************
-    @Override
-    public void start() { super.start(); }
-
-    @Override
-    public void update() { super.update(); }
 }

@@ -32,11 +32,4 @@ public class Boss extends Enemy {
         characterSprite = new SpriteRenderer(this, "./Resources/ump9.png");
         setupEnemySprites();
     }
-
-    //******************************************************************************************************************
-    //* overrides
-    //******************************************************************************************************************
-
-    @Override
-    public void update() { super.update(); }
 }

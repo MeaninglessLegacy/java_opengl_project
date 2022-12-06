@@ -29,13 +29,4 @@ public class HealthBarOutline extends GameObject {
         outsideBarSprite.shiftSprite('z', (float)-0.6);
         outsideBarSprite.get_sprite().set_scale(1, (float)0.17, 0);
     }
-
-    //******************************************************************************************************************
-    //* overrides
-    //******************************************************************************************************************
-    @Override
-    public void start() { super.start(); }
-
-    @Override
-    public void update() { super.update(); }
 }

@@ -64,10 +64,4 @@ public class SpikeTrap extends Item {
         c.takeDamage(_spikeTrapDamage);
         return true;
     }
-
-    @Override
-    public void update() { super.update(); }
-
-    @Override
-    public void start() { super.start(); }
 }

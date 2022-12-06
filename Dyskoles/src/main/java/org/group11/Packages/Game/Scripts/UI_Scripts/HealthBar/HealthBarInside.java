@@ -38,13 +38,4 @@ public class HealthBarInside extends GameObject {
         insideBarSprite.get_sprite().set_scale(scale, (float)0.15,0);
         insideBarSprite.get_sprite().transform.position.x = -(1-scale)/2;
     }
-
-    //******************************************************************************************************************
-    //* overrides
-    //******************************************************************************************************************
-    @Override
-    public void start() { super.start(); }
-
-    @Override
-    public void update() { super.update(); }
 }

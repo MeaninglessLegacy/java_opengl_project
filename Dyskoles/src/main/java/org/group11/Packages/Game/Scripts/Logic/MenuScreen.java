@@ -107,11 +107,6 @@ public class MenuScreen extends GameObject {
     //* overrides
     //******************************************************************************************************************
     @Override
-    public void update() {
-        super.update();
-    }
-
-    @Override
     public void start() {
         onMenu = true;
     }

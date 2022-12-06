@@ -16,13 +16,4 @@ public class Instructions extends MenuElement{
 
         spriteRenderer.get_sprite().set_scale(30, 20,0);
     }
-
-    //******************************************************************************************************************
-    //* overrides
-    //******************************************************************************************************************
-    @Override
-    public void start() { super.start(); }
-
-    @Override
-    public void update() { super.update(); }
 }

@@ -131,9 +131,4 @@ public class Runner extends Enemy{
         MC.addMaxHealth(maxHpGiven);
         MC.addHealth(maxHpGiven);
     }
-
-
-
-    @Override
-    public void update() { super.update(); }
 }
