@@ -275,6 +275,7 @@ public class GameLogicDriver extends GameObject {
      * MainCharacter movement
      */
     public static void afterMCMoveLogic(MainCharacter MC) {
+        MCCheckItem(MC);
         enableKeys();
         enemyLogic(MC);
         activateNearbyEnemies(MC);
