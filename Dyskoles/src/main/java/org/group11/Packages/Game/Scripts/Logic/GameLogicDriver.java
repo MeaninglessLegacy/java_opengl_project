@@ -475,7 +475,7 @@ public class GameLogicDriver extends GameObject {
     @Override
     public void update() {
         // delay ending the game by a few ticks for animation to run
-        if(_clearGame == true){
+        if(_clearGame){
             if(_clearDelayAmount < 0){
                 _clearGame = false;
                 if (_gameWonState) {
@@ -510,7 +510,4 @@ public class GameLogicDriver extends GameObject {
 
         resetDefaultLevels();
     }
-
-    @Override
-    public void onKeyDown(int key) { super.onKeyDown(key); }
 }
