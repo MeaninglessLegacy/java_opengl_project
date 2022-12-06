@@ -1,8 +1,11 @@
 package org.group11.Packages.Game.Scripts.Character_Scripts;
 
 import org.group11.Packages.Core.DataStructures.Vector3;
+import org.group11.Packages.Core.Main.Scene;
 import org.group11.Packages.Game.Scripts.Logic.Map;
 import org.group11.Packages.Game.Scripts.Logic.Pathfinder;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBar.HealthBarInside;
+import org.group11.Packages.Game.Scripts.UI_Scripts.HealthBar.HealthBarOutline;
 import org.group11.Packages.Game.Scripts.UI_Scripts.MoveCountdown;
 
 import java.util.Random;
@@ -68,6 +71,19 @@ public abstract class Enemy extends Character{
     //******************************************************************************************************************
     //* methods
     //******************************************************************************************************************
+    /**
+     * Called by a subclass' constructor to adjust its own sprite and create related UI sprites
+     */
+    protected void setupEnemySprites() {
+        if (characterSprite != null) {
+            this.addComponent(characterSprite);
+            characterSprite.get_sprite().transform.position.z -= 0.2;
+        }
+        _healthBarInside = new HealthBarInside(this);
+        _healthBarOutline = new HealthBarOutline(this);
+        _moveCountdown = new MoveCountdown(this);
+    }
+
     /**
      * If an enemy is active, decrements their _ticksBeforeNextMove. If it decrements to 0, uses _pathfinder to find
      * the next tile on the path towards the player then asks gameLogicDriver if they can move to it. Enemy reacts
@@ -155,5 +171,21 @@ public abstract class Enemy extends Character{
         }
 
         super.update();
+    }
+
+    @Override
+    public void Delete() {
+        Scene scene = Scene.get_scene();
+        scene.Destroy(_healthBarInside);
+        scene.Destroy(_healthBarOutline);
+        scene.Destroy(_moveCountdown);
+    }
+
+    @Override
+    public void start() {
+        Scene scene = Scene.get_scene();
+        scene.Instantiate(_healthBarInside);
+        scene.Instantiate(_healthBarOutline);
+        scene.Instantiate(_moveCountdown);
     }
 }
