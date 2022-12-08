@@ -246,7 +246,7 @@ public class Pathfinder {
 	 * This method will search the closest path and return a vector of the closest path
 	 * @param nodeArrayList the nodeArrayList parameter
 	 * @param openList the openList parameter( all the tiles that the algorithm hasn't chacked yet)
-	 * @param checkedList
+	 * @param checkedList the checkedList parameter: this is the list of all the tiles that have been checked
 	 * @param currentNode
 	 * @param goalReached
 	 * @param goalNode
