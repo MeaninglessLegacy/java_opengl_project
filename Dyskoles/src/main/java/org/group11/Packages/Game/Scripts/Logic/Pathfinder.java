@@ -88,6 +88,11 @@ public class Pathfinder {
 		return  autosearch(nodeArrayList,openList,checkedList,currentNode,goalReached,goalNode,startNode);
 	}
 
+	/**
+	 *  This method converts the dictionary into an arraylist.
+	 * @param _tileMap the _tilemap parameter
+	 * @return nodeArrayList this returns an Arraylist which contains all the data of the map
+	 */
 
 	private ArrayList<Node> tilemapConverter(Dictionary<String, Tile> _tileMap){
 		int u =0;
@@ -156,7 +161,7 @@ public class Pathfinder {
 
 	/**
 	 * this method set a node as start node
-	 * @param col
+	 * @param col the colmun da
 	 * @param row
 	 * @return
 	 */
@@ -239,8 +244,8 @@ public class Pathfinder {
 
 	/**
 	 * This method will search the closest path and return a vector of the closest path
-	 * @param nodeArrayList
-	 * @param openList
+	 * @param nodeArrayList the nodeArrayList parameter
+	 * @param openList the openList parameter( all the tiles that the algorithm hasn't chacked yet)
 	 * @param checkedList
 	 * @param currentNode
 	 * @param goalReached
