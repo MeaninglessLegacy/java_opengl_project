@@ -40,9 +40,6 @@ public abstract class StatIncreaseIndicator extends GameObject {
     //* overrides
     //******************************************************************************************************************
     @Override
-    public void start() { super.start(); }
-
-    @Override
     public void update() {
         if(System.currentTimeMillis()-timeWhenActivated > timeBeforeDisappear) {
             statIncrease.enabled = false;

@@ -59,10 +59,4 @@ public class RegenHeart extends Item {
             return false;
         }
     }
-
-    @Override
-    public void update() { super.update(); }
-
-    @Override
-    public void start() { super.start(); }
 }

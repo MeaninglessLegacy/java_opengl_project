@@ -9,7 +9,6 @@ import org.group11.Packages.Game.Scripts.Cameras.MenuCamera;
 import org.group11.Packages.Game.Scripts.Character_Scripts.*;
 import org.group11.Packages.Game.Scripts.Character_Scripts.Character;
 import org.group11.Packages.Game.Scripts.Item_Scripts.Item;
-import org.group11.Packages.Game.Scripts.Item_Scripts.Key;
 import org.group11.Packages.Game.Scripts.Levels.FourRoom;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom;
 import org.group11.Packages.Game.Scripts.Levels.TestRoom2;
@@ -32,9 +31,7 @@ public class GameLogicDriver extends GameObject {
     protected static ArrayList<Level> _defaultGameLevelList = new ArrayList<>();
     protected static Map _gameMap =  null;
     protected static Pathfinder _pathfinder = null;
-    protected static ArrayList<MainCharacter> _playerCharacters = new ArrayList<>();
-    protected static ArrayList<Enemy> _enemyCharacters = new ArrayList<>();
-    protected static ArrayList<Item> _items = new ArrayList<>();
+    protected static EntityStorage _entities = null;
 
     protected static boolean _gameStarted = false;
 
@@ -60,11 +57,11 @@ public class GameLogicDriver extends GameObject {
     public static boolean getGameState() { return _gameStarted; }
 
     /**
-     * Returns this GameLogicDriver's list of enemies
-     * @return this GameLogicDriver's list of enemies
+     * Returns the list of enemies
+     * @return the list of enemies
      */
     public static ArrayList<Enemy> getEnemyList() {
-        return _enemyCharacters;
+        return _entities.getEnemyList();
     }
 
     //******************************************************************************************************************
@@ -91,7 +88,7 @@ public class GameLogicDriver extends GameObject {
     //******************************************************************************************************************
     /**
      * Sets the Level at the specified stage index (which is a 1-based index) in the GameLogicDriver's _gameLevelList
-     * arraylist (0 based index). Given stage index must be: 1 <= stage index <= number of Levels in _gameLevelList + 1.
+     * arraylist (0 based index). Given stage index must be between 1 and number of Levels in _gameLevelList + 1.
      * If a Level already exists at the specified stage index, then overwrites the current Level with the new Level.
      * @param newLevel the Level to set at the specified 1-based index
      * @param stage the 1-based index of where to set the given Level
@@ -150,8 +147,8 @@ public class GameLogicDriver extends GameObject {
         loadNewLevel();
 
         // Creates the camera that will follow the player character
-        if(!_playerCharacters.isEmpty()){
-            MainCharacter mc = _playerCharacters.get(_player1ArrayPosition);
+        if(!_entities.getMCList().isEmpty()){
+            MainCharacter mc = _entities.getMCList().get(_player1ArrayPosition);
             _followingCamera = new FollowingCamera(mc);
             scene.Instantiate(_followingCamera);
             scene.set_mainCamera(_followingCamera);
@@ -198,31 +195,11 @@ public class GameLogicDriver extends GameObject {
             MapGenerator mapGen = curLevel.get_mapGenerator();
             _gameMap = mapGen.generateMap();
             curLevel.initializeLevel(_gameMap);
-            _playerCharacters = curLevel.get_players();
-            _enemyCharacters = curLevel.get_enemies();
-            _items = curLevel.get_items();
-            for (MainCharacter c : _playerCharacters) {
-                scene.Instantiate(c);
-            }
-            for (Enemy e : _enemyCharacters) {
-                scene.Instantiate(e);
-            }
-            for (Item i : _items) {
-                scene.Instantiate(i);
-            }
+            _entities = new EntityStorage(curLevel);
         }
         else {
             System.out.println("Could not load level as GameLogicDriver has no level");
         }
-    }
-
-    /**
-     * Removes the given Enemy from the game
-     * @param enemy the Enemy to remove
-     */
-    public static void removeEnemy(Enemy enemy) {
-        _enemyCharacters.remove(enemy);
-        scene.Destroy(enemy);
     }
 
     /**
@@ -237,7 +214,7 @@ public class GameLogicDriver extends GameObject {
         Tile tile = _gameMap.getTile(nextMove);
         if (tile != null) {
             if (tile.getTileType() == floor) {
-                Character characterInNextSpace = checkForCharacter(nextMove);
+                Character characterInNextSpace = _entities.getCharacter(nextMove);
                 if (characterInNextSpace == null) {
                     return true;
                 }
@@ -245,7 +222,7 @@ public class GameLogicDriver extends GameObject {
                     boolean enemyDied = MC.attackCharacter(characterInNextSpace);
                     if (enemyDied) {
                         ((Enemy) characterInNextSpace).giveRewards(MC);
-                        removeEnemy((Enemy)characterInNextSpace);
+                        _entities.removeEnemy((Enemy)characterInNextSpace);
                         return true;
                     }
                 }
@@ -258,11 +235,10 @@ public class GameLogicDriver extends GameObject {
      * Method is called by a MainCharacter to see if they are on any items. If they are, activates them
      */
     public static void MCCheckItem(MainCharacter MC) {
-        Item itemOnTile = checkForItem(MC.transform.position);
+        Item itemOnTile = _entities.getItem(MC.transform.position);
         if (itemOnTile != null) {
             if (itemOnTile.activate(MC)) {
-                _items.remove(itemOnTile);
-                scene.Destroy(itemOnTile);
+                _entities.removeItem(itemOnTile);
             }
             if (MC.getStatBlock().get_hp() <= 0) {
                 endGame(false);
@@ -275,22 +251,10 @@ public class GameLogicDriver extends GameObject {
      * MainCharacter movement
      */
     public static void afterMCMoveLogic(MainCharacter MC) {
-        enableKeys();
+        MCCheckItem(MC);
+        _entities.enableKeys();
         enemyLogic(MC);
         activateNearbyEnemies(MC);
-    }
-
-    /**
-     * If all bosses are dead, makes all Keys visible, and therefore obtainable by a MainCharacter
-     */
-    protected static void enableKeys() {
-        if (checkForAllDeadBoss()) {
-            for (Item i : _items) {
-                if (i instanceof Key) {
-                    ((Key) i).setKeyVisibility(true);
-                }
-            }
-        }
     }
 
     /**
@@ -301,7 +265,7 @@ public class GameLogicDriver extends GameObject {
         int squareActivateRadius = 3;
         double MCx = MC.transform.position.x;
         double MCy = MC.transform.position.y;
-        for (Enemy e : _enemyCharacters) {
+        for (Enemy e : _entities.getEnemyList()) {
             if (!e.get_enemyActiveState()) {
                 double ex = e.transform.position.x;
                 double ey = e.transform.position.y;
@@ -324,7 +288,7 @@ public class GameLogicDriver extends GameObject {
      */
     protected static void enemyLogic(MainCharacter MC) {
         ArrayList<Enemy> enemiesToRemove = new ArrayList<>();
-        for (Enemy e : _enemyCharacters) {
+        for (Enemy e : _entities.getEnemyList()) {
             if (getGameState()) {
                 e.canEnemyMove(_pathfinder, _gameMap, MC);
                 if (e instanceof Runner) {
@@ -335,7 +299,7 @@ public class GameLogicDriver extends GameObject {
                 }
             }
         }
-        _enemyCharacters.removeAll(enemiesToRemove);
+        _entities.getEnemyList().removeAll(enemiesToRemove);
     }
 
     /**
@@ -344,7 +308,7 @@ public class GameLogicDriver extends GameObject {
      * move in to, returns true. If there's something obstructing the Enemy, returns false
      */
     public static Character enemyCheckMove(Enemy e, Vector3 nextMove) {
-        Character characterInNextSpace = checkForCharacter(nextMove);
+        Character characterInNextSpace = _entities.getCharacter(nextMove);
         if (characterInNextSpace == null) {
             return null;
         }
@@ -364,51 +328,6 @@ public class GameLogicDriver extends GameObject {
         }
     }
 
-    /**
-     * Iterates through both _playerCharacters and _enemyCharacters and tries to find if any character is in the given
-     * Vector3 pos
-     * @return Character object if there is a character in the given position, or null if there is none
-     */
-    public static Character checkForCharacter(Vector3 pos) {
-        for (MainCharacter c : _playerCharacters) {
-            if (c.transform.position.x == pos.x && c.transform.position.y == pos.y) {
-                return c;
-            }
-        }
-        for (Enemy e : _enemyCharacters) {
-            if (e.transform.position.x == pos.x && e.transform.position.y == pos.y) {
-                return e;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Iterates through _items and sees if there's any items on the given Vector3 pos
-     * @return Item object if there is one on the given position, or null if there isn't
-     */
-    protected static Item checkForItem(Vector3 pos) {
-        for (Item i : _items) {
-            if (i.transform.position.x == pos.x && i.transform.position.y == pos.y) {
-                return i;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Iterates through _enemyCharacters to see if all Boss enemies are dead
-     * @return true if there are no more Boss enemies, false if there is at least one more
-     */
-    protected static boolean checkForAllDeadBoss() {
-        for (Enemy e : _enemyCharacters) {
-            if (e instanceof Boss) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     // find a way to fix this and make it more clean
     // delay game ended by a few ticks so the player can see cause of death + death animation
     private static boolean _clearGame = false;
@@ -420,19 +339,6 @@ public class GameLogicDriver extends GameObject {
      */
     public static void endGame(boolean won) {
         System.out.println("The game has ended");
-        /*
-        if (won) {
-            _gameStage++;
-        }
-        clearEverything();
-        _gameStarted = false;
-
-        scene.Instantiate(_menuCamera);
-        scene.set_mainCamera(_menuCamera);
-
-        _menu.createMenu(won, _gameStage, _gameLevelList.size());
-        scene.Instantiate(_menu);
-         */
         _clearDelayAmount = 100;
         _gameWonState = won;
         _clearGame = true;
@@ -442,18 +348,7 @@ public class GameLogicDriver extends GameObject {
      * Deletes all objects and variables in GameLogicDriver and resets everything to it's initial state
      */
     protected static void clearEverything() {
-        for (MainCharacter c : _playerCharacters) {
-            scene.Destroy(c);
-        }
-        _playerCharacters = new ArrayList<>();
-        for (Enemy e : _enemyCharacters) {
-            scene.Destroy(e);
-        }
-        _enemyCharacters = new ArrayList<>();
-        for (Item i : _items) {
-            scene.Destroy(i);
-        }
-        _items = new ArrayList<>();
+        _entities.clearEntities();
 
         if (_gameMap != null) {
             _gameMap.clearMap();
@@ -474,9 +369,10 @@ public class GameLogicDriver extends GameObject {
     @Override
     public void update() {
         // delay ending the game by a few ticks for animation to run
-        if(_clearGame == true){
+        if(_clearGame){
             if(_clearDelayAmount < 0){
                 _clearGame = false;
+
                 if (_gameWonState) {
                     _gameStage++;
                 }
@@ -488,7 +384,7 @@ public class GameLogicDriver extends GameObject {
 
                 _menu.createMenu(_gameWonState, _gameStage, _gameLevelList.size());
                 scene.Instantiate(_menu);
-            }else{
+            } else {
                 _clearDelayAmount -= 1;
             }
         }
@@ -509,7 +405,4 @@ public class GameLogicDriver extends GameObject {
 
         resetDefaultLevels();
     }
-
-    @Override
-    public void onKeyDown(int key) { super.onKeyDown(key); }
 }

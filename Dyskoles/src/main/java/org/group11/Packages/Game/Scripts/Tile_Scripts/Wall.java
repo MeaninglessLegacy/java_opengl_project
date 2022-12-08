@@ -24,13 +24,4 @@ public class Wall extends Tile {
         this.spriteRenderer = new SpriteRenderer(this,"./Resources/GreyWall.png");
         this.addComponent(this.spriteRenderer);
     }
-
-    //******************************************************************************************************************
-    //* overrides
-    //******************************************************************************************************************
-    @Override
-    public void update() { super.update(); }
-
-    @Override
-    public void start() { super.start(); }
 }

@@ -35,13 +35,4 @@ public class Floor extends Tile {
         this.spriteRenderer = new SpriteRenderer(this,"./Resources/WhiteTile.png");
         this.addComponent(this.spriteRenderer);
     }
-
-    //******************************************************************************************************************
-    //* overrides
-    //******************************************************************************************************************
-    @Override
-    public void update() { super.update(); }
-
-    @Override
-    public void start() { super.start(); }
 }

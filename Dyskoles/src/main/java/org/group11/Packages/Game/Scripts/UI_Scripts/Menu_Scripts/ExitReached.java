@@ -16,13 +16,4 @@ public class ExitReached extends MenuElement {
 
         spriteRenderer.get_sprite().set_scale(28, 10,0);
     }
-
-    //******************************************************************************************************************
-    //* overrides
-    //******************************************************************************************************************
-    @Override
-    public void start() { super.start(); }
-
-    @Override
-    public void update() { super.update(); }
 }

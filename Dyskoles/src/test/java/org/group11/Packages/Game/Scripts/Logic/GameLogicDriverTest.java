@@ -89,8 +89,8 @@ public class GameLogicDriverTest extends TestSetup {
         engine.start();
         scene = Scene.get_scene();
 
-        if (GameLogicDriver._gameMap != null || GameLogicDriver._playerCharacters.size() != 0 ||
-            GameLogicDriver._enemyCharacters.size() != 0 || GameLogicDriver._items.size() != 0 ||
+        if (GameLogicDriver._gameMap != null ||GameLogicDriver._entities.getMCList().size() != 0 ||
+           GameLogicDriver._entities.getEnemyList().size() != 0 ||GameLogicDriver._entities.getItemList().size() != 0 ||
             GameLogicDriver._gameLevelList.size() != 0) {
             GameLogicDriver.clearEverything();
             System.out.println("Cleared everything");
@@ -193,27 +193,9 @@ public class GameLogicDriverTest extends TestSetup {
         GameLogicDriver.set_gameLevelAtStage(testLevel1, 1);
         GameLogicDriver.loadNewLevel();
 
-        assert(GameLogicDriver._playerCharacters == testLevel1._players);
-        assert(GameLogicDriver._enemyCharacters == testLevel1._enemies);
-        assert(GameLogicDriver._items == testLevel1._items);
-    }
-
-    /**
-     * Tests GameLogicDriver's method to remove an Enemy from the game
-     */
-    @Test
-    public void removeEnemyTest() {
-        Minion minion1 = new Minion();
-        Boss boss1 = new Boss();
-
-        GameLogicDriver._enemyCharacters.add(minion1);
-        GameLogicDriver._enemyCharacters.add(boss1);
-
-        GameLogicDriver.removeEnemy(minion1);
-        assert(GameLogicDriver._enemyCharacters.size() == 1);
-
-        GameLogicDriver.removeEnemy(boss1);
-        assert(GameLogicDriver._enemyCharacters.size() == 0);
+        assert(GameLogicDriver._entities.getMCList() == testLevel1._players);
+        assert(GameLogicDriver._entities.getEnemyList() == testLevel1._enemies);
+        assert(GameLogicDriver._entities.getItemList() == testLevel1._items);
     }
 
     /**
@@ -227,9 +209,9 @@ public class GameLogicDriverTest extends TestSetup {
 
         GameLogicDriver.set_gameLevelAtStage(testLevel1, 1);
         GameLogicDriver.loadNewLevel();
-        GameLogicDriver._playerCharacters.add(MC1);
+        GameLogicDriver._entities.addEntity(MC1);
 
-        assert(GameLogicDriver.MCCheckMove(GameLogicDriver._playerCharacters.get(0), new Vector3(1,2,0)));
+        assert(GameLogicDriver.MCCheckMove(GameLogicDriver._entities.getMCList().get(0), new Vector3(1,2,0)));
     }
 
     /**
@@ -245,10 +227,10 @@ public class GameLogicDriverTest extends TestSetup {
 
         GameLogicDriver.set_gameLevelAtStage(testLevel1, 1);
         GameLogicDriver.loadNewLevel();
-        GameLogicDriver._playerCharacters.add(MC1);
-        GameLogicDriver._enemyCharacters.add(minion1);
+        GameLogicDriver._entities.addEntity(MC1);
+        GameLogicDriver._entities.addEntity(minion1);
 
-        assert(GameLogicDriver.MCCheckMove(GameLogicDriver._playerCharacters.get(0), new Vector3(1,2,0)));
+        assert(GameLogicDriver.MCCheckMove(GameLogicDriver._entities.getMCList().get(0), new Vector3(1,2,0)));
     }
 
     /**
@@ -263,10 +245,10 @@ public class GameLogicDriverTest extends TestSetup {
 
         GameLogicDriver.set_gameLevelAtStage(testLevel1, 1);
         GameLogicDriver.loadNewLevel();
-        GameLogicDriver._playerCharacters.add(MC1);
-        GameLogicDriver._enemyCharacters.add(minion1);
+        GameLogicDriver._entities.addEntity(MC1);
+        GameLogicDriver._entities.addEntity(minion1);
 
-        assert(!GameLogicDriver.MCCheckMove(GameLogicDriver._playerCharacters.get(0), new Vector3(1,2,0)));
+        assert(!GameLogicDriver.MCCheckMove(GameLogicDriver._entities.getMCList().get(0), new Vector3(1,2,0)));
     }
 
     /**
@@ -280,9 +262,9 @@ public class GameLogicDriverTest extends TestSetup {
 
         GameLogicDriver.set_gameLevelAtStage(testLevel1, 1);
         GameLogicDriver.loadNewLevel();
-        GameLogicDriver._playerCharacters.add(MC1);
+        GameLogicDriver._entities.addEntity(MC1);
 
-        assert(!GameLogicDriver.MCCheckMove(GameLogicDriver._playerCharacters.get(0), new Vector3(-1,2,0)));
+        assert(!GameLogicDriver.MCCheckMove(GameLogicDriver._entities.getMCList().get(0), new Vector3(-1,2,0)));
     }
 
     /**
@@ -293,11 +275,11 @@ public class GameLogicDriverTest extends TestSetup {
         MainCharacter MC1 = new MainCharacter(new Vector3(0, 2, 0));
         RegenHeart regenHeart1 = new RegenHeart(new Vector3(1, 2, 0));
 
-        GameLogicDriver._playerCharacters.add(MC1);
-        GameLogicDriver._items.add(regenHeart1);
+        GameLogicDriver._entities.addEntity(MC1);
+        GameLogicDriver._entities.addEntity(regenHeart1);
 
-        GameLogicDriver.MCCheckItem(GameLogicDriver._playerCharacters.get(0));
-        assert(GameLogicDriver._items.size() == 1);
+        GameLogicDriver.MCCheckItem(GameLogicDriver._entities.getMCList().get(0));
+        assert(GameLogicDriver._entities.getItemList().size() == 1);
         assert(MC1.backpack.getItems().isEmpty());
     }
 
@@ -310,11 +292,11 @@ public class GameLogicDriverTest extends TestSetup {
         MainCharacter MC1 = new MainCharacter(new Vector3(0, 2, 0));
         RegenHeart regenHeart1 = new RegenHeart(new Vector3(0, 2, 0));
 
-        GameLogicDriver._playerCharacters.add(MC1);
-        GameLogicDriver._items.add(regenHeart1);
+        GameLogicDriver._entities.addEntity(MC1);
+        GameLogicDriver._entities.addEntity(regenHeart1);
 
-        GameLogicDriver.MCCheckItem(GameLogicDriver._playerCharacters.get(0));
-        assert(GameLogicDriver._items.size() == 1);
+        GameLogicDriver.MCCheckItem(GameLogicDriver._entities.getMCList().get(0));
+        assert(GameLogicDriver._entities.getItemList().size() == 1);
         assert(MC1.backpack.getItems().isEmpty());
     }
 
@@ -328,33 +310,11 @@ public class GameLogicDriverTest extends TestSetup {
         MC1.takeDamage(1);
         RegenHeart regenHeart1 = new RegenHeart(new Vector3(0, 2, 0));
 
-        GameLogicDriver._playerCharacters.add(MC1);
-        GameLogicDriver._items.add(regenHeart1);
+        GameLogicDriver._entities.addEntity(MC1);
+        GameLogicDriver._entities.addEntity(regenHeart1);
 
-        GameLogicDriver.MCCheckItem(GameLogicDriver._playerCharacters.get(0));
-        assert(GameLogicDriver._items.size() == 0);
-    }
-
-    /**
-     * Tests GameLogicDriver's method to make all Keys obtainable when all the bosses are dead
-     */
-    @Test
-    public void enableKeysTest() {
-        Minion minion1 = new Minion();
-        Boss boss1 = new Boss();
-        Key key1 = new Key();
-
-        GameLogicDriver._enemyCharacters.add(minion1);
-        GameLogicDriver._enemyCharacters.add(boss1);
-        GameLogicDriver._items.add(key1);
-
-        GameLogicDriver.enableKeys();
-        assert(!key1.getKeyVisibility());
-
-        GameLogicDriver.removeEnemy(boss1);
-
-        GameLogicDriver.enableKeys();
-        assert(key1.getKeyVisibility());
+        GameLogicDriver.MCCheckItem(GameLogicDriver._entities.getMCList().get(0));
+        assert(GameLogicDriver._entities.getItemList().size() == 0);
     }
 
     /**
@@ -368,10 +328,10 @@ public class GameLogicDriverTest extends TestSetup {
         Minion minion1 = new Minion(new Vector3(3, 0, 0));
         Runner runner1 = new Runner(new Vector3(4, 2, 0));
 
-        GameLogicDriver._playerCharacters.add(MC1);
-        GameLogicDriver._enemyCharacters.add(boss1);
-        GameLogicDriver._enemyCharacters.add(minion1);
-        GameLogicDriver._enemyCharacters.add(runner1);
+        GameLogicDriver._entities.addEntity(MC1);
+        GameLogicDriver._entities.addEntity(boss1);
+        GameLogicDriver._entities.addEntity(minion1);
+        GameLogicDriver._entities.addEntity(runner1);
 
         GameLogicDriver.activateNearbyEnemies(MC1);
         assert(boss1.get_enemyActiveState());
@@ -394,10 +354,10 @@ public class GameLogicDriverTest extends TestSetup {
 
         GameLogicDriver.startNewLevel();
 
-        GameLogicDriver._playerCharacters.add(MC1);
-        GameLogicDriver._enemyCharacters.add(boss1);
-        GameLogicDriver._enemyCharacters.add(minion1);
-        GameLogicDriver._enemyCharacters.add(runner1);
+        GameLogicDriver._entities.addEntity(MC1);
+        GameLogicDriver._entities.addEntity(boss1);
+        GameLogicDriver._entities.addEntity(minion1);
+        GameLogicDriver._entities.addEntity(runner1);
 
         int bossMaxTicks = boss1.get_ticksBeforeNextMove();
         int minionMaxTicks = minion1.get_ticksBeforeNextMove();
@@ -433,62 +393,14 @@ public class GameLogicDriverTest extends TestSetup {
         Boss boss1 = new Boss(new Vector3(0, 3, 0));
         Minion minion1 = new Minion(new Vector3(0, 2, 0));
 
-        GameLogicDriver._playerCharacters.add(MC1);
-        GameLogicDriver._enemyCharacters.add(boss1);
-        GameLogicDriver._enemyCharacters.add(minion1);
+        GameLogicDriver._entities.addEntity(MC1);
+        GameLogicDriver._entities.addEntity(boss1);
+        GameLogicDriver._entities.addEntity(minion1);
 
         assert(GameLogicDriver.enemyCheckMove(minion1, new Vector3(0, 1, 0)) == null);
         assert(GameLogicDriver.enemyCheckMove(minion1, new Vector3(0, 3, 0)) == boss1);
         assert(GameLogicDriver.enemyCheckMove(minion1, new Vector3(1, 2, 0)) == MC1);
         assert(MC1.getStatBlock().get_hp() == MC1.getStatBlock().get_maxHp() - minion1.getStatBlock().get_atk());
-    }
-
-    /**
-     * Tests GameLogicDriver's method to check if there's any Character on the given tile
-     */
-    @Test
-    public void checkForCharacterTest() {
-        MainCharacter MC1 = new MainCharacter(new Vector3(1, 2, 0));
-        Boss boss1 = new Boss(new Vector3(0, 3, 0));
-
-        GameLogicDriver._playerCharacters.add(MC1);
-        GameLogicDriver._enemyCharacters.add(boss1);
-
-        assert(GameLogicDriver.checkForCharacter(new Vector3(3, 3, 0)) == null);
-        assert(GameLogicDriver.checkForCharacter(new Vector3(1, 2, 0)) == MC1);
-        assert(GameLogicDriver.checkForCharacter(new Vector3(0, 3, 0)) == boss1);
-    }
-
-    /**
-     * Tests GameLogicDriver's method to check if there's any Item on the given tile
-     */
-    @Test
-    public void checkForItemTest() {
-        Key key1 = new Key(new Vector3(1, 1, 0));
-
-        GameLogicDriver._items.add(key1);
-
-        assert(GameLogicDriver.checkForItem(new Vector3(1, 2, 0)) == null);
-        assert(GameLogicDriver.checkForItem(new Vector3(1, 1, 0)) == key1);
-    }
-
-    /**
-     * Tests GameLogicDriver's method to check if all the bosses are dead
-     */
-    @Test
-    public void checkForAllDeadBossTest() {
-        Minion minion1 = new Minion();
-        Boss boss1 = new Boss();
-        Runner runner1 = new Runner();
-
-        GameLogicDriver._enemyCharacters.add(minion1);
-        GameLogicDriver._enemyCharacters.add(boss1);
-        GameLogicDriver._enemyCharacters.add(runner1);
-
-        assert(!GameLogicDriver.checkForAllDeadBoss());
-
-        GameLogicDriver.removeEnemy(boss1);
-        assert(GameLogicDriver.checkForAllDeadBoss());
     }
 
     /**
@@ -504,7 +416,7 @@ public class GameLogicDriverTest extends TestSetup {
         GameLogicDriver.set_gameLevelAtStage(testLevel1, 1);
         GameLogicDriver.set_gameLevelAtStage(testLevel2, 2);
         GameLogicDriver.set_gameLevelAtStage(testLevel3, 3);
-        GameLogicDriver._playerCharacters.add(MC1);
+        GameLogicDriver._entities.addEntity(MC1);
         GameLogicDriver.startNewLevel();
         GameLogicDriver.endGame(true);
 
@@ -514,7 +426,7 @@ public class GameLogicDriverTest extends TestSetup {
         GameLogicDriver.set_gameLevelAtStage(testLevel1, 1);
         GameLogicDriver.set_gameLevelAtStage(testLevel2, 2);
         GameLogicDriver.set_gameLevelAtStage(testLevel3, 3);
-        GameLogicDriver._playerCharacters.add(MC1);
+        GameLogicDriver._entities.addEntity(MC1);
         GameLogicDriver.startNewLevel();
         GameLogicDriver.endGame(false);
 
@@ -536,17 +448,17 @@ public class GameLogicDriverTest extends TestSetup {
 
         GameLogicDriver.set_gameLevelAtStage(testLevel1, 1);
         GameLogicDriver.loadNewLevel();
-        GameLogicDriver._playerCharacters.add(MC1);
-        GameLogicDriver._enemyCharacters.add(boss1);
-        GameLogicDriver._enemyCharacters.add(minion1);
-        GameLogicDriver._items.add(key1);
-        GameLogicDriver._items.add(regenHeart1);
+        GameLogicDriver._entities.addEntity(MC1);
+        GameLogicDriver._entities.addEntity(boss1);
+        GameLogicDriver._entities.addEntity(minion1);
+        GameLogicDriver._entities.addEntity(key1);
+        GameLogicDriver._entities.addEntity(regenHeart1);
 
         GameLogicDriver.clearEverything();
 
-        assert(GameLogicDriver._playerCharacters.size() == 0);
-        assert(GameLogicDriver._enemyCharacters.size() == 0);
-        assert(GameLogicDriver._items.size() == 0);
+        assert(GameLogicDriver._entities.getMCList().size() == 0);
+        assert(GameLogicDriver._entities.getEnemyList().size() == 0);
+        assert(GameLogicDriver._entities.getItemList().size() == 0);
         assert(GameLogicDriver._gameLevelList.size() == 0);
         assert(GameLogicDriver._defaultGameLevelList.size() == 0);
         assert(GameLogicDriver._gameMap == null);
@@ -568,11 +480,11 @@ public class GameLogicDriverTest extends TestSetup {
 
         GameLogicDriver.set_gameLevelAtStage(testLevel, 1);
         GameLogicDriver.startNewLevel();
-        GameLogicDriver._playerCharacters.add(MC1);
-        GameLogicDriver._enemyCharacters.add(boss1);
-        GameLogicDriver._enemyCharacters.add(minion1);
-        GameLogicDriver._enemyCharacters.add(minion2);
-        GameLogicDriver._enemyCharacters.add(minion3);
+        GameLogicDriver._entities.addEntity(MC1);
+        GameLogicDriver._entities.addEntity(boss1);
+        GameLogicDriver._entities.addEntity(minion1);
+        GameLogicDriver._entities.addEntity(minion2);
+        GameLogicDriver._entities.addEntity(minion3);
 
         // Testing when enemy is not activated
         boss1.canEnemyMove(pathfinder, GameLogicDriver._gameMap, MC1);
@@ -592,7 +504,7 @@ public class GameLogicDriverTest extends TestSetup {
         assert(boss1.get_ticksBeforeNextMove() == 1);
 
         // Path is now free, enemy should move towards MainCharacter
-        GameLogicDriver._enemyCharacters.remove(minion1);
+        GameLogicDriver._entities.getEnemyList().remove(minion1);
         Vector3 bossOriginalPos = boss.transform.position;
         boss1.canEnemyMove(pathfinder, GameLogicDriver._gameMap, MC1);
 
@@ -620,8 +532,8 @@ public class GameLogicDriverTest extends TestSetup {
 
         GameLogicDriver.set_gameLevelAtStage(testLevel, 1);
         GameLogicDriver.startNewLevel();
-        GameLogicDriver._playerCharacters.add(MC1);
-        GameLogicDriver._items.add(exit1);
+        GameLogicDriver._entities.addEntity(MC1);
+        GameLogicDriver._entities.addEntity(exit1);
 
         exit1.activate(MC1);
         assert(!GameLogicDriver._gameStarted);

@@ -317,8 +317,6 @@ public class MainCharacter extends Character{
                 }
             }
             // Perform logic after the character moves
-            // Checks for items
-            MCCheckItem(this);
             afterMCMoveLogic(this);
             // Shift character back to start position after logic processing so the movement is animated correctly
             if(chrMoved)this.transform.setPosition(chrStartPos);

@@ -24,6 +24,9 @@ public class AttackIncreaseIndicator extends StatIncreaseIndicator {
         statIncrease.enabled = false;
     }
 
+    //******************************************************************************************************************
+    //* overrides
+    //******************************************************************************************************************
     @Override
     public void update() {
         if(System.currentTimeMillis()-timeWhenActivated > timeBeforeDisappear) {

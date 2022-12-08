@@ -11,13 +11,4 @@ public class MenuCamera extends Camera {
         this.transform.position = new Vector3(0,0,-8);
         this.transform.rotation = new Vector3(3.14f,0f,0f);
     }
-
-    //******************************************************************************************************************
-    //* overrides
-    //******************************************************************************************************************
-    @Override
-    public void update() { super.update(); }
-
-    @Override
-    public void start() { super.start(); }
 }

@@ -156,7 +156,7 @@ public class Scene {
 
     /**
      * <p><b>ENGINE USE ONLY</b></p>
-     * Processes all Instantiate & Destroy calls on the previous Scene.update() call before calling the update() method
+     * Processes all Instantiate and Destroy calls on the previous Scene.update() call before calling the update() method
      * of all the GameObjects inside of Scene._workspace.
      */
     public void update(){

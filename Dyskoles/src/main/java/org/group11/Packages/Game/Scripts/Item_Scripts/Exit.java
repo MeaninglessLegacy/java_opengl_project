@@ -45,14 +45,4 @@ public class Exit extends Item {
         }
         return false;
     }
-
-    @Override
-    public void start() {
-        super.start();
-    }
-
-    @Override
-    public void update() {
-        super.update();
-    }
 }

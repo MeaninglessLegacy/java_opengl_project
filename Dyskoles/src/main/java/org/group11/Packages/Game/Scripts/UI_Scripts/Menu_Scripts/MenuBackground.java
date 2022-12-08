@@ -16,13 +16,4 @@ public class MenuBackground extends MenuElement {
 
         spriteRenderer.get_sprite().set_scale(40, 40,0);
     }
-
-    //******************************************************************************************************************
-    //* overrides
-    //******************************************************************************************************************
-    @Override
-    public void start() { super.start(); }
-
-    @Override
-    public void update() { super.update(); }
 }

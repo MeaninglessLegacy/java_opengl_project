@@ -48,11 +48,7 @@ public class Runner extends Enemy{
         _ticksBeforeNextMove = 1;
 
         characterSprite = new SpriteRenderer(this, "./Resources/m1911.png");
-        this.addComponent(characterSprite);
-        characterSprite.get_sprite().transform.position.z -= 0.1; // place above tiles
-        _healthBarInside = new HealthBarInside(this);
-        _healthBarOutline = new HealthBarOutline(this);
-        _moveCountdown = new MoveCountdown(this);
+        setupEnemySprites();
     }
 
     //******************************************************************************************************************
@@ -135,24 +131,4 @@ public class Runner extends Enemy{
         MC.addMaxHealth(maxHpGiven);
         MC.addHealth(maxHpGiven);
     }
-
-    @Override
-    public void Delete() {
-        Scene scene = Scene.get_scene();
-        scene.Destroy(_healthBarInside);
-        scene.Destroy(_healthBarOutline);
-        scene.Destroy(_moveCountdown);
-
-    }
-
-    @Override
-    public void start() {
-        Scene scene = Scene.get_scene();
-        scene.Instantiate(_healthBarInside);
-        scene.Instantiate(_healthBarOutline);
-        scene.Instantiate(_moveCountdown);
-    }
-
-    @Override
-    public void update() { super.update(); }
 }

@@ -62,10 +62,4 @@ public class Key extends Item{
             return false;
         }
     }
-
-    @Override
-    public void start() { super.start(); }
-
-    @Override
-    public void update() { super.update(); }
 }

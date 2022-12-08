@@ -16,13 +16,4 @@ public class YouWin extends MenuElement {
 
         spriteRenderer.get_sprite().set_scale(32, 16,1);
     }
-
-    //******************************************************************************************************************
-    //* overrides
-    //******************************************************************************************************************
-    @Override
-    public void start() { super.start(); }
-
-    @Override
-    public void update() { super.update(); }
 }
