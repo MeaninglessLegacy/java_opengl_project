@@ -52,16 +52,14 @@ public class Pathfinder {
 
 	/**
 	 *  This method gets the next posiontion of the game
-	 * @param pointA
-	 * @param pointB
-	 * @return nextpostion
+	 * @param pointA the pointA parameter
+	 * @param pointB the pointB parameter
+	 * @return nextpostion the next position requested
 	 */
 	public Vector3 getNextPosition(Dictionary<String, Tile> _tileMap,Vector3 pointA, Vector3 pointB){
-		int u =0;
-		int t = 0;
+
 		System.out.println("here1");
-		int col = 0;
-		int row = 0;
+
 
 		ArrayList<Node> nodeArrayList = new ArrayList<>();
 		ArrayList<Node> openList = new ArrayList<>();
@@ -69,6 +67,35 @@ public class Pathfinder {
 
 		boolean goalReached = false;
 
+
+		nodeArrayList = tilemapConverter(_tileMap);
+
+
+
+		// setting the start and goalnode
+		int Ax = (int) pointA.x;
+		int Ay = (int) pointA.y;
+		int Bx = (int) pointB.x;
+		int By = (int) pointB.y;
+
+		Node startNode = setStartNode(nodeArrayList,Ax,Ay);
+		Node goalNode = setGoalNode(nodeArrayList,Bx,By);
+
+		Node currentNode = startNode;
+
+		setCostOnNodes(nodeArrayList,startNode,goalNode);
+		System.out.println("cost done");
+		return  autosearch(nodeArrayList,openList,checkedList,currentNode,goalReached,goalNode,startNode);
+	}
+
+
+	private ArrayList<Node> tilemapConverter(Dictionary<String, Tile> _tileMap){
+		int u =0;
+		int t = 0;
+		int col = 0;
+		int row = 0;
+
+		ArrayList<Node> nodeArrayList = new ArrayList<>();
 
 		// this for loop will loop throug the enumeration and convert all the tiles into arraylist
 		for (Enumeration<String> tilePositions = _tileMap.keys(); tilePositions.hasMoreElements();){  // this loop is getting all the tiles in the map
@@ -124,20 +151,7 @@ public class Pathfinder {
 		}//end of for loop for the enumeration
 
 
-		// setting the start and goalnode
-		int Ax = (int) pointA.x;
-		int Ay = (int) pointA.y;
-		int Bx = (int) pointB.x;
-		int By = (int) pointB.y;
-
-		Node startNode = setStartNode(nodeArrayList,Ax,Ay);
-		Node goalNode = setGoalNode(nodeArrayList,Bx,By);
-
-		Node currentNode = startNode;
-
-		setCostOnNodes(nodeArrayList,startNode,goalNode);
-		System.out.println("cost done");
-		return  autosearch(nodeArrayList,openList,checkedList,currentNode,goalReached,goalNode,startNode);
+		return nodeArrayList;
 	}
 
 	/**
