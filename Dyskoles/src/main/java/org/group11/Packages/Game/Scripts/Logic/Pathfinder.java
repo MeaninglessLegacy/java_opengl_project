@@ -15,23 +15,17 @@ public class Pathfinder {
 	//******************************************************************************************************************
 	//* methods
 	//******************************************************************************************************************
+
+	// these will help to check if we have reached point B
+	boolean pointBReached = false;
+	int step=0;
+
 	/**
 	 * Given a tile map, finds a path from point A to point B
 	 * @param map object that contains all the Tiles in the map
 	 * @param pointA the point from which to path find from
 	 * @param pointB the point to where to find a path to
 	 * @return the first Vector3 in the path to from point A to point B
-	 */
-	// these will help to check if we have reached point B
-	boolean pointBReached = false;
-	int step=0;
-
-	/**
-	 * Findpath gets below parameters and returns nextposition ,
-	 * @param map
-	 * @param pointA
-	 * @param pointB
-	 * @return
 	 */
 	public  Vector3 FindPath(Map map, Vector3 pointA, Vector3 pointB){
 
@@ -52,8 +46,8 @@ public class Pathfinder {
 
 	/**
 	 *  This method gets the next posiontion of the game
-	 * @param pointA the pointA parameter
-	 * @param pointB the pointB parameter
+	 * @param pointA the pointA parameter, this is where the actual position of the enemy
+	 * @param pointB the pointB parameter, this where the enemy is heading
 	 * @return nextpostion the next position requested
 	 */
 	public Vector3 getNextPosition(Dictionary<String, Tile> _tileMap,Vector3 pointA, Vector3 pointB){
@@ -102,7 +96,7 @@ public class Pathfinder {
 
 		ArrayList<Node> nodeArrayList = new ArrayList<>();
 
-		// this for loop will loop throug the enumeration and convert all the tiles into arraylist
+		// this for loop will loop through the enumeration and convert all the tiles into arraylist
 		for (Enumeration<String> tilePositions = _tileMap.keys(); tilePositions.hasMoreElements();){  // this loop is getting all the tiles in the map
 			System.out.println("here2");
 			String key = tilePositions.nextElement();
@@ -161,9 +155,9 @@ public class Pathfinder {
 
 	/**
 	 * this method set a node as start node
-	 * @param col the colmun da
-	 * @param row
-	 * @return
+	 * @param col this the x coordinate of the node
+	 * @param row this is the y coordinate of the node
+	 * @return the startNode1 which is the starting position of the path
 	 */
 	private Node setStartNode(ArrayList<Node> nodeArrayList, int row, int col) {
 		Node startNode1 = new Node(0,0);
@@ -179,10 +173,10 @@ public class Pathfinder {
 
 	/**
 	 * This will set a node as the goal node
-	 * @param nodeArrayList
-	 * @param row
-	 * @param col
-	 * @return node
+	 * @param nodeArrayList the array list that contains the coordinates of the node
+	 * @param row this the x coordinate of the node
+	 * @param col this is the y coordinate of the node
+	 * @return goalNode which is the goal position
 	 */
 	private Node setGoalNode(ArrayList<Node> nodeArrayList, int row, int col) {
 		Node goalNode= new Node(0,0);
@@ -198,7 +192,7 @@ public class Pathfinder {
 
 	/**
 	 * This method set the cost of a node: the cost is the axes distance between the goal and start
-	 * @param nodeArrayList
+	 * @param nodeArrayList the array list that contains the coordinates of the node
 	 * @param startNode
 	 * @param goalNode
 	 */
