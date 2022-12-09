@@ -193,8 +193,8 @@ public class Pathfinder {
 	/**
 	 * This method set the cost of a node: the cost is the axes distance between the goal and start
 	 * @param nodeArrayList the array list that contains the coordinates of the node
-	 * @param startNode
-	 * @param goalNode
+	 * @param startNode the starting node to help calculate the cost
+	 * @param goalNode the goal position
 	 */
 
 	private void setCostOnNodes(ArrayList<Node> nodeArrayList, Node startNode, Node goalNode) {
@@ -214,9 +214,9 @@ public class Pathfinder {
 
 	/**
 	 * this calculates the cost which is the distance between start, current and goal node
-	 * @param node
-	 * @param startNode
-	 * @param goalNode
+	 * @param node the current node that the method uses to calculate the cost
+	 * @param startNode the starting node is the current position
+	 * @param goalNode the node where the enemy  is supposed to go
 	 */
 	//  calculates the distance between start,current and goal nodes
 	private void getCost(Node node, Node startNode, Node goalNode) {
@@ -241,11 +241,11 @@ public class Pathfinder {
 	 * @param nodeArrayList the nodeArrayList parameter
 	 * @param openList the openList parameter( all the tiles that the algorithm hasn't chacked yet)
 	 * @param checkedList the checkedList parameter: this is the list of all the tiles that have been checked
-	 * @param currentNode
-	 * @param goalReached
-	 * @param goalNode
-	 * @param startNode
-	 * @return
+	 * @param currentNode the current node when counting and setting up the cost
+	 * @param goalReached this a boolean the check of the destination has been reached
+	 * @param goalNode the node where the enemy  is supposed to go
+	 * @param startNode the starting node is the current position
+	 * @return a vector3 which is the best position to go to
 	 */
 	// this will autosearch the path automaticlay
 	public Vector3 autosearch(ArrayList<Node> nodeArrayList, ArrayList<Node> openList, ArrayList<Node> checkedList, Node currentNode, boolean goalReached, Node goalNode, Node startNode) {
@@ -332,9 +332,9 @@ public class Pathfinder {
 
 	/**
 	 * This method checks if a node has been opened and add it to openlist to the openList in case it's not opened
-	 * @param node
-	 * @param currentNode
-	 * @param openList
+	 * @param node the node that needs to be set as open node
+	 * @param currentNode the current node when counting and setting up the cost
+	 * @param openList the arrayList that contains all nodes that haven't been checked
 	 */
 	private void openNode(Node node, Node currentNode, ArrayList<Node> openList) {
 		if(node.open == false && node.checked == false && node.solid == false) {
@@ -347,8 +347,8 @@ public class Pathfinder {
 
 	/**
 	 *  This method backtracks and gives the best path
-	 * @param goalNode
-	 * @param startNode
+	 * @param goalNode the node where the enemy  is supposed to go
+	 * @param startNode the starting node is the current position
 	 * @return a vector which is the sext position
 	 */
 	private Vector3 trackThePath(Node goalNode, Node startNode) {
